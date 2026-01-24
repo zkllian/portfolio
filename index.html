@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>zklln IMEI Maker</title>
+<title>llian Barcode Maker</title>
 
 <style>
 @font-face {
@@ -110,7 +110,7 @@ button.generate { margin-top: 18px; }
 <body>
 
 <div class="card">
-  <h2>zklln IMEI Maker</h2>
+  <h2>llian Barcode Maker</h2>
   <textarea id="bulkInput" inputmode="numeric" placeholder="IMEI1&#10;IMEI2&#10;IMEI3&#10;IMEI4"></textarea>
   <button class="generate btn-blue" onclick="generateBulk()">Generate</button>
   <button id="downloadAllBtn" class="btn-blue" onclick="downloadAll()">Download All</button>
@@ -181,7 +181,7 @@ async function generateBulk() {
     const lines = input.value.split("\n").map(l => l.trim()).filter(Boolean);
     if (lines.length < 2) {
       loader.style.display = "none";
-      alert("Enter at least 2 IMEI numbers");
+      alert("Minimal 2 IMEI.");
       return;
     }
 
@@ -229,7 +229,7 @@ async function generateBulk() {
 
     loader.style.display = "none";
     statusCard.style.display = "block";
-    statusCard.textContent = `Successfully generated ${barcodeCount} barcode(s) from ${lines.length} IMEI numbers.`;
+    statusCard.textContent = `Sukses generate ${barcodeCount} barcode(s) dari ${lines.length} total IMEI.`;
     downloadAllBtn.style.display = "block";
 
   }, 200);
