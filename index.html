@@ -19,7 +19,7 @@
 
 body {
   margin: 0;
-  padding: 30px 14px 120px;
+  padding: 30px 16px 140px; /* padding bawah biar gak ketutup credits */
   background: #f2f2f7;
   font-family: 'sf pro custom', -apple-system, BlinkMacSystemFont, sans-serif;
 }
@@ -40,16 +40,16 @@ body {
   z-index: 999;
 }
 
-/* kartu jendela */
+/* kartu jendela FULL WIDTH */
 .window {
-  max-width: 420px;
-  margin: 0 auto 22px;
+  width: 100%;
   background: rgba(255,255,255,0.75);
   backdrop-filter: blur(20px);
   border-radius: 20px;
   box-shadow: 0 20px 40px rgba(0,0,0,0.12);
   position: relative;
   padding: 54px 16px 20px;
+  margin-bottom: 22px;
 }
 
 /* header mac */
@@ -131,10 +131,14 @@ textarea {
 /* status */
 #statusCard { display:none; text-align:center; font-size:15px; }
 
-/* hasil */
-#results { max-width:420px; margin:0 auto; }
+/* hasil FULL WIDTH */
+#results {
+  width: 100%;
+}
+
 .result-window {
   position: relative;
+  width: 100%;
   background: rgba(255,255,255,0.75);
   backdrop-filter: blur(20px);
   border-radius: 20px;
@@ -142,7 +146,12 @@ textarea {
   margin-bottom: 26px;
   padding: 48px 12px 12px;
 }
-.result-window img { width:100%; border-radius:12px; display:block; }
+
+.result-window img {
+  width:100%;
+  border-radius:12px;
+  display:block;
+}
 </style>
 </head>
 
@@ -160,12 +169,7 @@ textarea {
 
   <textarea id="bulkInput" inputmode="numeric"
 placeholder="Masukkan nomor IMEI (maksimal 20 baris)
-Satu IMEI per baris
-
-Contoh:
-IMEI 1
-IMEI 2
-IMEI 3"></textarea>
+Satu IMEI per baris"></textarea>
 
   <button class="btn generate" onclick="generateBulk()">Buat Barcode</button>
 
@@ -226,10 +230,6 @@ function randomDigits(len){
   return Array.from({length:len},()=>Math.floor(Math.random()*10)).join('');
 }
 
-function drawText(ctx,text,x,y){
-  ctx.fillText(text,x,y);
-}
-
 function downloadAll(){
   generatedImages.forEach((url,i)=>{
     const a=document.createElement("a");
@@ -274,10 +274,10 @@ function generateBulk(){
       ctx.drawImage(baseImage,0,0);
       ctx.setTransform(0.97,0,0,1,0,0);
 
-      drawText(ctx,randomDigits(32),117,382.8);
-      drawText(ctx,lines[i],288,675.5);
-      drawText(ctx,lines[i+1],288,960.5);
-      drawText(ctx,randomDigits(14),297,1250.5);
+      ctx.fillText(randomDigits(32),117,382.8);
+      ctx.fillText(lines[i],288,675.5);
+      ctx.fillText(lines[i+1],288,960.5);
+      ctx.fillText(randomDigits(14),297,1250.5);
 
       ctx.setTransform(1,0,0,1,0,0);
 
@@ -303,7 +303,7 @@ function generateBulk(){
 
     loader.style.display="none";
     statusCard.style.display="block";
-    statusText.textContent=`Berhasil membuat ${count} barcode dari ${lines.length} IMEI`;
+    statusText.textContent=\`Berhasil membuat ${count} barcode dari ${lines.length} IMEI\`;
     downloadAllBtn.style.display="block";
     resetBtn.style.display="block";
 
