@@ -168,7 +168,9 @@ textarea {
       Generator Barcode
     </div>
 
-    <textarea id="bulkInput" inputmode="numeric" placeholder="Satu IMEI per baris (maks 20)"></textarea>
+    <textarea id="bulkInput" inputmode="numeric"
+    placeholder="Masukkan nomor IMEI (maksimal 20 baris)
+Satu IMEI per baris"></textarea>
 
     <button class="btn generate" onclick="generateBulk()">Buat Barcode</button>
 
@@ -185,8 +187,7 @@ textarea {
 </div>
 
 <canvas id="canvas" style="display:none;"></canvas>
-
-<div class="credits">Made with ❤️</div>
+<div class="credits">Made with ❤️ by someone</div>
 
 <script>
 const baseImage = new Image();
@@ -243,7 +244,7 @@ function generateBulk(){
 
   setTimeout(()=>{
     const lines=input.value.split("\n").map(l=>l.trim()).filter(Boolean);
-    if(lines.length<1){ loader.style.display="none"; return alert("Masukkan minimal 1 IMEI"); }
+    if(lines.length<2){ loader.style.display="none"; return alert("Minimal 2 IMEI diperlukan"); }
 
     const ctx=canvas.getContext("2d");
     ctx.fillStyle="#000";
@@ -252,14 +253,18 @@ function generateBulk(){
 
     let count=0;
 
-    for(let i=0;i<lines.length;i++){
+    for(let i=0;i<lines.length;i+=2){
+      if(!lines[i+1]) break;
+
       ctx.clearRect(0,0,canvas.width,canvas.height);
       ctx.drawImage(baseImage,0,0);
-
       ctx.setTransform(0.97,0,0,1,0,0);
-      ctx.fillText(randomDigits(32),117,377.8); // fake barcode number
+
+      ctx.fillText(randomDigits(32),117,377.8);
       ctx.fillText(lines[i],288,669.5);
+      ctx.fillText(lines[i+1],288,954.5);
       ctx.fillText(randomDigits(14),297,1244.5);
+
       ctx.setTransform(1,0,0,1,0,0);
 
       const url=canvas.toDataURL("image/png");
