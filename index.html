@@ -3,126 +3,312 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>zklln IMEI Maker</title>
+<title>barcode generator</title>
 
 <style>
 @font-face {
-  font-family: 'SF Pro Display';
+  font-family: 'sf pro custom';
+  src: url('SF-Pro-Display-Regular.otf') format('opentype');
+  font-weight: 400;
+}
+@font-face {
+  font-family: 'sf pro custom';
   src: url('SF-Pro-Display-Medium.otf') format('opentype');
   font-weight: 500;
 }
 
 body {
   margin: 0;
-  padding: 24px 16px 60px;
-  font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+  padding: 30px 14px 120px;
   background: #f2f2f7;
+  font-family: 'sf pro custom', -apple-system, BlinkMacSystemFont, sans-serif;
+  text-transform: lowercase;
 }
 
-.card {
+/* floating credits */
+.credits {
+  position: fixed;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255,255,255,0.6);
+  backdrop-filter: blur(10px);
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-size: 13px;
+  color: #1c1c1e;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  z-index: 999;
+}
+
+/* window */
+.window {
   max-width: 420px;
-  margin: 0 auto 18px;
-  background: #fff;
-  border-radius: 28px;
-  padding: 22px 18px 26px;
-  box-shadow: 0 12px 30px rgba(0,0,0,0.08);
-  text-align: center;
+  margin: 0 auto 22px;
+  background: rgba(255,255,255,0.75);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+  position: relative;
+  padding: 54px 16px 20px;
 }
 
-h2 { margin: 6px 0 18px; }
+/* mac header */
+.window-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 500;
+  font-family: 'sf pro custom';
+  background: linear-gradient(to bottom,#fdfdfd,#ececec);
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+}
 
+.window-dots {
+  position: absolute;
+  left: 12px;
+  display: flex;
+  gap: 7px;
+}
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+.red { background:#ff5f57; }
+.yellow { background:#ffbd2e; }
+.green { background:#28c840; }
+
+/* textarea */
 textarea {
   width: 100%;
   height: 170px;
-  padding: 16px;
-  font-size: 17px;
-  border-radius: 18px;
+  padding: 14px;
+  font-size: 15px;
+  border-radius: 14px;
   border: 1px solid #d1d1d6;
-  box-sizing: border-box;
   resize: none;
   outline: none;
-  background: #fff;
-  font-family: 'SF Pro Display', sans-serif;
+  box-sizing: border-box;
+  font-family: 'sf pro custom';
 }
 
-.btn-blue {
+/* buttons */
+.btn {
   width: 100%;
   padding: 14px 0;
-  font-size: 17px;
+  margin-top: 14px;
+  font-size: 15px;
   border-radius: 14px;
   border: none;
-  background: linear-gradient(180deg, #0a84ff, #0066ff);
-  color: white;
-  font-weight: 600;
-  font-family: 'SF Pro Display', sans-serif;
+  font-weight: 500;
+  font-family: 'sf pro custom';
   cursor: pointer;
-  box-shadow: 0 8px 18px rgba(0,122,255,0.35);
-  transition: transform 0.1s ease;
+  transition: transform .1s ease;
 }
+.btn:active { transform: scale(.97); }
 
-.btn-blue:active { transform: scale(0.98); }
+.generate { background: linear-gradient(#0a84ff,#0066ff); color:white; box-shadow:0 10px 20px rgba(0,122,255,.35);}
+.download { background: linear-gradient(#34c759,#28a745); color:white; display:none;}
+.reset { background: linear-gradient(#ff3b30,#d70015); color:white; display:none; }
 
-button.generate { margin-top: 18px; }
+.btn-row { display:flex; gap:12px; }
+.btn-row .btn { flex:1; margin-top:14px; }
 
-#downloadAllBtn {
-  display: none;
-  margin-top: 12px;
-}
-
-#statusCard {
-  display: none;
-  font-size: 16px;
-  font-weight: 600;
-  color: #34c759;
-}
-
+/* loader */
 .loader {
   margin: 16px auto 0;
-  width: 36px;
-  height: 36px;
+  width: 34px;
+  height: 34px;
   border-radius: 50%;
   border: 4px solid #e5e5ea;
   border-top: 4px solid #0a84ff;
-  animation: spin 0.8s linear infinite;
+  animation: spin .8s linear infinite;
   display: none;
 }
-
 @keyframes spin { to { transform: rotate(360deg); } }
 
-#results { max-width: 420px; margin: 0 auto; }
+/* status */
+#statusCard { display:none; text-align:center; font-size:15px; font-weight:500; }
 
-.result-card {
-  background: #fff;
-  border-radius: 22px;
-  padding: 14px;
+/* results */
+#results { max-width:420px; margin:0 auto; }
+.result-window {
+  position: relative;
+  background: rgba(255,255,255,0.75);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+  box-shadow: 0 15px 30px rgba(0,0,0,0.1);
   margin-bottom: 26px;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+  padding: 48px 12px 12px;
 }
-
-.result-card img {
-  width: 100%;
-  border-radius: 14px;
-  display: block;
-}
+.result-window img { width:100%; border-radius:12px; display:block; }
 </style>
 </head>
 
 <body>
 
-<div class="card">
-  <h2>zklln IMEI Maker</h2>
-  <textarea id="bulkInput" inputmode="numeric" placeholder="IMEI1&#10;IMEI2&#10;IMEI3&#10;IMEI4"></textarea>
-  <button class="generate btn-blue" onclick="generateBulk()">Generate</button>
-  <button id="downloadAllBtn" class="btn-blue" onclick="downloadAll()">Download All</button>
+<div class="window">
+  <div class="window-header">
+    <div class="window-dots">
+      <div class="dot red"></div>
+      <div class="dot yellow"></div>
+      <div class="dot green"></div>
+    </div>
+    barcode generator
+  </div>
+
+  <textarea id="bulkInput" inputmode="numeric" placeholder="imei1&#10;imei2&#10;imei3&#10;imei4"></textarea>
+  <button class="btn generate" onclick="generateBulk()">generate barcode</button>
+  <div class="btn-row">
+    <button id="downloadAllBtn" class="btn download" onclick="downloadAll()">download all</button>
+    <button id="resetBtn" class="btn reset" onclick="resetAll()">reset</button>
+  </div>
+
   <div class="loader" id="loader"></div>
 </div>
 
-<div class="card" id="statusCard"></div>
-<div id="results"></div>
+<div class="window" id="statusCard">
+  <div class="window-header">
+    <div class="window-dots">
+      <div class="dot red"></div>
+      <div class="dot yellow"></div>
+      <div class="dot green"></div>
+    </div>
+    status
+  </div>
+  <div id="statusText"></div>
+</div>
 
+<div id="results"></div>
 <canvas id="canvas" style="display:none;"></canvas>
+
+<div class="credits">made with love ❤️ by llian</div>
+
 <script>
-(function(){const _0x4f2a=['width','height','replace','fonts','load','500\x2031px\x20\x27SF\x20Pro\x20Display\x27','from','length','random','floor','join','save','translate','fillText','restore','forEach','createElement','href','download','click','getElementById','loader','statusCard','results','style','display','block','none','innerHTML','split','\x0a','map','trim','filter','getContext','2d','clearRect','drawImage','fillStyle','#3a3a3c','font','textBaseline','top','setTransform','toDataURL','image/png','push','className','result-card','src','appendChild','textContent'];const _0x2d8f=function(_0x3b72b7,_0x4f2a5c){_0x3b72b7=_0x3b72b7-0x0;let _0x2d8f9f=_0x4f2a[_0x3b72b7];return _0x2d8f9f};const baseImage=new Image();baseImage.src='template.png';const canvas=document[_0x2d8f('0x14')]('canvas');const input=document[_0x2d8f('0x14')]('bulkInput');const downloadAllBtn=document[_0x2d8f('0x14')]('downloadAllBtn');let generatedImages=[];baseImage.onload=()=>{canvas[_0x2d8f('0x0')]=baseImage[_0x2d8f('0x0')];canvas[_0x2d8f('0x1')]=baseImage[_0x2d8f('0x1')]};input.addEventListener('input',()=>{input.value=input.value[_0x2d8f('0x2')](/[^0-9\n]/g,'')});async function loadFonts(){await document[_0x2d8f('0x3')][_0x2d8f('0x4')](_0x2d8f('0x5'))}const randomEID=()=>Array[_0x2d8f('0x6')]({length:32},()=>Math[_0x2d8f('0x9')](Math[_0x2d8f('0x8')]()*10))[_0x2d8f('0xa')]('');const randomDeviceID=()=>Array[_0x2d8f('0x6')]({length:14},()=>Math[_0x2d8f('0x9')](Math[_0x2d8f('0x8')]()*10))[_0x2d8f('0xa')]('');function drawTextBlock(_0xctx,_0xtext,_0xx,_0xy){_0xctx[_0x2d8f('0xb')]();_0xctx[_0x2d8f('0xc')](_0xx,_0xy);_0xctx[_0x2d8f('0xd')](_0xtext,0,0);_0xctx[_0x2d8f('0xe')]()}function downloadAll(){generatedImages[_0x2d8f('0xf')]((_0xdataURL,_0xi)=>{const _0xa=document[_0x2d8f('0x10')]('a');_0xa[_0x2d8f('0x11')]=_0xdataURL;_0xa[_0x2d8f('0x12')]=`barcode_${_0xi+1}.png`;_0xa[_0x2d8f('0x13')]()})}async function generateBulk(){await loadFonts();const loader=document[_0x2d8f('0x14')](_0x2d8f('0x15'));const statusCard=document[_0x2d8f('0x14')](_0x2d8f('0x16'));const resultsDiv=document[_0x2d8f('0x14')](_0x2d8f('0x17'));loader[_0x2d8f('0x18')][_0x2d8f('0x19')]=_0x2d8f('0x1a');statusCard[_0x2d8f('0x18')][_0x2d8f('0x19')]=_0x2d8f('0x1b');downloadAllBtn[_0x2d8f('0x18')][_0x2d8f('0x19')]=_0x2d8f('0x1b');resultsDiv[_0x2d8f('0x1c')]='';generatedImages=[];setTimeout(()=>{const lines=input.value[_0x2d8f('0x1d')](_0x2d8f('0x1e'))[_0x2d8f('0x1f')](_0xl=>_0xl[_0x2d8f('0x20')]())[_0x2d8f('0x21')](Boolean);if(lines[_0x2d8f('0x7')]<2){loader[_0x2d8f('0x18')][_0x2d8f('0x19')]=_0x2d8f('0x1b');alert('Minimal 2 IMEI.');return}const ctx=canvas[_0x2d8f('0x22')](_0x2d8f('0x23'));let barcodeCount=0;for(let i=0;i<lines[_0x2d8f('0x7')];i+=2){const imei1=lines[i];const imei2=lines[i+1];if(!imei2)break;const eid=randomEID();const deviceID=randomDeviceID();ctx[_0x2d8f('0x24')](0,0,canvas.width,canvas.height);ctx[_0x2d8f('0x25')](baseImage,0,0);ctx[_0x2d8f('0x26')]=_0x2d8f('0x27');ctx[_0x2d8f('0x28')]=_0x2d8f('0x5');ctx[_0x2d8f('0x29')]=_0x2d8f('0x2a');ctx[_0x2d8f('0x2b')](0.97,0,0,1,0,0);drawTextBlock(ctx,eid,117,382.8);drawTextBlock(ctx,imei1,288,675.5);drawTextBlock(ctx,imei2,288,960.5);drawTextBlock(ctx,deviceID,297,1250.5);ctx[_0x2d8f('0x2b')](1,0,0,1,0,0);const dataURL=canvas[_0x2d8f('0x2c')](_0x2d8f('0x2d'));generatedImages[_0x2d8f('0x2e')](dataURL);const card=document[_0x2d8f('0x10')]('div');card[_0x2d8f('0x2f')]=_0x2d8f('0x30');const img=document[_0x2d8f('0x10')]('img');img[_0x2d8f('0x31')]=dataURL;card[_0x2d8f('0x32')](img);resultsDiv[_0x2d8f('0x32')](card);barcodeCount++}loader[_0x2d8f('0x18')][_0x2d8f('0x19')]=_0x2d8f('0x1b');statusCard[_0x2d8f('0x18')][_0x2d8f('0x19')]=_0x2d8f('0x1a');statusCard[_0x2d8f('0x33')]=`Sukses generate ${barcodeCount} barcode(s) dari ${lines.length} total IMEI.`;downloadAllBtn[_0x2d8f('0x18')][_0x2d8f('0x19')]=_0x2d8f('0x1a')},200)}window.generateBulk=generateBulk;window.downloadAll=downloadAll})();
+const baseImage = new Image();
+baseImage.src = "template.png";
+
+const canvas = document.getElementById("canvas");
+const input = document.getElementById("bulkInput");
+const downloadAllBtn = document.getElementById("downloadAllBtn");
+const resetBtn = document.getElementById("resetBtn");
+const statusCard = document.getElementById("statusCard");
+const statusText = document.getElementById("statusText");
+const loader = document.getElementById("loader");
+const resultsDiv = document.getElementById("results");
+
+let generatedImages = [];
+let imageReady = false;
+
+baseImage.onload = () => {
+  canvas.width = baseImage.width;
+  canvas.height = baseImage.height;
+  imageReady = true;
+};
+
+input.addEventListener("input", () => {
+  input.value = input.value.replace(/[^0-9\n]/g,'');
+});
+
+function randomDigits(len){
+  return Array.from({length:len},()=>Math.floor(Math.random()*10)).join('');
+}
+
+function drawText(ctx,text,x,y){
+  ctx.save();
+  ctx.translate(x,y);
+  ctx.fillText(text,0,0);
+  ctx.restore();
+}
+
+function downloadAll(){
+  generatedImages.forEach((url,i)=>{
+    const a=document.createElement("a");
+    a.href=url;
+    a.download=`barcode_${i+1}.png`;
+    a.click();
+  });
+}
+
+function resetAll(){
+  input.value="";
+  resultsDiv.innerHTML="";
+  statusCard.style.display="none";
+  downloadAllBtn.style.display="none";
+  resetBtn.style.display="none";
+  generatedImages=[];
+}
+
+async function generateBulk(){
+  if(!imageReady) return alert("template not loaded");
+
+  loader.style.display="block";
+  statusCard.style.display="none";
+  resultsDiv.innerHTML="";
+  generatedImages=[];
+
+  setTimeout(()=>{
+    const lines=input.value.split("\n").map(l=>l.trim()).filter(Boolean);
+    if(lines.length<2){ loader.style.display="none"; return alert("minimum 2 imei"); }
+
+    const ctx=canvas.getContext("2d");
+    ctx.fillStyle="#000";
+    ctx.textBaseline="top";
+    ctx.font="500 31px -apple-system, BlinkMacSystemFont, 'sf pro custom', sans-serif";
+
+    let count=0;
+
+    for(let i=0;i<lines.length;i+=2){
+      if(!lines[i+1]) break;
+
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      ctx.drawImage(baseImage,0,0);
+      ctx.setTransform(0.97,0,0,1,0,0);
+
+      drawText(ctx,randomDigits(32),117,382.8);
+      drawText(ctx,lines[i],288,675.5);
+      drawText(ctx,lines[i+1],288,960.5);
+      drawText(ctx,randomDigits(14),297,1250.5);
+
+      ctx.setTransform(1,0,0,1,0,0);
+
+      const url=canvas.toDataURL("image/png");
+      generatedImages.push(url);
+
+      const div=document.createElement("div");
+      div.className="result-window";
+      div.innerHTML=`
+        <div class="window-header">
+          <div class="window-dots">
+            <div class="dot red"></div>
+            <div class="dot yellow"></div>
+            <div class="dot green"></div>
+          </div>
+          barcode #${count+1}
+        </div>
+        <img src="${url}">
+      `;
+      resultsDiv.appendChild(div);
+      count++;
+    }
+
+    loader.style.display="none";
+    statusCard.style.display="block";
+    statusText.textContent=`successfully generated ${count} barcode(s) from ${lines.length} imei`;
+    downloadAllBtn.style.display="block";
+    resetBtn.style.display="block";
+
+  },200);
+}
 </script>
 
 </body>
