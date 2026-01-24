@@ -26,7 +26,7 @@ body {
   font-family: 'sf pro custom', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
-/* PEMBUNGKUS GLOBAL — ATUR LEBAR + JARAK SAMPING */
+/* PEMBUNGKUS GLOBAL */
 .app-wrap{
   max-width: 420px;
   margin: 0 auto;
@@ -138,7 +138,7 @@ textarea {
 
 #statusCard { display:none; text-align:center; font-size:15px; }
 
-/* HASIL BARCODE */
+/* HASIL */
 #results { width: 100%; }
 
 .result-window {
@@ -209,10 +209,10 @@ Satu IMEI per baris"></textarea>
 <div class="credits">Made with ❤️ by llian</div>
 
 <script>
-// Logger visitor (Vercel API)
+/* 🔥 VISITOR LOGGER */
 fetch("/api/visitor").catch(()=>{});
 
-// JS Generator
+/* JS Generator */
 const baseImage = new Image();
 baseImage.src = "template.png";
 const canvas = document.getElementById("canvas");
@@ -314,7 +314,7 @@ function generateBulk(){
 
     loader.style.display="none";
     statusCard.style.display="block";
-    statusText.textContent=`Berhasil membuat ${count} barcode dari ${lines.length} IMEI`;
+    statusText.textContent=\`Berhasil membuat ${count} barcode dari ${lines.length} IMEI\`;
     downloadAllBtn.style.display="block";
     resetBtn.style.display="block";
 
