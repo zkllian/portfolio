@@ -78,16 +78,11 @@ body {
   display: flex;
   gap: 7px;
 }
-.dot {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-}
+.dot { width: 12px; height: 12px; border-radius: 50%; }
 .red { background:#ff5f57; }
 .yellow { background:#ffbd2e; }
 .green { background:#28c840; }
 
-/* textarea */
 textarea {
   width: 100%;
   height: 170px;
@@ -118,12 +113,12 @@ textarea {
 
 .generate { background: linear-gradient(#0a84ff,#0066ff); color:white; box-shadow:0 10px 20px rgba(0,122,255,.35);}
 .download { background: linear-gradient(#34c759,#28a745); color:white; display:none;}
-.reset { background: linear-gradient(#ff3b30,#d70015); color:white; display:none; }
+.share { background: linear-gradient(#5856d6,#3a3ad1); color:white; display:none;}
+.reset { background: linear-gradient(#ff3b30,#d70015); color:white; display:none;}
 
 .btn-row { display:flex; gap:12px; }
 .btn-row .btn { flex:1; margin-top:14px; }
 
-/* loader */
 .loader {
   margin: 16px auto 0;
   width: 34px;
@@ -136,10 +131,8 @@ textarea {
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 
-/* status */
 #statusCard { display:none; text-align:center; font-size:15px; font-weight:500; }
 
-/* results */
 #results { max-width:420px; margin:0 auto; }
 .result-window {
   position: relative;
@@ -168,8 +161,10 @@ textarea {
 
   <textarea id="bulkInput" inputmode="numeric" placeholder="imei1&#10;imei2&#10;imei3&#10;imei4"></textarea>
   <button class="btn generate" onclick="generateBulk()">generate barcode</button>
+
   <div class="btn-row">
     <button id="downloadAllBtn" class="btn download" onclick="downloadAll()">download all</button>
+    <button id="shareAllBtn" class="btn share" onclick="shareAll()">share all</button>
     <button id="resetBtn" class="btn reset" onclick="resetAll()">reset</button>
   </div>
 
@@ -200,6 +195,7 @@ baseImage.src = "template.png";
 const canvas = document.getElementById("canvas");
 const input = document.getElementById("bulkInput");
 const downloadAllBtn = document.getElementById("downloadAllBtn");
+const shareAllBtn = document.getElementById("shareAllBtn");
 const resetBtn = document.getElementById("resetBtn");
 const statusCard = document.getElementById("statusCard");
 const statusText = document.getElementById("statusText");
@@ -239,11 +235,35 @@ function downloadAll(){
   });
 }
 
+async function shareAll(){
+  if(!navigator.canShare) return alert("sharing not supported on this device");
+
+  try{
+    const files = await Promise.all(
+      generatedImages.map(async (url,i)=>{
+        const res = await fetch(url);
+        const blob = await res.blob();
+        return new File([blob], `barcode_${i+1}.png`, {type:"image/png"});
+      })
+    );
+
+    await navigator.share({
+      title:"generated barcodes",
+      text:"here are the barcode images",
+      files
+    });
+
+  }catch(e){
+    console.log("share cancelled or failed",e);
+  }
+}
+
 function resetAll(){
   input.value="";
   resultsDiv.innerHTML="";
   statusCard.style.display="none";
   downloadAllBtn.style.display="none";
+  shareAllBtn.style.display="none";
   resetBtn.style.display="none";
   generatedImages=[];
 }
@@ -255,6 +275,9 @@ async function generateBulk(){
   statusCard.style.display="none";
   resultsDiv.innerHTML="";
   generatedImages=[];
+  downloadAllBtn.style.display="none";
+  shareAllBtn.style.display="none";
+  resetBtn.style.display="none";
 
   setTimeout(()=>{
     const lines=input.value.split("\n").map(l=>l.trim()).filter(Boolean);
@@ -263,7 +286,7 @@ async function generateBulk(){
     const ctx=canvas.getContext("2d");
     ctx.fillStyle="#000";
     ctx.textBaseline="top";
-    ctx.font="500 31px -apple-system, BlinkMacSystemFont, 'sf pro custom', sans-serif";
+    ctx.font="500 31px 'sf pro custom', -apple-system, BlinkMacSystemFont, sans-serif";
 
     let count=0;
 
@@ -305,6 +328,7 @@ async function generateBulk(){
     statusCard.style.display="block";
     statusText.textContent=`successfully generated ${count} barcode(s) from ${lines.length} imei`;
     downloadAllBtn.style.display="block";
+    shareAllBtn.style.display="block";
     resetBtn.style.display="block";
 
   },200);
