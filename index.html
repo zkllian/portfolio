@@ -45,8 +45,7 @@ textarea {
   font-family: 'SF Pro Display', sans-serif;
 }
 
-button.generate {
-  margin-top: 18px;
+.btn-blue {
   width: 100%;
   padding: 14px 0;
   font-size: 17px;
@@ -55,32 +54,26 @@ button.generate {
   background: linear-gradient(180deg, #0a84ff, #0066ff);
   color: white;
   font-weight: 600;
+  font-family: 'SF Pro Display', sans-serif;
   cursor: pointer;
   box-shadow: 0 8px 18px rgba(0,122,255,0.35);
+  transition: transform 0.1s ease;
 }
 
-button.generate:active { transform: scale(0.98); }
+.btn-blue:active { transform: scale(0.98); }
+
+button.generate { margin-top: 18px; }
+
+#downloadAllBtn {
+  display: none;
+  margin-top: 12px;
+}
 
 #statusCard {
   display: none;
   font-size: 16px;
   font-weight: 600;
   color: #34c759;
-}
-
-.download-all-btn {
-  margin-top: 12px;
-  width: 100%;
-  padding: 12px 0;
-  border-radius: 12px;
-  border: none;
-  background: linear-gradient(180deg, #ff9f0a, #ff7a00);
-  color: white;
-  font-weight: 600;
-  font-family: 'SF Pro Display', sans-serif;
-  font-size: 16px;
-  cursor: pointer;
-  box-shadow: 0 6px 14px rgba(255,159,10,0.35);
 }
 
 .loader {
@@ -110,21 +103,6 @@ button.generate:active { transform: scale(0.98); }
   width: 100%;
   border-radius: 14px;
   display: block;
-  margin-bottom: 10px;
-}
-
-.download-btn {
-  width: 100%;
-  padding: 12px 0;
-  border-radius: 12px;
-  border: none;
-  background: linear-gradient(180deg, #34c759, #28a745);
-  color: white;
-  font-weight: 600;
-  font-family: 'SF Pro Display', sans-serif;
-  font-size: 16px;
-  cursor: pointer;
-  box-shadow: 0 6px 14px rgba(52,199,89,0.35);
 }
 </style>
 </head>
@@ -134,7 +112,8 @@ button.generate:active { transform: scale(0.98); }
 <div class="card">
   <h2>zklln IMEI Maker</h2>
   <textarea id="bulkInput" inputmode="numeric" placeholder="IMEI1&#10;IMEI2&#10;IMEI3&#10;IMEI4"></textarea>
-  <button class="generate" onclick="generateBulk()">Generate</button>
+  <button class="generate btn-blue" onclick="generateBulk()">Generate</button>
+  <button id="downloadAllBtn" class="btn-blue" onclick="downloadAll()">Download All</button>
   <div class="loader" id="loader"></div>
 </div>
 
@@ -149,6 +128,8 @@ baseImage.src = "template.png";
 
 const canvas = document.getElementById("canvas");
 const input = document.getElementById("bulkInput");
+const downloadAllBtn = document.getElementById("downloadAllBtn");
+
 let generatedImages = [];
 
 baseImage.onload = () => {
@@ -192,6 +173,7 @@ async function generateBulk() {
 
   loader.style.display = "block";
   statusCard.style.display = "none";
+  downloadAllBtn.style.display = "none";
   resultsDiv.innerHTML = "";
   generatedImages = [];
 
@@ -221,7 +203,7 @@ async function generateBulk() {
       ctx.font = "500 31px 'SF Pro Display'";
       ctx.textBaseline = "top";
 
-      ctx.setTransform(0.97, 0, 0, 1, 0, 0); // Safari fix
+      ctx.setTransform(0.97, 0, 0, 1, 0, 0);
 
       drawTextBlock(ctx, eid, 117, 382.8);
       drawTextBlock(ctx, imei1, 288, 675.5);
@@ -239,18 +221,7 @@ async function generateBulk() {
       const img = document.createElement("img");
       img.src = dataURL;
 
-      const btn = document.createElement("button");
-      btn.className = "download-btn";
-      btn.textContent = "Download";
-      btn.onclick = () => {
-        const a = document.createElement("a");
-        a.href = dataURL;
-        a.download = `barcode_${barcodeCount+1}.png`;
-        a.click();
-      };
-
       card.appendChild(img);
-      card.appendChild(btn);
       resultsDiv.appendChild(card);
 
       barcodeCount++;
@@ -258,10 +229,8 @@ async function generateBulk() {
 
     loader.style.display = "none";
     statusCard.style.display = "block";
-    statusCard.innerHTML = `
-      Successfully generated ${barcodeCount} barcode(s) from ${lines.length} IMEI numbers.
-      <button class="download-all-btn" onclick="downloadAll()">Download All</button>
-    `;
+    statusCard.textContent = `Successfully generated ${barcodeCount} barcode(s) from ${lines.length} IMEI numbers.`;
+    downloadAllBtn.style.display = "block";
 
   }, 200);
 }
