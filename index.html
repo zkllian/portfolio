@@ -1,315 +1,291 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Generator Barcode</title>
+<!DOCTYPE html>  <html>  
+<head>  
+<meta charset="UTF-8">  
+<meta name="viewport" content="width=device-width, initial-scale=1">  
+<title>Generator Barcode</title>  <style>  
+@font-face {  
+  font-family: 'sf pro custom';  
+  src: url('SF-Pro-Display-Regular.otf') format('opentype');  
+  font-weight: 400;  
+}  
+@font-face {  
+  font-family: 'sf pro custom';  
+  src: url('SF-Pro-Display-Medium.otf') format('opentype');  
+  font-weight: 500;  
+}  
+  
+body {  
+  margin: 0;  
+  padding: 30px 14px 120px;  
+  background: #f2f2f7;  
+  font-family: 'sf pro custom', -apple-system, BlinkMacSystemFont, sans-serif;  
+}  
+  
+/* kredit mengambang */  
+.credits {  
+  position: fixed;  
+  bottom: 18px;  
+  left: 50%;  
+  transform: translateX(-50%);  
+  background: rgba(255,255,255,0.6);  
+  backdrop-filter: blur(10px);  
+  padding: 8px 16px;  
+  border-radius: 999px;  
+  font-size: 13px;  
+  color: #1c1c1e;  
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);  
+  z-index: 999;  
+}  
+  
+/* kartu jendela */  
+.window {  
+  max-width: 420px;  
+  margin: 0 auto 22px;  
+  background: rgba(255,255,255,0.75);  
+  backdrop-filter: blur(20px);  
+  border-radius: 20px;  
+  box-shadow: 0 20px 40px rgba(0,0,0,0.12);  
+  position: relative;  
+  padding: 54px 16px 20px;  
+}  
+  
+/* header mac */  
+.window-header {  
+  position: absolute;  
+  top: 0; left: 0; right: 0;  
+  height: 32px;  
+  display: flex;  
+  align-items: center;  
+  justify-content: center;  
+  font-size: 13px;  
+  font-weight: 500;  
+  background: linear-gradient(to bottom,#fdfdfd,#ececec);  
+  border-bottom: 1px solid rgba(0,0,0,0.06);  
+  border-top-left-radius: 20px;  
+  border-top-right-radius: 20px;  
+}  
+  
+.window-dots {  
+  position: absolute;  
+  left: 12px;  
+  display: flex;  
+  gap: 7px;  
+}  
+.dot { width: 12px; height: 12px; border-radius: 50%; }  
+.red { background:#ff5f57; }  
+.yellow { background:#ffbd2e; }  
+.green { background:#28c840; }  
+  
+/* textarea */  
+textarea {  
+  width: 100%;  
+  height: 170px;  
+  padding: 14px;  
+  font-size: 15px;  
+  border-radius: 14px;  
+  border: 1px solid #d1d1d6;  
+  resize: none;  
+  outline: none;  
+  box-sizing: border-box;  
+  font-family: 'sf pro custom';  
+}  
+  
+/* tombol */  
+.btn {  
+  width: 100%;  
+  padding: 14px 0;  
+  margin-top: 14px;  
+  font-size: 15px;  
+  border-radius: 14px;  
+  border: none;  
+  font-weight: 500;  
+  font-family: 'sf pro custom';  
+  cursor: pointer;  
+  transition: transform .1s ease;  
+}  
+.btn:active { transform: scale(.97); }  
+  
+.generate { background: linear-gradient(#0a84ff,#0066ff); color:white; box-shadow:0 10px 20px rgba(0,122,255,.35);}  
+.download { background: linear-gradient(#34c759,#28a745); color:white; display:none;}  
+.reset { background: linear-gradient(#ff3b30,#d70015); color:white; display:none;}  
+  
+.btn-row { display:flex; gap:12px; }  
+.btn-row .btn { flex:1; }  
+  
+/* loader */  
+.loader {  
+  margin: 16px auto 0;  
+  width: 34px;  
+  height: 34px;  
+  border-radius: 50%;  
+  border: 4px solid #e5e5ea;  
+  border-top: 4px solid #0a84ff;  
+  animation: spin .8s linear infinite;  
+  display: none;  
+}  
+@keyframes spin { to { transform: rotate(360deg); } }  
+  
+/* status */  
+#statusCard { display:none; text-align:center; font-size:15px; }  
+  
+/* hasil */  
+#results { max-width:420px; margin:0 auto; }  
+.result-window {  
+  position: relative;  
+  background: rgba(255,255,255,0.75);  
+  backdrop-filter: blur(20px);  
+  border-radius: 20px;  
+  box-shadow: 0 15px 30px rgba(0,0,0,0.1);  
+  margin-bottom: 26px;  
+  padding: 48px 12px 12px;  
+}  
+.result-window img { width:100%; border-radius:12px; display:block; }  
+</style>  </head>  <body>  <div class="window">  
+  <div class="window-header">  
+    <div class="window-dots">  
+      <div class="dot red"></div>  
+      <div class="dot yellow"></div>  
+      <div class="dot green"></div>  
+    </div>  
+    Generator Barcode  
+  </div>    <textarea id="bulkInput" inputmode="numeric"  
+placeholder="Masukkan nomor IMEI (maksimal 20 baris)  
+Satu IMEI per baris  
+  
+Contoh:  
+IMEI 1  
+IMEI 2  
+IMEI 3"></textarea>  <button class="btn generate" onclick="generateBulk()">Buat Barcode</button>
 
-<style>
-@font-face {
-  font-family: 'sf pro custom';
-  src: url('SF-Pro-Display-Regular.otf') format('opentype');
-  font-weight: 400;
-}
-@font-face {
-  font-family: 'sf pro custom';
-  src: url('SF-Pro-Display-Medium.otf') format('opentype');
-  font-weight: 500;
-}
-
-body {
-  margin: 0;
-  padding: 30px 16px 140px; /* padding bawah biar gak ketutup credits */
-  background: #f2f2f7;
-  font-family: 'sf pro custom', -apple-system, BlinkMacSystemFont, sans-serif;
-}
-
-/* kredit mengambang */
-.credits {
-  position: fixed;
-  bottom: 18px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(255,255,255,0.6);
-  backdrop-filter: blur(10px);
-  padding: 8px 16px;
-  border-radius: 999px;
-  font-size: 13px;
-  color: #1c1c1e;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  z-index: 999;
-}
-
-/* kartu jendela FULL WIDTH */
-.window {
-  width: 100%;
-  background: rgba(255,255,255,0.75);
-  backdrop-filter: blur(20px);
-  border-radius: 20px;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.12);
-  position: relative;
-  padding: 54px 16px 20px;
-  margin-bottom: 22px;
-}
-
-/* header mac */
-.window-header {
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 13px;
-  font-weight: 500;
-  background: linear-gradient(to bottom,#fdfdfd,#ececec);
-  border-bottom: 1px solid rgba(0,0,0,0.06);
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
-}
-
-.window-dots {
-  position: absolute;
-  left: 12px;
-  display: flex;
-  gap: 7px;
-}
-.dot { width: 12px; height: 12px; border-radius: 50%; }
-.red { background:#ff5f57; }
-.yellow { background:#ffbd2e; }
-.green { background:#28c840; }
-
-/* textarea */
-textarea {
-  width: 100%;
-  height: 170px;
-  padding: 14px;
-  font-size: 15px;
-  border-radius: 14px;
-  border: 1px solid #d1d1d6;
-  resize: none;
-  outline: none;
-  box-sizing: border-box;
-  font-family: 'sf pro custom';
-}
-
-/* tombol */
-.btn {
-  width: 100%;
-  padding: 14px 0;
-  margin-top: 14px;
-  font-size: 15px;
-  border-radius: 14px;
-  border: none;
-  font-weight: 500;
-  font-family: 'sf pro custom';
-  cursor: pointer;
-  transition: transform .1s ease;
-}
-.btn:active { transform: scale(.97); }
-
-.generate { background: linear-gradient(#0a84ff,#0066ff); color:white; box-shadow:0 10px 20px rgba(0,122,255,.35);}
-.download { background: linear-gradient(#34c759,#28a745); color:white; display:none;}
-.reset { background: linear-gradient(#ff3b30,#d70015); color:white; display:none;}
-
-.btn-row { display:flex; gap:12px; }
-.btn-row .btn { flex:1; }
-
-/* loader */
-.loader {
-  margin: 16px auto 0;
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  border: 4px solid #e5e5ea;
-  border-top: 4px solid #0a84ff;
-  animation: spin .8s linear infinite;
-  display: none;
-}
-@keyframes spin { to { transform: rotate(360deg); } }
-
-/* status */
-#statusCard { display:none; text-align:center; font-size:15px; }
-
-/* hasil FULL WIDTH */
-#results {
-  width: 100%;
-}
-
-.result-window {
-  position: relative;
-  width: 100%;
-  background: rgba(255,255,255,0.75);
-  backdrop-filter: blur(20px);
-  border-radius: 20px;
-  box-shadow: 0 15px 30px rgba(0,0,0,0.1);
-  margin-bottom: 26px;
-  padding: 48px 12px 12px;
-}
-
-.result-window img {
-  width:100%;
-  border-radius:12px;
-  display:block;
-}
-</style>
-</head>
-
-<body>
-
-<div class="window">
-  <div class="window-header">
-    <div class="window-dots">
-      <div class="dot red"></div>
-      <div class="dot yellow"></div>
-      <div class="dot green"></div>
-    </div>
-    Generator Barcode
-  </div>
-
-  <textarea id="bulkInput" inputmode="numeric"
-placeholder="Masukkan nomor IMEI (maksimal 20 baris)
-Satu IMEI per baris"></textarea>
-
-  <button class="btn generate" onclick="generateBulk()">Buat Barcode</button>
-
-  <div class="btn-row">
-    <button id="downloadAllBtn" class="btn download" onclick="downloadAll()">Unduh Semua</button>
-    <button id="resetBtn" class="btn reset" onclick="resetAll()">Reset</button>
-  </div>
-
-  <div class="loader" id="loader"></div>
-</div>
-
-<div class="window" id="statusCard">
-  <div class="window-header">
-    <div class="window-dots">
-      <div class="dot red"></div>
-      <div class="dot yellow"></div>
-      <div class="dot green"></div>
-    </div>
-    Status
-  </div>
-  <div id="statusText"></div>
-</div>
-
-<div id="results"></div>
-<canvas id="canvas" style="display:none;"></canvas>
-
-<div class="credits">Dibuat dengan ❤️ oleh llian</div>
-
-<script>
-const baseImage = new Image();
-baseImage.src = "template.png";
-
-const canvas = document.getElementById("canvas");
-const input = document.getElementById("bulkInput");
-const downloadAllBtn = document.getElementById("downloadAllBtn");
-const resetBtn = document.getElementById("resetBtn");
-const statusCard = document.getElementById("statusCard");
-const statusText = document.getElementById("statusText");
-const loader = document.getElementById("loader");
-const resultsDiv = document.getElementById("results");
-
-let generatedImages = [];
-let imageReady = false;
-
-baseImage.onload = () => {
-  canvas.width = baseImage.width;
-  canvas.height = baseImage.height;
-  imageReady = true;
-};
-
-input.addEventListener("input", () => {
-  let lines = input.value.replace(/[^0-9\n]/g,'').split("\n");
-  if (lines.length > 20) lines = lines.slice(0,20);
-  input.value = lines.join("\n");
-});
-
-function randomDigits(len){
-  return Array.from({length:len},()=>Math.floor(Math.random()*10)).join('');
-}
-
-function downloadAll(){
-  generatedImages.forEach((url,i)=>{
-    const a=document.createElement("a");
-    a.href=url;
-    a.download=`barcode_${i+1}.png`;
-    a.click();
-  });
-}
-
-function resetAll(){
-  input.value="";
-  resultsDiv.innerHTML="";
-  statusCard.style.display="none";
-  downloadAllBtn.style.display="none";
-  resetBtn.style.display="none";
-  generatedImages=[];
-}
-
-function generateBulk(){
-  if(!imageReady) return alert("Template belum dimuat");
-
-  loader.style.display="block";
-  statusCard.style.display="none";
-  resultsDiv.innerHTML="";
-  generatedImages=[];
-
-  setTimeout(()=>{
-    const lines=input.value.split("\n").map(l=>l.trim()).filter(Boolean);
-    if(lines.length<2){ loader.style.display="none"; return alert("Minimal 2 IMEI diperlukan"); }
-
-    const ctx=canvas.getContext("2d");
-    ctx.fillStyle="#000";
-    ctx.textBaseline="top";
-    ctx.font="500 31px 'sf pro custom'";
-
-    let count=0;
-
-    for(let i=0;i<lines.length;i+=2){
-      if(!lines[i+1]) break;
-
-      ctx.clearRect(0,0,canvas.width,canvas.height);
-      ctx.drawImage(baseImage,0,0);
-      ctx.setTransform(0.97,0,0,1,0,0);
-
-      ctx.fillText(randomDigits(32),117,382.8);
-      ctx.fillText(lines[i],288,675.5);
-      ctx.fillText(lines[i+1],288,960.5);
-      ctx.fillText(randomDigits(14),297,1250.5);
-
-      ctx.setTransform(1,0,0,1,0,0);
-
-      const url=canvas.toDataURL("image/png");
-      generatedImages.push(url);
-
-      const div=document.createElement("div");
-      div.className="result-window";
-      div.innerHTML=`
-        <div class="window-header">
-          <div class="window-dots">
-            <div class="dot red"></div>
-            <div class="dot yellow"></div>
-            <div class="dot green"></div>
-          </div>
-          Barcode #${count+1}
-        </div>
-        <img src="${url}">
-      `;
-      resultsDiv.appendChild(div);
-      count++;
-    }
-
-    loader.style.display="none";
-    statusCard.style.display="block";
-    statusText.textContent=\`Berhasil membuat ${count} barcode dari ${lines.length} IMEI\`;
-    downloadAllBtn.style.display="block";
-    resetBtn.style.display="block";
-
-  },200);
-}
-</script>
-
-</body>
+  <div class="btn-row">  
+    <button id="downloadAllBtn" class="btn download" onclick="downloadAll()">Unduh Semua</button>  
+    <button id="resetBtn" class="btn reset" onclick="resetAll()">Reset</button>  
+  </div>    <div class="loader" id="loader"></div>  
+</div>  <div class="window" id="statusCard">  
+  <div class="window-header">  
+    <div class="window-dots">  
+      <div class="dot red"></div>  
+      <div class="dot yellow"></div>  
+      <div class="dot green"></div>  
+    </div>  
+    Status  
+  </div>  
+  <div id="statusText"></div>  
+</div>  <div id="results"></div>  
+<canvas id="canvas" style="display:none;"></canvas>  <div class="credits">Dibuat dengan ❤️ oleh llian</div>  <script>  
+const baseImage = new Image();  
+baseImage.src = "template.png";  
+  
+const canvas = document.getElementById("canvas");  
+const input = document.getElementById("bulkInput");  
+const downloadAllBtn = document.getElementById("downloadAllBtn");  
+const resetBtn = document.getElementById("resetBtn");  
+const statusCard = document.getElementById("statusCard");  
+const statusText = document.getElementById("statusText");  
+const loader = document.getElementById("loader");  
+const resultsDiv = document.getElementById("results");  
+  
+let generatedImages = [];  
+let imageReady = false;  
+  
+baseImage.onload = () => {  
+  canvas.width = baseImage.width;  
+  canvas.height = baseImage.height;  
+  imageReady = true;  
+};  
+  
+input.addEventListener("input", () => {  
+  let lines = input.value.replace(/[^0-9\n]/g,'').split("\n");  
+  if (lines.length > 20) lines = lines.slice(0,20);  
+  input.value = lines.join("\n");  
+});  
+  
+function randomDigits(len){  
+  return Array.from({length:len},()=>Math.floor(Math.random()*10)).join('');  
+}  
+  
+function drawText(ctx,text,x,y){  
+  ctx.fillText(text,x,y);  
+}  
+  
+function downloadAll(){  
+  generatedImages.forEach((url,i)=>{  
+    const a=document.createElement("a");  
+    a.href=url;  
+    a.download=`barcode_${i+1}.png`;  
+    a.click();  
+  });  
+}  
+  
+function resetAll(){  
+  input.value="";  
+  resultsDiv.innerHTML="";  
+  statusCard.style.display="none";  
+  downloadAllBtn.style.display="none";  
+  resetBtn.style.display="none";  
+  generatedImages=[];  
+}  
+  
+function generateBulk(){  
+  if(!imageReady) return alert("Template belum dimuat");  
+  
+  loader.style.display="block";  
+  statusCard.style.display="none";  
+  resultsDiv.innerHTML="";  
+  generatedImages=[];  
+  
+  setTimeout(()=>{  
+    const lines=input.value.split("\n").map(l=>l.trim()).filter(Boolean);  
+    if(lines.length<2){ loader.style.display="none"; return alert("Minimal 2 IMEI diperlukan"); }  
+  
+    const ctx=canvas.getContext("2d");  
+    ctx.fillStyle="#000";  
+    ctx.textBaseline="top";  
+    ctx.font="500 31px 'sf pro custom'";  
+  
+    let count=0;  
+  
+    for(let i=0;i<lines.length;i+=2){  
+      if(!lines[i+1]) break;  
+  
+      ctx.clearRect(0,0,canvas.width,canvas.height);  
+      ctx.drawImage(baseImage,0,0);  
+      ctx.setTransform(0.97,0,0,1,0,0);  
+  
+      drawText(ctx,randomDigits(32),117,382.8);  
+      drawText(ctx,lines[i],288,675.5);  
+      drawText(ctx,lines[i+1],288,960.5);  
+      drawText(ctx,randomDigits(14),297,1250.5);  
+  
+      ctx.setTransform(1,0,0,1,0,0);  
+  
+      const url=canvas.toDataURL("image/png");  
+      generatedImages.push(url);  
+  
+      const div=document.createElement("div");  
+      div.className="result-window";  
+      div.innerHTML=`  
+        <div class="window-header">  
+          <div class="window-dots">  
+            <div class="dot red"></div>  
+            <div class="dot yellow"></div>  
+            <div class="dot green"></div>  
+          </div>  
+          Barcode #${count+1}  
+        </div>  
+        <img src="${url}">  
+      `;  
+      resultsDiv.appendChild(div);  
+      count++;  
+    }  
+  
+    loader.style.display="none";  
+    statusCard.style.display="block";  
+    statusText.textContent=`Berhasil membuat ${count} barcode dari ${lines.length} IMEI`;  
+    downloadAllBtn.style.display="block";  
+    resetBtn.style.display="block";  
+  
+  },200);  
+}  
+</script>  </body>  
 </html>
