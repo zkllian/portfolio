@@ -10,29 +10,28 @@
   font-family: 'SF Pro Display';
   src: url('SF-Pro-Display-Medium.otf') format('opentype');
   font-weight: 500;
-  font-style: normal;
 }
 
 body {
   margin: 0;
-  padding: 24px 16px 50px;
+  padding: 24px 16px 60px;
   font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
   background: #f2f2f7;
-  text-align: center;
 }
 
-.app {
+.card {
   max-width: 420px;
-  margin: auto;
-  background: #ffffff;
+  margin: 0 auto 18px;
+  background: #fff;
   border-radius: 28px;
   padding: 22px 18px 26px;
   box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+  text-align: center;
 }
 
 h2 {
-  margin-top: 6px;
-  margin-bottom: 18px;
+  margin: 6px 0 18px;
+  font-weight: 500;
 }
 
 textarea {
@@ -49,7 +48,7 @@ textarea {
   font-family: 'SF Pro Display', sans-serif;
 }
 
-button {
+button.generate {
   margin-top: 18px;
   width: 100%;
   padding: 14px 0;
@@ -59,20 +58,21 @@ button {
   background: linear-gradient(180deg, #0a84ff, #0066ff);
   color: white;
   font-weight: 600;
+  font-family: 'SF Pro Display', sans-serif;
   cursor: pointer;
   box-shadow: 0 8px 18px rgba(0,122,255,0.35);
 }
 
-button:active {
+button.generate:active {
   transform: scale(0.98);
 }
 
-#status {
-  margin-top: 14px;
-  font-size: 15px;
+#statusCard {
+  display: none;
+  font-size: 16px;
+  font-weight: 600;
   color: #34c759;
-  font-weight: 500;
-  min-height: 22px;
+  text-align: center;
 }
 
 .loader {
@@ -86,12 +86,11 @@ button:active {
   display: none;
 }
 
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
+@keyframes spin { to { transform: rotate(360deg); } }
 
 #results {
-  margin-top: 26px;
+  max-width: 420px;
+  margin: 0 auto;
 }
 
 .result-card {
@@ -106,64 +105,68 @@ button:active {
   width: 100%;
   border-radius: 14px;
   display: block;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
 }
 
 .download-btn {
   width: 100%;
-  padding: 10px 0;
-  border-radius: 10px;
+  padding: 14px 0;
+  border-radius: 14px;
   border: none;
-  background: #34c759;
+  background: linear-gradient(180deg, #34c759, #28a745);
   color: white;
+  font-size: 17px;
+  font-family: 'SF Pro Display', sans-serif;
   font-weight: 600;
   cursor: pointer;
+  box-shadow: 0 8px 18px rgba(52,199,89,0.35);
+}
+
+.download-btn:active {
+  transform: scale(0.98);
 }
 </style>
 </head>
 
 <body>
-<div class="app">
+
+<div class="card">
   <h2>zklln IMEI Maker</h2>
-
-  <textarea id="bulkInput" placeholder="IMEI1&#10;IMEI2&#10;IMEI3&#10;IMEI4"></textarea>
-
-  <button onclick="generateBulk()">Generate Barcodes</button>
+  <textarea id="bulkInput" inputmode="numeric" placeholder="IMEI1&#10;IMEI2&#10;IMEI3&#10;IMEI4"></textarea>
+  <button class="generate" onclick="generateBulk()">Generate Barcodes</button>
   <div class="loader" id="loader"></div>
-  <div id="status"></div>
-
-  <canvas id="canvas" style="display:none;"></canvas>
-  <div id="results"></div>
 </div>
+
+<div class="card" id="statusCard"></div>
+<div id="results"></div>
+<canvas id="canvas" style="display:none;"></canvas>
 
 <script>
 const baseImage = new Image();
 baseImage.src = "template.png";
 
-baseImage.onload = function () {
+baseImage.onload = () => {
   const canvas = document.getElementById("canvas");
   canvas.width = baseImage.width;
   canvas.height = baseImage.height;
 };
 
-document.getElementById("bulkInput").addEventListener("input", function () {
-  this.value = this.value.replace(/[^0-9\n]/g, '');
+const input = document.getElementById("bulkInput");
+input.addEventListener("input", () => {
+  input.value = input.value.replace(/[^0-9\n]/g, '');
+});
+input.addEventListener("paste", e => {
+  e.preventDefault();
+  const text = (e.clipboardData || window.clipboardData).getData('text');
+  document.execCommand("insertText", false, text.replace(/[^0-9\n]/g, ''));
 });
 
-async function loadFonts() {
-  await document.fonts.load("500 31px 'SF Pro Display'");
-}
-
 function randomEID() {
-  let eid = "";
-  for (let i = 0; i < 32; i++) eid += Math.floor(Math.random() * 10);
-  return eid;
+  return Array.from({length:32}, () => Math.floor(Math.random()*10)).join('');
 }
 
 function randomDeviceID() {
-  let id = "";
-  for (let i = 0; i < 14; i++) id += Math.floor(Math.random() * 10);
-  return id;
+  return Array.from({length:14}, () => Math.floor(Math.random()*10)).join('');
 }
 
 function drawTightText(ctx, text, x, y, spacing = -0.5) {
@@ -174,19 +177,15 @@ function drawTightText(ctx, text, x, y, spacing = -0.5) {
   }
 }
 
-async function generateBulk() {
-  await loadFonts();
-
+function generateBulk() {
   const loader = document.getElementById("loader");
-  const status = document.getElementById("status");
+  const statusCard = document.getElementById("statusCard");
   loader.style.display = "block";
-  status.textContent = "";
+  statusCard.style.display = "none";
+  statusCard.textContent = "";
 
   setTimeout(() => {
-    const lines = document.getElementById("bulkInput").value
-      .split("\n")
-      .map(l => l.trim())
-      .filter(l => l.length);
+    const lines = input.value.split("\n").map(l => l.trim()).filter(Boolean);
 
     if (lines.length < 2) {
       loader.style.display = "none";
@@ -215,24 +214,24 @@ async function generateBulk() {
       ctx.fillStyle = "#3a3a3c";
       ctx.font = "500 31px 'SF Pro Display'";
       ctx.textBaseline = "top";
-      ctx.textAlign = "left";
 
       drawTightText(ctx, eid, 114, 382.8);
       drawTightText(ctx, imei1, 280, 675.5);
       drawTightText(ctx, imei2, 280, 960.5);
       drawTightText(ctx, deviceID, 288, 1250.5);
 
+      const dataURL = canvas.toDataURL("image/png");
+
       const card = document.createElement("div");
       card.className = "result-card";
 
       const img = document.createElement("img");
-      const dataURL = canvas.toDataURL("image/png");
       img.src = dataURL;
 
-      const downloadBtn = document.createElement("button");
-      downloadBtn.className = "download-btn";
-      downloadBtn.textContent = "Download";
-      downloadBtn.onclick = () => {
+      const btn = document.createElement("button");
+      btn.className = "download-btn";
+      btn.textContent = "Download";
+      btn.onclick = () => {
         const a = document.createElement("a");
         a.href = dataURL;
         a.download = "barcode_" + (barcodeCount + 1) + ".png";
@@ -240,14 +239,15 @@ async function generateBulk() {
       };
 
       card.appendChild(img);
-      card.appendChild(downloadBtn);
+      card.appendChild(btn);
       resultsDiv.appendChild(card);
 
       barcodeCount++;
     }
 
     loader.style.display = "none";
-    status.textContent = `Successfully generated ${barcodeCount} barcode(s) from ${lines.length} IMEI numbers.`;
+    statusCard.style.display = "block";
+    statusCard.textContent = `Successfully generated ${barcodeCount} barcode(s) from ${lines.length} IMEI numbers.`;
 
   }, 300);
 }
