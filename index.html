@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <title>Generator Barcode</title>
 
+<script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
+
 <style>
 @font-face {
   font-family: 'sf pro custom';
@@ -26,7 +28,6 @@ body {
   font-family: 'sf pro custom', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
-/* PEMBUNGKUS GLOBAL — ATUR LEBAR + JARAK SAMPING */
 .app-wrap{
   max-width: 420px;
   margin: 0 auto;
@@ -34,7 +35,6 @@ body {
   box-sizing: border-box;
 }
 
-/* kredit */
 .credits {
   position: fixed;
   bottom: 18px;
@@ -50,7 +50,6 @@ body {
   z-index: 999;
 }
 
-/* kartu */
 .window {
   width: 100%;
   margin-bottom: 22px;
@@ -63,7 +62,6 @@ body {
   box-sizing: border-box;
 }
 
-/* header */
 .window-header {
   position: absolute;
   top: 0; left: 0; right: 0;
@@ -136,7 +134,6 @@ textarea {
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 
-/* HASIL BARCODE */
 #results { width: 100%; }
 
 .result-window {
@@ -173,7 +170,7 @@ textarea {
       Generator Barcode
     </div>
 
-    <textarea id="bulkInput" inputmode="numeric"></textarea>
+    <textarea id="bulkInput" inputmode="numeric" placeholder="Satu IMEI per baris (maks 20)"></textarea>
 
     <button class="btn generate" onclick="generateBulk()">Buat Barcode</button>
 
@@ -190,19 +187,22 @@ textarea {
 </div>
 
 <canvas id="canvas" style="display:none;"></canvas>
-<div class="credits">Made with ❤️ by someone</div>
+<canvas id="barcodeCanvas" style="display:none;"></canvas>
+
+<div class="credits">Made with ❤️</div>
 
 <script>
-
-// JS Generator
 const baseImage = new Image();
 baseImage.src = "template.png";
+
 const canvas = document.getElementById("canvas");
+const barcodeCanvas = document.getElementById("barcodeCanvas");
 const input = document.getElementById("bulkInput");
 const downloadAllBtn = document.getElementById("downloadAllBtn");
 const resetBtn = document.getElementById("resetBtn");
 const loader = document.getElementById("loader");
 const resultsDiv = document.getElementById("results");
+
 let generatedImages = [];
 let imageReady = false;
 
@@ -234,7 +234,6 @@ function downloadAll(){
 function resetAll(){
   input.value="";
   resultsDiv.innerHTML="";
-  statusCard.style.display="none";
   downloadAllBtn.style.display="none";
   resetBtn.style.display="none";
   generatedImages=[];
@@ -243,13 +242,12 @@ function resetAll(){
 function generateBulk(){
   if(!imageReady) return alert("Template belum dimuat");
   loader.style.display="block";
-  statusCard.style.display="none";
   resultsDiv.innerHTML="";
   generatedImages=[];
 
   setTimeout(()=>{
     const lines=input.value.split("\n").map(l=>l.trim()).filter(Boolean);
-    if(lines.length<2){ loader.style.display="none"; return alert("Minimal 2 IMEI diperlukan"); }
+    if(lines.length<1){ loader.style.display="none"; return alert("Masukkan minimal 1 IMEI"); }
 
     const ctx=canvas.getContext("2d");
     ctx.fillStyle="#000";
@@ -258,18 +256,23 @@ function generateBulk(){
 
     let count=0;
 
-    for(let i=0;i<lines.length;i+=2){
-      if(!lines[i+1]) break;
-
+    for(let i=0;i<lines.length;i++){
       ctx.clearRect(0,0,canvas.width,canvas.height);
       ctx.drawImage(baseImage,0,0);
+
+      JsBarcode(barcodeCanvas, lines[i], {
+        format: "CODE128",
+        width: 2.2,
+        height: 95,
+        displayValue: false,
+        margin: 0
+      });
+
+      ctx.drawImage(barcodeCanvas, 105, 350);
+
       ctx.setTransform(0.97,0,0,1,0,0);
-
-      ctx.fillText(randomDigits(32),117,377.8);
       ctx.fillText(lines[i],288,669.5);
-      ctx.fillText(lines[i+1],288,954.5);
       ctx.fillText(randomDigits(14),297,1244.5);
-
       ctx.setTransform(1,0,0,1,0,0);
 
       const url=canvas.toDataURL("image/png");
@@ -293,7 +296,6 @@ function generateBulk(){
     }
 
     loader.style.display="none";
-    statusCard.style.display="block";
     downloadAllBtn.style.display="block";
     resetBtn.style.display="block";
 
