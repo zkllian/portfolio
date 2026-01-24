@@ -29,10 +29,7 @@ body {
   text-align: center;
 }
 
-h2 {
-  margin: 6px 0 18px;
-  font-weight: 500;
-}
+h2 { margin: 6px 0 18px; }
 
 textarea {
   width: 100%;
@@ -58,21 +55,32 @@ button.generate {
   background: linear-gradient(180deg, #0a84ff, #0066ff);
   color: white;
   font-weight: 600;
-  font-family: 'SF Pro Display', sans-serif;
   cursor: pointer;
   box-shadow: 0 8px 18px rgba(0,122,255,0.35);
 }
 
-button.generate:active {
-  transform: scale(0.98);
-}
+button.generate:active { transform: scale(0.98); }
 
 #statusCard {
   display: none;
   font-size: 16px;
   font-weight: 600;
   color: #34c759;
-  text-align: center;
+}
+
+.download-all-btn {
+  margin-top: 12px;
+  width: 100%;
+  padding: 12px 0;
+  border-radius: 12px;
+  border: none;
+  background: linear-gradient(180deg, #ff9f0a, #ff7a00);
+  color: white;
+  font-weight: 600;
+  font-family: 'SF Pro Display', sans-serif;
+  font-size: 16px;
+  cursor: pointer;
+  box-shadow: 0 6px 14px rgba(255,159,10,0.35);
 }
 
 .loader {
@@ -88,10 +96,7 @@ button.generate:active {
 
 @keyframes spin { to { transform: rotate(360deg); } }
 
-#results {
-  max-width: 420px;
-  margin: 0 auto;
-}
+#results { max-width: 420px; margin: 0 auto; }
 
 .result-card {
   background: #fff;
@@ -105,25 +110,21 @@ button.generate:active {
   width: 100%;
   border-radius: 14px;
   display: block;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 
 .download-btn {
   width: 100%;
-  padding: 14px 0;
-  border-radius: 14px;
+  padding: 12px 0;
+  border-radius: 12px;
   border: none;
   background: linear-gradient(180deg, #34c759, #28a745);
   color: white;
-  font-size: 17px;
-  font-family: 'SF Pro Display', sans-serif;
   font-weight: 600;
+  font-family: 'SF Pro Display', sans-serif;
+  font-size: 16px;
   cursor: pointer;
-  box-shadow: 0 8px 18px rgba(52,199,89,0.35);
-}
-
-.download-btn:active {
-  transform: scale(0.98);
+  box-shadow: 0 6px 14px rgba(52,199,89,0.35);
 }
 </style>
 </head>
@@ -133,76 +134,81 @@ button.generate:active {
 <div class="card">
   <h2>zklln IMEI Maker</h2>
   <textarea id="bulkInput" inputmode="numeric" placeholder="IMEI1&#10;IMEI2&#10;IMEI3&#10;IMEI4"></textarea>
-  <button class="generate" onclick="generateBulk()">Generate Barcodes</button>
+  <button class="generate" onclick="generateBulk()">Generate</button>
   <div class="loader" id="loader"></div>
 </div>
 
 <div class="card" id="statusCard"></div>
 <div id="results"></div>
+
 <canvas id="canvas" style="display:none;"></canvas>
 
 <script>
 const baseImage = new Image();
 baseImage.src = "template.png";
 
+const canvas = document.getElementById("canvas");
+const input = document.getElementById("bulkInput");
+let generatedImages = [];
+
 baseImage.onload = () => {
-  const canvas = document.getElementById("canvas");
   canvas.width = baseImage.width;
   canvas.height = baseImage.height;
 };
 
-const input = document.getElementById("bulkInput");
 input.addEventListener("input", () => {
   input.value = input.value.replace(/[^0-9\n]/g, '');
 });
-input.addEventListener("paste", e => {
-  e.preventDefault();
-  const text = (e.clipboardData || window.clipboardData).getData('text');
-  document.execCommand("insertText", false, text.replace(/[^0-9\n]/g, ''));
-});
 
-function randomEID() {
-  return Array.from({length:32}, () => Math.floor(Math.random()*10)).join('');
+async function loadFonts() {
+  await document.fonts.load("500 31px 'SF Pro Display'");
 }
 
-function randomDeviceID() {
-  return Array.from({length:14}, () => Math.floor(Math.random()*10)).join('');
+const randomEID = () => Array.from({length:32}, () => Math.floor(Math.random()*10)).join('');
+const randomDeviceID = () => Array.from({length:14}, () => Math.floor(Math.random()*10)).join('');
+
+function drawTextBlock(ctx, text, x, y) {
+  ctx.save();
+  ctx.translate(x, y);
+  ctx.fillText(text, 0, 0);
+  ctx.restore();
 }
 
-function drawTightText(ctx, text, x, y, spacing = -0.5) {
-  let currentX = x;
-  for (let char of text) {
-    ctx.fillText(char, currentX, y);
-    currentX += ctx.measureText(char).width + spacing;
-  }
+function downloadAll() {
+  generatedImages.forEach((dataURL, i) => {
+    const a = document.createElement("a");
+    a.href = dataURL;
+    a.download = `barcode_${i+1}.png`;
+    a.click();
+  });
 }
 
-function generateBulk() {
+async function generateBulk() {
+  await loadFonts();
+
   const loader = document.getElementById("loader");
   const statusCard = document.getElementById("statusCard");
+  const resultsDiv = document.getElementById("results");
+
   loader.style.display = "block";
   statusCard.style.display = "none";
-  statusCard.textContent = "";
+  resultsDiv.innerHTML = "";
+  generatedImages = [];
 
   setTimeout(() => {
     const lines = input.value.split("\n").map(l => l.trim()).filter(Boolean);
-
     if (lines.length < 2) {
       loader.style.display = "none";
       alert("Enter at least 2 IMEI numbers");
       return;
     }
 
-    const canvas = document.getElementById("canvas");
     const ctx = canvas.getContext("2d");
-    const resultsDiv = document.getElementById("results");
-    resultsDiv.innerHTML = "";
-
     let barcodeCount = 0;
 
     for (let i = 0; i < lines.length; i += 2) {
       const imei1 = lines[i];
-      const imei2 = lines[i + 1];
+      const imei2 = lines[i+1];
       if (!imei2) break;
 
       const eid = randomEID();
@@ -215,12 +221,17 @@ function generateBulk() {
       ctx.font = "500 31px 'SF Pro Display'";
       ctx.textBaseline = "top";
 
-      drawTightText(ctx, eid, 114, 382.8);
-      drawTightText(ctx, imei1, 280, 675.5);
-      drawTightText(ctx, imei2, 280, 960.5);
-      drawTightText(ctx, deviceID, 288, 1250.5);
+      ctx.setTransform(0.97, 0, 0, 1, 0, 0); // Safari fix
+
+      drawTextBlock(ctx, eid, 117, 382.8);
+      drawTextBlock(ctx, imei1, 288, 675.5);
+      drawTextBlock(ctx, imei2, 288, 960.5);
+      drawTextBlock(ctx, deviceID, 297, 1250.5);
+
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
 
       const dataURL = canvas.toDataURL("image/png");
+      generatedImages.push(dataURL);
 
       const card = document.createElement("div");
       card.className = "result-card";
@@ -234,7 +245,7 @@ function generateBulk() {
       btn.onclick = () => {
         const a = document.createElement("a");
         a.href = dataURL;
-        a.download = "barcode_" + (barcodeCount + 1) + ".png";
+        a.download = `barcode_${barcodeCount+1}.png`;
         a.click();
       };
 
@@ -247,9 +258,12 @@ function generateBulk() {
 
     loader.style.display = "none";
     statusCard.style.display = "block";
-    statusCard.textContent = `Successfully generated ${barcodeCount} barcode(s) from ${lines.length} IMEI numbers.`;
+    statusCard.innerHTML = `
+      Successfully generated ${barcodeCount} barcode(s) from ${lines.length} IMEI numbers.
+      <button class="download-all-btn" onclick="downloadAll()">Download All</button>
+    `;
 
-  }, 300);
+  }, 200);
 }
 </script>
 
