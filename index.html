@@ -213,7 +213,9 @@ baseImage.onload = () => {
 };
 
 input.addEventListener("input", () => {
-  input.value = input.value.replace(/[^0-9\n]/g,'');
+  let lines = input.value.replace(/[^0-9\n]/g,'').split("\n");
+  if (lines.length > 20) lines = lines.slice(0,20);
+  input.value = lines.join("\n");
 });
 
 function randomDigits(len){
@@ -227,22 +229,7 @@ function drawText(ctx,text,x,y){
   ctx.restore();
 }
 
-async function downloadAll(){
-  // Try SHARE first (mobile), fallback to download
-  if (navigator.canShare && navigator.canShare({ files: [] })) {
-    try {
-      const files = await Promise.all(
-        generatedImages.map(async (url,i)=>{
-          const res = await fetch(url);
-          const blob = await res.blob();
-          return new File([blob], `barcode_${i+1}.png`, {type:"image/png"});
-        })
-      );
-      await navigator.share({ title:"barcodes", files });
-      return;
-    } catch(e){}
-  }
-
+function downloadAll(){
   generatedImages.forEach((url,i)=>{
     const a=document.createElement("a");
     a.href=url;
