@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>barcode generator</title>
+<title>Barcode Generator</title>
 
 <style>
 @font-face {
@@ -22,7 +22,6 @@ body {
   padding: 30px 14px 120px;
   background: #f2f2f7;
   font-family: 'sf pro custom', -apple-system, BlinkMacSystemFont, sans-serif;
-  text-transform: lowercase;
 }
 
 /* floating credits */
@@ -65,7 +64,6 @@ body {
   justify-content: center;
   font-size: 13px;
   font-weight: 500;
-  font-family: 'sf pro custom';
   background: linear-gradient(to bottom,#fdfdfd,#ececec);
   border-bottom: 1px solid rgba(0,0,0,0.06);
   border-top-left-radius: 20px;
@@ -114,7 +112,7 @@ textarea {
 
 .generate { background: linear-gradient(#0a84ff,#0066ff); color:white; box-shadow:0 10px 20px rgba(0,122,255,.35);}
 .download { background: linear-gradient(#34c759,#28a745); color:white; display:none;}
-.reset { background: linear-gradient(#ff3b30,#d70015); color:white; display:none; }
+.reset { background: linear-gradient(#ff3b30,#d70015); color:white; display:none;}
 
 .btn-row { display:flex; gap:12px; }
 .btn-row .btn { flex:1; }
@@ -133,7 +131,7 @@ textarea {
 @keyframes spin { to { transform: rotate(360deg); } }
 
 /* status */
-#statusCard { display:none; text-align:center; font-size:15px; font-weight:400; }
+#statusCard { display:none; text-align:center; font-size:15px; }
 
 /* results */
 #results { max-width:420px; margin:0 auto; }
@@ -159,15 +157,15 @@ textarea {
       <div class="dot yellow"></div>
       <div class="dot green"></div>
     </div>
-    barcode generator
+    Barcode Generator
   </div>
 
-  <textarea id="bulkInput" inputmode="numeric" placeholder="imei1&#10;imei2&#10;imei3&#10;imei4"></textarea>
-  <button class="btn generate" onclick="generateBulk()">generate barcode</button>
+  <textarea id="bulkInput" inputmode="numeric" placeholder="IMEI1&#10;IMEI2&#10;IMEI3&#10;IMEI4"></textarea>
+  <button class="btn generate" onclick="generateBulk()">Generate Barcode</button>
 
   <div class="btn-row">
-    <button id="downloadAllBtn" class="btn download" onclick="downloadAll()">download all</button>
-    <button id="resetBtn" class="btn reset" onclick="resetAll()">reset</button>
+    <button id="downloadAllBtn" class="btn download" onclick="downloadAll()">Download All</button>
+    <button id="resetBtn" class="btn reset" onclick="resetAll()">Reset</button>
   </div>
 
   <div class="loader" id="loader"></div>
@@ -180,7 +178,7 @@ textarea {
       <div class="dot yellow"></div>
       <div class="dot green"></div>
     </div>
-    status
+    Status
   </div>
   <div id="statusText"></div>
 </div>
@@ -188,7 +186,7 @@ textarea {
 <div id="results"></div>
 <canvas id="canvas" style="display:none;"></canvas>
 
-<div class="credits">made with love ❤️ by llian</div>
+<div class="credits">Made with love ❤️ by llian</div>
 
 <script>
 const baseImage = new Image();
@@ -223,10 +221,7 @@ function randomDigits(len){
 }
 
 function drawText(ctx,text,x,y){
-  ctx.save();
-  ctx.translate(x,y);
-  ctx.fillText(text,0,0);
-  ctx.restore();
+  ctx.fillText(text,x,y);
 }
 
 function downloadAll(){
@@ -247,8 +242,8 @@ function resetAll(){
   generatedImages=[];
 }
 
-async function generateBulk(){
-  if(!imageReady) return alert("template not loaded");
+function generateBulk(){
+  if(!imageReady) return alert("Template image not loaded");
 
   loader.style.display="block";
   statusCard.style.display="none";
@@ -257,7 +252,7 @@ async function generateBulk(){
 
   setTimeout(()=>{
     const lines=input.value.split("\n").map(l=>l.trim()).filter(Boolean);
-    if(lines.length<2){ loader.style.display="none"; return alert("minimum 2 imei"); }
+    if(lines.length<2){ loader.style.display="none"; return alert("Minimum 2 IMEI required"); }
 
     const ctx=canvas.getContext("2d");
     ctx.fillStyle="#000";
@@ -292,7 +287,7 @@ async function generateBulk(){
             <div class="dot yellow"></div>
             <div class="dot green"></div>
           </div>
-          barcode #${count+1}
+          Barcode #${count+1}
         </div>
         <img src="${url}">
       `;
@@ -302,7 +297,7 @@ async function generateBulk(){
 
     loader.style.display="none";
     statusCard.style.display="block";
-    statusText.textContent=\`successfully generated \${count} barcode(s) from \${lines.length} imei\`;
+    statusText.textContent=`Successfully generated ${count} barcode(s) from ${lines.length} IMEI`;
     downloadAllBtn.style.display="block";
     resetBtn.style.display="block";
 
