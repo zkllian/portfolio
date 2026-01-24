@@ -2,7 +2,10 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- ZOOM DIMATIKAN DI MOBILE -->
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
 <title>Generator Barcode</title>
 
 <style>
@@ -17,20 +20,18 @@
   font-weight: 500;
 }
 
+html, body {
+  touch-action: manipulation;
+}
+
 body {
   margin: 0;
-  padding: 40px 16px 140px;
+  padding: 30px 14px 120px;
   background: #f2f2f7;
   font-family: 'sf pro custom', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
-/* CONTAINER GLOBAL (BIAR SEMUA SIMETRIS) */
-.container {
-  max-width: 460px;
-  margin: 0 auto;
-}
-
-/* kredit */
+/* kredit mengambang */
 .credits {
   position: fixed;
   bottom: 18px;
@@ -46,23 +47,23 @@ body {
   z-index: 999;
 }
 
-/* kartu */
+/* kartu jendela */
 .window {
-  width: 100%;
-  margin-bottom: 24px;
+  max-width: 420px;
+  margin: 0 auto 22px;
   background: rgba(255,255,255,0.75);
   backdrop-filter: blur(20px);
-  border-radius: 22px;
+  border-radius: 20px;
   box-shadow: 0 20px 40px rgba(0,0,0,0.12);
   position: relative;
-  padding: 56px 18px 22px;
+  padding: 54px 16px 20px;
 }
 
 /* header mac */
 .window-header {
   position: absolute;
   top: 0; left: 0; right: 0;
-  height: 34px;
+  height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -70,13 +71,13 @@ body {
   font-weight: 500;
   background: linear-gradient(to bottom,#fdfdfd,#ececec);
   border-bottom: 1px solid rgba(0,0,0,0.06);
-  border-top-left-radius: 22px;
-  border-top-right-radius: 22px;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
 }
 
 .window-dots {
   position: absolute;
-  left: 14px;
+  left: 12px;
   display: flex;
   gap: 7px;
 }
@@ -138,71 +139,67 @@ textarea {
 #statusCard { display:none; text-align:center; font-size:15px; }
 
 /* hasil */
-#results { width: 100%; }
+#results { max-width:420px; margin:0 auto; }
 .result-window {
   position: relative;
   background: rgba(255,255,255,0.75);
   backdrop-filter: blur(20px);
-  border-radius: 22px;
+  border-radius: 20px;
   box-shadow: 0 15px 30px rgba(0,0,0,0.1);
-  margin-bottom: 24px;
-  padding: 50px 14px 14px;
+  margin-bottom: 26px;
+  padding: 48px 12px 12px;
 }
-.result-window img { width:100%; border-radius:14px; display:block; }
+.result-window img { width:100%; border-radius:12px; display:block; }
 </style>
 </head>
 
 <body>
 
-<div class="container">
-
-  <div class="window">
-    <div class="window-header">
-      <div class="window-dots">
-        <div class="dot red"></div>
-        <div class="dot yellow"></div>
-        <div class="dot green"></div>
-      </div>
-      Generator Barcode
+<div class="window">
+  <div class="window-header">
+    <div class="window-dots">
+      <div class="dot red"></div>
+      <div class="dot yellow"></div>
+      <div class="dot green"></div>
     </div>
+    Generator Barcode
+  </div>
 
-    <textarea id="bulkInput" inputmode="numeric"
+  <textarea id="bulkInput" inputmode="numeric"
 placeholder="Masukkan nomor IMEI (maksimal 20 baris)
 Satu IMEI per baris"></textarea>
 
-    <button class="btn generate" onclick="generateBulk()">Buat Barcode</button>
+  <button class="btn generate" onclick="generateBulk()">Buat Barcode</button>
 
-    <div class="btn-row">
-      <button id="downloadAllBtn" class="btn download" onclick="downloadAll()">Unduh Semua</button>
-      <button id="resetBtn" class="btn reset" onclick="resetAll()">Reset</button>
-    </div>
-
-    <div class="loader" id="loader"></div>
+  <div class="btn-row">
+    <button id="downloadAllBtn" class="btn download" onclick="downloadAll()">Unduh Semua</button>
+    <button id="resetBtn" class="btn reset" onclick="resetAll()">Reset</button>
   </div>
 
-  <div class="window" id="statusCard">
-    <div class="window-header">
-      <div class="window-dots">
-        <div class="dot red"></div>
-        <div class="dot yellow"></div>
-        <div class="dot green"></div>
-      </div>
-      Status
-    </div>
-    <div id="statusText"></div>
-  </div>
-
-  <div id="results"></div>
-
+  <div class="loader" id="loader"></div>
 </div>
 
+<div class="window" id="statusCard">
+  <div class="window-header">
+    <div class="window-dots">
+      <div class="dot red"></div>
+      <div class="dot yellow"></div>
+      <div class="dot green"></div>
+    </div>
+    Status
+  </div>
+  <div id="statusText"></div>
+</div>
+
+<div id="results"></div>
 <canvas id="canvas" style="display:none;"></canvas>
+
 <div class="credits">Made with ❤️ by llian</div>
 
 <script>
+// JS TETAP SAMA
 const baseImage = new Image();
 baseImage.src = "template.png";
-
 const canvas = document.getElementById("canvas");
 const input = document.getElementById("bulkInput");
 const downloadAllBtn = document.getElementById("downloadAllBtn");
@@ -211,7 +208,6 @@ const statusCard = document.getElementById("statusCard");
 const statusText = document.getElementById("statusText");
 const loader = document.getElementById("loader");
 const resultsDiv = document.getElementById("results");
-
 let generatedImages = [];
 let imageReady = false;
 
@@ -251,7 +247,6 @@ function resetAll(){
 
 function generateBulk(){
   if(!imageReady) return alert("Template belum dimuat");
-
   loader.style.display="block";
   statusCard.style.display="none";
   resultsDiv.innerHTML="";
@@ -313,4 +308,4 @@ function generateBulk(){
 </script>
 
 </body>
-  </html>
+</html>
