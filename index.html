@@ -136,8 +136,6 @@ textarea {
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 
-#statusCard { display:none; text-align:center; font-size:15px; }
-
 /* HASIL BARCODE */
 #results { width: 100%; }
 
@@ -175,9 +173,7 @@ textarea {
       Generator Barcode
     </div>
 
-    <textarea id="bulkInput" inputmode="numeric"
-    placeholder="Masukkan nomor IMEI (maksimal 20 baris)
-Satu IMEI per baris"></textarea>
+    <textarea id="bulkInput" inputmode="numeric"></textarea>
 
     <button class="btn generate" onclick="generateBulk()">Buat Barcode</button>
 
@@ -189,18 +185,6 @@ Satu IMEI per baris"></textarea>
     <div class="loader" id="loader"></div>
   </div>
 
-  <div class="window" id="statusCard">
-    <div class="window-header">
-      <div class="window-dots">
-        <div class="dot red"></div>
-        <div class="dot yellow"></div>
-        <div class="dot green"></div>
-      </div>
-      Status
-    </div>
-    <div id="statusText"></div>
-  </div>
-
   <div id="results"></div>
 
 </div>
@@ -209,8 +193,6 @@ Satu IMEI per baris"></textarea>
 <div class="credits">Made with ❤️ by someone</div>
 
 <script>
-// Logger visitor (Vercel API)
-fetch("/api/visitor").catch(()=>{});
 
 // JS Generator
 const baseImage = new Image();
@@ -219,8 +201,6 @@ const canvas = document.getElementById("canvas");
 const input = document.getElementById("bulkInput");
 const downloadAllBtn = document.getElementById("downloadAllBtn");
 const resetBtn = document.getElementById("resetBtn");
-const statusCard = document.getElementById("statusCard");
-const statusText = document.getElementById("statusText");
 const loader = document.getElementById("loader");
 const resultsDiv = document.getElementById("results");
 let generatedImages = [];
@@ -314,7 +294,6 @@ function generateBulk(){
 
     loader.style.display="none";
     statusCard.style.display="block";
-    statusText.textContent=`Berhasil membuat ${count} barcode dari ${lines.length} IMEI`;
     downloadAllBtn.style.display="block";
     resetBtn.style.display="block";
 
