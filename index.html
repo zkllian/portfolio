@@ -2,10 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-
-<!-- ZOOM DIMATIKAN DI MOBILE -->
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-
 <title>Generator Barcode</title>
 
 <style>
@@ -20,9 +17,7 @@
   font-weight: 500;
 }
 
-html, body {
-  touch-action: manipulation;
-}
+html, body { touch-action: manipulation; }
 
 body {
   margin: 0;
@@ -31,7 +26,7 @@ body {
   font-family: 'sf pro custom', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
-/* kredit mengambang */
+/* kredit */
 .credits {
   position: fixed;
   bottom: 18px;
@@ -47,7 +42,7 @@ body {
   z-index: 999;
 }
 
-/* kartu jendela */
+/* kartu utama */
 .window {
   max-width: 420px;
   margin: 0 auto 22px;
@@ -138,18 +133,27 @@ textarea {
 /* status */
 #statusCard { display:none; text-align:center; font-size:15px; }
 
-/* hasil */
-#results { max-width:420px; margin:0 auto; }
+/* HASIL BARCODE — DISAMAKAN */
+#results {
+  max-width: 420px;
+  margin: 0 auto 22px;
+}
+
 .result-window {
   position: relative;
   background: rgba(255,255,255,0.75);
   backdrop-filter: blur(20px);
   border-radius: 20px;
-  box-shadow: 0 15px 30px rgba(0,0,0,0.1);
-  margin-bottom: 26px;
-  padding: 48px 12px 12px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+  margin: 0 auto 22px;
+  padding: 54px 16px 20px;
 }
-.result-window img { width:100%; border-radius:12px; display:block; }
+
+.result-window img {
+  width:100%;
+  border-radius:12px;
+  display:block;
+}
 </style>
 </head>
 
@@ -166,8 +170,7 @@ textarea {
   </div>
 
   <textarea id="bulkInput" inputmode="numeric"
-placeholder="Masukkan nomor IMEI (maksimal 20 baris)
-Satu IMEI per baris"></textarea>
+placeholder="Masukkan nomor IMEI (maksimal 20 baris)"></textarea>
 
   <button class="btn generate" onclick="generateBulk()">Buat Barcode</button>
 
