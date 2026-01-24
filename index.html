@@ -21,15 +21,17 @@ html, body { touch-action: manipulation; }
 
 body {
   margin: 0;
-  padding: 30px 14px 120px;
+  padding: 30px 0 120px;
   background: #f2f2f7;
   font-family: 'sf pro custom', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
-/* PEMBUNGKUS UTAMA — SEMUA BOX IKUT LEBAR INI */
+/* PEMBUNGKUS GLOBAL — ATUR LEBAR + JARAK SAMPING */
 .app-wrap{
   max-width: 420px;
   margin: 0 auto;
+  padding: 0 14px;
+  box-sizing: border-box;
 }
 
 /* kredit */
@@ -57,7 +59,8 @@ body {
   border-radius: 20px;
   box-shadow: 0 20px 40px rgba(0,0,0,0.12);
   position: relative;
-  padding: 54px 16px 20px;
+  padding: 54px 14px 20px;
+  box-sizing: border-box;
 }
 
 /* header */
@@ -146,7 +149,8 @@ textarea {
   border-radius: 20px;
   box-shadow: 0 20px 40px rgba(0,0,0,0.12);
   position: relative;
-  padding: 54px 16px 20px;
+  padding: 54px 14px 20px;
+  box-sizing: border-box;
 }
 
 .result-window img {
@@ -205,7 +209,10 @@ Satu IMEI per baris"></textarea>
 <div class="credits">Made with ❤️ by llian</div>
 
 <script>
-// JS TETAP SAMA
+// Logger visitor (Vercel API)
+fetch("/api/visitor").catch(()=>{});
+
+// JS Generator
 const baseImage = new Image();
 baseImage.src = "template.png";
 const canvas = document.getElementById("canvas");
