@@ -26,6 +26,12 @@ body {
   font-family: 'sf pro custom', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
+/* PEMBUNGKUS UTAMA — SEMUA BOX IKUT LEBAR INI */
+.app-wrap{
+  max-width: 420px;
+  margin: 0 auto;
+}
+
 /* kredit */
 .credits {
   position: fixed;
@@ -42,10 +48,10 @@ body {
   z-index: 999;
 }
 
-/* kartu utama */
+/* kartu */
 .window {
-  max-width: 420px;
-  margin: 0 auto 22px;
+  width: 100%;
+  margin-bottom: 22px;
   background: rgba(255,255,255,0.75);
   backdrop-filter: blur(20px);
   border-radius: 20px;
@@ -54,7 +60,7 @@ body {
   padding: 54px 16px 20px;
 }
 
-/* header mac */
+/* header */
 .window-header {
   position: absolute;
   top: 0; left: 0; right: 0;
@@ -81,7 +87,6 @@ body {
 .yellow { background:#ffbd2e; }
 .green { background:#28c840; }
 
-/* textarea */
 textarea {
   width: 100%;
   height: 170px;
@@ -95,7 +100,6 @@ textarea {
   font-family: 'sf pro custom';
 }
 
-/* tombol */
 .btn {
   width: 100%;
   padding: 14px 0;
@@ -117,7 +121,6 @@ textarea {
 .btn-row { display:flex; gap:12px; }
 .btn-row .btn { flex:1; }
 
-/* loader */
 .loader {
   margin: 16px auto 0;
   width: 34px;
@@ -130,22 +133,19 @@ textarea {
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 
-/* status */
 #statusCard { display:none; text-align:center; font-size:15px; }
 
-/* HASIL BARCODE — DISAMAKAN */
-#results {
-  max-width: 420px;
-  margin: 0 auto 22px;
-}
+/* HASIL BARCODE */
+#results { width: 100%; }
 
 .result-window {
-  position: relative;
+  width: 100%;
+  margin-bottom: 22px;
   background: rgba(255,255,255,0.75);
   backdrop-filter: blur(20px);
   border-radius: 20px;
   box-shadow: 0 20px 40px rgba(0,0,0,0.12);
-  margin: 0 auto 22px;
+  position: relative;
   padding: 54px 16px 20px;
 }
 
@@ -159,44 +159,49 @@ textarea {
 
 <body>
 
-<div class="window">
-  <div class="window-header">
-    <div class="window-dots">
-      <div class="dot red"></div>
-      <div class="dot yellow"></div>
-      <div class="dot green"></div>
+<div class="app-wrap">
+
+  <div class="window">
+    <div class="window-header">
+      <div class="window-dots">
+        <div class="dot red"></div>
+        <div class="dot yellow"></div>
+        <div class="dot green"></div>
+      </div>
+      Generator Barcode
     </div>
-    Generator Barcode
+
+    <textarea id="bulkInput" inputmode="numeric"
+    placeholder="Masukkan nomor IMEI (maksimal 20 baris)
+Satu IMEI per baris"></textarea>
+
+    <button class="btn generate" onclick="generateBulk()">Buat Barcode</button>
+
+    <div class="btn-row">
+      <button id="downloadAllBtn" class="btn download" onclick="downloadAll()">Unduh Semua</button>
+      <button id="resetBtn" class="btn reset" onclick="resetAll()">Reset</button>
+    </div>
+
+    <div class="loader" id="loader"></div>
   </div>
 
-  <textarea id="bulkInput" inputmode="numeric"
-placeholder="Masukkan nomor IMEI (maksimal 20 baris)"></textarea>
-
-  <button class="btn generate" onclick="generateBulk()">Buat Barcode</button>
-
-  <div class="btn-row">
-    <button id="downloadAllBtn" class="btn download" onclick="downloadAll()">Unduh Semua</button>
-    <button id="resetBtn" class="btn reset" onclick="resetAll()">Reset</button>
+  <div class="window" id="statusCard">
+    <div class="window-header">
+      <div class="window-dots">
+        <div class="dot red"></div>
+        <div class="dot yellow"></div>
+        <div class="dot green"></div>
+      </div>
+      Status
+    </div>
+    <div id="statusText"></div>
   </div>
 
-  <div class="loader" id="loader"></div>
+  <div id="results"></div>
+
 </div>
 
-<div class="window" id="statusCard">
-  <div class="window-header">
-    <div class="window-dots">
-      <div class="dot red"></div>
-      <div class="dot yellow"></div>
-      <div class="dot green"></div>
-    </div>
-    Status
-  </div>
-  <div id="statusText"></div>
-</div>
-
-<div id="results"></div>
 <canvas id="canvas" style="display:none;"></canvas>
-
 <div class="credits">Made with ❤️ by llian</div>
 
 <script>
