@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>llian Barcode Maker</title>
+<title>zklln IMEI Maker</title>
 
 <style>
 @font-face {
@@ -110,7 +110,7 @@ button.generate { margin-top: 18px; }
 <body>
 
 <div class="card">
-  <h2>llian Barcode Maker</h2>
+  <h2>zklln IMEI Maker</h2>
   <textarea id="bulkInput" inputmode="numeric" placeholder="IMEI1&#10;IMEI2&#10;IMEI3&#10;IMEI4"></textarea>
   <button class="generate btn-blue" onclick="generateBulk()">Generate</button>
   <button id="downloadAllBtn" class="btn-blue" onclick="downloadAll()">Download All</button>
@@ -121,119 +121,8 @@ button.generate { margin-top: 18px; }
 <div id="results"></div>
 
 <canvas id="canvas" style="display:none;"></canvas>
-
 <script>
-const baseImage = new Image();
-baseImage.src = "template.png";
-
-const canvas = document.getElementById("canvas");
-const input = document.getElementById("bulkInput");
-const downloadAllBtn = document.getElementById("downloadAllBtn");
-
-let generatedImages = [];
-
-baseImage.onload = () => {
-  canvas.width = baseImage.width;
-  canvas.height = baseImage.height;
-};
-
-input.addEventListener("input", () => {
-  input.value = input.value.replace(/[^0-9\n]/g, '');
-});
-
-async function loadFonts() {
-  await document.fonts.load("500 31px 'SF Pro Display'");
-}
-
-const randomEID = () => Array.from({length:32}, () => Math.floor(Math.random()*10)).join('');
-const randomDeviceID = () => Array.from({length:14}, () => Math.floor(Math.random()*10)).join('');
-
-function drawTextBlock(ctx, text, x, y) {
-  ctx.save();
-  ctx.translate(x, y);
-  ctx.fillText(text, 0, 0);
-  ctx.restore();
-}
-
-function downloadAll() {
-  generatedImages.forEach((dataURL, i) => {
-    const a = document.createElement("a");
-    a.href = dataURL;
-    a.download = `barcode_${i+1}.png`;
-    a.click();
-  });
-}
-
-async function generateBulk() {
-  await loadFonts();
-
-  const loader = document.getElementById("loader");
-  const statusCard = document.getElementById("statusCard");
-  const resultsDiv = document.getElementById("results");
-
-  loader.style.display = "block";
-  statusCard.style.display = "none";
-  downloadAllBtn.style.display = "none";
-  resultsDiv.innerHTML = "";
-  generatedImages = [];
-
-  setTimeout(() => {
-    const lines = input.value.split("\n").map(l => l.trim()).filter(Boolean);
-    if (lines.length < 2) {
-      loader.style.display = "none";
-      alert("Minimal 2 IMEI.");
-      return;
-    }
-
-    const ctx = canvas.getContext("2d");
-    let barcodeCount = 0;
-
-    for (let i = 0; i < lines.length; i += 2) {
-      const imei1 = lines[i];
-      const imei2 = lines[i+1];
-      if (!imei2) break;
-
-      const eid = randomEID();
-      const deviceID = randomDeviceID();
-
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.drawImage(baseImage, 0, 0);
-
-      ctx.fillStyle = "#3a3a3c";
-      ctx.font = "500 31px 'SF Pro Display'";
-      ctx.textBaseline = "top";
-
-      ctx.setTransform(0.97, 0, 0, 1, 0, 0);
-
-      drawTextBlock(ctx, eid, 117, 382.8);
-      drawTextBlock(ctx, imei1, 288, 675.5);
-      drawTextBlock(ctx, imei2, 288, 960.5);
-      drawTextBlock(ctx, deviceID, 297, 1250.5);
-
-      ctx.setTransform(1, 0, 0, 1, 0, 0);
-
-      const dataURL = canvas.toDataURL("image/png");
-      generatedImages.push(dataURL);
-
-      const card = document.createElement("div");
-      card.className = "result-card";
-
-      const img = document.createElement("img");
-      img.src = dataURL;
-
-      card.appendChild(img);
-      resultsDiv.appendChild(card);
-
-      barcodeCount++;
-    }
-
-    loader.style.display = "none";
-    statusCard.style.display = "block";
-    statusCard.textContent = `Sukses generate ${barcodeCount} barcode(s) dari ${lines.length} total IMEI.`;
-    downloadAllBtn.style.display = "block";
-
-  }, 200);
-}
+(function(){const _0x4f2a=['width','height','replace','fonts','load','500\x2031px\x20\x27SF\x20Pro\x20Display\x27','from','length','random','floor','join','save','translate','fillText','restore','forEach','createElement','href','download','click','getElementById','loader','statusCard','results','style','display','block','none','innerHTML','split','\x0a','map','trim','filter','getContext','2d','clearRect','drawImage','fillStyle','#3a3a3c','font','textBaseline','top','setTransform','toDataURL','image/png','push','className','result-card','src','appendChild','textContent'];const _0x2d8f=function(_0x3b72b7,_0x4f2a5c){_0x3b72b7=_0x3b72b7-0x0;let _0x2d8f9f=_0x4f2a[_0x3b72b7];return _0x2d8f9f};const baseImage=new Image();baseImage.src='template.png';const canvas=document[_0x2d8f('0x14')]('canvas');const input=document[_0x2d8f('0x14')]('bulkInput');const downloadAllBtn=document[_0x2d8f('0x14')]('downloadAllBtn');let generatedImages=[];baseImage.onload=()=>{canvas[_0x2d8f('0x0')]=baseImage[_0x2d8f('0x0')];canvas[_0x2d8f('0x1')]=baseImage[_0x2d8f('0x1')]};input.addEventListener('input',()=>{input.value=input.value[_0x2d8f('0x2')](/[^0-9\n]/g,'')});async function loadFonts(){await document[_0x2d8f('0x3')][_0x2d8f('0x4')](_0x2d8f('0x5'))}const randomEID=()=>Array[_0x2d8f('0x6')]({length:32},()=>Math[_0x2d8f('0x9')](Math[_0x2d8f('0x8')]()*10))[_0x2d8f('0xa')]('');const randomDeviceID=()=>Array[_0x2d8f('0x6')]({length:14},()=>Math[_0x2d8f('0x9')](Math[_0x2d8f('0x8')]()*10))[_0x2d8f('0xa')]('');function drawTextBlock(_0xctx,_0xtext,_0xx,_0xy){_0xctx[_0x2d8f('0xb')]();_0xctx[_0x2d8f('0xc')](_0xx,_0xy);_0xctx[_0x2d8f('0xd')](_0xtext,0,0);_0xctx[_0x2d8f('0xe')]()}function downloadAll(){generatedImages[_0x2d8f('0xf')]((_0xdataURL,_0xi)=>{const _0xa=document[_0x2d8f('0x10')]('a');_0xa[_0x2d8f('0x11')]=_0xdataURL;_0xa[_0x2d8f('0x12')]=`barcode_${_0xi+1}.png`;_0xa[_0x2d8f('0x13')]()})}async function generateBulk(){await loadFonts();const loader=document[_0x2d8f('0x14')](_0x2d8f('0x15'));const statusCard=document[_0x2d8f('0x14')](_0x2d8f('0x16'));const resultsDiv=document[_0x2d8f('0x14')](_0x2d8f('0x17'));loader[_0x2d8f('0x18')][_0x2d8f('0x19')]=_0x2d8f('0x1a');statusCard[_0x2d8f('0x18')][_0x2d8f('0x19')]=_0x2d8f('0x1b');downloadAllBtn[_0x2d8f('0x18')][_0x2d8f('0x19')]=_0x2d8f('0x1b');resultsDiv[_0x2d8f('0x1c')]='';generatedImages=[];setTimeout(()=>{const lines=input.value[_0x2d8f('0x1d')](_0x2d8f('0x1e'))[_0x2d8f('0x1f')](_0xl=>_0xl[_0x2d8f('0x20')]())[_0x2d8f('0x21')](Boolean);if(lines[_0x2d8f('0x7')]<2){loader[_0x2d8f('0x18')][_0x2d8f('0x19')]=_0x2d8f('0x1b');alert('Minimal 2 IMEI.');return}const ctx=canvas[_0x2d8f('0x22')](_0x2d8f('0x23'));let barcodeCount=0;for(let i=0;i<lines[_0x2d8f('0x7')];i+=2){const imei1=lines[i];const imei2=lines[i+1];if(!imei2)break;const eid=randomEID();const deviceID=randomDeviceID();ctx[_0x2d8f('0x24')](0,0,canvas.width,canvas.height);ctx[_0x2d8f('0x25')](baseImage,0,0);ctx[_0x2d8f('0x26')]=_0x2d8f('0x27');ctx[_0x2d8f('0x28')]=_0x2d8f('0x5');ctx[_0x2d8f('0x29')]=_0x2d8f('0x2a');ctx[_0x2d8f('0x2b')](0.97,0,0,1,0,0);drawTextBlock(ctx,eid,117,382.8);drawTextBlock(ctx,imei1,288,675.5);drawTextBlock(ctx,imei2,288,960.5);drawTextBlock(ctx,deviceID,297,1250.5);ctx[_0x2d8f('0x2b')](1,0,0,1,0,0);const dataURL=canvas[_0x2d8f('0x2c')](_0x2d8f('0x2d'));generatedImages[_0x2d8f('0x2e')](dataURL);const card=document[_0x2d8f('0x10')]('div');card[_0x2d8f('0x2f')]=_0x2d8f('0x30');const img=document[_0x2d8f('0x10')]('img');img[_0x2d8f('0x31')]=dataURL;card[_0x2d8f('0x32')](img);resultsDiv[_0x2d8f('0x32')](card);barcodeCount++}loader[_0x2d8f('0x18')][_0x2d8f('0x19')]=_0x2d8f('0x1b');statusCard[_0x2d8f('0x18')][_0x2d8f('0x19')]=_0x2d8f('0x1a');statusCard[_0x2d8f('0x33')]=`Sukses generate ${barcodeCount} barcode(s) dari ${lines.length} total IMEI.`;downloadAllBtn[_0x2d8f('0x18')][_0x2d8f('0x19')]=_0x2d8f('0x1a')},200)}window.generateBulk=generateBulk;window.downloadAll=downloadAll})();
 </script>
 
 </body>
