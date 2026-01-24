@@ -19,55 +19,33 @@
 
 body {
   margin: 0;
-  padding: 30px 14px 120px;
   background: #f2f2f7;
   font-family: 'sf pro custom', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
-/* floating credits */
-.credits {
-  position: fixed;
-  bottom: 18px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(255,255,255,0.6);
-  backdrop-filter: blur(10px);
-  padding: 8px 16px;
-  border-radius: 999px;
-  font-size: 13px;
-  color: #1c1c1e;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  z-index: 999;
+.app-wrapper {
+  padding: 16px;
+  padding-bottom: 120px;
 }
 
-/* window */
+/* WINDOW */
 .window {
-  max-width: 420px;
-  margin: 0 auto 22px;
-  background: rgba(255,255,255,0.75);
+  background: rgba(255,255,255,0.85);
   backdrop-filter: blur(20px);
   border-radius: 20px;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.12);
-  position: relative;
-  padding: 54px 16px 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  margin-bottom: 18px;
+  overflow: hidden;
 }
 
-/* mac header */
 .window-header {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 32px;
+  height: 34px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 13px;
-  font-weight: 500;
+  position: relative;
   background: linear-gradient(to bottom,#fdfdfd,#ececec);
-  border-bottom: 1px solid rgba(0,0,0,0.06);
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
+  font-weight: 500;
 }
 
 .window-dots {
@@ -76,52 +54,50 @@ body {
   display: flex;
   gap: 7px;
 }
-.dot { width: 12px; height: 12px; border-radius: 50%; }
+.dot { width:12px; height:12px; border-radius:50%; }
 .red { background:#ff5f57; }
 .yellow { background:#ffbd2e; }
 .green { background:#28c840; }
 
-/* textarea */
+.window-body { padding:16px; text-align:center; }
+
+/* TEXTAREA */
 textarea {
   width: 100%;
-  height: 170px;
+  height: 160px;
   padding: 14px;
-  font-size: 15px;
   border-radius: 14px;
   border: 1px solid #d1d1d6;
+  font-size: 15px;
   resize: none;
-  outline: none;
   box-sizing: border-box;
-  font-family: 'sf pro custom';
 }
 
-/* buttons */
+/* BUTTONS */
 .btn {
   width: 100%;
   padding: 14px 0;
-  margin-top: 14px;
-  font-size: 15px;
   border-radius: 14px;
   border: none;
+  font-size: 15px;
   font-weight: 500;
-  font-family: 'sf pro custom';
+  margin-top: 12px;
   cursor: pointer;
   transition: transform .1s ease;
 }
 .btn:active { transform: scale(.97); }
 
-.generate { background: linear-gradient(#0a84ff,#0066ff); color:white; box-shadow:0 10px 20px rgba(0,122,255,.35);}
-.download { background: linear-gradient(#34c759,#28a745); color:white; display:none;}
-.reset { background: linear-gradient(#ff3b30,#d70015); color:white; display:none;}
+.generate { background: linear-gradient(#0a84ff,#0066ff); color:white; }
+.download { background: linear-gradient(#34c759,#28a745); color:white; display:none; }
+.reset { background: linear-gradient(#ff3b30,#d70015); color:white; display:none; }
 
 .btn-row { display:flex; gap:12px; }
-.btn-row .btn { flex:1; }
 
-/* loader */
+/* LOADER */
 .loader {
-  margin: 16px auto 0;
-  width: 34px;
-  height: 34px;
+  margin: 14px auto 0;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   border: 4px solid #e5e5ea;
   border-top: 4px solid #0a84ff;
@@ -130,62 +106,154 @@ textarea {
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 
-/* status */
-#statusCard { display:none; text-align:center; font-size:15px; }
+/* STATUS */
+#statusCard { display:none; }
 
-/* results */
-#results { max-width:420px; margin:0 auto; }
-.result-window {
+/* INSTRUKSI PANAH */
+.instruction {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size:14px;
+  color:#6e6e73;
+  margin: 6px 0 12px;
+}
+
+.instruction .arrow {
+  font-size: 16px;
+  animation: arrowMove 1.6s ease-in-out infinite;
+}
+.instruction .left { animation-delay: 0s; }
+.instruction .right { animation-delay: .8s; }
+
+@keyframes arrowMove {
+  0%,100% { transform: translateX(0); opacity:.5; }
+  50% { transform: translateX(6px); opacity:1; }
+}
+
+/* SCROLL WRAPPER (buat gradasi) */
+.results-wrapper {
   position: relative;
-  background: rgba(255,255,255,0.75);
+}
+
+/* HORIZONTAL SCROLL */
+#results {
+  display:flex;
+  gap:16px;
+  overflow-x:auto;
+  padding-bottom: 10px;
+  scroll-snap-type:x mandatory;
+}
+
+/* FADE GRADIENT KIRI KANAN */
+.results-wrapper::before,
+.results-wrapper::after {
+  content:"";
+  position:absolute;
+  top:0;
+  width:40px;
+  height:100%;
+  z-index:5;
+  pointer-events:none;
+}
+
+.results-wrapper::before {
+  left:0;
+  background: linear-gradient(to right, #f2f2f7 0%, rgba(242,242,247,0) 100%);
+}
+
+.results-wrapper::after {
+  right:0;
+  background: linear-gradient(to left, #f2f2f7 0%, rgba(242,242,247,0) 100%);
+}
+
+.result-window {
+  min-width: 300px;
+  max-width: 300px;
+  scroll-snap-align:start;
+  background: rgba(255,255,255,0.9);
   backdrop-filter: blur(20px);
   border-radius: 20px;
-  box-shadow: 0 15px 30px rgba(0,0,0,0.1);
-  margin-bottom: 26px;
-  padding: 48px 12px 12px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+  overflow:hidden;
 }
-.result-window img { width:100%; border-radius:12px; display:block; }
+
+.result-window img {
+  width:100%;
+  display:block;
+}
+
+/* CREDITS */
+.credits {
+  position: fixed;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255,255,255,0.7);
+  backdrop-filter: blur(10px);
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-size: 13px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
 </style>
 </head>
 
 <body>
+<div class="app-wrapper">
 
-<div class="window">
-  <div class="window-header">
-    <div class="window-dots">
-      <div class="dot red"></div>
-      <div class="dot yellow"></div>
-      <div class="dot green"></div>
+  <div class="window">
+    <div class="window-header">
+      <div class="window-dots">
+        <div class="dot red"></div>
+        <div class="dot yellow"></div>
+        <div class="dot green"></div>
+      </div>
+      Generator Barcode
     </div>
-    Barcode Generator
+    <div class="window-body">
+      <textarea id="bulkInput" inputmode="numeric"
+        placeholder="Masukkan hingga 20 IMEI (1 baris = 1 IMEI)"></textarea>
+
+      <button class="btn generate" onclick="generateBulk()">Generate Barcode</button>
+
+      <div class="btn-row">
+        <button id="downloadAllBtn" class="btn download" onclick="downloadAll()">Download Semua</button>
+        <button id="resetBtn" class="btn reset" onclick="resetAll()">Reset</button>
+      </div>
+
+      <div class="loader" id="loader"></div>
+    </div>
   </div>
 
-  <textarea id="bulkInput" inputmode="numeric" placeholder="IMEI1&#10;IMEI2&#10;IMEI3&#10;IMEI4"></textarea>
-  <button class="btn generate" onclick="generateBulk()">Generate Barcode</button>
-
-  <div class="btn-row">
-    <button id="downloadAllBtn" class="btn download" onclick="downloadAll()">Download All</button>
-    <button id="resetBtn" class="btn reset" onclick="resetAll()">Reset</button>
+  <div class="window" id="statusCard">
+    <div class="window-header">
+      <div class="window-dots">
+        <div class="dot red"></div>
+        <div class="dot yellow"></div>
+        <div class="dot green"></div>
+      </div>
+      Status
+    </div>
+    <div class="window-body">
+      <div id="statusText"></div>
+    </div>
   </div>
 
-  <div class="loader" id="loader"></div>
+  <div class="instruction">
+    <span class="arrow left">←</span>
+    <span>Geser ke samping untuk melihat barcode lainnya</span>
+    <span class="arrow right">→</span>
+  </div>
+
+  <div class="results-wrapper">
+    <div id="results"></div>
+  </div>
+
 </div>
 
-<div class="window" id="statusCard">
-  <div class="window-header">
-    <div class="window-dots">
-      <div class="dot red"></div>
-      <div class="dot yellow"></div>
-      <div class="dot green"></div>
-    </div>
-    Status
-  </div>
-  <div id="statusText"></div>
-</div>
-
-<div id="results"></div>
 <canvas id="canvas" style="display:none;"></canvas>
-
 <div class="credits">Made with love ❤️ by llian</div>
 
 <script>
@@ -194,12 +262,12 @@ baseImage.src = "template.png";
 
 const canvas = document.getElementById("canvas");
 const input = document.getElementById("bulkInput");
-const downloadAllBtn = document.getElementById("downloadAllBtn");
-const resetBtn = document.getElementById("resetBtn");
+const resultsDiv = document.getElementById("results");
+const loader = document.getElementById("loader");
 const statusCard = document.getElementById("statusCard");
 const statusText = document.getElementById("statusText");
-const loader = document.getElementById("loader");
-const resultsDiv = document.getElementById("results");
+const downloadAllBtn = document.getElementById("downloadAllBtn");
+const resetBtn = document.getElementById("resetBtn");
 
 let generatedImages = [];
 let imageReady = false;
@@ -212,16 +280,12 @@ baseImage.onload = () => {
 
 input.addEventListener("input", () => {
   let lines = input.value.replace(/[^0-9\n]/g,'').split("\n");
-  if (lines.length > 20) lines = lines.slice(0,20);
+  if(lines.length > 20) lines = lines.slice(0,20);
   input.value = lines.join("\n");
 });
 
 function randomDigits(len){
   return Array.from({length:len},()=>Math.floor(Math.random()*10)).join('');
-}
-
-function drawText(ctx,text,x,y){
-  ctx.fillText(text,x,y);
 }
 
 function downloadAll(){
@@ -236,23 +300,23 @@ function downloadAll(){
 function resetAll(){
   input.value="";
   resultsDiv.innerHTML="";
+  generatedImages=[];
   statusCard.style.display="none";
   downloadAllBtn.style.display="none";
   resetBtn.style.display="none";
-  generatedImages=[];
 }
 
 function generateBulk(){
-  if(!imageReady) return alert("Template image not loaded");
+  if(!imageReady) return alert("Template image belum siap");
 
   loader.style.display="block";
-  statusCard.style.display="none";
   resultsDiv.innerHTML="";
   generatedImages=[];
+  statusCard.style.display="none";
 
   setTimeout(()=>{
     const lines=input.value.split("\n").map(l=>l.trim()).filter(Boolean);
-    if(lines.length<2){ loader.style.display="none"; return alert("Minimum 2 IMEI required"); }
+    if(lines.length < 2){ loader.style.display="none"; return alert("Minimal 2 IMEI"); }
 
     const ctx=canvas.getContext("2d");
     ctx.fillStyle="#000";
@@ -268,10 +332,10 @@ function generateBulk(){
       ctx.drawImage(baseImage,0,0);
       ctx.setTransform(0.97,0,0,1,0,0);
 
-      drawText(ctx,randomDigits(32),117,382.8);
-      drawText(ctx,lines[i],288,675.5);
-      drawText(ctx,lines[i+1],288,960.5);
-      drawText(ctx,randomDigits(14),297,1250.5);
+      ctx.fillText(randomDigits(32),117,382.8);
+      ctx.fillText(lines[i],288,675.5);
+      ctx.fillText(lines[i+1],288,960.5);
+      ctx.fillText(randomDigits(14),297,1250.5);
 
       ctx.setTransform(1,0,0,1,0,0);
 
@@ -297,7 +361,7 @@ function generateBulk(){
 
     loader.style.display="none";
     statusCard.style.display="block";
-    statusText.textContent=`Successfully generated ${count} barcode(s) from ${lines.length} IMEI`;
+    statusText.textContent=`Berhasil membuat ${count} barcode dari ${lines.length} IMEI`;
     downloadAllBtn.style.display="block";
     resetBtn.style.display="block";
 
