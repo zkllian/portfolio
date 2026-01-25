@@ -166,7 +166,6 @@ baseImage.onload = () => {
   canvas.height = baseImage.height;
 };
 
-/* ONLY NUMBERS */
 input.addEventListener("input", () => {
   input.value = input.value.replace(/[^0-9\n]/g,'');
 });
@@ -186,10 +185,21 @@ function generateBulk(){
 
   if(lines.length < 2) return alert("Minimal 2 IMEI diperlukan");
 
-  /* STRICT 15 DIGIT VALIDATION */
-  let invalidImeis = lines.filter(v => v.length !== 15);
-  if(invalidImeis.length){
-    alert("Semua IMEI harus tepat 15 digit.\n\nIMEI tidak valid:\n" + invalidImeis.join("\n"));
+  let kurang = lines.filter(v => v.length < 15);
+  let lebih  = lines.filter(v => v.length > 15);
+
+  if(kurang.length || lebih.length){
+    let pesan = "";
+
+    if(kurang.length){
+      pesan += "IMEI kurang dari 15 digit:\n" + kurang.join("\n") + "\n\n";
+    }
+
+    if(lebih.length){
+      pesan += "IMEI lebih dari 15 digit:\n" + lebih.join("\n");
+    }
+
+    alert(pesan.trim());
     return;
   }
 
