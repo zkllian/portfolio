@@ -17,8 +17,6 @@
   font-weight: 500;
 }
 
-html, body { touch-action: manipulation; }
-
 body {
   margin: 0;
   padding: 30px 0 120px;
@@ -55,7 +53,6 @@ body {
   justify-content: center;
   font-size: 13px;
   font-weight: 500;
-  letter-spacing: 0.2px;
   background: linear-gradient(to bottom,#f9f9f9,#e9e9e9);
   border-bottom: 1px solid rgba(0,0,0,0.08);
   border-top-left-radius: 14px;
@@ -144,7 +141,7 @@ textarea {
       Generator Barcode
     </div>
 
-    <textarea id="bulkInput" inputmode="numeric"></textarea>
+    <textarea id="bulkInput" inputmode="numeric" placeholder="Satu IMEI (15 digit) per baris"></textarea>
 
     <button class="btn generate" onclick="generateBulk()">Generate</button>
     <button id="resetBtn" class="btn reset" onclick="resetAll()">Reset</button>
@@ -169,7 +166,7 @@ baseImage.onload = () => {
   canvas.height = baseImage.height;
 };
 
-/* ONLY NUMBERS, UNLIMITED */
+/* ONLY NUMBERS */
 input.addEventListener("input", () => {
   input.value = input.value.replace(/[^0-9\n]/g,'');
 });
@@ -189,10 +186,10 @@ function generateBulk(){
 
   if(lines.length < 2) return alert("Minimal 2 IMEI diperlukan");
 
-  /* VALIDASI IMEI < 15 DIGIT */
-  let invalidImeis = lines.filter(v => v.length < 15);
+  /* STRICT 15 DIGIT VALIDATION */
+  let invalidImeis = lines.filter(v => v.length !== 15);
   if(invalidImeis.length){
-    alert("IMEI berikut kurang dari 15 digit:\n" + invalidImeis.join("\n"));
+    alert("Semua IMEI harus tepat 15 digit.\nIMEI tidak valid:\n" + invalidImeis.join("\n"));
     return;
   }
 
