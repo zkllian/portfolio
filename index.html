@@ -69,7 +69,7 @@ body {
   align-items: center;
   justify-content: center;
   font-size: 13px;
-  font-weight: 500; /* SF Pro Medium */
+  font-weight: 500;
   font-family: 'sf pro custom', -apple-system, BlinkMacSystemFont, sans-serif;
   letter-spacing: 0.2px;
   background: linear-gradient(to bottom,#f9f9f9,#e9e9e9);
@@ -165,7 +165,6 @@ textarea {
 <body>
 
 <div class="app-wrap">
-
   <div class="window">
     <div class="window-header">
       <div class="window-dots">
@@ -204,11 +203,10 @@ baseImage.onload = () => {
   imageReady = true;
 };
 
-/* ✅ UNLIMITED INPUT */
 input.addEventListener("input", () => {
   input.value = input.value.replace(/[^0-9\n]/g,'');
 });
-  
+
 function randomDigits(len){
   return Array.from({length:len},()=>Math.floor(Math.random()*10)).join('');
 }
@@ -224,12 +222,15 @@ function generateBulk(){
 
   resultsDiv.innerHTML="";
   const lines=input.value.split("\n").map(l=>l.trim()).filter(Boolean);
-  if(lines.length<2) return alert("Minimal 2 IMEI diperlukan");
-// ✅ VALIDASI MINIMAL 15 DIGIT PER BARIS
+
+  if(lines.length < 2) return alert("Minimal 2 IMEI diperlukan");
+
   for(let i=0;i<lines.length;i++){
     if(lines[i].length < 15){
       return alert(`Baris ke-${i+1} kurang dari 15 digit`);
-  
+    }
+  }
+
   const ctx=canvas.getContext("2d");
   ctx.fillStyle="#000";
   ctx.textBaseline="top";
