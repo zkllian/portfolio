@@ -208,7 +208,7 @@ baseImage.onload = () => {
 input.addEventListener("input", () => {
   input.value = input.value.replace(/[^0-9\n]/g,'');
 });
-
+  
 function randomDigits(len){
   return Array.from({length:len},()=>Math.floor(Math.random()*10)).join('');
 }
@@ -225,7 +225,11 @@ function generateBulk(){
   resultsDiv.innerHTML="";
   const lines=input.value.split("\n").map(l=>l.trim()).filter(Boolean);
   if(lines.length<2) return alert("Minimal 2 IMEI diperlukan");
-
+// ✅ VALIDASI MINIMAL 15 DIGIT PER BARIS
+  for(let i=0;i<lines.length;i++){
+    if(lines[i].length < 15){
+      return alert(`Baris ke-${i+1} kurang dari 15 digit`);
+  
   const ctx=canvas.getContext("2d");
   ctx.fillStyle="#000";
   ctx.textBaseline="top";
