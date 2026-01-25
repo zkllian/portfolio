@@ -74,41 +74,20 @@ body {
 .yellow { background:#ffbd2e; }
 .green { background:#28c840; }
 
-/* TEXTAREA WITH LINE NUMBERS */
-.editor-wrap {
-  display: flex;
-  border-radius: 10px;
-  overflow: hidden;
-  border: 1px solid #d2d2d7;
-  background: white;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
-}
-
-.line-numbers {
-  background: #f5f5f7;
-  color: #8e8e93;
-  padding: 14px 6px;
-  text-align: right;
-  user-select: none;
-  font-size: 14px;
-  line-height: 22px;
-  border-right: 1px solid #e0e0e0;
-  min-width: 38px;
-  box-sizing: border-box;
-  overflow: hidden;
-}
-
 textarea {
   width: 100%;
   height: 170px;
   padding: 14px;
   font-size: 15px;
-  border: none;
+  border-radius: 10px;
+  border: 1px solid #d2d2d7;
+  background: #ffffff;
   resize: none;
   outline: none;
   box-sizing: border-box;
   font-family: 'sf pro custom';
   line-height: 22px;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
 }
 
 .btn {
@@ -165,10 +144,7 @@ textarea {
       Generator Barcode
     </div>
 
-    <div class="editor-wrap">
-      <div class="line-numbers" id="lineNumbers">1</div>
-      <textarea id="bulkInput" inputmode="numeric"></textarea>
-    </div>
+    <textarea id="bulkInput" inputmode="numeric"></textarea>
 
     <button class="btn generate" onclick="generateBulk()">Generate</button>
     <button id="resetBtn" class="btn reset" onclick="resetAll()">Reset</button>
@@ -187,38 +163,21 @@ const canvas = document.getElementById("canvas");
 const input = document.getElementById("bulkInput");
 const resetBtn = document.getElementById("resetBtn");
 const resultsDiv = document.getElementById("results");
-const lineNumbers = document.getElementById("lineNumbers");
 
 baseImage.onload = () => {
   canvas.width = baseImage.width;
   canvas.height = baseImage.height;
 };
 
-/* ONLY NUMBERS */
+/* ONLY NUMBERS, UNLIMITED */
 input.addEventListener("input", () => {
   input.value = input.value.replace(/[^0-9\n]/g,'');
-  updateLineNumbers();
-});
-
-/* LINE NUMBERS */
-function updateLineNumbers(){
-  const lines = input.value.split("\n").length;
-  let html = "";
-  for(let i=1;i<=lines;i++){
-    html += i + "<br>";
-  }
-  lineNumbers.innerHTML = html;
-}
-
-input.addEventListener("scroll", () => {
-  lineNumbers.scrollTop = input.scrollTop;
 });
 
 function resetAll(){
   input.value="";
   resultsDiv.innerHTML="";
   resetBtn.style.display="none";
-  updateLineNumbers();
 }
 
 function randomDigits(len){
@@ -230,7 +189,7 @@ function generateBulk(){
 
   if(lines.length < 2) return alert("Minimal 2 IMEI diperlukan");
 
-  /* VALIDASI IMEI KURANG DARI 15 DIGIT */
+  /* VALIDASI IMEI < 15 DIGIT */
   let invalidImeis = lines.filter(v => v.length < 15);
   if(invalidImeis.length){
     alert("IMEI berikut kurang dari 15 digit:\n" + invalidImeis.join("\n"));
@@ -280,8 +239,6 @@ function generateBulk(){
 
   resetBtn.style.display="block";
 }
-
-updateLineNumbers();
 </script>
 
 </body>
