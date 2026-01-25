@@ -17,6 +17,8 @@
   font-weight: 500;
 }
 
+html, body { touch-action: manipulation; }
+
 body {
   margin: 0;
   padding: 30px 0 120px;
@@ -28,6 +30,22 @@ body {
   max-width: 420px;
   margin: 0 auto;
   padding: 0 14px;
+  box-sizing: border-box;
+}
+
+.credits {
+  position: fixed;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255,255,255,0.7);
+  backdrop-filter: blur(20px);
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-size: 13px;
+  color: #3c3c43;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  z-index: 999;
 }
 
 .window {
@@ -40,6 +58,7 @@ body {
   box-shadow: 0 10px 30px rgba(0,0,0,0.08);
   position: relative;
   padding: 54px 14px 20px;
+  box-sizing: border-box;
 }
 
 .window-header {
@@ -50,8 +69,9 @@ body {
   align-items: center;
   justify-content: center;
   font-size: 13px;
-  font-weight: 500;
-  font-family: 'sf pro custom';
+  font-weight: 500; /* SF Pro Medium */
+  font-family: 'sf pro custom', -apple-system, BlinkMacSystemFont, sans-serif;
+  letter-spacing: 0.2px;
   background: linear-gradient(to bottom,#f9f9f9,#e9e9e9);
   border-bottom: 1px solid rgba(0,0,0,0.08);
   border-top-left-radius: 14px;
@@ -70,39 +90,19 @@ body {
 .yellow { background:#ffbd2e; }
 .green { background:#28c840; }
 
-/* TEXTAREA WITH LINE NUMBERS */
-.editor-wrap{
-  display:flex;
-  border: 1px solid #d2d2d7;
+textarea {
+  width: 100%;
+  height: 170px;
+  padding: 14px;
+  font-size: 15px;
   border-radius: 10px;
-  overflow:hidden;
-  background:#fff;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
-}
-
-.line-numbers{
-  background: #f5f5f7;
-  color: #8e8e93;
-  padding: 14px 6px;
-  text-align: right;
-  user-select: none;
-  font-size: 14px;
-  line-height: 22px;
-  border-right: 1px solid #e0e0e0;
-  min-width: 38px;
+  border: 1px solid #d2d2d7;
+  background: #ffffff;
+  resize: none;
+  outline: none;
   box-sizing: border-box;
-}
-
-textarea{
-  flex:1;
-  height:170px;
-  padding:14px;
-  font-size:15px;
-  border:none;
-  outline:none;
-  resize:none;
-  font-family:'sf pro custom';
-  line-height:22px;
+  font-family: 'sf pro custom';
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
 }
 
 .btn {
@@ -116,13 +116,30 @@ textarea{
   font-family: 'sf pro custom';
   cursor: pointer;
   background: linear-gradient(#fdfdfd,#e5e5ea);
+  color: #1c1c1e;
+  box-shadow: 0 1px 0 rgba(255,255,255,0.7) inset, 0 1px 2px rgba(0,0,0,0.08);
+  transition: all .12s ease;
+}
+
+.btn:hover { background: linear-gradient(#ffffff,#dcdce1); }
+.btn:active {
+  background: #d1d1d6;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.15);
 }
 
 .generate {
   background: linear-gradient(#4da3ff,#0a84ff);
   border: 1px solid #0a84ff;
   color: white;
+  box-shadow: 0 1px 0 rgba(255,255,255,0.4) inset, 0 4px 10px rgba(10,132,255,0.25);
 }
+.generate:hover { background: linear-gradient(#6db5ff,#2997ff); }
+.generate:active {
+  background: #0a84ff;
+  box-shadow: inset 0 3px 6px rgba(0,0,0,0.25);
+}
+
+.reset { display:none; }
 
 .result-window {
   width: 100%;
@@ -134,6 +151,7 @@ textarea{
   box-shadow: 0 10px 30px rgba(0,0,0,0.08);
   position: relative;
   padding: 54px 14px 20px;
+  box-sizing: border-box;
 }
 
 .result-window img {
@@ -145,6 +163,7 @@ textarea{
 </head>
 
 <body>
+
 <div class="app-wrap">
 
   <div class="window">
@@ -157,18 +176,16 @@ textarea{
       Generator Barcode
     </div>
 
-    <div class="editor-wrap">
-      <div class="line-numbers" id="lineNumbers">1</div>
-      <textarea id="bulkInput" inputmode="numeric"></textarea>
-    </div>
-
+    <textarea id="bulkInput" inputmode="numeric"></textarea>
     <button class="btn generate" onclick="generateBulk()">Generate</button>
+    <button id="resetBtn" class="btn reset" onclick="resetAll()">Reset</button>
   </div>
 
   <div id="results"></div>
 </div>
 
 <canvas id="canvas" style="display:none;"></canvas>
+<div class="credits">Made with ❤️ by someone</div>
 
 <script>
 const baseImage = new Image();
@@ -176,7 +193,7 @@ baseImage.src = "template.png";
 
 const canvas = document.getElementById("canvas");
 const input = document.getElementById("bulkInput");
-const lineNumbers = document.getElementById("lineNumbers");
+const resetBtn = document.getElementById("resetBtn");
 const resultsDiv = document.getElementById("results");
 
 let imageReady = false;
@@ -187,55 +204,32 @@ baseImage.onload = () => {
   imageReady = true;
 };
 
-/* INPUT FILTER */
+/* ✅ UNLIMITED INPUT */
 input.addEventListener("input", () => {
   input.value = input.value.replace(/[^0-9\n]/g,'');
-  updateLineNumbers();
 });
-
-/* LINE NUMBER SYNC */
-function updateLineNumbers(){
-  const lines = input.value.split("\n").length;
-  let html="";
-  for(let i=1;i<=lines;i++) html+=i+"<br>";
-  lineNumbers.innerHTML=html;
-  syncLineNumberHeight();
-}
-
-function syncLineNumberHeight(){
-  lineNumbers.style.height = input.clientHeight + "px";
-}
-
-input.addEventListener("scroll", () => {
-  lineNumbers.scrollTop = input.scrollTop;
-});
-
-window.addEventListener("resize", syncLineNumberHeight);
-updateLineNumbers();
-
-/* RANDOM DIGITS */
+  
 function randomDigits(len){
   return Array.from({length:len},()=>Math.floor(Math.random()*10)).join('');
 }
 
-/* GENERATE */
+function resetAll(){
+  input.value="";
+  resultsDiv.innerHTML="";
+  resetBtn.style.display="none";
+}
+
 function generateBulk(){
   if(!imageReady) return alert("Template belum dimuat");
 
   resultsDiv.innerHTML="";
   const lines=input.value.split("\n").map(l=>l.trim()).filter(Boolean);
-
-  if(lines.length < 2) return alert("Minimal 2 IMEI diperlukan");
-
-  let invalid=[];
+  if(lines.length<2) return alert("Minimal 2 IMEI diperlukan");
+// ✅ VALIDASI MINIMAL 15 DIGIT PER BARIS
   for(let i=0;i<lines.length;i++){
-    if(lines[i].length < 15) invalid.push(i+1);
-  }
-  if(invalid.length){
-    alert("Baris " + invalid.join(", ") + " kurang dari 15 digit");
-    return;
-  }
-
+    if(lines[i].length < 15){
+      return alert(`Baris ke-${i+1} kurang dari 15 digit`);
+  
   const ctx=canvas.getContext("2d");
   ctx.fillStyle="#000";
   ctx.textBaseline="top";
@@ -268,14 +262,17 @@ function generateBulk(){
           <div class="dot yellow"></div>
           <div class="dot green"></div>
         </div>
-        Barcode #${++count}
+        Barcode #${count+1}
       </div>
       <img src="${url}">
     `;
     resultsDiv.appendChild(div);
+    count++;
   }
+
+  resetBtn.style.display="block";
 }
 </script>
 
 </body>
-  </html>
+</html>
