@@ -189,7 +189,7 @@ function generateBulk(){
   /* STRICT 15 DIGIT VALIDATION */
   let invalidImeis = lines.filter(v => v.length !== 15);
   if(invalidImeis.length){
-    alert("Semua IMEI harus tepat 15 digit.\nIMEI tidak valid:\n" + invalidImeis.join("\n"));
+    alert("Semua IMEI harus tepat 15 digit.\n\nIMEI tidak valid:\n" + invalidImeis.join("\n"));
     return;
   }
 
