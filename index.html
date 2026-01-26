@@ -6,7 +6,6 @@
 <title>Generator Barcode</title>
 
 <style>
-/* ===== SF PRO CUSTOM (BALIK LAGI) ===== */
 @font-face {
   font-family: 'SF Pro Custom';
   src: url('SF-Pro-Display-Regular.otf') format('opentype');
@@ -31,7 +30,6 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* APP WRAP */
 .app-wrap{
   max-width: 420px;
   margin: 0 auto;
@@ -40,7 +38,7 @@ body {
   position: relative;
 }
 
-/* ===== LIQUID GLASS SUCCESS POPUP (APPLE STYLE) ===== */
+/* LIQUID GLASS POPUP */
 .success-popup {
   position: fixed;
   top: 24px;
@@ -48,58 +46,34 @@ body {
   transform: translateX(-50%) translateY(-12px) scale(.96);
   width: calc(100% - 28px);
   max-width: 392px;
-
   padding: 20px 22px;
   border-radius: 20px;
-
   background: rgba(255,255,255,0.55);
   backdrop-filter: blur(40px) saturate(180%);
   -webkit-backdrop-filter: blur(40px) saturate(180%);
-
   border: 1px solid rgba(255,255,255,0.7);
-  box-shadow:
-    0 10px 30px rgba(0,0,0,0.12),
-    inset 0 1px 1px rgba(255,255,255,0.8),
-    inset 0 -1px 2px rgba(255,255,255,0.4);
-
+  box-shadow: 0 10px 30px rgba(0,0,0,0.12),
+              inset 0 1px 1px rgba(255,255,255,0.8),
+              inset 0 -1px 2px rgba(255,255,255,0.4);
   z-index: 9999;
   opacity: 0;
   transition: all .45s cubic-bezier(.2,.8,.2,1);
 }
-
 .success-popup.show {
   opacity: 1;
   transform: translateX(-50%) translateY(0) scale(1);
 }
-
-.success-popup::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: 20px;
-  background: linear-gradient(
-    180deg,
-    rgba(255,255,255,0.55) 0%,
-    rgba(255,255,255,0.15) 40%,
-    rgba(255,255,255,0.05) 100%
-  );
-  pointer-events: none;
-}
-
 .success-popup h3 {
   margin: 0 0 6px;
   font-size: 15px;
   font-weight: 600;
-  color: #000;
 }
-
 .success-popup p {
   margin: 0;
   font-size: 13.5px;
-  color: #1c1c1e;
 }
 
-/* WINDOW */
+/* WINDOWS */
 .window, .result-window {
   width: 100%;
   margin-bottom: 22px;
@@ -179,16 +153,8 @@ textarea {
   margin-top:14px;
 }
 
-.download-btn{
-  flex:1;
-  background:#e5e5ea;
-}
-
-.share-btn{
-  flex:1;
-  background:#34c759;
-  color:white;
-}
+.download-btn{ flex:1; background:#e5e5ea; }
+.share-btn{ flex:1; background:#34c759; color:white; }
 
 .result-window img {
   width:100%;
@@ -271,15 +237,13 @@ function downloadImage(dataUrl, index){
 
 async function shareImage(dataUrl, index){
   if(!navigator.share) return alert("Browser tidak mendukung fitur share");
-
   try{
     const res = await fetch(dataUrl);
     const blob = await res.blob();
     const file = new File([blob], `barcode-${index}.png`, {type:"image/png"});
-
     if(navigator.canShare && navigator.canShare({files:[file]})){
       await navigator.share({ files:[file], title:`Barcode ${index}` });
-    }else{
+    } else {
       alert("Device tidak mendukung share file gambar");
     }
   }catch(err){
@@ -290,12 +254,24 @@ async function shareImage(dataUrl, index){
 
 function generateBulk(){
   const lines=input.value.split("\n").map(l=>l.trim()).filter(Boolean);
+
   if(lines.length < 2) return alert("Minimal 2 IMEI diperlukan");
+
+  let kurang = lines.filter(v => v.length < 15);
+  let lebih  = lines.filter(v => v.length > 15);
+
+  if(kurang.length || lebih.length){
+    let pesan = "";
+    if(kurang.length) pesan += "IMEI kurang dari 15 digit:\n" + kurang.join("\n") + "\n\n";
+    if(lebih.length)  pesan += "IMEI lebih dari 15 digit:\n" + lebih.join("\n");
+    alert(pesan.trim());
+    return;
+  }
 
   const ctx=canvas.getContext("2d");
   ctx.fillStyle="#000";
   ctx.textBaseline="top";
-  ctx.font="600 31px 'SF Pro Custom'";
+  ctx.font="600 31px 'SF Pro Custom'"; // ← FIXED FONT HERE
 
   resultsDiv.innerHTML="";
   let count=0;
