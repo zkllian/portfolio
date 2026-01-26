@@ -73,7 +73,7 @@ body {
   box-sizing: border-box;
 }
 
-/* 🔥 ANIMASI RESULT */
+/* RESULT ANIMATION */
 .result-window {
   opacity: 0;
   transform: translateY(25px) scale(.98);
@@ -127,12 +127,20 @@ textarea {
   font-weight: 500;
   cursor: pointer;
   font-family: 'SF Pro Custom';
+  transition: all .25s ease;
 }
 
 .generate {
   background: linear-gradient(#4da3ff,#0a84ff);
   color: white;
   box-shadow: 0 6px 14px rgba(10,132,255,.25);
+}
+
+/* 🔥 LOADING STATE */
+.generate.loading {
+  opacity: .7;
+  cursor: not-allowed;
+  box-shadow: none;
 }
 
 .reset { display:none; }
@@ -168,7 +176,7 @@ textarea {
     </div>
 
     <textarea id="bulkInput" inputmode="numeric" placeholder="Satu IMEI (15 digit) per baris"></textarea>
-    <button class="btn generate" onclick="generateBulk()">Generate</button>
+    <button id="generateBtn" class="btn generate" onclick="generateBulk()">Generate</button>
     <button id="resetBtn" class="btn reset" onclick="resetAll()">Reset</button>
   </div>
 
@@ -187,6 +195,7 @@ const resetBtn = document.getElementById("resetBtn");
 const resultsDiv = document.getElementById("results");
 const popup = document.getElementById("successPopup");
 const popupText = document.getElementById("successText");
+const generateBtn = document.getElementById("generateBtn");
 
 baseImage.onload = () => {
   canvas.width = baseImage.width;
@@ -221,7 +230,7 @@ function downloadImage(dataUrl, index){
 }
 
 async function shareImage(dataUrl, index){
-  if(!navigator.share) return alert("Browser tidak mendukung fitur share");
+  if(!navigator.share) return;
   try{
     const res = await fetch(dataUrl);
     const blob = await res.blob();
@@ -232,7 +241,7 @@ async function shareImage(dataUrl, index){
   }catch{}
 }
 
-function generateBulk(){
+async function generateBulk(){
   const lines=input.value.split("\n").map(l=>l.trim()).filter(Boolean);
   if(lines.length < 2) return alert("Minimal 2 IMEI diperlukan");
 
@@ -245,6 +254,13 @@ function generateBulk(){
     alert(pesan.trim());
     return;
   }
+
+  // 🔥 START LOADING
+  generateBtn.disabled = true;
+  generateBtn.classList.add("loading");
+  generateBtn.innerText = "Generating...";
+
+  await new Promise(r => setTimeout(r, 300)); // biar animasi kerasa
 
   const ctx=canvas.getContext("2d");
   ctx.fillStyle="#000";
@@ -287,14 +303,17 @@ function generateBulk(){
       </div>
     `;
     resultsDiv.appendChild(div);
-
-    setTimeout(()=> div.classList.add("show"), 120 * count); // delay animasi
-
+    setTimeout(()=> div.classList.add("show"), 120 * count);
     count++;
   }
 
   resetBtn.style.display="block";
   showSuccess(lines.length, count);
+
+  // 🔥 END LOADING
+  generateBtn.disabled = false;
+  generateBtn.classList.remove("loading");
+  generateBtn.innerText = "Generate";
 }
 </script>
 
