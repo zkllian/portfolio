@@ -25,35 +25,37 @@ body {
   font-weight: 400;
 }
 
-/* 🔔 SUCCESS POPUP (NEW CLEAN STYLE) */
+/* 🔔 SUCCESS POPUP (ALIGNED WITH CARDS) */
 .success-popup {
   position: fixed;
   top: 24px;
   left: 50%;
   transform: translateX(-50%) translateY(-10px);
-  width: calc(100% - 40px);
+  width: calc(100% - 28px); /* sama kayak .app-wrap padding */
   max-width: 420px;
-  background: rgba(255,255,255,0.95);
+  background: rgba(255,255,255,0.97);
   backdrop-filter: blur(30px);
   padding: 18px 20px;
-  border-radius: 18px;
-  box-shadow: 0 12px 35px rgba(0,0,0,0.12);
+  border-radius: 16px;
+  box-shadow: 0 12px 35px rgba(0,0,0,0.10);
   border: 1px solid rgba(0,0,0,0.06);
   text-align: left;
   z-index: 9999;
   opacity: 0;
   transition: all .35s ease;
 }
+
 .success-popup.show {
   opacity: 1;
   transform: translateX(-50%) translateY(0);
 }
+
 .success-popup h3 {
   margin: 0 0 6px;
   font-size: 15px;
   font-weight: 600;
-  letter-spacing: .2px;
 }
+
 .success-popup p {
   margin: 0;
   font-size: 13.5px;
