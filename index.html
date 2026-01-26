@@ -16,11 +16,6 @@
   src: url('SF-Pro-Display-Medium.otf') format('opentype');
   font-weight: 500;
 }
-@font-face {
-  font-family: 'SF Pro Custom';
-  src: url('SF-Pro-Display-Semibold.otf') format('opentype');
-  font-weight: 600;
-}
 
 body {
   margin: 0;
@@ -271,7 +266,7 @@ function generateBulk(){
   const ctx=canvas.getContext("2d");
   ctx.fillStyle="#000";
   ctx.textBaseline="top";
-  ctx.font="600 31px 'SF Pro Custom'"; // ← FIXED FONT HERE
+  ctx.font="400 31px 'SF Pro Custom'"; // ← FIXED FONT HERE
 
   resultsDiv.innerHTML="";
   let count=0;
