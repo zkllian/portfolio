@@ -6,32 +6,49 @@
 <title>Generator Barcode</title>
 
 <style>
+/* ===== SF PRO CUSTOM (BALIK LAGI) ===== */
 @font-face {
-  font-family: 'sf pro custom';
+  font-family: 'SF Pro Custom';
   src: url('SF-Pro-Display-Regular.otf') format('opentype');
   font-weight: 400;
 }
 @font-face {
-  font-family: 'sf pro custom';
+  font-family: 'SF Pro Custom';
   src: url('SF-Pro-Display-Medium.otf') format('opentype');
   font-weight: 500;
+}
+@font-face {
+  font-family: 'SF Pro Custom';
+  src: url('SF-Pro-Display-Semibold.otf') format('opentype');
+  font-weight: 600;
 }
 
 body {
   margin: 0;
   padding: 30px 0 120px;
   background: #f2f2f7;
-  font-family: 'sf pro custom', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: 'SF Pro Custom', -apple-system, BlinkMacSystemFont, sans-serif;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* 🍏 LIQUID GLASS SUCCESS POPUP */
+/* APP WRAP */
+.app-wrap{
+  max-width: 420px;
+  margin: 0 auto;
+  padding: 0 14px;
+  box-sizing: border-box;
+  position: relative;
+}
+
+/* ===== LIQUID GLASS SUCCESS POPUP (APPLE STYLE) ===== */
 .success-popup {
   position: fixed;
   top: 24px;
   left: 50%;
   transform: translateX(-50%) translateY(-12px) scale(.96);
   width: calc(100% - 28px);
-  max-width: 420px;
+  max-width: 392px;
+
   padding: 20px 22px;
   border-radius: 20px;
 
@@ -82,14 +99,7 @@ body {
   color: #1c1c1e;
 }
 
-/* APP LAYOUT */
-.app-wrap{
-  max-width: 420px;
-  margin: 0 auto;
-  padding: 0 14px;
-  box-sizing: border-box;
-}
-
+/* WINDOW */
 .window, .result-window {
   width: 100%;
   margin-bottom: 22px;
@@ -140,6 +150,7 @@ textarea {
   resize: none;
   outline: none;
   box-sizing: border-box;
+  font-family: 'SF Pro Custom';
 }
 
 .btn {
@@ -151,6 +162,7 @@ textarea {
   border: none;
   font-weight: 500;
   cursor: pointer;
+  font-family: 'SF Pro Custom';
 }
 
 .generate {
@@ -189,7 +201,7 @@ textarea {
 <body>
 
 <div class="success-popup" id="successPopup">
-  <h3>✅ Generate Berhasil</h3>
+  <h3>Generate Berhasil</h3>
   <p id="successText"></p>
 </div>
 
@@ -267,10 +279,9 @@ async function shareImage(dataUrl, index){
 
     if(navigator.canShare && navigator.canShare({files:[file]})){
       await navigator.share({ files:[file], title:`Barcode ${index}` });
-    } else {
+    }else{
       alert("Device tidak mendukung share file gambar");
     }
-
   }catch(err){
     if(err.name === "AbortError") return;
     alert("Tidak bisa membuka menu share di perangkat ini");
@@ -284,7 +295,7 @@ function generateBulk(){
   const ctx=canvas.getContext("2d");
   ctx.fillStyle="#000";
   ctx.textBaseline="top";
-  ctx.font="500 31px 'sf pro custom'";
+  ctx.font="600 31px 'SF Pro Custom'";
 
   resultsDiv.innerHTML="";
   let count=0;
