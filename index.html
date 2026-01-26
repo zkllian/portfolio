@@ -33,14 +33,15 @@ body {
   position: relative;
 }
 
-/* LIQUID GLASS POPUP */
+/* ✅ LIQUID GLASS POPUP — WIDTH FIXED */
 .success-popup {
   position: fixed;
   top: 24px;
   left: 50%;
   transform: translateX(-50%) translateY(-12px) scale(.96);
-  width: calc(100% - 28px);
-  max-width: 392px;
+  width: 100%;
+  max-width: 420px; /* SAMA DENGAN APP-WRAP */
+  box-sizing: border-box;
   padding: 20px 22px;
   border-radius: 20px;
   background: rgba(255,255,255,0.55);
@@ -54,15 +55,18 @@ body {
   opacity: 0;
   transition: all .45s cubic-bezier(.2,.8,.2,1);
 }
+
 .success-popup.show {
   opacity: 1;
   transform: translateX(-50%) translateY(0) scale(1);
 }
+
 .success-popup h3 {
   margin: 0 0 6px;
   font-size: 15px;
   font-weight: 600;
 }
+
 .success-popup p {
   margin: 0;
   font-size: 13.5px;
@@ -266,7 +270,7 @@ function generateBulk(){
   const ctx=canvas.getContext("2d");
   ctx.fillStyle="#000";
   ctx.textBaseline="top";
-  ctx.font="400 31px 'SF Pro Custom'"; // ← FIXED FONT HERE
+  ctx.font="400 31px 'SF Pro Custom'";
 
   resultsDiv.innerHTML="";
   let count=0;
