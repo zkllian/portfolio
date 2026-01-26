@@ -22,6 +22,7 @@ body {
   padding: 30px 0 120px;
   background: linear-gradient(180deg,#f2f2f7,#e5e5ea);
   font-family: 'sf pro custom', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-weight: 400;
 }
 
 /* FLOATING SUCCESS POPUP */
@@ -41,23 +42,12 @@ body {
   opacity: 0;
   transition: all .5s cubic-bezier(.2,.8,.2,1);
 }
-
 .success-popup.show {
   opacity: 1;
   transform: translateX(-50%) translateY(0);
 }
-
-.success-popup h3 {
-  margin: 0 0 4px;
-  font-size: 15px;
-  font-weight: 600;
-}
-
-.success-popup p {
-  margin: 0;
-  font-size: 13px;
-  color: #3c3c43;
-}
+.success-popup h3 { margin: 0 0 4px; font-size: 15px; font-weight: 500; }
+.success-popup p { margin: 0; font-size: 13px; color: #3c3c43; }
 
 /* APP LAYOUT */
 .app-wrap{
@@ -90,7 +80,8 @@ body {
   align-items: center;
   justify-content: center;
   font-size: 13px;
-  font-weight: 500;
+  font-weight: 500; /* MEDIUM */
+  font-family: 'sf pro custom';
   background: linear-gradient(to bottom,#f9f9f9,#e9e9e9);
   border-bottom: 1px solid rgba(0,0,0,0.08);
   border-top-left-radius: 16px;
@@ -121,6 +112,7 @@ textarea {
   outline: none;
   box-sizing: border-box;
   font-family: 'sf pro custom';
+  font-weight: 400;
   line-height: 22px;
   box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
 }
@@ -132,11 +124,12 @@ textarea {
   font-size: 14px;
   border-radius: 10px;
   border: 1px solid rgba(0,0,0,0.15);
-  font-weight: 500;
+  font-weight: 400;
+  font-family: 'sf pro custom';
   cursor: pointer;
   transition: all .15s ease;
+  background: #f2f2f7;
 }
-
 .generate {
   background: linear-gradient(#4da3ff,#0a84ff);
   border: 1px solid #0a84ff;
@@ -170,6 +163,17 @@ textarea {
   width:100%;
   border-radius:12px;
   display:block;
+}
+
+/* BUTTON ROW */
+.action-row{
+  display:flex;
+  gap:10px;
+  margin-top:14px;
+}
+.action-row .btn{
+  margin-top:0;
+  flex:1;
 }
 </style>
 </head>
@@ -239,9 +243,32 @@ function randomDigits(len){
   return Array.from({length:len},()=>Math.floor(Math.random()*10)).join('');
 }
 
+function downloadImage(dataUrl, index){
+  const a = document.createElement("a");
+  a.href = dataUrl;
+  a.download = `barcode-${index}.png`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+}
+
+async function shareImage(dataUrl, index){
+  try{
+    if(navigator.share){
+      const res = await fetch(dataUrl);
+      const blob = await res.blob();
+      const file = new File([blob], `barcode-${index}.png`, {type:"image/png"});
+      if(navigator.canShare && navigator.canShare({files:[file]})){
+        await navigator.share({ files:[file], title:`Barcode ${index}` });
+        return;
+      }
+    }
+  }catch(e){}
+  downloadImage(dataUrl, index);
+}
+
 function generateBulk(){
   const lines=input.value.split("\n").map(l=>l.trim()).filter(Boolean);
-
   if(lines.length < 2) return alert("Minimal 2 IMEI diperlukan");
 
   let kurang = lines.filter(v => v.length < 15);
@@ -258,7 +285,7 @@ function generateBulk(){
   const ctx=canvas.getContext("2d");
   ctx.fillStyle="#000";
   ctx.textBaseline="top";
-  ctx.font="500 31px 'sf pro custom'";
+  ctx.font="400 31px 'sf pro custom'";
 
   resultsDiv.innerHTML="";
   let count=0;
@@ -291,6 +318,10 @@ function generateBulk(){
         Barcode #${count+1}
       </div>
       <img src="${url}">
+      <div class="action-row">
+        <button class="btn" onclick="downloadImage('${url}', ${count+1})">Download</button>
+        <button class="btn" onclick="shareImage('${url}', ${count+1})">Share</button>
+      </div>
     `;
     resultsDiv.appendChild(div);
     count++;
@@ -298,6 +329,10 @@ function generateBulk(){
 
   resetBtn.style.display="block";
   showSuccess(lines.length, count);
+
+  if(count > 0){
+    resultsDiv.lastElementChild.scrollIntoView({behavior:"smooth"});
+  }
 }
 </script>
 
