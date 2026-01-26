@@ -25,7 +25,7 @@ body {
   font-weight: 400;
 }
 
-/* FLOATING SUCCESS POPUP */
+/* SUCCESS POPUP */
 .success-popup {
   position: fixed;
   top: 20px;
@@ -49,7 +49,7 @@ body {
 .success-popup h3 { margin: 0 0 4px; font-size: 15px; font-weight: 500; }
 .success-popup p { margin: 0; font-size: 13px; color: #3c3c43; }
 
-/* APP LAYOUT */
+/* LAYOUT */
 .app-wrap{
   max-width: 420px;
   margin: 0 auto;
@@ -80,7 +80,7 @@ body {
   align-items: center;
   justify-content: center;
   font-size: 13px;
-  font-weight: 500; /* MEDIUM */
+  font-weight: 500;
   font-family: 'sf pro custom';
   background: linear-gradient(to bottom,#f9f9f9,#e9e9e9);
   border-bottom: 1px solid rgba(0,0,0,0.08);
@@ -130,6 +130,7 @@ textarea {
   transition: all .15s ease;
   background: #f2f2f7;
 }
+
 .generate {
   background: linear-gradient(#4da3ff,#0a84ff);
   border: 1px solid #0a84ff;
@@ -252,19 +253,30 @@ function downloadImage(dataUrl, index){
   document.body.removeChild(a);
 }
 
+/* SHARE ONLY (NO AUTO DOWNLOAD) */
 async function shareImage(dataUrl, index){
+  if(!navigator.share){
+    alert("Browser tidak mendukung fitur share");
+    return;
+  }
+
   try{
-    if(navigator.share){
-      const res = await fetch(dataUrl);
-      const blob = await res.blob();
-      const file = new File([blob], `barcode-${index}.png`, {type:"image/png"});
-      if(navigator.canShare && navigator.canShare({files:[file]})){
-        await navigator.share({ files:[file], title:`Barcode ${index}` });
-        return;
-      }
+    const res = await fetch(dataUrl);
+    const blob = await res.blob();
+    const file = new File([blob], `barcode-${index}.png`, {type:"image/png"});
+
+    if(navigator.canShare && navigator.canShare({files:[file]})){
+      await navigator.share({
+        files:[file],
+        title:`Barcode ${index}`
+      });
+    } else {
+      alert("Device tidak mendukung share file gambar");
     }
-  }catch(e){}
-  downloadImage(dataUrl, index);
+
+  }catch(e){
+    alert("Gagal membuka menu share");
+  }
 }
 
 function generateBulk(){
