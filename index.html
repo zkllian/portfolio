@@ -22,7 +22,6 @@ body {
   padding: 30px 0 120px;
   background: #f2f2f7;
   font-family: 'SF Pro Custom', -apple-system, BlinkMacSystemFont, sans-serif;
-  -webkit-font-smoothing: antialiased;
 }
 
 .app-wrap{ max-width:420px; margin:0 auto; padding:0 14px; box-sizing:border-box; }
@@ -32,31 +31,9 @@ body {
   border-radius:22px;
   background:rgba(255,255,255,0.25);
   backdrop-filter:blur(30px) saturate(160%);
-  -webkit-backdrop-filter:blur(30px) saturate(160%);
   box-shadow:0 8px 30px rgba(0,0,0,0.08), inset 0 1px 1px rgba(255,255,255,0.7);
   margin-bottom:22px;
 }
-
-.success-popup{
-  position:fixed;
-  top:22px;
-  left:50%;
-  transform:translateX(-50%) translateY(-10px) scale(.97);
-  width:80%;
-  max-width:400px;
-  padding:16px 18px;
-  border-radius:20px;
-  background:rgba(255,255,255,0.18);
-  backdrop-filter:blur(28px) saturate(160%);
-  border:1px solid rgba(255,255,255,0.35);
-  box-shadow:0 8px 24px rgba(0,0,0,0.10);
-  z-index:9999;
-  opacity:0;
-  transition:all .45s cubic-bezier(.2,.8,.2,1);
-}
-.success-popup.show{ opacity:1; transform:translateX(-50%) translateY(0) scale(1); }
-.success-popup h3{ margin:0 0 4px; font-size:15px; font-weight:600; }
-.success-popup p{ margin:0; font-size:13.5px; opacity:.85; }
 
 .window,.result-window{
   width:100%;
@@ -70,36 +47,46 @@ body {
   box-sizing:border-box;
 }
 
-.result-window{ opacity:0; transform:translateY(25px) scale(.98); }
-.result-window.show{ animation:popIn .55s cubic-bezier(.2,.8,.2,1) forwards; }
-@keyframes popIn{ to{ opacity:1; transform:translateY(0) scale(1);} }
-
 .window-header{
-  position:absolute;
-  top:0; left:0; right:0;
-  height:34px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:13px;
-  font-weight:500;
+  position:absolute; top:0; left:0; right:0;
+  height:34px; display:flex; align-items:center; justify-content:center;
+  font-size:13px; font-weight:500;
   background:linear-gradient(to bottom,#f9f9f9,#e9e9e9);
   border-bottom:1px solid rgba(0,0,0,0.08);
-  border-top-left-radius:16px;
-  border-top-right-radius:16px;
-  color:#3c3c43;
+  border-top-left-radius:16px; border-top-right-radius:16px;
 }
 
 .window-dots{ position:absolute; left:12px; display:flex; gap:7px; }
 .dot{ width:12px; height:12px; border-radius:50%; }
-.red{ background:#ff5f57; }
-.yellow{ background:#ffbd2e; }
-.green{ background:#28c840; }
+.red{ background:#ff5f57; } .yellow{ background:#ffbd2e; } .green{ background:#28c840; }
 
 textarea{
-  width:100%; height:170px; padding:14px; font-size:15px;
+  width:100%; height:160px; padding:14px; font-size:15px;
   border-radius:12px; border:1px solid #d2d2d7;
   resize:none; outline:none; box-sizing:border-box;
+  font-family:'SF Pro Custom';
+}
+
+.info-box{
+  font-size:12.5px;
+  margin-top:8px;
+  opacity:.7;
+  line-height:1.4;
+}
+
+.tool-row{
+  display:flex;
+  gap:8px;
+  margin-top:10px;
+}
+
+.tool-btn{
+  flex:1;
+  font-size:12px;
+  padding:8px 0;
+  border-radius:10px;
+  border:none;
+  background:#e5e5ea;
   font-family:'SF Pro Custom';
 }
 
@@ -110,25 +97,16 @@ textarea{
   font-family:'SF Pro Custom';
 }
 
-.generate{ background:linear-gradient(#4da3ff,#0a84ff); color:white; box-shadow:0 6px 14px rgba(10,132,255,.25); }
-.generate:disabled{ opacity:.6; box-shadow:none; }
+.generate{ background:linear-gradient(#4da3ff,#0a84ff); color:white; }
+.generate:disabled{ opacity:.6; }
 
-.reset{ display:none; }
+.reset{ display:none; background:#ff3b30; color:white; }
 
-.action-row{ display:flex; gap:10px; margin-top:14px; }
-.download-btn{ flex:1; background:#e5e5ea; }
-.share-btn{ flex:1; background:#34c759; color:white; }
-
-.result-window img{ width:100%; border-radius:12px; display:block; }
+.result-window img{ width:100%; border-radius:12px; display:block; margin-top:10px;}
 </style>
 </head>
 
 <body>
-
-<div class="success-popup" id="successPopup">
-  <h3>Generate Berhasil</h3>
-  <p id="successText"></p>
-</div>
 
 <div class="app-wrap">
   <div class="glass-shell">
@@ -142,7 +120,18 @@ textarea{
         Generator Barcode
       </div>
 
-      <textarea id="bulkInput" inputmode="numeric" placeholder="Satu IMEI (15 digit) per baris"></textarea>
+      <textarea id="bulkInput" placeholder="Satu IMEI (15 digit) per baris"></textarea>
+
+      <div class="tool-row">
+        <button class="tool-btn" onclick="pasteIMEI()">📋 Paste</button>
+        <button class="tool-btn" onclick="sortIMEI()">🔢 Sort</button>
+        <button class="tool-btn" onclick="removeDuplicates()">🧹 Unique</button>
+      </div>
+
+      <div class="info-box" id="infoBox">
+        Total IMEI: 0<br>Valid: 0<br>Pairs: 0
+      </div>
+
       <button id="generateBtn" class="btn generate" onclick="generateBulk()">Generate</button>
       <button id="resetBtn" class="btn reset" onclick="resetAll()">Reset</button>
     </div>
@@ -154,122 +143,80 @@ textarea{
 <canvas id="canvas" style="display:none;"></canvas>
 
 <script>
-const baseImage=new Image();
-baseImage.src="template.png";
-
-const canvas=document.getElementById("canvas");
 const input=document.getElementById("bulkInput");
+const infoBox=document.getElementById("infoBox");
+const generateBtn=document.getElementById("generateBtn");
 const resetBtn=document.getElementById("resetBtn");
 const resultsDiv=document.getElementById("results");
-const popup=document.getElementById("successPopup");
-const popupText=document.getElementById("successText");
-const generateBtn=document.getElementById("generateBtn");
 
-baseImage.onload=()=>{ canvas.width=baseImage.width; canvas.height=baseImage.height; };
+function updateInfo(){
+  const lines=input.value.split("\n").filter(l=>l.trim());
+  const valid=lines.filter(v=>v.length===15).length;
+  infoBox.innerHTML=`Total IMEI: ${lines.length}<br>Valid: ${valid}<br>Pairs: ${Math.floor(valid/2)}`;
+}
 
-input.addEventListener("input",()=>{ input.value=input.value.replace(/[^0-9\n]/g,''); });
+input.addEventListener("input",()=>{
+  input.value=input.value.replace(/[^0-9\n]/g,'');
+  updateInfo();
+});
+
+function pasteIMEI(){
+  navigator.clipboard.readText().then(text=>{
+    input.value=text.replace(/[^0-9\n]/g,'');
+    updateInfo();
+  });
+}
+
+function sortIMEI(){
+  let arr=input.value.split("\n").filter(Boolean).sort();
+  input.value=arr.join("\n");
+  updateInfo();
+}
+
+function removeDuplicates(){
+  let arr=[...new Set(input.value.split("\n").filter(Boolean))];
+  input.value=arr.join("\n");
+  updateInfo();
+}
+
+function resetAll(){
+  input.value="";
+  resultsDiv.innerHTML="";
+  resetBtn.style.display="none";
+  updateInfo();
+}
 
 function setLoading(state,text){
   generateBtn.disabled=state;
-  generateBtn.textContent=text || "Generate";
+  generateBtn.textContent=text||"Generate";
 }
 
-function showSuccess(totalImeis,totalBarcodes){
-  popupText.innerText=`${totalImeis} IMEI diproses • ${totalBarcodes} barcode dibuat`;
-  popup.classList.add("show");
-  setTimeout(()=>popup.classList.remove("show"),4200);
-}
-
-function resetAll(){ input.value=""; resultsDiv.innerHTML=""; resetBtn.style.display="none"; }
-
-function randomDigits(len){ return Array.from({length:len},()=>Math.floor(Math.random()*10)).join(''); }
-
-function downloadImage(dataUrl,index){
-  const a=document.createElement("a");
-  a.href=dataUrl;
-  a.download=`barcode-${index}.png`;
-  a.click();
-}
-
-async function shareImage(dataUrl,index){
-  if(!navigator.share) return alert("Browser tidak mendukung fitur share");
-  const res=await fetch(dataUrl);
-  const blob=await res.blob();
-  const file=new File([blob],`barcode-${index}.png`,{type:"image/png"});
-  if(navigator.canShare && navigator.canShare({files:[file]})){
-    await navigator.share({files:[file],title:`Barcode ${index}`});
-  }
+function randomDigits(len){
+  return Array.from({length:len},()=>Math.floor(Math.random()*10)).join('');
 }
 
 async function generateBulk(){
-  const lines=input.value.split("\n").map(l=>l.trim()).filter(Boolean);
+  const lines=input.value.split("\n").filter(l=>l.trim());
   if(lines.length<2) return alert("Minimal 2 IMEI diperlukan");
 
-  let kurang=lines.filter(v=>v.length<15);
-  let lebih=lines.filter(v=>v.length>15);
-  if(kurang.length||lebih.length){
-    let pesan="";
-    if(kurang.length) pesan+="IMEI kurang dari 15 digit:\n"+kurang.join("\n")+"\n\n";
-    if(lebih.length) pesan+="IMEI lebih dari 15 digit:\n"+lebih.join("\n");
-    alert(pesan.trim());
-    return;
-  }
-
   const totalPairs=Math.floor(lines.length/2);
-  const ctx=canvas.getContext("2d");
-  ctx.fillStyle="#000";
-  ctx.textBaseline="top";
-  ctx.font="400 31px 'SF Pro Custom'";
-
   resultsDiv.innerHTML="";
   resetBtn.style.display="none";
 
   for(let i=0;i<totalPairs;i++){
     setLoading(true,`Generating ${i+1}/${totalPairs}`);
-    await new Promise(r=>setTimeout(r,30)); // kasih napas UI
-
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    ctx.drawImage(baseImage,0,0);
-    ctx.setTransform(0.97,0,0,1,0,0);
-
-    ctx.fillText(randomDigits(32),117,377.8);
-    ctx.fillText(lines[i*2],288,669.5);
-    ctx.fillText(lines[i*2+1],288,954.5);
-    ctx.fillText(randomDigits(14),297,1244.5);
-    ctx.setTransform(1,0,0,1,0,0);
-
-    const url=canvas.toDataURL("image/png");
-
-    const shell=document.createElement("div");
-    shell.className="glass-shell";
+    await new Promise(r=>setTimeout(r,40));
 
     const div=document.createElement("div");
-    div.className="result-window";
-    div.innerHTML=`
-      <div class="window-header">
-        <div class="window-dots">
-          <div class="dot red"></div>
-          <div class="dot yellow"></div>
-          <div class="dot green"></div>
-        </div>
-        Barcode #${i+1}
-      </div>
-      <img src="${url}">
-      <div class="action-row">
-        <button class="btn download-btn" onclick="downloadImage('${url}', ${i+1})">Download</button>
-        <button class="btn share-btn" onclick="shareImage('${url}', ${i+1})">Share</button>
-      </div>
-    `;
-
-    shell.appendChild(div);
-    resultsDiv.appendChild(shell);
-    requestAnimationFrame(()=>div.classList.add("show"));
+    div.className="glass-shell";
+    div.innerHTML=`<div class="result-window"><img src="template.png"><div style="font-size:12px;margin-top:6px;">IMEI: ${lines[i*2]} & ${lines[i*2+1]}</div></div>`;
+    resultsDiv.appendChild(div);
   }
 
-  setLoading(false,"Generate");
+  setLoading(false);
   resetBtn.style.display="block";
-  showSuccess(lines.length,totalPairs);
 }
+updateInfo();
 </script>
 
 </body>
