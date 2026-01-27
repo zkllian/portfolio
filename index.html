@@ -21,8 +21,8 @@
   --bg:#f2f2f7;
   --card:rgba(255,255,255,0.9);
   --text:#000;
+  --accent:#0a84ff;
 }
-
 @media (prefers-color-scheme: dark){
   :root{
     --bg:#111214;
@@ -37,7 +37,6 @@ body {
   background: var(--bg);
   font-family: 'SF Pro Custom', -apple-system, BlinkMacSystemFont, sans-serif;
   color: var(--text);
-  -webkit-font-smoothing: antialiased;
 }
 
 .app-wrap{
@@ -52,7 +51,7 @@ body {
   position: fixed;
   top: 22px;
   left: 50%;
-  transform: translateX(-50%) translateY(-10px) scale(.97);
+  transform: translateX(-50%) translateY(-10px) scale(.96);
   width: 88%;
   max-width: 400px;
   padding: 16px 18px;
@@ -63,7 +62,7 @@ body {
   box-shadow: 0 8px 24px rgba(0,0,0,0.10);
   z-index: 9999;
   opacity: 0;
-  transition: all .45s cubic-bezier(.2,.8,.2,1);
+  transition: all .5s cubic-bezier(.2,.8,.2,1);
 }
 .success-popup.show { opacity:1; transform:translateX(-50%) translateY(0) scale(1); }
 .success-popup h3 { margin:0 0 4px; font-size:15px; font-weight:600; }
@@ -85,10 +84,7 @@ body {
   transform: translateY(10px) scale(.97);
   transition: all .5s cubic-bezier(.2,.8,.2,1);
 }
-.result-window.show {
-  opacity:1;
-  transform: translateY(0) scale(1);
-}
+.result-window.show { opacity:1; transform: translateY(0) scale(1); }
 
 .window-header {
   position: absolute;
@@ -118,16 +114,10 @@ textarea {
   border-radius: 12px;
   border: 1px solid #d2d2d7;
   resize: none;
-  outline: none;
-  box-sizing: border-box;
   font-family: 'SF Pro Custom';
 }
 
-.info-text{
-  font-size:12.5px;
-  margin-top:8px;
-  opacity:.7;
-}
+.info-text{ font-size:12.5px; margin-top:8px; opacity:.7; }
 
 .btn {
   width: 100%;
@@ -141,7 +131,7 @@ textarea {
   font-family: 'SF Pro Custom';
 }
 
-.generate { background: linear-gradient(#4da3ff,#0a84ff); color:white; box-shadow:0 6px 14px rgba(10,132,255,.25); }
+.generate { background: linear-gradient(#4da3ff,#0a84ff); color:white; }
 .generate:disabled{opacity:.6;cursor:not-allowed;}
 
 .download-all { background:#e5e5ea; margin-bottom:10px; }
@@ -149,9 +139,34 @@ textarea {
 .action-row{ display:flex; gap:10px; margin-top:14px; }
 .download-btn{ flex:1; background:#e5e5ea; }
 .share-btn{ flex:1; background:#34c759; color:white; }
+
 .copy-btn{ margin-top:10px; background:#d1d1d6; font-size:13px; padding:10px 0; border-radius:10px;}
+.delete-btn{ margin-top:8px; background:#ff3b30; color:white; font-size:12px; padding:8px 0; border-radius:8px;}
 
 .result-window img { width:100%; border-radius:12px; display:block; }
+
+/* PROGRESS BAR */
+.progress-wrap{
+  height:6px;
+  width:100%;
+  background:#d1d1d6;
+  border-radius:10px;
+  margin-top:10px;
+  overflow:hidden;
+  display:none;
+}
+.progress-bar{
+  height:100%;
+  width:0%;
+  background:var(--accent);
+  transition:width .3s ease;
+}
+
+/* QUALITY TOGGLE */
+.quality-select{
+  margin-top:10px;
+  font-size:13px;
+}
 </style>
 </head>
 
@@ -163,7 +178,7 @@ textarea {
 </div>
 
 <div class="app-wrap">
-  <div class="window">
+  <div class="window show">
     <div class="window-header">
       <div class="window-dots">
         <div class="dot red"></div>
@@ -175,7 +190,20 @@ textarea {
 
     <textarea id="bulkInput" placeholder="Satu IMEI (15 digit) per baris"></textarea>
     <div class="info-text" id="imeiInfo">0 IMEI terdeteksi</div>
+
+    <div class="quality-select">
+      Kualitas Gambar:
+      <select id="quality">
+        <option value="1">Standard</option>
+        <option value="2">HD</option>
+      </select>
+    </div>
+
     <button id="generateBtn" class="btn generate" onclick="generateBulk()">Generate</button>
+    <div class="progress-wrap" id="progressWrap">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
+
     <button id="downloadAllBtn" class="btn download-all" style="display:none;" onclick="downloadAll()">⬇ Download Semua</button>
   </div>
 
@@ -196,6 +224,9 @@ const popupText = document.getElementById("successText");
 const generateBtn = document.getElementById("generateBtn");
 const imeiInfo = document.getElementById("imeiInfo");
 const downloadAllBtn = document.getElementById("downloadAllBtn");
+const progressWrap = document.getElementById("progressWrap");
+const progressBar = document.getElementById("progressBar");
+const qualitySelect = document.getElementById("quality");
 
 let generatedImages = [];
 
@@ -227,8 +258,10 @@ function downloadAll(){
   generatedImages.forEach((url,i)=> downloadImage(url,i+1));
 }
 
-function copyText(text){
-  navigator.clipboard.writeText(text);
+function copyText(text){ navigator.clipboard.writeText(text); }
+
+function deleteCard(btn){
+  btn.closest(".result-window").remove();
 }
 
 async function generateBulk(){
@@ -237,28 +270,35 @@ async function generateBulk(){
 
   generateBtn.disabled = true;
   generateBtn.textContent = "Generating...";
+  progressWrap.style.display="block";
   resultsDiv.innerHTML="";
   generatedImages=[];
   downloadAllBtn.style.display="none";
 
+  const scale = parseInt(qualitySelect.value);
+  canvas.width = baseImage.width * scale;
+  canvas.height = baseImage.height * scale;
+
   const ctx=canvas.getContext("2d");
+  ctx.scale(scale,scale);
   ctx.font="400 31px 'SF Pro Custom'";
+
   let count=0;
+  const totalPairs = Math.floor(lines.length/2);
 
   for(let i=0;i<lines.length;i+=2){
     if(!lines[i+1]) break;
 
-    generateBtn.textContent = `Generating ${count+1}...`;
+    generateBtn.textContent = `Generating ${count+1}/${totalPairs}`;
+    progressBar.style.width = ((count+1)/totalPairs)*100 + "%";
 
     ctx.clearRect(0,0,canvas.width,canvas.height);
     ctx.drawImage(baseImage,0,0);
-    ctx.setTransform(0.97,0,0,1,0,0);
 
     ctx.fillText(randomDigits(32),117,377.8);
     ctx.fillText(lines[i],288,669.5);
     ctx.fillText(lines[i+1],288,954.5);
     ctx.fillText(randomDigits(14),297,1244.5);
-    ctx.setTransform(1,0,0,1,0,0);
 
     const url=canvas.toDataURL("image/png");
     generatedImages.push(url);
@@ -272,7 +312,7 @@ async function generateBulk(){
           <div class="dot yellow"></div>
           <div class="dot green"></div>
         </div>
-        Barcode #${count+1}
+        Barcode #${count+1} • Pair ${count+1}/${totalPairs}
       </div>
       <img src="${url}">
       <div class="action-row">
@@ -280,32 +320,22 @@ async function generateBulk(){
         <button class="btn share-btn" onclick="navigator.share && navigator.share({url:'${url}'})">Share</button>
       </div>
       <button class="copy-btn" onclick="copyText('${lines[i]} , ${lines[i+1]}')">📋 Copy IMEI Pair</button>
+      <button class="delete-btn" onclick="deleteCard(this)">🗑 Hapus</button>
     `;
     resultsDiv.appendChild(div);
-
     setTimeout(()=> div.classList.add("show"), 80 * count);
+
     count++;
     await new Promise(r=>setTimeout(r,60));
   }
 
   generateBtn.disabled = false;
   generateBtn.textContent = "Generate";
+  progressWrap.style.display="none";
+  progressBar.style.width="0%";
   downloadAllBtn.style.display="block";
   showSuccess(lines.length, count);
-
-  localStorage.setItem("lastResults", resultsDiv.innerHTML);
 }
-
-window.addEventListener("load", ()=>{
-  const last = localStorage.getItem("lastResults");
-  if(last){
-    resultsDiv.innerHTML = last;
-    setTimeout(()=>{
-      document.querySelectorAll(".result-window").forEach(el=>el.classList.add("show"));
-    },100);
-    downloadAllBtn.style.display="block";
-  }
-});
 </script>
 
 </body>
