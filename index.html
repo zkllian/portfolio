@@ -54,35 +54,21 @@ body {
   max-width: 400px;
   padding: 16px 18px;
   border-radius: 20px;
-
   background: rgba(255, 255, 255, 0.18);
   backdrop-filter: blur(28px) saturate(160%);
   -webkit-backdrop-filter: blur(28px) saturate(160%);
-
   border: 1px solid rgba(255,255,255,0.35);
   box-shadow: 0 8px 24px rgba(0,0,0,0.10);
-
   z-index: 9999;
   opacity: 0;
   transition: all .45s cubic-bezier(.2,.8,.2,1);
 }
-
 .success-popup.show {
   opacity: 1;
   transform: translateX(-50%) translateY(0) scale(1);
 }
-
-.success-popup h3 {
-  margin: 0 0 4px;
-  font-size: 15px;
-  font-weight: 600;
-}
-
-.success-popup p {
-  margin: 0;
-  font-size: 13.5px;
-  opacity: .85;
-}
+.success-popup h3 { margin: 0 0 4px; font-size: 15px; font-weight: 600; }
+.success-popup p { margin: 0; font-size: 13.5px; opacity: .85; }
 
 /* WINDOWS */
 .window, .result-window {
@@ -228,9 +214,9 @@ input.addEventListener("input", () => {
   input.value = input.value.replace(/[^0-9\n]/g,'');
 });
 
-function setLoading(state){
+function setLoading(state, text="Generating..."){
   generateBtn.disabled = state;
-  generateBtn.textContent = state ? "Generating..." : "Generate";
+  generateBtn.textContent = state ? text : "Generate";
 }
 
 function showSuccess(totalImeis, totalBarcodes){
@@ -264,8 +250,6 @@ async function shareImage(dataUrl, index){
     const file = new File([blob], `barcode-${index}.png`, {type:"image/png"});
     if(navigator.canShare && navigator.canShare({files:[file]})){
       await navigator.share({ files:[file], title:`Barcode ${index}` });
-    } else {
-      alert("Device tidak mendukung share file gambar");
     }
   }catch(err){}
 }
@@ -284,7 +268,9 @@ async function generateBulk(){
     return;
   }
 
-  setLoading(true);
+  const totalPairs = Math.floor(lines.length/2);
+
+  setLoading(true, `Generating 0/${totalPairs}`);
   await new Promise(r=>setTimeout(r,200));
 
   const ctx=canvas.getContext("2d");
@@ -297,6 +283,9 @@ async function generateBulk(){
 
   for(let i=0;i<lines.length;i+=2){
     if(!lines[i+1]) break;
+
+    count++;
+    setLoading(true, `Generating ${count}/${totalPairs}`);
 
     ctx.clearRect(0,0,canvas.width,canvas.height);
     ctx.drawImage(baseImage,0,0);
@@ -325,20 +314,18 @@ async function generateBulk(){
           <div class="dot yellow"></div>
           <div class="dot green"></div>
         </div>
-        Barcode #${count+1}
+        Barcode #${count}
       </div>
       <img src="${url}">
       <div class="action-row">
-        <button class="btn download-btn" onclick="downloadImage('${url}', ${count+1})">Download</button>
-        <button class="btn share-btn" onclick="shareImage('${url}', ${count+1})">Share</button>
+        <button class="btn download-btn" onclick="downloadImage('${url}', ${count})">Download</button>
+        <button class="btn share-btn" onclick="shareImage('${url}', ${count})">Share</button>
       </div>
     `;
 
     shell.appendChild(div);
     resultsDiv.appendChild(shell);
-
     requestAnimationFrame(()=> div.classList.add("show"));
-    count++;
   }
 
   resetBtn.style.display="block";
