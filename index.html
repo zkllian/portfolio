@@ -22,62 +22,80 @@ body {
   padding: 30px 0 120px;
   background: #f2f2f7;
   font-family: 'SF Pro Custom', -apple-system, BlinkMacSystemFont, sans-serif;
-  -webkit-font-smoothing: antialiased;
 }
 
 .app-wrap{ max-width:420px; margin:0 auto; padding:0 14px; box-sizing:border-box; }
 
+/* Glass container */
 .glass-shell{
+  position: relative;
   padding:10px;
   border-radius:22px;
   background:rgba(255,255,255,0.25);
   backdrop-filter:blur(30px) saturate(160%);
   -webkit-backdrop-filter:blur(30px) saturate(160%);
   box-shadow:0 8px 30px rgba(0,0,0,0.08), inset 0 1px 1px rgba(255,255,255,0.7);
-  margin-bottom:22px;
+  margin-bottom:28px;
 }
 
-.success-popup{
-  position:fixed;
-  top:22px;
-  left:50%;
-  transform:translateX(-50%) translateY(-10px) scale(.97);
-  width:80%;
-  max-width:400px;
-  padding:16px 18px;
-  border-radius:20px;
-  background:rgba(255,255,255,0.18);
-  backdrop-filter:blur(28px) saturate(160%);
-  border:1px solid rgba(255,255,255,0.35);
-  box-shadow:0 8px 24px rgba(0,0,0,0.10);
-  z-index:9999;
-  opacity:0;
-  transition:all .45s cubic-bezier(.2,.8,.2,1);
+/* ===== STACKED CARD EFFECT ===== */
+.stack-wrap{
+  position: relative;
 }
-.success-popup.show{ opacity:1; transform:translateX(-50%) translateY(0) scale(1); }
-.success-popup h3{ margin:0 0 4px; font-size:15px; font-weight:600; }
-.success-popup p{ margin:0; font-size:13.5px; opacity:.85; }
 
+.stack-wrap::before,
+.stack-wrap::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:18px;
+  background:rgba(255,255,255,0.55);
+  backdrop-filter:blur(20px);
+  border:1px solid rgba(0,0,0,0.05);
+  z-index:0;
+}
+
+.stack-wrap::before{
+  transform:translateY(8px) scale(.97);
+  opacity:.6;
+}
+
+.stack-wrap::after{
+  transform:translateY(16px) scale(.94);
+  opacity:.35;
+}
+
+/* Main card */
 .window,.result-window{
-  width:100%;
-  background:rgba(255,255,255,0.9);
-  backdrop-filter:blur(30px);
-  border-radius:16px;
-  border:1px solid rgba(0,0,0,0.08);
-  box-shadow:0 10px 35px rgba(0,0,0,0.06);
   position:relative;
+  z-index:2;
+  width:100%;
+  background:rgba(255,255,255,0.92);
+  backdrop-filter:blur(30px);
+  border-radius:18px;
+  border:1px solid rgba(0,0,0,0.08);
+  box-shadow:0 18px 40px rgba(0,0,0,0.08);
   padding:54px 14px 20px;
   box-sizing:border-box;
 }
 
-.result-window{ opacity:0; transform:translateY(25px) scale(.98); }
-.result-window.show{ animation:popIn .55s cubic-bezier(.2,.8,.2,1) forwards; }
-@keyframes popIn{ to{ opacity:1; transform:translateY(0) scale(1);} }
+/* Result animation */
+.result-window{
+  opacity:0;
+  transform:translateY(40px) scale(.96);
+}
+.result-window.show{
+  animation:stackIn .6s cubic-bezier(.2,.8,.2,1) forwards;
+}
+@keyframes stackIn{
+  to{ opacity:1; transform:translateY(0) scale(1); }
+}
 
+/* Header */
 .window-header{
   position:absolute;
   top:0; left:0; right:0;
-  height:34px;
+  height:36px;
   display:flex;
   align-items:center;
   justify-content:center;
@@ -85,8 +103,8 @@ body {
   font-weight:500;
   background:linear-gradient(to bottom,#f9f9f9,#e9e9e9);
   border-bottom:1px solid rgba(0,0,0,0.08);
-  border-top-left-radius:16px;
-  border-top-right-radius:16px;
+  border-top-left-radius:18px;
+  border-top-right-radius:18px;
   color:#3c3c43;
 }
 
@@ -125,11 +143,6 @@ textarea{
 
 <body>
 
-<div class="success-popup" id="successPopup">
-  <h3>Generate Berhasil</h3>
-  <p id="successText"></p>
-</div>
-
 <div class="app-wrap">
   <div class="glass-shell">
     <div class="window">
@@ -161,23 +174,14 @@ const canvas=document.getElementById("canvas");
 const input=document.getElementById("bulkInput");
 const resetBtn=document.getElementById("resetBtn");
 const resultsDiv=document.getElementById("results");
-const popup=document.getElementById("successPopup");
-const popupText=document.getElementById("successText");
 const generateBtn=document.getElementById("generateBtn");
 
 baseImage.onload=()=>{ canvas.width=baseImage.width; canvas.height=baseImage.height; };
-
 input.addEventListener("input",()=>{ input.value=input.value.replace(/[^0-9\n]/g,''); });
 
 function setLoading(state,text){
   generateBtn.disabled=state;
   generateBtn.textContent=text || "Generate";
-}
-
-function showSuccess(totalImeis,totalBarcodes){
-  popupText.innerText=`${totalImeis} IMEI diproses • ${totalBarcodes} barcode dibuat`;
-  popup.classList.add("show");
-  setTimeout(()=>popup.classList.remove("show"),4200);
 }
 
 function resetAll(){ input.value=""; resultsDiv.innerHTML=""; resetBtn.style.display="none"; }
@@ -205,16 +209,6 @@ async function generateBulk(){
   const lines=input.value.split("\n").map(l=>l.trim()).filter(Boolean);
   if(lines.length<2) return alert("Minimal 2 IMEI diperlukan");
 
-  let kurang=lines.filter(v=>v.length<15);
-  let lebih=lines.filter(v=>v.length>15);
-  if(kurang.length||lebih.length){
-    let pesan="";
-    if(kurang.length) pesan+="IMEI kurang dari 15 digit:\n"+kurang.join("\n")+"\n\n";
-    if(lebih.length) pesan+="IMEI lebih dari 15 digit:\n"+lebih.join("\n");
-    alert(pesan.trim());
-    return;
-  }
-
   const totalPairs=Math.floor(lines.length/2);
   const ctx=canvas.getContext("2d");
   ctx.fillStyle="#000";
@@ -226,7 +220,7 @@ async function generateBulk(){
 
   for(let i=0;i<totalPairs;i++){
     setLoading(true,`Generating ${i+1}/${totalPairs}`);
-    await new Promise(r=>setTimeout(r,30)); // kasih napas UI
+    await new Promise(r=>setTimeout(r,30));
 
     ctx.clearRect(0,0,canvas.width,canvas.height);
     ctx.drawImage(baseImage,0,0);
@@ -241,7 +235,7 @@ async function generateBulk(){
     const url=canvas.toDataURL("image/png");
 
     const shell=document.createElement("div");
-    shell.className="glass-shell";
+    shell.className="glass-shell stack-wrap";
 
     const div=document.createElement("div");
     div.className="result-window";
@@ -268,7 +262,6 @@ async function generateBulk(){
 
   setLoading(false,"Generate");
   resetBtn.style.display="block";
-  showSuccess(lines.length,totalPairs);
 }
 </script>
 
