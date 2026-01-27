@@ -17,18 +17,17 @@
   font-weight: 500;
 }
 
-body {
-  margin: 0;
-  padding: 30px 0 120px;
-  background: #f2f2f7;
-  font-family: 'SF Pro Custom', -apple-system, BlinkMacSystemFont, sans-serif;
+body{
+  margin:0;
+  padding:30px 0 120px;
+  background:#f2f2f7;
+  font-family:'SF Pro Custom', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 .app-wrap{ max-width:420px; margin:0 auto; padding:0 14px; box-sizing:border-box; }
 
-/* Glass container */
+/* ===== MAIN INPUT WINDOW ===== */
 .glass-shell{
-  position: relative;
   padding:10px;
   border-radius:22px;
   background:rgba(255,255,255,0.25);
@@ -38,37 +37,8 @@ body {
   margin-bottom:28px;
 }
 
-/* ===== STACKED CARD EFFECT ===== */
-.stack-wrap{
-  position: relative;
-}
-
-.stack-wrap::before,
-.stack-wrap::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  border-radius:18px;
-  background:rgba(255,255,255,0.55);
-  backdrop-filter:blur(20px);
-  border:1px solid rgba(0,0,0,0.05);
-  z-index:0;
-}
-
-.stack-wrap::before{
-  transform:translateY(8px) scale(.97);
-  opacity:.6;
-}
-
-.stack-wrap::after{
-  transform:translateY(16px) scale(.94);
-  opacity:.35;
-}
-
-/* Main card */
-.window,.result-window{
+.window{
   position:relative;
-  z-index:2;
   width:100%;
   background:rgba(255,255,255,0.92);
   backdrop-filter:blur(30px);
@@ -79,19 +49,53 @@ body {
   box-sizing:border-box;
 }
 
-/* Result animation */
-.result-window{
-  opacity:0;
-  transform:translateY(40px) scale(.96);
-}
-.result-window.show{
-  animation:stackIn .6s cubic-bezier(.2,.8,.2,1) forwards;
-}
-@keyframes stackIn{
-  to{ opacity:1; transform:translateY(0) scale(1); }
+/* ===== STACKED RESULT CARD ===== */
+.stack-card{
+  position:relative;
+  margin-bottom:28px;
+  perspective:1000px;
 }
 
-/* Header */
+.stack-layer{
+  position:absolute;
+  left:0; right:0;
+  height:100%;
+  border-radius:20px;
+  background:rgba(255,255,255,0.6);
+  backdrop-filter:blur(20px);
+  border:1px solid rgba(0,0,0,0.05);
+  box-shadow:0 10px 25px rgba(0,0,0,0.06);
+  z-index:0;
+  transition:.5s ease;
+}
+
+.layer1{ top:10px; transform:scale(.97); opacity:.6; }
+.layer2{ top:20px; transform:scale(.94); opacity:.35; }
+
+.result-window{
+  position:relative;
+  z-index:2;
+  width:100%;
+  background:rgba(255,255,255,0.95);
+  backdrop-filter:blur(30px);
+  border-radius:20px;
+  border:1px solid rgba(0,0,0,0.08);
+  box-shadow:0 25px 50px rgba(0,0,0,0.12);
+  padding:54px 14px 20px;
+  box-sizing:border-box;
+  opacity:0;
+  transform:translateY(40px) scale(.96) rotateX(8deg);
+}
+
+.result-window.show{
+  animation:cardIn .7s cubic-bezier(.2,.8,.2,1) forwards;
+}
+
+@keyframes cardIn{
+  to{ opacity:1; transform:translateY(0) scale(1) rotateX(0); }
+}
+
+/* HEADER */
 .window-header{
   position:absolute;
   top:0; left:0; right:0;
@@ -234,12 +238,13 @@ async function generateBulk(){
 
     const url=canvas.toDataURL("image/png");
 
-    const shell=document.createElement("div");
-    shell.className="glass-shell stack-wrap";
+    const stack=document.createElement("div");
+    stack.className="stack-card";
+    stack.innerHTML=`<div class="stack-layer layer1"></div><div class="stack-layer layer2"></div>`;
 
-    const div=document.createElement("div");
-    div.className="result-window";
-    div.innerHTML=`
+    const card=document.createElement("div");
+    card.className="result-window";
+    card.innerHTML=`
       <div class="window-header">
         <div class="window-dots">
           <div class="dot red"></div>
@@ -255,9 +260,9 @@ async function generateBulk(){
       </div>
     `;
 
-    shell.appendChild(div);
-    resultsDiv.appendChild(shell);
-    requestAnimationFrame(()=>div.classList.add("show"));
+    stack.appendChild(card);
+    resultsDiv.appendChild(stack);
+    requestAnimationFrame(()=>card.classList.add("show"));
   }
 
   setLoading(false,"Generate");
