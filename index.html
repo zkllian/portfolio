@@ -6,15 +6,16 @@
 <title>Generator Barcode</title>
 
 <style>
-@font-face {
-  font-family: 'SF Pro Custom';
-  src: url('SF-Pro-Display-Regular.otf') format('opentype');
-  font-weight: 400;
+@font-face{
+font-family:'SF Pro Custom';
+src:url('SF-Pro-Display-Regular.otf') format('opentype');
+font-weight:400;
 }
-@font-face {
-  font-family: 'SF Pro Custom';
-  src: url('SF-Pro-Display-Medium.otf') format('opentype');
-  font-weight: 500;
+
+@font-face{
+font-family:'SF Pro Custom';
+src:url('SF-Pro-Display-Medium.otf') format('opentype');
+font-weight:500;
 }
 
 body{
@@ -165,7 +166,6 @@ display:block;
 Generator Barcode
 </div>
 
-<!-- TEXTAREA FIX -->
 <textarea id="bulkInput" placeholder="Satu IMEI (15 digit) per baris"></textarea>
 
 <button id="generateBtn" class="btn generate" onclick="generateBulk()">Generate</button>
@@ -223,15 +223,22 @@ a.click();
 }
 
 async function shareImage(dataUrl,index){
-if(!navigator.share)return alert("Browser tidak mendukung share");
+
+if(!navigator.share){
+return alert("Browser tidak mendukung share");
+}
 
 const res=await fetch(dataUrl);
 const blob=await res.blob();
-const file=new File([blob],`barcode-${index}.png`,{type:"image/png"});
+
+const file=new File([blob],"barcode.png",{type:"image/png"});
 
 if(navigator.canShare && navigator.canShare({files:[file]})){
-await navigator.share({files:[file],title:`Barcode ${index}`});
+await navigator.share({
+files:[file]
+});
 }
+
 }
 
 async function generateBulk(){
