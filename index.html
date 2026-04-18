@@ -275,7 +275,7 @@ const ctx=canvas.getContext("2d");
 
 ctx.fillStyle="#000";
 ctx.textBaseline="top";
-ctx.font="400 45.5px 'SF Pro Custom'";
+ctx.font="500 45.5px 'SF Pro Custom'";
 
 resultsDiv.innerHTML="";
 resetBtn.style.display="none";
@@ -291,8 +291,8 @@ ctx.drawImage(baseImage,0,0);
 
 ctx.setTransform(0.97,0,0,1,0,0);
 
-ctx.fillText(randomDigits(32),187,750);
-ctx.fillText(lines[i*2],464,1095.5);
+ctx.fillText(randomDigits(32),187,745);
+ctx.fillText(lines[i*2],464,1095.6);
 ctx.fillText(lines[i*2+1],464,1430.4);
 
 ctx.setTransform(1,0,0,1,0,0);
