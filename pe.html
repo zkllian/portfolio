@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Customer Onboarding</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+:root {
+  --ios-bg: #f2f2f7;
+  --ios-bg2: #e5e5ea;
+  --ios-card: rgba(255,255,255,0.85);
+  --ios-card-solid: #ffffff;
+  --ios-blue: #007aff;
+  --ios-blue-dark: #0062cc;
+  --ios-green: #34c759;
+  --ios-red: #ff3b30;
+  --ios-orange: #ff9500;
+  --ios-gray: #8e8e93;
+  --ios-gray2: #aeaeb2;
+  --ios-gray3: #c7c7cc;
+  --ios-gray4: #d1d1d6;
+  --ios-gray5: #e5e5ea;
+  --ios-label: #000000;
+  --ios-label2: #3c3c43;
+  --ios-separator: rgba(60,60,67,0.12);
+  --ios-fill: rgba(120,120,128,0.12);
+  --ios-fill2: rgba(120,120,128,0.08);
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.08), 0 1px 4px rgba(0,0,0,0.04);
+  --shadow-lg: 0 12px 40px rgba(0,0,0,0.10);
+  --radius-sm: 10px;
+  --radius-md: 13px;
+  --radius-lg: 18px;
+  --radius-xl: 22px;
+}
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+html { -webkit-text-size-adjust:100%; }
+body {
+  background: var(--ios-bg);
+  font-family: -apple-system, 'SF Pro Text', 'Inter', sans-serif;
+  color: var(--ios-label);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* NAV BAR */
+.navbar {
+  position: sticky; top: 0; z-index: 200;
+  background: rgba(242,242,247,0.82);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 0.5px solid var(--ios-separator);
+  padding: env(safe-area-inset-top, 0) 20px 0;
+}
+.navbar-inner {
+  height: 44px; display: flex; align-items: center; justify-content: space-between;
+}
+.navbar-title { font-size: 17px; font-weight: 600; letter-spacing: -0.3px; }
+.status-pill {
+  font-size: 11px; font-weight: 600; padding: 4px 10px;
+  border-radius: 20px; letter-spacing: 0.1px;
+  font-family: -apple-system, sans-serif;
+}
+.status-pill.ok { background: rgba(52,199,89,0.15); color: var(--ios-green); }
+.status-pill.ready { background: rgba(0,122,255,0.12); color: var(--ios-blue); }
+
+/* PAGE */
+.page { max-width: 430px; margin: 0 auto; padding: 20px 16px env(safe-area-inset-bottom,20px); }
+
+/* SECTION HEADER */
+.section-header {
+  font-size: 13px; font-weight: 600; color: var(--ios-gray);
+  text-transform: uppercase; letter-spacing: 0.5px;
+  margin: 28px 0 8px 4px;
+}
+.section-header:first-child { margin-top: 8px; }
+
+/* CARD */
+.ios-card {
+  background: var(--ios-card-solid);
+  border-radius: var(--ios-card-radius, var(--radius-lg));
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+/* UPLOAD CARD */
+.upload-card { padding: 0; }
+.upload-zone {
+  position: relative; cursor: pointer;
+  background: var(--ios-fill2);
+  border-radius: var(--radius-lg);
+  min-height: 180px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 10px; overflow: hidden; transition: background .2s;
+  border: 1.5px dashed var(--ios-gray3);
+}
+.upload-zone.drag { background: rgba(0,122,255,0.07); border-color: var(--ios-blue); }
+.upload-zone.loaded { border-style: solid; border-color: var(--ios-green); background: #000; min-height: 200px; }
+.upload-zone input {
+  position: absolute; inset: 0; opacity: 0; cursor: pointer;
+  width: 100%; height: 100%; z-index: 10;
+}
+#img-preview { width: 100%; max-height: 240px; object-fit: contain; display: none; pointer-events: none; }
+.img-loaded-badge {
+  position: absolute; top: 10px; right: 10px; z-index: 11; display: none;
+  background: var(--ios-green); color: white;
+  font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px;
+}
+#upload-placeholder {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 10px; pointer-events: none;
+}
+.upload-icon {
+  width: 60px; height: 60px; background: var(--ios-card-solid);
+  border-radius: 16px; display: flex; align-items: center; justify-content: center;
+  font-size: 26px; box-shadow: var(--shadow-sm);
+}
+.upload-title { font-size: 15px; font-weight: 600; color: var(--ios-label); }
+.upload-sub { font-size: 13px; color: var(--ios-gray); }
+
+/* EXTRACT BUTTON */
+.btn-extract {
+  width: 100%; margin-top: 12px;
+  padding: 14px; background: var(--ios-blue);
+  color: white; border: none; border-radius: var(--radius-md);
+  font-family: inherit; font-size: 15px; font-weight: 600;
+  cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;
+  transition: opacity .15s, transform .12s;
+  letter-spacing: -0.2px;
+}
+.btn-extract:active { opacity: 0.75; transform: scale(0.98); }
+.btn-extract:disabled { background: var(--ios-gray4); color: var(--ios-gray2); cursor: not-allowed; transform: none; }
+.spinner {
+  width: 16px; height: 16px;
+  border: 2px solid rgba(255,255,255,0.35); border-top-color: white;
+  border-radius: 50%; animation: spin .65s linear infinite; display: none;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* TOAST */
+.toast-wrap { margin-bottom: 10px; }
+.toast {
+  padding: 12px 16px; border-radius: var(--radius-md);
+  font-size: 14px; font-weight: 500; display: flex; align-items: center; gap: 10px;
+  animation: toastIn .3s cubic-bezier(.34,1.56,.64,1);
+  box-shadow: var(--shadow-md);
+}
+@keyframes toastIn { from { opacity: 0; transform: translateY(-8px) scale(.97); } to { opacity: 1; transform: none; } }
+.toast.success { background: rgba(52,199,89,0.12); color: #1a7a38; border: 0.5px solid rgba(52,199,89,0.3); }
+.toast.error { background: rgba(255,59,48,0.10); color: #b52b22; border: 0.5px solid rgba(255,59,48,0.25); }
+.toast.info { background: rgba(0,122,255,0.10); color: var(--ios-blue-dark); border: 0.5px solid rgba(0,122,255,0.2); }
+
+/* FORM — iOS grouped list style */
+.ios-form { background: var(--ios-card-solid); border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-sm); }
+.ios-row {
+  display: flex; flex-direction: column;
+  padding: 11px 16px 10px;
+  border-bottom: 0.5px solid var(--ios-separator);
+  position: relative;
+}
+.ios-row:last-child { border-bottom: none; }
+.ios-row-label {
+  font-size: 11px; font-weight: 600; color: var(--ios-gray);
+  text-transform: uppercase; letter-spacing: 0.4px;
+  margin-bottom: 4px; display: flex; align-items: center; gap: 6px;
+}
+.ios-row-label .req { color: var(--ios-red); font-size: 13px; line-height: 1; }
+.conf-badge {
+  font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 20px;
+  margin-left: auto; letter-spacing: 0.1px;
+}
+.conf-high { background: rgba(52,199,89,0.15); color: #1a7a38; }
+.conf-mid  { background: rgba(255,149,0,0.15); color: #c07000; }
+.conf-low  { background: rgba(255,59,48,0.12); color: #c0281f; }
+.ios-field-row { display: flex; align-items: center; gap: 6px; }
+.ios-input {
+  flex: 1; border: none; outline: none; background: transparent;
+  font-family: inherit; font-size: 15px; color: var(--ios-label);
+  padding: 0; line-height: 1.4;
+}
+.ios-input::placeholder { color: var(--ios-gray3); }
+.ios-input.filled { color: var(--ios-label); }
+.btn-copy {
+  flex-shrink: 0; background: var(--ios-fill); border: none;
+  cursor: pointer; color: var(--ios-gray); font-size: 13px;
+  width: 28px; height: 28px; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  transition: all .15s;
+}
+.btn-copy:active { background: rgba(0,122,255,0.15); color: var(--ios-blue); transform: scale(0.92); }
+.btn-copy.copied { background: rgba(52,199,89,0.15); color: var(--ios-green); }
+
+/* ACTION BUTTONS */
+.btn-row { display: flex; gap: 10px; margin-top: 14px; }
+.btn-save {
+  flex: 1; padding: 14px;
+  background: var(--ios-blue); color: white; border: none;
+  border-radius: var(--radius-md); font-family: inherit; font-size: 15px; font-weight: 600;
+  cursor: pointer; transition: opacity .15s, transform .12s; letter-spacing: -0.2px;
+}
+.btn-save:active { opacity: 0.75; transform: scale(0.98); }
+.btn-cancel {
+  padding: 14px 20px; background: var(--ios-fill); color: var(--ios-label2);
+  border: none; border-radius: var(--radius-md); font-family: inherit;
+  font-size: 15px; font-weight: 500; cursor: pointer; transition: opacity .15s;
+}
+.btn-cancel:active { opacity: 0.6; }
+
+/* CUSTOMER LIST */
+.ios-list { background: var(--ios-card-solid); border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-sm); }
+.ios-list-item {
+  display: flex; align-items: center; gap: 13px;
+  padding: 12px 16px; border-bottom: 0.5px solid var(--ios-separator);
+  animation: toastIn .25s ease;
+}
+.ios-list-item:last-child { border-bottom: none; }
+.cust-avatar {
+  width: 40px; height: 40px; border-radius: 12px;
+  background: linear-gradient(135deg, var(--ios-blue), #5856d6);
+  display: flex; align-items: center; justify-content: center;
+  color: white; font-weight: 700; font-size: 13px; flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(0,122,255,0.25);
+}
+.cust-info { flex: 1; min-width: 0; }
+.cust-name { font-size: 15px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; letter-spacing: -0.2px; }
+.cust-meta { font-size: 12px; color: var(--ios-gray); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.cust-del {
+  background: none; border: none; color: var(--ios-gray2);
+  cursor: pointer; padding: 6px; border-radius: 8px;
+  font-size: 15px; transition: all .15s; flex-shrink: 0;
+}
+.cust-del:active { background: rgba(255,59,48,0.12); color: var(--ios-red); }
+
+/* LIST HEADER */
+.list-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+.list-title { font-size: 13px; font-weight: 600; color: var(--ios-gray); text-transform: uppercase; letter-spacing: 0.5px; }
+.counter-badge {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 20px; height: 20px; background: var(--ios-blue); color: white;
+  border-radius: 20px; font-size: 11px; font-weight: 700; padding: 0 6px; margin-left: 5px;
+}
+.btn-export {
+  padding: 6px 13px; background: var(--ios-fill); border: none;
+  border-radius: 8px; font-family: inherit; font-size: 13px;
+  font-weight: 600; color: var(--ios-blue); cursor: pointer;
+  transition: opacity .15s; display: flex; align-items: center; gap: 4px;
+}
+.btn-export:active { opacity: 0.6; }
+
+/* EMPTY STATE */
+.empty-state {
+  text-align: center; padding: 36px 20px; color: var(--ios-gray);
+  font-size: 14px; line-height: 1.6;
+}
+.empty-icon { font-size: 36px; display: block; margin-bottom: 10px; opacity: 0.5; }
+
+.hidden { display: none !important; }
+#img-preview2 { width: 100%; max-height: 240px; object-fit: contain; display: none; pointer-events: none; }
+
+/* INPUT METHOD BUTTONS */
+.input-method-row {
+  display: flex; gap: 8px; margin-bottom: 10px;
+}
+.btn-method {
+  flex: 1; padding: 10px 8px;
+  background: var(--ios-fill); border: 1.5px solid transparent;
+  border-radius: var(--radius-md); font-family: inherit;
+  font-size: 13px; font-weight: 600; color: var(--ios-gray);
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  gap: 6px; transition: all .15s;
+}
+.btn-method.active {
+  background: rgba(0,122,255,0.10); border-color: var(--ios-blue);
+  color: var(--ios-blue);
+}
+.btn-method:active { opacity: 0.7; }
+
+/* CAMERA MODAL */
+.camera-modal {
+  display: none; position: fixed; inset: 0; z-index: 1000;
+  background: #000; flex-direction: column;
+}
+.camera-modal.open { display: flex; }
+.camera-toolbar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: env(safe-area-inset-top, 16px) 20px 12px;
+  background: rgba(0,0,0,0.7); backdrop-filter: blur(10px);
+}
+.camera-title { color: white; font-size: 16px; font-weight: 600; }
+.btn-cam-close {
+  background: rgba(255,255,255,0.15); border: none; color: white;
+  width: 32px; height: 32px; border-radius: 50%; font-size: 16px;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+}
+#camera-video { flex: 1; width: 100%; object-fit: cover; }
+.camera-bottom {
+  display: flex; align-items: center; justify-content: center;
+  padding: 24px 40px env(safe-area-inset-bottom, 24px);
+  background: rgba(0,0,0,0.7); gap: 40px;
+}
+.btn-shutter {
+  width: 70px; height: 70px; border-radius: 50%;
+  background: white; border: 4px solid rgba(255,255,255,0.4);
+  cursor: pointer; transition: transform .12s, opacity .12s;
+  box-shadow: 0 0 0 3px rgba(255,255,255,0.2);
+}
+.btn-shutter:active { transform: scale(0.9); opacity: 0.8; }
+.btn-cam-flip {
+  width: 44px; height: 44px; border-radius: 50%;
+  background: rgba(255,255,255,0.15); border: none; color: white;
+  font-size: 20px; cursor: pointer; display: flex; align-items: center; justify-content: center;
+  transition: transform .3s;
+}
+.btn-cam-flip:active { transform: rotate(180deg); }
+#camera-canvas { display: none; }
+</style>
+</head>
+<body>
+
+<div class="navbar">
+  <div class="navbar-inner">
+    <span class="navbar-title">Customer Onboarding</span>
+    <span class="status-pill ready" id="api-status">● Siap</span>
+  </div>
+</div>
+
+<div class="page">
+
+  <!-- Upload Section - Dokumen ID -->
+  <div class="section-header">Dokumen ID</div>
+  <div class="ios-card upload-card" style="padding:16px;">
+    <div class="input-method-row">
+      <button class="btn-method active" id="method-upload-1" onclick="setMethod(1,'upload')">📁 Galeri</button>
+      <button class="btn-method" id="method-camera-1" onclick="setMethod(1,'camera')">📷 Kamera</button>
+    </div>
+    <div class="upload-zone" id="upload-area">
+      <input type="file" id="file-input" accept="image/*">
+      <img id="img-preview" alt="">
+      <div class="img-loaded-badge" id="img-badge">✓ Siap</div>
+      <div id="upload-placeholder">
+        <div class="upload-icon">📷</div>
+        <div class="upload-title">Upload Foto Dokumen</div>
+        <div class="upload-sub">Passport · KTP · ID Card</div>
+      </div>
+    </div>
+    <button class="btn-extract" id="btn-extract" onclick="doExtract()" disabled>
+      <div class="spinner" id="spinner"></div>
+      <span id="btn-label">✨ Analisis &amp; Ekstrak Data</span>
+    </button>
+  </div>
+
+  <!-- Upload Section - Barcode IMEI -->
+  <div class="section-header">Barcode IMEI</div>
+  <div class="ios-card upload-card" style="padding:16px;">
+    <div class="input-method-row">
+      <button class="btn-method active" id="method-upload-2" onclick="setMethod(2,'upload')">📁 Galeri</button>
+      <button class="btn-method" id="method-camera-2" onclick="setMethod(2,'camera')">📷 Kamera</button>
+    </div>
+    <div class="upload-zone" id="upload-area2">
+      <input type="file" id="file-input2" accept="image/*">
+      <img id="img-preview2" alt="">
+      <div class="img-loaded-badge" id="img-badge2">✓ Siap</div>
+      <div id="upload-placeholder2">
+        <div class="upload-icon">📦</div>
+        <div class="upload-title">Upload Barcode IMEI</div>
+        <div class="upload-sub">Foto barcode dus / label perangkat</div>
+      </div>
+    </div>
+    <button class="btn-extract" id="btn-extract2" onclick="doExtractIMEI()" disabled>
+      <div class="spinner" id="spinner2"></div>
+      <span id="btn-label2">🔍 Baca IMEI</span>
+    </button>
+  </div>
+
+  <!-- Form Section -->
+  <div id="card-form" class="hidden">
+    <div class="section-header">Data Customer</div>
+    <div class="toast-wrap" id="toast-area"></div>
+
+    <div class="ios-form">
+      <div class="ios-row">
+        <div class="ios-row-label">Nama Lengkap <span class="req">*</span> <span class="conf-badge hidden" id="conf-name"></span></div>
+        <div class="ios-field-row">
+          <input class="ios-input" id="f-name" type="text" placeholder="Nama sesuai dokumen">
+          <button class="btn-copy" onclick="copyField('f-name', this)" title="Salin">⧉</button>
+        </div>
+      </div>
+      <div class="ios-row">
+        <div class="ios-row-label">ID Passport <span class="conf-badge hidden" id="conf-passport"></span></div>
+        <div class="ios-field-row">
+          <input class="ios-input" id="f-passport" type="text" placeholder="Nomor Passport (jika ada)">
+          <button class="btn-copy" onclick="copyField('f-passport', this)" title="Salin">⧉</button>
+        </div>
+      </div>
+      <div class="ios-row">
+        <div class="ios-row-label">Tanggal Lahir <span class="req">*</span> <span class="conf-badge hidden" id="conf-dob"></span></div>
+        <div class="ios-field-row">
+          <input class="ios-input" id="f-dob" type="text" placeholder="DD MMM YYYY">
+          <button class="btn-copy" onclick="copyField('f-dob', this)" title="Salin">⧉</button>
+        </div>
+      </div>
+      <div class="ios-row">
+        <div class="ios-row-label">Nomor Kartu Perdana <span style="font-size:10px;color:var(--ios-gray);font-weight:400;text-transform:none;">(bila terbaca)</span></div>
+        <div class="ios-field-row">
+          <input class="ios-input" id="f-sim" type="text" placeholder="Nomor kartu SIM">
+          <button class="btn-copy" onclick="copyField('f-sim', this)" title="Salin">⧉</button>
+        </div>
+      </div>
+      <div class="ios-row">
+        <div class="ios-row-label">IMEI <span class="conf-badge hidden" id="conf-imei"></span></div>
+        <div class="ios-field-row">
+          <input class="ios-input" id="f-imei" type="text" placeholder="IMEI perangkat">
+          <button class="btn-copy" onclick="copyField('f-imei', this)" title="Salin">⧉</button>
+        </div>
+      </div>
+      <div class="ios-row">
+        <div class="ios-row-label">IMEI2 <span class="conf-badge hidden" id="conf-imei2"></span></div>
+        <div class="ios-field-row">
+          <input class="ios-input" id="f-imei2" type="text" placeholder="IMEI2 perangkat (jika dual SIM)">
+          <button class="btn-copy" onclick="copyField('f-imei2', this)" title="Salin">⧉</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn-save" onclick="saveCustomer()">Simpan Customer</button>
+      <button class="btn-cancel" onclick="resetForm()">Batal</button>
+    </div>
+  </div>
+
+  <!-- Customer List Section -->
+  <div class="list-header" style="margin-top:28px;">
+    <div class="list-title">
+      Daftar Customer <span class="counter-badge" id="counter">0</span>
+    </div>
+    <button class="btn-export" onclick="exportCSV()">⬇ CSV</button>
+  </div>
+  <div class="ios-list" id="customer-list-wrap">
+    <div id="customer-list">
+      <div class="empty-state">
+        <span class="empty-icon">🪪</span>
+        Belum ada data.<br>Upload dokumen dulu.
+      </div>
+    </div>
+  </div>
+
+</div><!-- /page -->
+
+<!-- Camera Modal -->
+<div class="camera-modal" id="camera-modal">
+  <div class="camera-toolbar">
+    <span class="camera-title" id="camera-modal-title">Ambil Foto Dokumen</span>
+    <button class="btn-cam-close" onclick="closeCamera()">✕</button>
+  </div>
+  <video id="camera-video" autoplay playsinline muted></video>
+  <canvas id="camera-canvas"></canvas>
+  <div class="camera-bottom">
+    <button class="btn-cam-flip" onclick="flipCamera()" title="Ganti kamera">🔄</button>
+    <button class="btn-shutter" onclick="takePhoto()" title="Ambil foto"></button>
+    <div style="width:44px;"></div>
+  </div>
+</div>
+
+<script>
+let customers = [];
+let imgBase64 = '';
+let imgMediaType = 'image/jpeg';
+let imgBase64_2 = '';
+let imgMediaType_2 = 'image/jpeg';
+const GROQ_KEY = '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';
+
+const fileInput = document.getElementById('file-input');
+const uploadArea = document.getElementById('upload-area');
+const fileInput2 = document.getElementById('file-input2');
+const uploadArea2 = document.getElementById('upload-area2');
+
+// Camera state
+let cameraStream = null;
+let cameraFacing = 'environment'; // rear camera by default
+let activeCameraSlot = 1; // which slot (1 or 2) is using camera
+
+// Method toggle (upload vs camera)
+function setMethod(slot, method) {
+  const uploadBtn = document.getElementById('method-upload-' + slot);
+  const cameraBtn = document.getElementById('method-camera-' + slot);
+  uploadBtn.classList.toggle('active', method === 'upload');
+  cameraBtn.classList.toggle('active', method === 'camera');
+
+  if (method === 'camera') {
+    activeCameraSlot = slot;
+    openCamera(slot);
+  }
+}
+
+async function openCamera(slot) {
+  const titles = { 1: 'Foto Dokumen ID', 2: 'Foto Barcode IMEI' };
+  document.getElementById('camera-modal-title').textContent = titles[slot] || 'Ambil Foto';
+  document.getElementById('camera-modal').classList.add('open');
+  await startCameraStream();
+}
+
+async function startCameraStream() {
+  if (cameraStream) { cameraStream.getTracks().forEach(t => t.stop()); }
+  try {
+    cameraStream = await navigator.mediaDevices.getUserMedia({
+      video: { facingMode: cameraFacing, width: { ideal: 1920 }, height: { ideal: 1080 } },
+      audio: false
+    });
+    document.getElementById('camera-video').srcObject = cameraStream;
+  } catch(err) {
+    closeCamera();
+    showToast('error', '✗ Kamera tidak bisa diakses: ' + err.message);
+    // Reset button to upload mode
+    setMethod(activeCameraSlot, 'upload');
+  }
+}
+
+async function flipCamera() {
+  cameraFacing = cameraFacing === 'environment' ? 'user' : 'environment';
+  await startCameraStream();
+}
+
+function takePhoto() {
+  const video = document.getElementById('camera-video');
+  const canvas = document.getElementById('camera-canvas');
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
+  canvas.getContext('2d').drawImage(video, 0, 0);
+  canvas.toBlob(blob => {
+    const file = new File([blob], 'camera-' + Date.now() + '.jpg', { type: 'image/jpeg' });
+    if (activeCameraSlot === 1) loadImg(file);
+    else loadImg2(file);
+    closeCamera();
+  }, 'image/jpeg', 0.92);
+}
+
+function closeCamera() {
+  if (cameraStream) { cameraStream.getTracks().forEach(t => t.stop()); cameraStream = null; }
+  document.getElementById('camera-modal').classList.remove('open');
+  // Reset method button back to upload if no image loaded
+  const hasImg1 = !!imgBase64;
+  const hasImg2 = !!imgBase64_2;
+  if (activeCameraSlot === 1 && !hasImg1) setMethod(1, 'upload');
+  if (activeCameraSlot === 2 && !hasImg2) setMethod(2, 'upload');
+}
+
+fileInput.addEventListener('change', e => { const f=e.target.files[0]; if(f) loadImg(f); });
+uploadArea.addEventListener('dragover', e => { e.preventDefault(); uploadArea.classList.add('drag'); });
+uploadArea.addEventListener('dragleave', () => uploadArea.classList.remove('drag'));
+uploadArea.addEventListener('drop', e => {
+  e.preventDefault(); uploadArea.classList.remove('drag');
+  const f = e.dataTransfer.files[0];
+  if (f && f.type.startsWith('image/')) loadImg(f);
+});
+
+fileInput2.addEventListener('change', e => { const f=e.target.files[0]; if(f) loadImg2(f); });
+uploadArea2.addEventListener('dragover', e => { e.preventDefault(); uploadArea2.classList.add('drag'); });
+uploadArea2.addEventListener('dragleave', () => uploadArea2.classList.remove('drag'));
+uploadArea2.addEventListener('drop', e => {
+  e.preventDefault(); uploadArea2.classList.remove('drag');
+  const f = e.dataTransfer.files[0];
+  if (f && f.type.startsWith('image/')) loadImg2(f);
+});
+
+function loadImg(file) {
+  const reader = new FileReader();
+  imgMediaType = file.type || 'image/jpeg';
+  reader.onload = ev => {
+    imgBase64 = ev.target.result.split(',')[1];
+    const img = document.getElementById('img-preview');
+    img.src = ev.target.result;
+    img.style.display = 'block';
+    document.getElementById('upload-placeholder').style.display = 'none';
+    document.getElementById('img-badge').style.display = 'flex';
+    uploadArea.classList.add('loaded');
+    checkExtractBtn();
+  };
+  reader.readAsDataURL(file);
+}
+
+function loadImg2(file) {
+  const reader = new FileReader();
+  imgMediaType_2 = file.type || 'image/jpeg';
+  reader.onload = ev => {
+    imgBase64_2 = ev.target.result.split(',')[1];
+    const img = document.getElementById('img-preview2');
+    img.src = ev.target.result;
+    img.style.display = 'block';
+    document.getElementById('upload-placeholder2').style.display = 'none';
+    document.getElementById('img-badge2').style.display = 'flex';
+    uploadArea2.classList.add('loaded');
+    checkExtractBtn2();
+  };
+  reader.readAsDataURL(file);
+}
+
+function checkExtractBtn() {
+  document.getElementById('btn-extract').disabled = !imgBase64;
+}
+
+function checkExtractBtn2() {
+  document.getElementById('btn-extract2').disabled = !imgBase64_2;
+}
+
+async function doExtract() {
+  if (!imgBase64) return;
+  const btn = document.getElementById('btn-extract');
+  const spinner = document.getElementById('spinner');
+  const lbl = document.getElementById('btn-label');
+  btn.disabled = true; spinner.style.display = 'block'; lbl.textContent = 'Menganalisis...';
+  try {
+    const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + GROQ_KEY
+      },
+      body: JSON.stringify({
+        model: "meta-llama/llama-4-scout-17b-16e-instruct",
+        max_tokens: 600,
+        messages: [{
+          role: "user",
+          content: [
+            { type: "image_url", image_url: { url: "data:" + imgMediaType + ";base64," + imgBase64 } },
+            { type: "text", text: `Kamu adalah sistem OCR dokumen identitas. Ekstrak data dari gambar ini.
+Kembalikan HANYA JSON valid, tanpa teks lain, tanpa backtick.
+
+{
+  "full_name": "nama lengkap",
+  "date_of_birth": "tanggal lahir format DD MMM YYYY contoh: 21 JUL 1976",
+  "passport_id": "nomor passport (khusus jika dokumen adalah passport, jika tidak ada isi string kosong)",
+  "sim_number": "nomor kartu perdana/SIM jika terlihat, jika tidak ada isi string kosong",
+  "iccid": "nomor ICCID kartu perdana jika terlihat, jika tidak ada isi string kosong",
+  "confidence": {
+    "full_name": "high atau medium atau low",
+    "date_of_birth": "high atau medium atau low",
+    "passport_id": "high atau medium atau low"
+  }
+}
+
+Jika tidak terlihat, isi string kosong "". Jangan mengarang data.` }
+          ]
+        }]
+      })
+    });
+    if (!res.ok) { const err = await res.json(); throw new Error(err.error?.message || 'API error ' + res.status); }
+    const data = await res.json();
+    const raw = data.choices[0].message.content || '';
+    const clean = raw.replace(/```json|```/g, '').trim();
+    const parsed = JSON.parse(clean);
+    fillForm(parsed);
+    document.getElementById('card-form').classList.remove('hidden');
+    document.getElementById('card-form').scrollIntoView({ behavior:'smooth', block:'start' });
+    showToast('success', '✓ Data berhasil diekstrak! Periksa sebelum simpan.');
+  } catch(err) {
+    showToast('error', '✗ Gagal: ' + err.message);
+  } finally {
+    spinner.style.display = 'none'; lbl.textContent = '✨ Analisis Ulang'; btn.disabled = false;
+  }
+}
+
+async function doExtractIMEI() {
+  if (!imgBase64_2) return;
+  const btn = document.getElementById('btn-extract2');
+  const spinner = document.getElementById('spinner2');
+  const lbl = document.getElementById('btn-label2');
+  btn.disabled = true; spinner.style.display = 'block'; lbl.textContent = 'Membaca IMEI...';
+  try {
+    const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + GROQ_KEY
+      },
+      body: JSON.stringify({
+        model: "meta-llama/llama-4-scout-17b-16e-instruct",
+        max_tokens: 300,
+        messages: [{
+          role: "user",
+          content: [
+            { type: "image_url", image_url: { url: "data:" + imgMediaType_2 + ";base64," + imgBase64_2 } },
+            { type: "text", text: `Kamu adalah sistem OCR untuk membaca IMEI perangkat dari gambar barcode/label dus.
+Kembalikan HANYA JSON valid, tanpa teks lain, tanpa backtick.
+
+{
+  "imei": "nomor IMEI pertama (15 digit), string kosong jika tidak ada",
+  "imei2": "nomor IMEI kedua (15 digit, untuk dual SIM), string kosong jika tidak ada",
+  "confidence": {
+    "imei": "high atau medium atau low",
+    "imei2": "high atau medium atau low"
+  }
+}
+
+Jika tidak terlihat, isi string kosong "". Jangan mengarang data.` }
+          ]
+        }]
+      })
+    });
+    if (!res.ok) { const err = await res.json(); throw new Error(err.error?.message || 'API error ' + res.status); }
+    const data = await res.json();
+    const raw = data.choices[0].message.content || '';
+    const clean = raw.replace(/```json|```/g, '').trim();
+    const parsed = JSON.parse(clean);
+    fillIMEI(parsed);
+    document.getElementById('card-form').classList.remove('hidden');
+    document.getElementById('card-form').scrollIntoView({ behavior:'smooth', block:'start' });
+    showToast('success', '✓ IMEI berhasil dibaca! Periksa sebelum simpan.');
+  } catch(err) {
+    showToast('error', '✗ Gagal baca IMEI: ' + err.message);
+  } finally {
+    spinner.style.display = 'none'; lbl.textContent = '🔍 Baca Ulang IMEI'; btn.disabled = false;
+  }
+}
+
+function fillForm(d) {
+  setField('f-name',     d.full_name,      d.confidence?.full_name,     'conf-name');
+  setField('f-passport', d.passport_id,    d.confidence?.passport_id,   'conf-passport');
+  setField('f-dob',      d.date_of_birth,  d.confidence?.date_of_birth, 'conf-dob');
+  setField('f-sim',      d.sim_number,     null, null);
+}
+
+function fillIMEI(d) {
+  setField('f-imei',  d.imei,  d.confidence?.imei,  'conf-imei');
+  setField('f-imei2', d.imei2, d.confidence?.imei2, 'conf-imei2');
+}
+
+function setField(inputId, value, conf, badgeId) {
+  const input = document.getElementById(inputId);
+  const badge = document.getElementById(badgeId);
+  input.value = value || '';
+  input.classList.toggle('filled', !!value);
+  if (badge) {
+    if (conf) {
+      badge.classList.remove('hidden','conf-high','conf-mid','conf-low');
+      if (conf==='high')        { badge.classList.add('conf-high'); badge.textContent='✓ Akurat'; }
+      else if (conf==='medium') { badge.classList.add('conf-mid');  badge.textContent='~ Periksa'; }
+      else                      { badge.classList.add('conf-low');  badge.textContent='? Ragu'; }
+    } else { badge.classList.add('hidden'); }
+  }
+}
+
+function saveCustomer() {
+  const name     = document.getElementById('f-name').value.trim();
+  const dob      = document.getElementById('f-dob').value.trim();
+  const passport = document.getElementById('f-passport').value.trim();
+  const sim      = document.getElementById('f-sim').value.trim();
+  const imei     = document.getElementById('f-imei').value.trim();
+  const imei2    = document.getElementById('f-imei2').value.trim();
+  if (!name || !dob) { showToast('error','✗ Nama dan Tanggal Lahir wajib diisi!'); return; }
+  customers.push({ id:Date.now(), name, passport_id:passport, dob, sim_number:sim, imei, imei2, saved_at:new Date().toLocaleString('id-ID') });
+  renderList();
+  showToast('success', '✓ ' + name + ' berhasil disimpan!');
+  setTimeout(() => { resetForm(); resetUpload(); }, 700);
+}
+
+function resetForm() {
+  ['f-name','f-passport','f-dob','f-sim','f-imei','f-imei2'].forEach(id => {
+    const el = document.getElementById(id); el.value=''; el.classList.remove('filled');
+  });
+  ['conf-name','conf-passport','conf-dob','conf-imei','conf-imei2'].forEach(id => document.getElementById(id).classList.add('hidden'));
+  document.getElementById('card-form').classList.add('hidden');
+  document.getElementById('toast-area').innerHTML = '';
+}
+
+function resetUpload() {
+  imgBase64 = '';
+  document.getElementById('file-input').value = '';
+  const img = document.getElementById('img-preview');
+  img.style.display = 'none'; img.src = '';
+  document.getElementById('upload-placeholder').style.display = 'flex';
+  document.getElementById('img-badge').style.display = 'none';
+  uploadArea.classList.remove('loaded');
+  document.getElementById('btn-label').textContent = '✨ Analisis & Ekstrak Data';
+  checkExtractBtn();
+  setMethod(1, 'upload');
+
+  imgBase64_2 = '';
+  document.getElementById('file-input2').value = '';
+  const img2 = document.getElementById('img-preview2');
+  img2.style.display = 'none'; img2.src = '';
+  document.getElementById('upload-placeholder2').style.display = 'flex';
+  document.getElementById('img-badge2').style.display = 'none';
+  uploadArea2.classList.remove('loaded');
+  document.getElementById('btn-label2').textContent = '🔍 Baca IMEI';
+  checkExtractBtn2();
+  setMethod(2, 'upload');
+}
+
+function renderList() {
+  const list = document.getElementById('customer-list');
+  document.getElementById('counter').textContent = customers.length;
+  if (customers.length === 0) {
+    list.innerHTML = '<div class="empty-state"><span class="empty-icon">🪪</span>Belum ada data.<br>Upload dokumen dulu.</div>';
+    return;
+  }
+  list.innerHTML = '';
+  customers.slice().reverse().forEach(c => {
+    const initials = c.name.split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase();
+    const item = document.createElement('div');
+    item.className = 'ios-list-item';
+    item.innerHTML = `
+      <div class="cust-avatar">${initials}</div>
+      <div class="cust-info">
+        <div class="cust-name">${esc(c.name)}</div>
+        <div class="cust-meta">${c.passport_id ? esc(c.passport_id) + ' · ' : ''}${esc(c.dob)}${c.imei ? ' · IMEI: ' + esc(c.imei) : ''}</div>
+      </div>
+      <button class="cust-del" onclick="deleteCustomer(${c.id})">✕</button>`;
+    list.appendChild(item);
+  });
+}
+
+function deleteCustomer(id) { customers = customers.filter(c=>c.id!==id); renderList(); }
+
+function exportCSV() {
+  if (!customers.length) { alert('Belum ada data.'); return; }
+  const header = 'Nama Lengkap,ID Passport,Tanggal Lahir,Nomor Kartu Perdana,IMEI,IMEI2,Waktu Simpan';
+  const rows = customers.map(c=>[c.name,c.passport_id,c.dob,c.sim_number,c.imei,c.imei2,c.saved_at].map(v=>`"${(v||'').replace(/"/g,'""')}"`).join(','));
+  const blob = new Blob([[header,...rows].join('\n')],{type:'text/csv;charset=utf-8;'});
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+  a.download = `customers_${new Date().toISOString().slice(0,10)}.csv`; a.click();
+}
+
+function showToast(type, msg) {
+  const area = document.getElementById('toast-area');
+  const icons = {success:'✅',error:'❌',info:'ℹ️'};
+  area.innerHTML = `<div class="toast ${type}">${icons[type]||''} ${msg}</div>`;
+  if (type==='success') setTimeout(()=>{area.innerHTML='';},4000);
+}
+
+function copyField(inputId, btn) {
+  const val = document.getElementById(inputId).value;
+  if (!val) return;
+  navigator.clipboard.writeText(val).then(() => {
+    btn.textContent = '✓'; btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = '⧉'; btn.classList.remove('copied'); }, 1500);
+  });
+}
+
+function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+renderList();
+</script>
+</body>
+</html>
