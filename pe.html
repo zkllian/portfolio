@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Customer Onboarding</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inconsolata:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#f5f4f0;--white:#fff;--ink:#1a1a1a;--ink2:#444;--muted:#999;
+  --border:#e2e0da;--accent:#1a4dff;--accent-light:#eef1ff;
+  --success:#0d9e6e;--success-light:#edfaf5;
+  --warn:#d97706;--warn-light:#fffbeb;
+  --danger:#dc2626;--danger-light:#fef2f2;
+  --shadow:0 2px 12px rgba(0,0,0,0.07);--shadow-lg:0 8px 32px rgba(0,0,0,0.10);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);font-family:'Plus Jakarta Sans',sans-serif;color:var(--ink);min-height:100vh;}
+.topbar{background:var(--white);border-bottom:1px solid var(--border);padding:0 20px;height:52px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+.topbar-brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:15px;}
+.brand-dot{width:28px;height:28px;background:var(--accent);border-radius:8px;display:flex;align-items:center;justify-content:center;color:white;font-size:14px;}
+.topbar-right{display:flex;align-items:center;gap:10px;}
+.api-status{font-size:11px;padding:4px 10px;border-radius:20px;font-weight:600;font-family:'Inconsolata',monospace;}
+.api-status.ok{background:var(--success-light);color:var(--success);}
+.api-status.none{background:var(--warn-light);color:var(--warn);}
+.page{max-width:720px;margin:0 auto;padding:28px 16px 80px;}
+.page-header{margin-bottom:24px;}
+.page-header h1{font-size:22px;font-weight:800;letter-spacing:-0.5px;margin-bottom:4px;}
+.page-header p{font-size:13px;color:var(--muted);}
+.card{background:var(--white);border:1px solid var(--border);border-radius:16px;padding:22px;margin-bottom:14px;box-shadow:var(--shadow);}
+.card-header{display:flex;align-items:center;gap:12px;margin-bottom:20px;}
+.card-icon{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;}
+.icon-blue{background:var(--accent-light);}
+.icon-green{background:var(--success-light);}
+.icon-warn{background:var(--warn-light);}
+.card-title{font-size:14px;font-weight:700;letter-spacing:-0.2px;}
+.card-sub{font-size:12px;color:var(--muted);margin-top:1px;}
+
+/* API Key setup */
+.api-setup-row{display:flex;gap:8px;align-items:center;}
+.api-input{flex:1;padding:10px 13px;border:1.5px solid var(--border);border-radius:9px;font-family:'Inconsolata',monospace;font-size:13px;color:var(--ink);background:var(--bg);outline:none;transition:border-color .2s;}
+.api-input:focus{border-color:var(--accent);}
+.btn-sm{padding:10px 16px;border:none;border-radius:9px;font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;font-weight:700;cursor:pointer;transition:all .2s;white-space:nowrap;}
+.btn-blue{background:var(--accent);color:white;}
+.btn-blue:hover{background:#0d3de0;}
+.btn-ghost{background:transparent;border:1.5px solid var(--border);color:var(--ink2);}
+.btn-ghost:hover{border-color:var(--accent);color:var(--accent);}
+.api-hint{font-size:11px;color:var(--muted);margin-top:8px;line-height:1.6;}
+.api-hint a{color:var(--accent);text-decoration:none;}
+
+/* Upload */
+.upload-area{border:2px dashed var(--border);border-radius:12px;padding:36px 20px;text-align:center;cursor:pointer;transition:all .25s;position:relative;background:var(--bg);}
+.upload-area:hover,.upload-area.drag{border-color:var(--accent);background:var(--accent-light);}
+.upload-area.loaded{border-style:solid;border-color:var(--success);padding:0;background:#000;overflow:hidden;}
+.upload-area input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;z-index:2;}
+.upload-area.loaded input{z-index:0;}
+#img-preview{width:100%;max-height:260px;object-fit:contain;display:none;border-radius:10px;}
+.img-badge{position:absolute;top:8px;right:8px;background:var(--success);color:white;font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;z-index:3;display:none;}
+.upload-icon-wrap{width:50px;height:50px;background:var(--white);border:1px solid var(--border);border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:22px;margin:0 auto 12px;}
+.upload-label{font-size:14px;font-weight:600;margin-bottom:4px;}
+.upload-hint{font-size:12px;color:var(--muted);line-height:1.6;}
+
+/* Buttons */
+.btn-extract{width:100%;margin-top:14px;padding:13px;background:var(--accent);color:white;border:none;border-radius:10px;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .2s;}
+.btn-extract:hover{background:#0d3de0;transform:translateY(-1px);box-shadow:0 4px 16px rgba(26,77,255,.3);}
+.btn-extract:disabled{background:var(--border);color:var(--muted);cursor:not-allowed;transform:none;box-shadow:none;}
+.spinner{width:16px;height:16px;border:2px solid rgba(255,255,255,.35);border-top-color:white;border-radius:50%;animation:spin .65s linear infinite;display:none;}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+/* Toast */
+.toast{padding:11px 15px;border-radius:10px;font-size:13px;font-weight:500;display:flex;align-items:center;gap:8px;margin-bottom:14px;animation:slideDown .3s ease;}
+@keyframes slideDown{from{opacity:0;transform:translateY(-6px);}to{opacity:1;transform:translateY(0);}}
+.toast.success{background:var(--success-light);color:var(--success);border:1px solid #a7f3d0;}
+.toast.error{background:var(--danger-light);color:var(--danger);border:1px solid #fca5a5;}
+.toast.info{background:var(--accent-light);color:var(--accent);border:1px solid #bfdbfe;}
+
+/* Form */
+.fields-grid{display:grid;gap:14px;}
+.two-col{grid-template-columns:1fr 1fr;}
+@media(max-width:480px){.two-col{grid-template-columns:1fr;}}
+.field-wrap{display:flex;flex-direction:column;gap:5px;}
+.field-label{font-size:11px;font-weight:700;color:var(--ink2);letter-spacing:.03em;display:flex;align-items:center;gap:5px;}
+.field-label .req{color:var(--danger);}
+.field-input{padding:10px 13px;border:1.5px solid var(--border);border-radius:9px;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;color:var(--ink);background:var(--white);outline:none;transition:border-color .2s,box-shadow .2s;width:100%;}
+.field-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(26,77,255,.08);}
+.field-input.filled{border-color:var(--success);background:var(--success-light);}
+.field-input.filled:focus{border-color:var(--accent);background:var(--white);}
+.conf-badge{display:inline-flex;align-items:center;gap:3px;font-size:10px;font-weight:600;padding:2px 7px;border-radius:20px;margin-left:auto;}
+.conf-high{background:var(--success-light);color:var(--success);}
+.conf-mid{background:var(--warn-light);color:var(--warn);}
+.conf-low{background:var(--danger-light);color:var(--danger);}
+.btn-row{display:flex;gap:10px;margin-top:18px;}
+.btn-save{flex:1;padding:12px;background:var(--success);color:white;border:none;border-radius:10px;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;}
+.btn-save:hover{background:#0a8a5e;transform:translateY(-1px);}
+.btn-reset{padding:12px 18px;background:transparent;color:var(--ink2);border:1.5px solid var(--border);border-radius:10px;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:all .2s;}
+.btn-reset:hover{border-color:var(--ink);color:var(--ink);}
+
+/* Customer list */
+.customer-list{display:flex;flex-direction:column;gap:10px;}
+.customer-item{display:flex;align-items:center;gap:12px;padding:13px 15px;background:var(--bg);border:1px solid var(--border);border-radius:12px;animation:slideDown .25s ease;}
+.cust-avatar{width:38px;height:38px;background:var(--accent);border-radius:9px;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:13px;flex-shrink:0;}
+.cust-info{flex:1;min-width:0;}
+.cust-name{font-size:14px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.cust-meta{font-size:11px;color:var(--muted);margin-top:1px;font-family:'Inconsolata',monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.cust-del{background:none;border:none;color:var(--muted);cursor:pointer;padding:6px;border-radius:6px;font-size:13px;transition:all .2s;flex-shrink:0;}
+.cust-del:hover{background:var(--danger-light);color:var(--danger);}
+.empty-state{text-align:center;padding:28px;color:var(--muted);font-size:13px;border:1px dashed var(--border);border-radius:12px;}
+.list-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+.counter-badge{display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:20px;background:var(--accent);color:white;border-radius:20px;font-size:11px;font-weight:700;padding:0 5px;margin-left:6px;}
+.btn-export{padding:7px 13px;background:transparent;border:1.5px solid var(--border);border-radius:8px;font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;font-weight:600;color:var(--ink2);cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:5px;}
+.btn-export:hover{border-color:var(--accent);color:var(--accent);}
+.hidden{display:none!important;}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-brand">
+    <div class="brand-dot">C</div>
+    Customer Onboarding
+  </div>
+  <div class="topbar-right">
+    <div class="api-status none" id="api-status">⚠ No API Key</div>
+  </div>
+</div>
+
+<div class="page">
+  <div class="page-header">
+    <h1>Registrasi Customer</h1>
+    <p>Upload foto dokumen → AI ekstrak data → Simpan</p>
+  </div>
+
+  <!-- API Key Card -->
+  <div class="card" id="card-apikey">
+    <div class="card-header">
+      <div class="card-icon icon-warn">🔑</div>
+      <div>
+        <div class="card-title">Groq API Key</div>
+        <div class="card-sub">Gratis — daftar di console.groq.com</div>
+      </div>
+    </div>
+    <div class="api-setup-row">
+      <input class="api-input" type="password" id="groq-key" placeholder="gsk_xxxxxxxxxxxxxxxxxxxx">
+      <button class="btn-sm btn-blue" onclick="saveKey()">Simpan</button>
+    </div>
+    <div class="api-hint">
+      API key disimpan di memori browser saja, tidak dikirim kemana-mana kecuali ke Groq.<br>
+      Daftar gratis & ambil API key di <a href="https://console.groq.com" target="_blank">console.groq.com</a> → API Keys → Create.
+    </div>
+  </div>
+
+  <!-- Upload Card -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon icon-blue">📄</div>
+      <div>
+        <div class="card-title">Upload Foto Dokumen</div>
+        <div class="card-sub">Passport, KTP, ID Card — foto harus jelas</div>
+      </div>
+    </div>
+    <div class="upload-area" id="upload-area">
+      <input type="file" id="file-input" accept="image/*">
+      <img id="img-preview" alt="">
+      <div class="img-badge" id="img-badge">✓ Siap dianalisis</div>
+      <div id="upload-placeholder">
+        <div class="upload-icon-wrap">📷</div>
+        <div class="upload-label">Klik atau drag foto ke sini</div>
+        <div class="upload-hint">Passport · KTP · ID Card<br>JPG, PNG, WEBP</div>
+      </div>
+    </div>
+    <button class="btn-extract" id="btn-extract" onclick="doExtract()" disabled>
+      <div class="spinner" id="spinner"></div>
+      <span id="btn-label">✨ Analisis & Ekstrak Data</span>
+    </button>
+  </div>
+
+  <!-- Form Card -->
+  <div class="card hidden" id="card-form">
+    <div class="card-header">
+      <div class="card-icon icon-green">✏️</div>
+      <div>
+        <div class="card-title">Data Customer</div>
+        <div class="card-sub">Periksa & edit jika perlu</div>
+      </div>
+    </div>
+    <div id="toast-area"></div>
+    <div class="fields-grid two-col">
+      <div class="field-wrap" style="grid-column:1/-1;">
+        <div class="field-label">Nama Lengkap <span class="req">*</span><span class="conf-badge hidden" id="conf-name"></span></div>
+        <input class="field-input" id="f-name" type="text" placeholder="Nama sesuai dokumen">
+      </div>
+      <div class="field-wrap">
+        <div class="field-label">No. Passport / ID <span class="req">*</span><span class="conf-badge hidden" id="conf-id"></span></div>
+        <input class="field-input" id="f-id" type="text" placeholder="Nomor dokumen">
+      </div>
+      <div class="field-wrap">
+        <div class="field-label">Tanggal Lahir <span class="req">*</span><span class="conf-badge hidden" id="conf-dob"></span></div>
+        <input class="field-input" id="f-dob" type="text" placeholder="DD MMM YYYY">
+      </div>
+      <div class="field-wrap">
+        <div class="field-label">Kewarganegaraan</div>
+        <input class="field-input" id="f-nat" type="text" placeholder="—">
+      </div>
+      <div class="field-wrap">
+        <div class="field-label">Jenis Dokumen</div>
+        <input class="field-input" id="f-doctype" type="text" placeholder="Passport / KTP / dll">
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-save" onclick="saveCustomer()">＋ Simpan Customer</button>
+      <button class="btn-reset" onclick="resetForm()">Batal</button>
+    </div>
+  </div>
+
+  <!-- List Card -->
+  <div class="card">
+    <div class="list-header">
+      <div>
+        <span style="font-size:14px;font-weight:700;">Daftar Customer</span>
+        <span class="counter-badge" id="counter">0</span>
+      </div>
+      <button class="btn-export" onclick="exportCSV()">⬇ CSV</button>
+    </div>
+    <div class="customer-list" id="customer-list">
+      <div class="empty-state" id="empty-state">Belum ada data.<br>Upload dokumen dulu.</div>
+    </div>
+  </div>
+</div>
+
+<script>
+let customers = [];
+let imgBase64 = '';
+let imgMediaType = 'image/jpeg';
+let groqKey = '';
+
+function saveKey() {
+  const val = document.getElementById('groq-key').value.trim();
+  if (!val.startsWith('gsk_')) {
+    alert('API key Groq harus dimulai dengan "gsk_"');
+    return;
+  }
+  groqKey = val;
+  document.getElementById('api-status').textContent = '✓ API Key OK';
+  document.getElementById('api-status').className = 'api-status ok';
+  document.getElementById('groq-key').value = '●'.repeat(20);
+  checkExtractBtn();
+  showToast('success', '✓ API Key tersimpan! Sekarang bisa analisis foto.');
+}
+
+const fileInput = document.getElementById('file-input');
+const uploadArea = document.getElementById('upload-area');
+
+fileInput.addEventListener('change', e => { const f=e.target.files[0]; if(f) loadImg(f); });
+uploadArea.addEventListener('dragover', e => { e.preventDefault(); uploadArea.classList.add('drag'); });
+uploadArea.addEventListener('dragleave', () => uploadArea.classList.remove('drag'));
+uploadArea.addEventListener('drop', e => {
+  e.preventDefault(); uploadArea.classList.remove('drag');
+  const f = e.dataTransfer.files[0];
+  if (f && f.type.startsWith('image/')) loadImg(f);
+});
+
+function loadImg(file) {
+  const reader = new FileReader();
+  imgMediaType = file.type || 'image/jpeg';
+  reader.onload = ev => {
+    imgBase64 = ev.target.result.split(',')[1];
+    const img = document.getElementById('img-preview');
+    img.src = ev.target.result;
+    img.style.display = 'block';
+    document.getElementById('upload-placeholder').style.display = 'none';
+    document.getElementById('img-badge').style.display = 'flex';
+    uploadArea.classList.add('loaded');
+    checkExtractBtn();
+  };
+  reader.readAsDataURL(file);
+}
+
+function checkExtractBtn() {
+  document.getElementById('btn-extract').disabled = !(imgBase64 && groqKey);
+}
+
+async function doExtract() {
+  if (!imgBase64 || !groqKey) return;
+
+  const btn = document.getElementById('btn-extract');
+  const spinner = document.getElementById('spinner');
+  const lbl = document.getElementById('btn-label');
+
+  btn.disabled = true;
+  spinner.style.display = 'block';
+  lbl.textContent = 'Menganalisis...';
+
+  try {
+    const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + groqKey
+      },
+      body: JSON.stringify({
+        model: "meta-llama/llama-4-scout-17b-16e-instruct",
+        max_tokens: 600,
+        messages: [{
+          role: "user",
+          content: [
+            {
+              type: "image_url",
+              image_url: { url: "data:" + imgMediaType + ";base64," + imgBase64 }
+            },
+            {
+              type: "text",
+              text: `Kamu adalah sistem OCR dokumen identitas. Ekstrak data dari gambar ini.
+Kembalikan HANYA JSON valid, tanpa teks lain, tanpa backtick.
+
+{
+  "full_name": "nama lengkap",
+  "doc_number": "nomor passport atau ID",
+  "date_of_birth": "tanggal lahir format DD MMM YYYY contoh: 21 JUL 1976",
+  "nationality": "kewarganegaraan dalam bahasa Inggris",
+  "doc_type": "Passport atau KTP atau ID Card",
+  "confidence": {
+    "full_name": "high atau medium atau low",
+    "doc_number": "high atau medium atau low",
+    "date_of_birth": "high atau medium atau low"
+  }
+}
+
+Jika tidak terlihat, isi string kosong "". Jangan mengarang data.`
+            }
+          ]
+        }]
+      })
+    });
+
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.error?.message || 'API error ' + res.status);
+    }
+
+    const data = await res.json();
+    const raw = data.choices[0].message.content || '';
+    const clean = raw.replace(/```json|```/g, '').trim();
+    const parsed = JSON.parse(clean);
+
+    fillForm(parsed);
+    document.getElementById('card-form').classList.remove('hidden');
+    document.getElementById('card-form').scrollIntoView({ behavior:'smooth', block:'start' });
+    showToast('success', '✓ Data berhasil diekstrak! Periksa sebelum simpan.');
+
+  } catch(err) {
+    showToast('error', '✗ Gagal: ' + err.message);
+  } finally {
+    spinner.style.display = 'none';
+    lbl.textContent = '✨ Analisis Ulang';
+    btn.disabled = false;
+  }
+}
+
+function fillForm(d) {
+  setField('f-name', d.full_name,      d.confidence?.full_name,      'conf-name');
+  setField('f-id',   d.doc_number,     d.confidence?.doc_number,     'conf-id');
+  setField('f-dob',  d.date_of_birth,  d.confidence?.date_of_birth,  'conf-dob');
+  const nat = document.getElementById('f-nat');
+  nat.value = d.nationality || '';
+  if (d.nationality) nat.classList.add('filled');
+  const dt = document.getElementById('f-doctype');
+  dt.value = d.doc_type || '';
+  if (d.doc_type) dt.classList.add('filled');
+}
+
+function setField(inputId, value, conf, badgeId) {
+  const input = document.getElementById(inputId);
+  const badge = document.getElementById(badgeId);
+  input.value = value || '';
+  input.classList.toggle('filled', !!value);
+  if (conf && badge) {
+    badge.classList.remove('hidden','conf-high','conf-mid','conf-low');
+    if (conf==='high')   { badge.classList.add('conf-high'); badge.textContent='✓ Akurat'; }
+    else if (conf==='medium') { badge.classList.add('conf-mid'); badge.textContent='~ Periksa'; }
+    else                { badge.classList.add('conf-low');  badge.textContent='? Ragu'; }
+  }
+}
+
+function saveCustomer() {
+  const name    = document.getElementById('f-name').value.trim();
+  const id      = document.getElementById('f-id').value.trim();
+  const dob     = document.getElementById('f-dob').value.trim();
+  const nat     = document.getElementById('f-nat').value.trim();
+  const doctype = document.getElementById('f-doctype').value.trim();
+  if (!name || !id || !dob) { showToast('error','✗ Nama, Nomor ID, dan TTL wajib diisi!'); return; }
+  customers.push({ id:Date.now(), name, doc_number:id, dob, nationality:nat, doc_type:doctype, saved_at:new Date().toLocaleString('id-ID') });
+  renderList();
+  showToast('success', '✓ ' + name + ' berhasil disimpan!');
+  setTimeout(() => { resetForm(); resetUpload(); }, 700);
+}
+
+function resetForm() {
+  ['f-name','f-id','f-dob','f-nat','f-doctype'].forEach(id => {
+    const el = document.getElementById(id); el.value=''; el.classList.remove('filled');
+  });
+  ['conf-name','conf-id','conf-dob'].forEach(id => document.getElementById(id).classList.add('hidden'));
+  document.getElementById('card-form').classList.add('hidden');
+  document.getElementById('toast-area').innerHTML = '';
+}
+
+function resetUpload() {
+  imgBase64 = '';
+  document.getElementById('file-input').value = '';
+  const img = document.getElementById('img-preview');
+  img.style.display = 'none'; img.src = '';
+  document.getElementById('upload-placeholder').style.display = 'block';
+  document.getElementById('img-badge').style.display = 'none';
+  uploadArea.classList.remove('loaded');
+  document.getElementById('btn-label').textContent = '✨ Analisis & Ekstrak Data';
+  checkExtractBtn();
+}
+
+function renderList() {
+  const list = document.getElementById('customer-list');
+  document.getElementById('counter').textContent = customers.length;
+  if (customers.length === 0) {
+    list.innerHTML = '<div class="empty-state" id="empty-state">Belum ada data.<br>Upload dokumen dulu.</div>';
+    return;
+  }
+  list.innerHTML = '';
+  customers.slice().reverse().forEach(c => {
+    const initials = c.name.split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase();
+    const item = document.createElement('div');
+    item.className = 'customer-item';
+    item.innerHTML = `
+      <div class="cust-avatar">${initials}</div>
+      <div class="cust-info">
+        <div class="cust-name">${esc(c.name)}</div>
+        <div class="cust-meta">${esc(c.doc_type||'Dokumen')} · ${esc(c.doc_number)} · ${esc(c.dob)}</div>
+      </div>
+      <button class="cust-del" onclick="deleteCustomer(${c.id})">✕</button>`;
+    list.appendChild(item);
+  });
+}
+
+function deleteCustomer(id) {
+  customers = customers.filter(c=>c.id!==id);
+  renderList();
+}
+
+function exportCSV() {
+  if (!customers.length) { alert('Belum ada data.'); return; }
+  const header = 'Nama Lengkap,Nomor Dokumen,Tanggal Lahir,Kewarganegaraan,Jenis Dokumen,Waktu Simpan';
+  const rows = customers.map(c=>[c.name,c.doc_number,c.dob,c.nationality,c.doc_type,c.saved_at].map(v=>`"${(v||'').replace(/"/g,'""')}"`).join(','));
+  const blob = new Blob([[header,...rows].join('\n')],{type:'text/csv;charset=utf-8;'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `customers_${new Date().toISOString().slice(0,10)}.csv`;
+  a.click();
+}
+
+function showToast(type, msg) {
+  const area = document.getElementById('toast-area');
+  const icons = {success:'✅',error:'❌',info:'ℹ️'};
+  area.innerHTML = `<div class="toast ${type}">${icons[type]||''} ${msg}</div>`;
+  if (type==='success') setTimeout(()=>{area.innerHTML='';},4000);
+}
+
+function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+renderList();
+</script>
+</body>
+</html>
