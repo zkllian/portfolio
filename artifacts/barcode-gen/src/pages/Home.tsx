@@ -130,6 +130,8 @@ export default function Home() {
   const [inlineError, setInlineError] = useState('');
 
   const [dotHintVisible, setDotHintVisible] = useState(false);
+  const tapCountRef = useRef(0);
+  const tapResetRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const COUNTER_KEY = 'imei_total_generated';
   const [totalImei, setTotalImei] = useState<number>(() => {
@@ -167,14 +169,7 @@ export default function Home() {
 
   useEffect(() => {
     const msgs = [
-      'psst... coba klik aku 👀',
-      'ada yang tersembunyi di sini~',
-      'hmm, kira-kira ada apa ya?',
-      'jangan diklik kalau penasaran 😏',
-      'klik aku deh, sekali aja',
-      'ada rahasia kecil di sini...',
-      '...kamu tidak penasaran?',
-      'ini tombol apa ya 🤔',
+      'tap 5x',
     ];
     let hintTimeout: ReturnType<typeof setTimeout>;
     let hideTimeout: ReturnType<typeof setTimeout>;
@@ -511,6 +506,11 @@ export default function Home() {
   }
 
   function secretClick() {
+    if (tapResetRef.current) clearTimeout(tapResetRef.current);
+    tapCountRef.current += 1;
+    tapResetRef.current = setTimeout(() => { tapCountRef.current = 0; }, 1500);
+    if (tapCountRef.current < 5) return;
+    tapCountRef.current = 0;
     setDotHintVisible(false);
     if (navigator.vibrate) navigator.vibrate([40, 30, 60]);
     playPop();
