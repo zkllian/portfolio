@@ -389,90 +389,159 @@ textarea:focus{
   color:#3b9eff;
 }
 
-/* Credit */
-.credit-wrap{
-  margin-top:12px;
-}
-
-.credit-card{
+/* Secret dot */
+#secretDot{
+  cursor:pointer;
+  transition:background .2s, box-shadow .2s, transform .1s;
   position:relative;
-  border-radius:12px;
-  overflow:hidden;
-  border:1px solid #1f1f1f;
-  background:var(--surface);
-  cursor:default;
-  transition:border-color .25s, transform .2s;
 }
 
-.credit-card:hover{
-  border-color:#333;
-  transform:translateY(-1px);
+#secretDot:active{
+  transform:scale(.7);
 }
 
-.credit-glow{
-  position:absolute;
-  top:-60px;
-  left:50%;
-  transform:translateX(-50%);
-  width:200px;
-  height:120px;
-  background:radial-gradient(ellipse, rgba(120,80,255,.18) 0%, transparent 70%);
-  pointer-events:none;
-  transition:opacity .3s;
+/* Credit overlay */
+.credit-overlay{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.75);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+  z-index:1000;
+  align-items:center;
+  justify-content:center;
   opacity:0;
+  transition:opacity .3s;
 }
 
-.credit-card:hover .credit-glow{
+.credit-overlay.open{
+  display:flex;
+}
+
+.credit-overlay.visible{
   opacity:1;
 }
 
-.credit-inner{
-  display:flex;
-  align-items:center;
-  gap:14px;
-  padding:14px 16px;
+.credit-modal{
   position:relative;
+  background:#0a0a0a;
+  border:1px solid #2a2a2a;
+  border-radius:20px;
+  padding:36px 32px 28px;
+  max-width:300px;
+  width:90%;
+  text-align:center;
+  overflow:hidden;
+  transform:scale(.85) translateY(20px);
+  transition:transform .35s cubic-bezier(.34,1.56,.64,1), opacity .3s;
+  opacity:0;
 }
 
-.credit-avatar{
-  width:36px;
-  height:36px;
+.credit-overlay.visible .credit-modal{
+  transform:scale(1) translateY(0);
+  opacity:1;
+}
+
+.credit-modal-glow{
+  position:absolute;
+  top:-80px;
+  left:50%;
+  transform:translateX(-50%);
+  width:260px;
+  height:200px;
+  background:radial-gradient(ellipse, rgba(120,80,255,.35) 0%, transparent 65%);
+  pointer-events:none;
+}
+
+.credit-close{
+  position:absolute;
+  top:12px;
+  right:14px;
+  background:transparent;
+  border:none;
+  color:var(--text-dim);
+  font-size:14px;
+  cursor:pointer;
+  padding:4px 6px;
+  border-radius:6px;
+  transition:color .15s, background .15s;
+  line-height:1;
+}
+
+.credit-close:hover{
+  color:var(--text);
+  background:var(--surface2);
+}
+
+.credit-tag{
+  font-size:11px;
+  font-family:'Geist Mono',monospace;
+  color:var(--text-dim);
+  margin-bottom:20px;
+}
+
+.credit-modal-avatar{
+  width:64px;
+  height:64px;
   border-radius:50%;
   background:linear-gradient(135deg,#7850ff,#c850fc);
   display:flex;
   align-items:center;
   justify-content:center;
-  font-size:12px;
+  font-size:20px;
   font-weight:700;
   color:#fff;
   letter-spacing:.04em;
-  flex-shrink:0;
-  box-shadow:0 0 0 1px rgba(120,80,255,.3);
+  margin:0 auto 16px;
+  box-shadow:0 0 0 1px rgba(120,80,255,.4), 0 0 30px rgba(120,80,255,.25);
+  animation:avatar-breathe 3s ease-in-out infinite;
 }
 
-.credit-info{
-  flex:1;
+@keyframes avatar-breathe{
+  0%,100%{box-shadow:0 0 0 1px rgba(120,80,255,.4),0 0 20px rgba(120,80,255,.2);}
+  50%{box-shadow:0 0 0 1px rgba(120,80,255,.6),0 0 40px rgba(120,80,255,.4);}
 }
 
-.credit-name{
-  font-size:13px;
-  font-weight:600;
-  color:var(--text);
-  letter-spacing:-.01em;
+.credit-modal-name{
+  font-size:20px;
+  font-weight:700;
+  color:var(--accent);
+  letter-spacing:-.03em;
+  margin-bottom:6px;
 }
 
-.credit-role{
-  font-size:11px;
-  color:var(--text-dim);
+.credit-modal-sub{
+  font-size:12px;
   font-family:'Geist Mono',monospace;
-  margin-top:2px;
+  color:var(--text-dim);
+  line-height:1.6;
 }
 
-.credit-badge{
-  font-size:18px;
-  color:#7850ff;
-  opacity:.7;
-  animation:pulse-star 2.5s ease-in-out infinite;
+.credit-modal-divider{
+  height:1px;
+  background:var(--border);
+  margin:20px 0 14px;
+}
+
+.credit-modal-footer{
+  font-size:10px;
+  font-family:'Geist Mono',monospace;
+  color:var(--text-dim);
+  opacity:.6;
+}
+
+/* Particles */
+.credit-particle{
+  position:absolute;
+  border-radius:50%;
+  pointer-events:none;
+  animation:particle-fly 1.2s ease-out forwards;
+}
+
+@keyframes particle-fly{
+  0%{opacity:1;transform:translate(0,0) scale(1);}
+  100%{opacity:0;transform:var(--tx) scale(0);}
 }
 
 @keyframes pulse-star{
@@ -591,25 +660,27 @@ textarea:focus{
 
   <!-- Footer -->
   <div class="footer">
-    <span class="footer-text">ready</span>
-    <div class="footer-dot"></div>
+    <span class="footer-text" id="footerText">ready</span>
+    <div class="footer-dot" id="secretDot" onclick="secretClick()" title=""></div>
   </div>
 
-  <!-- Credit -->
-  <div class="credit-wrap">
-    <div class="credit-card">
-      <div class="credit-glow"></div>
-      <div class="credit-inner">
-        <div class="credit-avatar">YG</div>
-        <div class="credit-info">
-          <div class="credit-name">yoga ganteng</div>
-          <div class="credit-role">crafted with ✦ by the legend himself</div>
-        </div>
-        <div class="credit-badge">✦</div>
-      </div>
-    </div>
-  </div>
 
+
+</div>
+
+<!-- Credit Overlay Easter Egg -->
+<div class="credit-overlay" id="creditOverlay" onclick="closeCredit(event)">
+  <div class="credit-modal" id="creditModal">
+    <div class="credit-particles" id="creditParticles"></div>
+    <div class="credit-modal-glow"></div>
+    <button class="credit-close" onclick="closeCredit()">✕</button>
+    <div class="credit-tag">// made by</div>
+    <div class="credit-modal-avatar">YG</div>
+    <div class="credit-modal-name">yoga ganteng</div>
+    <div class="credit-modal-sub">crafted with ✦ by the legend himself</div>
+    <div class="credit-modal-divider"></div>
+    <div class="credit-modal-footer">barcode-gen · imei · v1.0</div>
+  </div>
 </div>
 
 <div class="toast" id="toast"></div>
@@ -617,6 +688,95 @@ textarea:focus{
 <canvas id="canvas" style="display:none;"></canvas>
 
 <script>
+// ── Easter Egg ──────────────────────────────────────────────
+let secretClicks = 0;
+let secretTimer = null;
+const MAX_CLICKS = 5;
+const dotColors = ['#0070f3','#7850ff','#c850fc','#ff5050','#fff'];
+const hints = ['','','..','...','....'];
+
+function secretClick() {
+  secretClicks++;
+  clearTimeout(secretTimer);
+
+  const dot = document.getElementById('secretDot');
+  const footerText = document.getElementById('footerText');
+
+  // Pulse ripple
+  dot.style.transform = 'scale(1.6)';
+  dot.style.boxShadow = `0 0 0 4px ${dotColors[secretClicks-1]}44`;
+  dot.style.background = dotColors[secretClicks-1];
+  setTimeout(() => {
+    dot.style.transform = '';
+    dot.style.boxShadow = '';
+  }, 200);
+
+  if (secretClicks < MAX_CLICKS) {
+    footerText.textContent = 'ready' + hints[secretClicks];
+    secretTimer = setTimeout(() => {
+      secretClicks = 0;
+      dot.style.background = '';
+      footerText.textContent = 'ready';
+    }, 1800);
+  } else {
+    secretClicks = 0;
+    dot.style.background = '';
+    footerText.textContent = 'ready';
+    openCredit();
+  }
+}
+
+function openCredit() {
+  const overlay = document.getElementById('creditOverlay');
+  spawnParticles();
+  overlay.classList.add('open');
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => overlay.classList.add('visible'));
+  });
+}
+
+function closeCredit(e) {
+  if (e && e.target !== document.getElementById('creditOverlay')) return;
+  const overlay = document.getElementById('creditOverlay');
+  overlay.classList.remove('visible');
+  setTimeout(() => overlay.classList.remove('open'), 300);
+}
+
+function spawnParticles() {
+  const container = document.getElementById('creditParticles');
+  container.innerHTML = '';
+  const colors = ['#7850ff','#c850fc','#0070f3','#fff','#ff5050','#00b96b'];
+  for (let i = 0; i < 18; i++) {
+    const p = document.createElement('div');
+    p.className = 'credit-particle';
+    const size = Math.random() * 6 + 3;
+    const angle = (Math.PI * 2 * i) / 18 + Math.random() * 0.5;
+    const dist = 60 + Math.random() * 60;
+    const tx = `translate(${Math.cos(angle)*dist}px, ${Math.sin(angle)*dist}px)`;
+    p.style.cssText = `
+      width:${size}px;height:${size}px;
+      background:${colors[i%colors.length]};
+      left:calc(50% - ${size/2}px);
+      top:calc(50% - ${size/2}px);
+      --tx:${tx};
+      animation-delay:${Math.random()*0.15}s;
+      animation-duration:${0.9+Math.random()*0.4}s;
+    `;
+    container.appendChild(p);
+  }
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    const overlay = document.getElementById('creditOverlay');
+    if (overlay.classList.contains('open')) {
+      overlay.classList.remove('visible');
+      setTimeout(() => overlay.classList.remove('open'), 300);
+    }
+  }
+});
+// ────────────────────────────────────────────────────────────
+
 const baseImage = new Image();
 baseImage.src = "template.png";
 
