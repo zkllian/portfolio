@@ -369,12 +369,6 @@ textarea:focus { border-color: #444; }
 
 @keyframes particle-fly { 0% { opacity: 1; transform: translate(0,0) scale(1); } 100% { opacity: 0; transform: var(--tx) scale(0); } }
 
-.footer { margin-top: 32px; padding-top: 20px; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
-
-.footer-text { font-size: 11px; color: var(--text-dim); font-family: 'Geist Mono', monospace; }
-
-.footer-dot-deco { width: 6px; height: 6px; background: var(--border2); border-radius: 50%; }
-
 .pos-card { padding: 0; overflow: hidden; }
 
 .pos-toggle { cursor: pointer; user-select: none; padding: 14px 20px; margin: 0; border-bottom: none; transition: background .15s; }

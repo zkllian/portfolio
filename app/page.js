@@ -167,7 +167,6 @@ export default function Home() {
     setResults([]);
     setView('input');
     setImeiCount('0 set');
-    setLineNums('1');
     window.scrollTo({ top: 0, behavior: 'instant' });
   }
 
@@ -187,7 +186,18 @@ export default function Home() {
       if (im2.length !== 15) { showToast(`Set ${i+1}: IMEI 2 harus 15 digit (dapat ${im2.length})`); return; }
     }
 
+    const img = baseImageRef.current;
+    if (!img.complete || !img.naturalWidth) {
+      await new Promise(r => { img.onload = r; });
+    }
+    await Promise.allSettled([
+      document.fonts.load("400 32px 'SF Pro Custom'"),
+      document.fonts.load("500 32px 'SF Pro Custom'"),
+    ]);
+
     const cvs = canvasRef.current;
+    cvs.width = img.width;
+    cvs.height = img.height;
     const ctx = cvs.getContext('2d');
     const newResults = [];
 
@@ -529,10 +539,6 @@ export default function Home() {
           </div>
         )}
 
-        <div className="footer">
-          <span className="footer-text">{view === 'results' ? resultLabel : 'ready'}</span>
-          <div className="footer-dot-deco"></div>
-        </div>
       </div>
 
       {creditOpen && (
