@@ -57,6 +57,7 @@ export default function Home() {
     imei1_tx: 270, imei1_ty: 672,
     imei2_tx: 278.5,imei2_ty: 956.5,
     meid_tx: 287.5,meid_ty: 1240,
+    time_tx: 287.5, time_ty: 80,
     font_size: 30.5,
   };
   function loadSavedPos(): Record<string, number> {
@@ -112,6 +113,14 @@ export default function Home() {
   const previewCanvasRef = useRef<HTMLCanvasElement>(null);
   const baseImageRef = useRef<HTMLImageElement | null>(null);
   const nudgeTimerRef = useRef<ReturnType<typeof setTimeout> | ReturnType<typeof setInterval> | null>(null);
+
+  function getWIBTimeStr(minutesBack = 0): string {
+    const now = new Date();
+    const wib = new Date(now.getTime() + (7 * 60 - now.getTimezoneOffset()) * 60000 - minutesBack * 60000);
+    const h = String(wib.getUTCHours()).padStart(2, '0');
+    const m = String(wib.getUTCMinutes()).padStart(2, '0');
+    return `${h}.${m}`;
+  }
 
   const BASE = import.meta.env.BASE_URL;
 
@@ -301,6 +310,7 @@ export default function Home() {
         ctx.fillText(im1,               p.imei1_tx, p.imei1_ty);
         ctx.fillText(im2,               p.imei2_tx, p.imei2_ty);
         ctx.fillText(meidFromImei(im1), p.meid_tx,  p.meid_ty);
+        ctx.fillText(getWIBTimeStr(i),  p.time_tx,  p.time_ty);
 
         newResults.push({ url: cvs.toDataURL('image/png'), index: i + 1 });
       }
@@ -429,6 +439,7 @@ export default function Home() {
     ctx.fillText('356730111869006',                  p.imei1_tx, p.imei1_ty);
     ctx.fillText('356687114789203',                  p.imei2_tx, p.imei2_ty);
     ctx.fillText('35673011186900',                   p.meid_tx,  p.meid_ty);
+    ctx.fillText(getWIBTimeStr(0),                   p.time_tx,  p.time_ty);
 
   }
 
@@ -583,6 +594,7 @@ export default function Home() {
                 <NudgeRow label="im0.t"  yField="imei1_ty" {...nudgeProps} color="#3b82f6" />
                 <NudgeRow label="im1.t"  yField="imei2_ty" {...nudgeProps} color="#10b981" />
                 <NudgeRow label="meid.t" yField="meid_ty"  {...nudgeProps} color="#e879f9" />
+                <NudgeRow label="time.t" yField="time_ty"  {...nudgeProps} color="#f43f5e" />
 
 
                 <div className="preview-wrap">
