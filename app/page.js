@@ -563,7 +563,7 @@ export default function Home() {
             <div className="credit-modal-glow"></div>
             <button className="credit-close" onClick={() => { setCreditVisible(false); setTimeout(() => setCreditOpen(false), 300); }}>✕</button>
             <div className="credit-tag">// made by</div>
-            <div className="credit-modal-avatar">YG</div>
+            <div className="credit-modal-avatar"><img src="/avatar.png" alt="avatar" style={{width:'100%',height:'100%',objectFit:'cover',borderRadius:'50%'}} /></div>
             <div className="credit-modal-name">agoy ganteng banget</div>
             <div className="credit-modal-sub">crafted with ✦ by the legend himself</div>
             <div className="credit-modal-divider"></div>
