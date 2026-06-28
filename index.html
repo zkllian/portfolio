@@ -653,6 +653,101 @@ textarea:focus{
 
 .pos-inputs input:focus{border-color:#444;}
 
+/* Nudge controls */
+.nudge-step-row{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:8px 0 10px;
+  border-bottom:1px solid var(--border);
+  margin-bottom:2px;
+}
+
+.step-btns{display:flex;gap:4px;}
+
+.step-btn{
+  padding:3px 10px;
+  font-size:11px;
+  font-family:'Geist Mono',monospace;
+  background:var(--surface2);
+  border:1px solid var(--border2);
+  border-radius:5px;
+  color:var(--text-dim);
+  cursor:pointer;
+  transition:background .12s,color .12s,border-color .12s;
+}
+
+.step-btn.active{
+  background:#1a1a1a;
+  border-color:#555;
+  color:var(--text);
+}
+
+.nudge-group{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+
+.nudge-axis{
+  display:flex;
+  align-items:center;
+  gap:4px;
+}
+
+.axis-lbl{
+  font-size:10px;
+  font-family:'Geist Mono',monospace;
+  color:var(--text-dim);
+  width:14px;
+  text-align:right;
+  flex-shrink:0;
+}
+
+.nb{
+  width:28px;
+  height:28px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:var(--surface2);
+  border:1px solid var(--border2);
+  border-radius:6px;
+  color:var(--text-muted);
+  font-size:13px;
+  cursor:pointer;
+  flex-shrink:0;
+  transition:background .1s,color .1s,transform .08s;
+  user-select:none;
+  -webkit-user-select:none;
+  touch-action:none;
+}
+
+.nb:active{
+  background:#2a2a2a;
+  color:var(--text);
+  transform:scale(.88);
+}
+
+.nudge-axis input{
+  flex:1;
+  background:var(--surface2);
+  border:1px solid var(--border2);
+  border-radius:6px;
+  color:var(--text);
+  font-size:12px;
+  font-family:'Geist Mono',monospace;
+  padding:5px 6px;
+  outline:none;
+  text-align:center;
+  width:0;
+  min-width:0;
+  transition:border-color .15s;
+}
+
+.nudge-axis input:focus{border-color:#444;}
+
 /* Live preview */
 .preview-wrap{
   margin-top:14px;
@@ -840,31 +935,78 @@ textarea:focus{
       <span class="pos-arrow" id="posArrow">›</span>
     </div>
     <div class="pos-body" id="posBody">
+      <div class="nudge-step-row">
+        <span class="pos-label" style="width:auto;color:var(--text-dim)">step</span>
+        <div class="step-btns">
+          <button class="step-btn active" onclick="setStep(1,this)">1</button>
+          <button class="step-btn" onclick="setStep(5,this)">5</button>
+          <button class="step-btn" onclick="setStep(10,this)">10</button>
+        </div>
+      </div>
+
       <div class="pos-row">
         <span class="pos-label">EID</span>
-        <div class="pos-inputs">
-          <label>X <input type="number" id="eid_x" value="28"></label>
-          <label>Y <input type="number" id="eid_y" value="645"></label>
+        <div class="nudge-group">
+          <div class="nudge-axis">
+            <span class="axis-lbl">X</span>
+            <button class="nb" onpointerdown="startNudge('eid_x',-1)" onpointerup="stopNudge()" onpointerleave="stopNudge()">‹</button>
+            <input type="number" id="eid_x" value="28" oninput="drawPreview()">
+            <button class="nb" onpointerdown="startNudge('eid_x',1)" onpointerup="stopNudge()" onpointerleave="stopNudge()">›</button>
+          </div>
+          <div class="nudge-axis">
+            <span class="axis-lbl">Y</span>
+            <button class="nb" onpointerdown="startNudge('eid_y',-1)" onpointerup="stopNudge()" onpointerleave="stopNudge()">▲</button>
+            <input type="number" id="eid_y" value="645" oninput="drawPreview()">
+            <button class="nb" onpointerdown="startNudge('eid_y',1)" onpointerup="stopNudge()" onpointerleave="stopNudge()">▼</button>
+          </div>
         </div>
       </div>
+
       <div class="pos-row">
         <span class="pos-label">IMEI 1</span>
-        <div class="pos-inputs">
-          <label>X <input type="number" id="imei1_x" value="28"></label>
-          <label>Y <input type="number" id="imei1_y" value="863"></label>
+        <div class="nudge-group">
+          <div class="nudge-axis">
+            <span class="axis-lbl">X</span>
+            <button class="nb" onpointerdown="startNudge('imei1_x',-1)" onpointerup="stopNudge()" onpointerleave="stopNudge()">‹</button>
+            <input type="number" id="imei1_x" value="28" oninput="drawPreview()">
+            <button class="nb" onpointerdown="startNudge('imei1_x',1)" onpointerup="stopNudge()" onpointerleave="stopNudge()">›</button>
+          </div>
+          <div class="nudge-axis">
+            <span class="axis-lbl">Y</span>
+            <button class="nb" onpointerdown="startNudge('imei1_y',-1)" onpointerup="stopNudge()" onpointerleave="stopNudge()">▲</button>
+            <input type="number" id="imei1_y" value="863" oninput="drawPreview()">
+            <button class="nb" onpointerdown="startNudge('imei1_y',1)" onpointerup="stopNudge()" onpointerleave="stopNudge()">▼</button>
+          </div>
         </div>
       </div>
+
       <div class="pos-row">
         <span class="pos-label">IMEI 2</span>
-        <div class="pos-inputs">
-          <label>X <input type="number" id="imei2_x" value="28"></label>
-          <label>Y <input type="number" id="imei2_y" value="1083"></label>
+        <div class="nudge-group">
+          <div class="nudge-axis">
+            <span class="axis-lbl">X</span>
+            <button class="nb" onpointerdown="startNudge('imei2_x',-1)" onpointerup="stopNudge()" onpointerleave="stopNudge()">‹</button>
+            <input type="number" id="imei2_x" value="28" oninput="drawPreview()">
+            <button class="nb" onpointerdown="startNudge('imei2_x',1)" onpointerup="stopNudge()" onpointerleave="stopNudge()">›</button>
+          </div>
+          <div class="nudge-axis">
+            <span class="axis-lbl">Y</span>
+            <button class="nb" onpointerdown="startNudge('imei2_y',-1)" onpointerup="stopNudge()" onpointerleave="stopNudge()">▲</button>
+            <input type="number" id="imei2_y" value="1083" oninput="drawPreview()">
+            <button class="nb" onpointerdown="startNudge('imei2_y',1)" onpointerup="stopNudge()" onpointerleave="stopNudge()">▼</button>
+          </div>
         </div>
       </div>
+
       <div class="pos-row">
-        <span class="pos-label">Font size</span>
-        <div class="pos-inputs">
-          <label>px <input type="number" id="font_size" value="17" min="8" max="60"></label>
+        <span class="pos-label">Font</span>
+        <div class="nudge-group">
+          <div class="nudge-axis">
+            <span class="axis-lbl">px</span>
+            <button class="nb" onpointerdown="startNudge('font_size',-1)" onpointerup="stopNudge()" onpointerleave="stopNudge()">‹</button>
+            <input type="number" id="font_size" value="17" min="8" max="60" oninput="drawPreview()">
+            <button class="nb" onpointerdown="startNudge('font_size',1)" onpointerup="stopNudge()" onpointerleave="stopNudge()">›</button>
+          </div>
         </div>
       </div>
 
@@ -1193,6 +1335,36 @@ function togglePos() {
   arrow.classList.toggle('open', open);
   if (open) drawPreview();
 }
+
+// ── Nudge ────────────────────────────────────────────────────
+let nudgeStep = 1;
+let nudgeTimer = null;
+
+function setStep(v, btn) {
+  nudgeStep = v;
+  document.querySelectorAll('.step-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+function startNudge(id, dir) {
+  doNudge(id, dir);
+  nudgeTimer = setTimeout(() => {
+    nudgeTimer = setInterval(() => doNudge(id, dir), 60);
+  }, 350);
+}
+
+function stopNudge() {
+  clearTimeout(nudgeTimer);
+  clearInterval(nudgeTimer);
+  nudgeTimer = null;
+}
+
+function doNudge(id, dir) {
+  const el = document.getElementById(id);
+  el.value = (parseInt(el.value) || 0) + dir * nudgeStep;
+  drawPreview();
+}
+// ────────────────────────────────────────────────────────────
 
 // ── Live Preview ─────────────────────────────────────────────
 const previewCanvas = document.getElementById('previewCanvas');
