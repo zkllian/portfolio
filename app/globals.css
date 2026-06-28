@@ -63,7 +63,7 @@ body {
 }
 
 .navbar-inner {
-  max-width: 480px;
+  max-width: 512px;
   margin: 0 auto;
   width: 100%;
   padding: 0 16px;
@@ -305,6 +305,8 @@ textarea:focus { border-color: #444; }
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
+  justify-content: center;
+  align-items: start;
 }
 
 .result-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; transition: border-color .15s; animation: fadeSlideIn .35s ease-out both; }
