@@ -30,7 +30,6 @@
   --blue-hover: #0060df;
   --green: #00b96b;
   --radius: 8px;
-  --navbar-h: 52px;
 }
 
 body {
@@ -50,6 +49,9 @@ body {
   margin: 0 auto;
   padding: 20px 16px 0;
 }
+
+/* consistent spacing token */
+:root { --page-px: 16px; --page-gap: 20px; }
 
 .logo-row { display: flex; align-items: center; gap: 10px; }
 
@@ -155,9 +157,9 @@ body {
 .logo-name { color: var(--text); }
 
 /* ── Page header (below navbar) ── */
-.container { max-width: 480px; margin: 0 auto; padding: 0 16px; }
+.container { max-width: 480px; margin: 0 auto; padding: 0 var(--page-px); }
 
-.header { margin-bottom: 32px; }
+.header { margin-top: var(--page-gap); margin-bottom: 24px; }
 
 .page-title { font-size: 22px; font-weight: 600; letter-spacing: -.03em; color: var(--accent); line-height: 1.2; }
 
@@ -413,7 +415,7 @@ textarea:focus { border-color: #444; }
 
 .pick-btns button.pick-cancel { color: var(--text-dim); margin-left: auto; }
 
-.toast { position: fixed; top: calc(var(--navbar-h) + 12px); left: 50%; transform: translateX(-50%) translateY(-12px); background: #fff; color: #000; font-size: 13px; font-weight: 500; padding: 10px 16px; border-radius: var(--radius); box-shadow: 0 4px 24px rgba(0,0,0,.5); opacity: 0; transition: opacity .2s, transform .2s; z-index: 999; white-space: normal; pointer-events: none; max-width: 90vw; text-align: center; }
+.toast { position: fixed; top: calc(var(--page-gap) + 8px); left: 50%; transform: translateX(-50%) translateY(-12px); background: #fff; color: #000; font-size: 13px; font-weight: 500; padding: 10px 16px; border-radius: var(--radius); box-shadow: 0 4px 24px rgba(0,0,0,.5); opacity: 0; transition: opacity .2s, transform .2s; z-index: 999; white-space: normal; pointer-events: none; max-width: 90vw; text-align: center; }
 
 .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
