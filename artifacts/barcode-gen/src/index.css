@@ -381,6 +381,8 @@ textarea:focus { border-color: #444; }
 
 .pos-body.open { display: block; }
 
+.pos-section-divider { font-size: 10px; font-family: 'Geist Mono', monospace; color: var(--text-dim); padding: 10px 0 4px; letter-spacing: .04em; }
+
 .pos-row { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border); }
 
 .pos-row:last-child { border-bottom: none; }
