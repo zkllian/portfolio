@@ -676,7 +676,7 @@ textarea:focus{
     <button class="credit-close" onclick="closeCredit()">✕</button>
     <div class="credit-tag">// made by</div>
     <div class="credit-modal-avatar">YG</div>
-    <div class="credit-modal-name">yoga ganteng</div>
+    <div class="credit-modal-name">agoy ganteng banget</div>
     <div class="credit-modal-sub">crafted with ✦ by the legend himself</div>
     <div class="credit-modal-divider"></div>
     <div class="credit-modal-footer">barcode-gen · imei · v1.0</div>
@@ -689,41 +689,17 @@ textarea:focus{
 
 <script>
 // ── Easter Egg ──────────────────────────────────────────────
-let secretClicks = 0;
-let secretTimer = null;
-const MAX_CLICKS = 5;
-const dotColors = ['#0070f3','#7850ff','#c850fc','#ff5050','#fff'];
-const hints = ['','','..','...','....'];
-
 function secretClick() {
-  secretClicks++;
-  clearTimeout(secretTimer);
-
   const dot = document.getElementById('secretDot');
-  const footerText = document.getElementById('footerText');
-
-  // Pulse ripple
   dot.style.transform = 'scale(1.6)';
-  dot.style.boxShadow = `0 0 0 4px ${dotColors[secretClicks-1]}44`;
-  dot.style.background = dotColors[secretClicks-1];
+  dot.style.boxShadow = '0 0 0 4px #7850ff44';
+  dot.style.background = '#7850ff';
   setTimeout(() => {
     dot.style.transform = '';
     dot.style.boxShadow = '';
-  }, 200);
-
-  if (secretClicks < MAX_CLICKS) {
-    footerText.textContent = 'ready' + hints[secretClicks];
-    secretTimer = setTimeout(() => {
-      secretClicks = 0;
-      dot.style.background = '';
-      footerText.textContent = 'ready';
-    }, 1800);
-  } else {
-    secretClicks = 0;
     dot.style.background = '';
-    footerText.textContent = 'ready';
-    openCredit();
-  }
+  }, 200);
+  openCredit();
 }
 
 function openCredit() {
