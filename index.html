@@ -1339,9 +1339,9 @@ async function generateBulk() {
 
     ctx.font = `400 ${fs}px 'SF Pro Custom', -apple-system, sans-serif`;
 
-    ctx.fillText(eid, ex,  ey);
-    ctx.fillText(im1, i1x, i1y);
-    ctx.fillText(im2, i2x, i2y);
+    ctx.fillText('EID '  + eid, ex,  ey);
+    ctx.fillText('IMEI ' + im1, i1x, i1y);
+    ctx.fillText('IMEI2 '+ im2, i2x, i2y);
 
     const url = canvas.toDataURL("image/png");
 
@@ -1443,9 +1443,9 @@ function drawPreview() {
   previewCtx.textAlign = 'left';
   previewCtx.font = `400 ${p.fs}px 'SF Pro Custom', -apple-system, sans-serif`;
 
-  previewCtx.fillText('88166587266534996332652007294687', p.ex,  p.ey);
-  previewCtx.fillText('111111111111111',                  p.i1x, p.i1y);
-  previewCtx.fillText('222222222222222',                  p.i2x, p.i2y);
+  previewCtx.fillText('EID 88166587266534996332652007294687', p.ex,  p.ey);
+  previewCtx.fillText('IMEI 111111111111111',               p.i1x, p.i1y);
+  previewCtx.fillText('IMEI2 222222222222222',              p.i2x, p.i2y);
 
   // crosshair markers
   drawMarker(p.ex,  p.ey,  '#f59e0b');
