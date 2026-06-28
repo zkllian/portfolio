@@ -41,6 +41,7 @@ body {
   padding-top: 72px;
   padding-bottom: 80px;
   line-height: 1.5;
+  text-transform: lowercase;
 }
 
 /* ── Floating logo pill ── */
@@ -198,7 +199,7 @@ body {
 
 .card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; padding-bottom: 14px; border-bottom: 1px solid var(--border); }
 
-.card-title { font-size: 12px; font-weight: 500; color: var(--text-muted); text-transform: uppercase; letter-spacing: .08em; }
+.card-title { font-size: 12px; font-weight: 500; color: var(--text-muted); text-transform: lowercase; letter-spacing: .08em; }
 
 .badge { font-size: 11px; font-family: 'Geist Mono', monospace; color: var(--text-dim); background: var(--surface2); border: 1px solid var(--border); padding: 2px 8px; border-radius: 4px; }
 
@@ -422,7 +423,7 @@ textarea:focus { border-color: #444; }
 
 .preview-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
 
-.preview-label { font-size: 11px; font-family: 'Geist Mono', monospace; color: var(--text-dim); text-transform: uppercase; letter-spacing: .08em; }
+.preview-label { font-size: 11px; font-family: 'Geist Mono', monospace; color: var(--text-dim); text-transform: lowercase; letter-spacing: .08em; }
 
 .preview-dim { font-size: 11px; font-family: 'Geist Mono', monospace; color: var(--text-dim); opacity: .5; }
 
