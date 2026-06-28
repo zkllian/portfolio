@@ -191,7 +191,7 @@ export default function Home() {
     const sets = Math.floor(lines.length / 2);
     setImeiCount(`${sets} sets`);
     if (lines.length > 0 && lines.length % 2 !== 0) {
-      setOddNotice(`// imei baris ${lines.length} tidak diproses — butuh pasangan`);
+      setOddNotice(`// imei ${lines[lines.length - 1]} tidak diproses — butuh pasangan`);
     } else {
       setOddNotice('');
     }
@@ -537,7 +537,7 @@ export default function Home() {
               </div>
 
               {oddNotice && (
-                <div className="odd-notice">{oddNotice}</div>
+                <div className="inline-error">{oddNotice}</div>
               )}
               {inlineError && (
                 <div className="inline-error">{inlineError}</div>
