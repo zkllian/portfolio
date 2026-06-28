@@ -1294,7 +1294,7 @@ async function generateBulk() {
     const i2x = parseInt(document.getElementById('imei2_x').value) || 28;
     const i2y = parseInt(document.getElementById('imei2_y').value) || 1083;
 
-    ctx.font = `400 ${fs}px -apple-system, 'Helvetica Neue', sans-serif`;
+    ctx.font = `400 ${fs}px 'SF Pro Custom', -apple-system, sans-serif`;
 
     ctx.fillText(randomDigits(32), ex,  ey);
     ctx.fillText(lines[i * 2],    i1x, i1y);
@@ -1398,7 +1398,7 @@ function drawPreview() {
   previewCtx.fillStyle = '#000';
   previewCtx.textBaseline = 'top';
   previewCtx.textAlign = 'left';
-  previewCtx.font = `400 ${p.fs}px -apple-system, 'Helvetica Neue', sans-serif`;
+  previewCtx.font = `400 ${p.fs}px 'SF Pro Custom', -apple-system, sans-serif`;
 
   previewCtx.fillText('88166587266534996332652007294687', p.ex,  p.ey);
   previewCtx.fillText('111111111111111',                  p.i1x, p.i1y);
