@@ -68,7 +68,7 @@ body {
 
 .badge { font-size: 11px; font-family: 'Geist Mono', monospace; color: var(--text-dim); background: var(--surface2); border: 1px solid var(--border); padding: 2px 8px; border-radius: 4px; }
 
-.input-wrap { position: relative; }
+.input-wrap { position: relative; overflow: hidden; border-radius: var(--radius); }
 
 .line-nums { position: absolute; top: 12px; left: 0; width: 36px; text-align: right; padding-right: 8px; font-size: 12px; font-family: 'Geist Mono', monospace; color: var(--text-dim); line-height: 1.7; pointer-events: none; user-select: none; white-space: pre; }
 
