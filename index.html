@@ -1301,6 +1301,16 @@ function randomDigits(len) {
   return Array.from({ length: len }, () => Math.floor(Math.random() * 10)).join('');
 }
 
+function randomEID() {
+  // Real iPhone EID format: prefix 89049032 (Apple eSIM issuer) + 24 random digits
+  return '89049032' + randomDigits(24);
+}
+
+function meidFromImei(imei) {
+  // MEID = first 14 digits of IMEI (standard derivation)
+  return imei.slice(0, 14);
+}
+
 function downloadImage(dataUrl, index) {
   const a = document.createElement("a");
   a.href = dataUrl;
@@ -1352,7 +1362,7 @@ async function generateBulk() {
     setLoading(true, i + 1, totalSets);
     await new Promise(r => setTimeout(r, 30));
 
-    const eid  = randomDigits(32);
+    const eid  = randomEID();
     const im1  = lines[i * 2];
     const im2  = lines[i * 2 + 1];
 
@@ -1375,10 +1385,10 @@ async function generateBulk() {
 
     ctx.font = `400 ${fs}px 'SF Pro Custom', -apple-system, sans-serif`;
 
-    ctx.fillText(eid,              ex,  ey);
-    ctx.fillText(im1,              i1x, i1y);
-    ctx.fillText(im2,              i2x, i2y);
-    ctx.fillText(im1.slice(0, 14), mdx, mdy);
+    ctx.fillText(eid,                ex,  ey);
+    ctx.fillText(im1,                i1x, i1y);
+    ctx.fillText(im2,                i2x, i2y);
+    ctx.fillText(meidFromImei(im1),  mdx, mdy);
 
     const url = canvas.toDataURL("image/png");
 
