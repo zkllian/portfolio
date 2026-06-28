@@ -89,7 +89,18 @@ export default function Home() {
   const [dotColor, setDotColor] = useState('#ffffff');
 
   const COUNTER_KEY = 'imei_total_generated';
+  const DATE_KEY    = 'imei_total_generated_date';
+  function getWIBDateStr() {
+    return new Date().toLocaleDateString('sv-SE', { timeZone: 'Asia/Jakarta' });
+  }
   const [totalImei, setTotalImei] = useState<number>(() => {
+    const today   = getWIBDateStr();
+    const savedDate = localStorage.getItem(DATE_KEY);
+    if (savedDate !== today) {
+      localStorage.setItem(COUNTER_KEY, '0');
+      localStorage.setItem(DATE_KEY, today);
+      return 0;
+    }
     const saved = localStorage.getItem(COUNTER_KEY);
     return saved ? parseInt(saved, 10) || 0 : 0;
   });
@@ -105,6 +116,24 @@ export default function Home() {
   const BASE = import.meta.env.BASE_URL;
 
   useEffect(() => { posRef.current = pos; }, [pos]);
+
+  useEffect(() => {
+    function scheduleReset() {
+      const now = new Date();
+      const wibNow = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Jakarta' }));
+      const midnight = new Date(wibNow);
+      midnight.setHours(24, 0, 0, 0);
+      const msUntilMidnight = midnight.getTime() - wibNow.getTime();
+      return setTimeout(() => {
+        setTotalImei(0);
+        localStorage.setItem(COUNTER_KEY, '0');
+        localStorage.setItem(DATE_KEY, getWIBDateStr());
+        scheduleReset();
+      }, msUntilMidnight);
+    }
+    const t = scheduleReset();
+    return () => clearTimeout(t);
+  }, []);
 
   useEffect(() => {
     const img = new Image();
@@ -282,6 +311,7 @@ export default function Home() {
       setTotalImei(prev => {
         const next = prev + totalSets;
         localStorage.setItem(COUNTER_KEY, String(next));
+        localStorage.setItem(DATE_KEY, getWIBDateStr());
         return next;
       });
       setView('results');
