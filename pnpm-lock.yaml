@@ -61,7 +61,7 @@ catalogs:
       specifier: ^4.1.14
       version: 4.3.1
     tsx:
-      specifier: ^4.21.0
+      specifier: 4.22.4
       version: 4.22.4
     vite:
       specifier: ^7.3.2
@@ -215,6 +215,9 @@ importers:
       thread-stream:
         specifier: 3.1.0
         version: 3.1.0
+      tsx:
+        specifier: 'catalog:'
+        version: 4.22.4
 
   artifacts/barcode-gen:
     dependencies:
@@ -2501,7 +2504,7 @@ packages:
     engines: {node: '>= 0.4'}
 
   on-exit-leak-free@2.1.2:
-    resolution: {integrity: sha512-0eJJY6hXLGf1udHwfNftBqH+g73EU4B504nZeKpz1sYRKafAghwxEJunB2O7rDZkL4PGfsMVnTXZ2EjibbqcsA==}
+    resolution: {integrity: sha512-0eJJY6hXLGf1udHwfNftBqH+g73EU4B504nZeKpz1sYRKafAghwxEJunB2O7rDZkL4PGfsMVnTXZ2EjibbqcsA==, tarball: https://registry.npmjs.org/on-exit-leak-free/-/on-exit-leak-free-2.1.2.tgz}
     engines: {node: '>=14.0.0'}
 
   on-finished@2.4.1:
