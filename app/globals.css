@@ -129,9 +129,9 @@ body {
 /* ── Aesthetic Hint Tooltip ── */
 .logo-hint {
   position: absolute;
-  top: calc(100% + 12px);
-  left: 50%;
-  transform: translateX(-50%) translateY(-6px);
+  top: 50%;
+  left: calc(100% + 12px);
+  transform: translateY(-50%) translateX(-6px);
   background: #0d0d0d;
   border: 1px solid rgba(255,255,255,0.1);
   border-radius: 10px;
@@ -139,7 +139,7 @@ body {
   font-size: 11px;
   font-family: 'Geist', sans-serif;
   white-space: nowrap;
-  padding: 7px 12px 7px 10px;
+  padding: 7px 12px 7px 14px;
   pointer-events: none;
   opacity: 0;
   transition: opacity .35s ease, transform .35s ease;
@@ -150,18 +150,18 @@ body {
 
 .logo-hint.visible {
   opacity: 1;
-  transform: translateX(-50%) translateY(0);
+  transform: translateY(-50%) translateX(0);
 }
 
 .logo-hint-arrow {
   position: absolute;
-  top: -5px;
-  left: 50%;
-  transform: translateX(-50%) rotate(45deg);
+  top: 50%;
+  left: -5px;
+  transform: translateY(-50%) rotate(45deg);
   width: 8px;
   height: 8px;
   background: #0d0d0d;
-  border-top: 1px solid rgba(255,255,255,0.1);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
   border-left: 1px solid rgba(255,255,255,0.1);
   border-radius: 2px;
 }
