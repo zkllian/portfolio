@@ -389,6 +389,97 @@ textarea:focus{
   color:#3b9eff;
 }
 
+/* Credit */
+.credit-wrap{
+  margin-top:12px;
+}
+
+.credit-card{
+  position:relative;
+  border-radius:12px;
+  overflow:hidden;
+  border:1px solid #1f1f1f;
+  background:var(--surface);
+  cursor:default;
+  transition:border-color .25s, transform .2s;
+}
+
+.credit-card:hover{
+  border-color:#333;
+  transform:translateY(-1px);
+}
+
+.credit-glow{
+  position:absolute;
+  top:-60px;
+  left:50%;
+  transform:translateX(-50%);
+  width:200px;
+  height:120px;
+  background:radial-gradient(ellipse, rgba(120,80,255,.18) 0%, transparent 70%);
+  pointer-events:none;
+  transition:opacity .3s;
+  opacity:0;
+}
+
+.credit-card:hover .credit-glow{
+  opacity:1;
+}
+
+.credit-inner{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  padding:14px 16px;
+  position:relative;
+}
+
+.credit-avatar{
+  width:36px;
+  height:36px;
+  border-radius:50%;
+  background:linear-gradient(135deg,#7850ff,#c850fc);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:12px;
+  font-weight:700;
+  color:#fff;
+  letter-spacing:.04em;
+  flex-shrink:0;
+  box-shadow:0 0 0 1px rgba(120,80,255,.3);
+}
+
+.credit-info{
+  flex:1;
+}
+
+.credit-name{
+  font-size:13px;
+  font-weight:600;
+  color:var(--text);
+  letter-spacing:-.01em;
+}
+
+.credit-role{
+  font-size:11px;
+  color:var(--text-dim);
+  font-family:'Geist Mono',monospace;
+  margin-top:2px;
+}
+
+.credit-badge{
+  font-size:18px;
+  color:#7850ff;
+  opacity:.7;
+  animation:pulse-star 2.5s ease-in-out infinite;
+}
+
+@keyframes pulse-star{
+  0%,100%{opacity:.5;transform:scale(1);}
+  50%{opacity:1;transform:scale(1.2);}
+}
+
 /* Footer */
 .footer{
   margin-top:32px;
@@ -504,6 +595,21 @@ textarea:focus{
     <div class="footer-dot"></div>
   </div>
 
+  <!-- Credit -->
+  <div class="credit-wrap">
+    <div class="credit-card">
+      <div class="credit-glow"></div>
+      <div class="credit-inner">
+        <div class="credit-avatar">YG</div>
+        <div class="credit-info">
+          <div class="credit-name">yoga ganteng</div>
+          <div class="credit-role">crafted with ✦ by the legend himself</div>
+        </div>
+        <div class="credit-badge">✦</div>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 <div class="toast" id="toast"></div>
@@ -616,10 +722,6 @@ async function generateBulk() {
   const totalPairs = Math.floor(lines.length / 2);
   const ctx = canvas.getContext("2d");
 
-  ctx.fillStyle = "#000";
-  ctx.textBaseline = "top";
-  ctx.font = "400 45.7px 'SF Pro Custom', -apple-system, sans-serif";
-
   resultsDiv.innerHTML = "";
   resultsWrap.style.display = "none";
 
@@ -629,11 +731,22 @@ async function generateBulk() {
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.drawImage(baseImage, 0, 0);
-    ctx.setTransform(0.97, 0, 0, 1, 0, 0);
-    ctx.fillText(randomDigits(32), 187, 738);
-    ctx.fillText(lines[i * 2], 464, 1087.1);
-    ctx.fillText(lines[i * 2 + 1], 464, 1422.2);
-    ctx.setTransform(1, 0, 0, 1, 0, 0);
+
+    ctx.fillStyle = "#000";
+    ctx.textBaseline = "top";
+    ctx.textAlign = "left";
+
+    // EID — 32 random digits below EID barcode
+    ctx.font = "400 17px -apple-system, 'Helvetica Neue', sans-serif";
+    ctx.fillText(randomDigits(32), 28, 422);
+
+    // IMEI 1 — below IMEI barcode
+    ctx.font = "400 17px -apple-system, 'Helvetica Neue', sans-serif";
+    ctx.fillText(lines[i * 2], 28, 645);
+
+    // IMEI 2 — below IMEI2 barcode
+    ctx.font = "400 17px -apple-system, 'Helvetica Neue', sans-serif";
+    ctx.fillText(lines[i * 2 + 1], 28, 863);
 
     const url = canvas.toDataURL("image/png");
 
