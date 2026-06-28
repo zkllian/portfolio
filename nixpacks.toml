@@ -2,13 +2,10 @@
 nixPkgs = ["nodejs_22"]
 
 [phases.install]
-cmds = [
-  "npm install -g pnpm@10",
-  "pnpm install --frozen-lockfile"
-]
+cmds = ["npx --yes pnpm@10 install --frozen-lockfile"]
 
 [phases.build]
-cmds = ["PORT=3000 BASE_PATH=/ pnpm --filter @workspace/barcode-gen run build"]
+cmds = ["PORT=3000 BASE_PATH=/ npx pnpm@10 --filter @workspace/barcode-gen run build"]
 
 [start]
 cmd = "npx serve artifacts/barcode-gen/dist/public -l $PORT --single"
