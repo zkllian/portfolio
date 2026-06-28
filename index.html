@@ -1046,6 +1046,24 @@ textarea:focus{
       </div>
 
       <div class="pos-row">
+        <span class="pos-label">MEID</span>
+        <div class="nudge-group">
+          <div class="nudge-axis">
+            <span class="axis-lbl">X</span>
+            <button class="nb" onpointerdown="startNudge('meid_x',-1)" onpointerup="stopNudge()" onpointerleave="stopNudge()">‹</button>
+            <input type="number" id="meid_x" value="285" oninput="drawPreview()">
+            <button class="nb" onpointerdown="startNudge('meid_x',1)" onpointerup="stopNudge()" onpointerleave="stopNudge()">›</button>
+          </div>
+          <div class="nudge-axis">
+            <span class="axis-lbl">Y</span>
+            <button class="nb" onpointerdown="startNudge('meid_y',-1)" onpointerup="stopNudge()" onpointerleave="stopNudge()">▲</button>
+            <input type="number" id="meid_y" value="1240" oninput="drawPreview()">
+            <button class="nb" onpointerdown="startNudge('meid_y',1)" onpointerup="stopNudge()" onpointerleave="stopNudge()">▼</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="pos-row">
         <span class="pos-label">Font</span>
         <div class="nudge-group">
           <div class="nudge-axis">
@@ -1352,12 +1370,15 @@ async function generateBulk() {
     const i1y = parseInt(document.getElementById('imei1_y').value) || 671;
     const i2x = parseInt(document.getElementById('imei2_x').value) || 285;
     const i2y = parseInt(document.getElementById('imei2_y').value) || 955;
+    const mdx = parseInt(document.getElementById('meid_x').value)  || 285;
+    const mdy = parseInt(document.getElementById('meid_y').value)  || 1240;
 
     ctx.font = `400 ${fs}px 'SF Pro Custom', -apple-system, sans-serif`;
 
-    ctx.fillText(eid, ex,  ey);
-    ctx.fillText(im1, i1x, i1y);
-    ctx.fillText(im2, i2x, i2y);
+    ctx.fillText(eid,              ex,  ey);
+    ctx.fillText(im1,              i1x, i1y);
+    ctx.fillText(im2,              i2x, i2y);
+    ctx.fillText(im1.slice(0, 14), mdx, mdy);
 
     const url = canvas.toDataURL("image/png");
 
@@ -1440,6 +1461,8 @@ function getPos() {
     i1y: parseInt(document.getElementById('imei1_y').value) || 671,
     i2x: parseInt(document.getElementById('imei2_x').value) || 285,
     i2y: parseInt(document.getElementById('imei2_y').value) || 955,
+    mdx: parseInt(document.getElementById('meid_x').value)  || 285,
+    mdy: parseInt(document.getElementById('meid_y').value)  || 1240,
   };
 }
 
@@ -1462,17 +1485,20 @@ function drawPreview() {
   previewCtx.fillText('88166587266534996332652007294687', p.ex,  p.ey);
   previewCtx.fillText('111111111111111',                  p.i1x, p.i1y);
   previewCtx.fillText('222222222222222',                  p.i2x, p.i2y);
+  previewCtx.fillText('11111111111111',                   p.mdx, p.mdy);
 
   // crosshair markers
   drawMarker(p.ex,  p.ey,  '#f59e0b');
   drawMarker(p.i1x, p.i1y, '#3b82f6');
   drawMarker(p.i2x, p.i2y, '#10b981');
+  drawMarker(p.mdx, p.mdy, '#e879f9');
 
   // legend
   const legend = [
     { color:'#f59e0b', label:'EID' },
     { color:'#3b82f6', label:'IMEI 1' },
     { color:'#10b981', label:'IMEI 2' },
+    { color:'#e879f9', label:'MEID' },
   ];
   legend.forEach((l, i) => {
     previewCtx.fillStyle = l.color;
