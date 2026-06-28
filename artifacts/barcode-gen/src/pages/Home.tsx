@@ -1,42 +1,7 @@
 'use client';
-import { useEffect, useRef, useState, useCallback } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import JsBarcode from 'jsbarcode';
 
-function SizeRow({ label, hField, wField, pos, onSetPos, onStartNudge, onStopNudge, color }: {
-  label: string;
-  hField: string;
-  wField: string;
-  pos: Record<string, number>;
-  onSetPos: (fn: (p: Record<string, number>) => Record<string, number>) => void;
-  onStartNudge: (field: string, dir: number) => void;
-  onStopNudge: () => void;
-  color?: string;
-}) {
-  return (
-    <div className="pos-row">
-      <span className="pos-label">
-        {color && <span className="pos-dot" style={{ background: color }} />}
-        {label}
-      </span>
-      <div className="nudge-group">
-        <div className="nudge-axis">
-          <span className="axis-lbl">H</span>
-          <button className="nb" onPointerDown={() => onStartNudge(hField, -1)} onPointerUp={onStopNudge} onPointerLeave={onStopNudge}>‹</button>
-          <input type="number" min="20" max="300" step="1" value={pos[hField]} readOnly
-            onChange={e => onSetPos(p => ({ ...p, [hField]: parseInt(e.target.value) || 20 }))} />
-          <button className="nb" onPointerDown={() => onStartNudge(hField, 1)} onPointerUp={onStopNudge} onPointerLeave={onStopNudge}>›</button>
-        </div>
-        <div className="nudge-axis">
-          <span className="axis-lbl">W</span>
-          <button className="nb" onPointerDown={() => onStartNudge(wField, -1)} onPointerUp={onStopNudge} onPointerLeave={onStopNudge}>‹</button>
-          <input type="number" min="50" max="1000" step="1" value={pos[wField]} readOnly
-            onChange={e => onSetPos(p => ({ ...p, [wField]: parseInt(e.target.value) || 50 }))} />
-          <button className="nb" onPointerDown={() => onStartNudge(wField, 1)} onPointerUp={onStopNudge} onPointerLeave={onStopNudge}>›</button>
-        </div>
-      </div>
-    </div>
-  );
-}
 
 function NudgeRow({ label, xField, yField, pos, onSetPos, onStartNudge, onStopNudge, color }: {
   label: string;
@@ -97,7 +62,7 @@ export default function Home() {
   const [resultLabel, setResultLabel] = useState('0 output');
   const [oddNotice, setOddNotice] = useState('');
 
-  const [coordsTab, setCoordsTab] = useState<'barcode' | 'text' | 'size'>('barcode');
+  const [coordsTab, setCoordsTab] = useState<'barcode' | 'text'>('barcode');
   const [pos, setPos] = useState<Record<string, number>>({
     eid_x: 19,     eid_y: 454,
     imei1_x: 141,  imei1_y: 744.5,
@@ -109,16 +74,12 @@ export default function Home() {
     meid_tx: 287.5,meid_ty: 1240,
     letter_spacing: 0.5,
     font_size: 30.5,
-    eid_h: 72,    eid_w: 700.5,  eid_op: 1,
-    imei1_h: 71,  imei1_w: 455,  imei1_op: 1,
-    imei2_h: 69,  imei2_w: 455,  imei2_op: 1,
-    meid_h: 69.5, meid_w: 380,   meid_op: 1,
   });
   const posRef = useRef(pos);
   const [nudgeStep, setNudgeStep] = useState(1);
   const nudgeStepRef = useRef(1);
-  const [fontStep, setFontStep] = useState(1);
-  const fontStepRef = useRef(1);
+
+  const BC = { eid: { h: 72, w: 700.5 }, imei1: { h: 71, w: 455 }, imei2: { h: 69, w: 455 }, meid: { h: 69.5, w: 380 } };
   const [previewDim, setPreviewDim] = useState('738 × 1600');
 
   const [creditOpen, setCreditOpen] = useState(false);
@@ -306,10 +267,10 @@ export default function Home() {
         ctx.clearRect(0, 0, cvs.width, cvs.height);
         ctx.drawImage(img, 0, 0);
 
-        drawBarcode(ctx, eid,               p.eid_x,   p.eid_y,   p.eid_h,   p.font_size, p.eid_w,   p.eid_op);
-        drawBarcode(ctx, im1,               p.imei1_x, p.imei1_y, p.imei1_h, p.font_size, p.imei1_w, p.imei1_op);
-        drawBarcode(ctx, im2,               p.imei2_x, p.imei2_y, p.imei2_h, p.font_size, p.imei2_w, p.imei2_op);
-        drawBarcode(ctx, meidFromImei(im1), p.meid_x,  p.meid_y,  p.meid_h,  p.font_size, p.meid_w,  p.meid_op);
+        drawBarcode(ctx, eid,               p.eid_x,   p.eid_y,   BC.eid.h,   p.font_size, BC.eid.w);
+        drawBarcode(ctx, im1,               p.imei1_x, p.imei1_y, BC.imei1.h, p.font_size, BC.imei1.w);
+        drawBarcode(ctx, im2,               p.imei2_x, p.imei2_y, BC.imei2.h, p.font_size, BC.imei2.w);
+        drawBarcode(ctx, meidFromImei(im1), p.meid_x,  p.meid_y,  BC.meid.h,  p.font_size, BC.meid.w);
 
         ctx.font = `400 ${p.font_size}px 'SF Pro Custom', -apple-system, sans-serif`;
         ctx.letterSpacing = `${p.letter_spacing}px`;
@@ -367,25 +328,6 @@ export default function Home() {
   function setStep(v: number) {
     setNudgeStep(v);
     nudgeStepRef.current = v;
-  }
-
-  function setFontStepVal(v: number) {
-    setFontStep(v);
-    fontStepRef.current = v;
-  }
-
-  function startFontNudge(dir: number) {
-    doFontNudge(dir);
-    nudgeTimerRef.current = setTimeout(() => {
-      nudgeTimerRef.current = setInterval(() => doFontNudge(dir), 60);
-    }, 350);
-  }
-
-  function doFontNudge(dir: number) {
-    setPos(prev => ({
-      ...prev,
-      font_size: Math.max(8, parseFloat((prev.font_size + dir * fontStepRef.current).toFixed(1))),
-    }));
   }
 
   function startLetterSpacingNudge(dir: number) {
@@ -465,10 +407,10 @@ export default function Home() {
     ctx.clearRect(0, 0, W, H);
     ctx.drawImage(img, 0, 0);
 
-    drawBarcode(ctx, '89049032000209061050588208994839', p.eid_x,   p.eid_y,   p.eid_h,   p.font_size, p.eid_w,   p.eid_op);
-    drawBarcode(ctx, '356730111869006',                  p.imei1_x, p.imei1_y, p.imei1_h, p.font_size, p.imei1_w, p.imei1_op);
-    drawBarcode(ctx, '356687114789203',                  p.imei2_x, p.imei2_y, p.imei2_h, p.font_size, p.imei2_w, p.imei2_op);
-    drawBarcode(ctx, '35673011186900',                   p.meid_x,  p.meid_y,  p.meid_h,  p.font_size, p.meid_w,  p.meid_op);
+    drawBarcode(ctx, '89049032000209061050588208994839', p.eid_x,   p.eid_y,   BC.eid.h,   p.font_size, BC.eid.w);
+    drawBarcode(ctx, '356730111869006',                  p.imei1_x, p.imei1_y, BC.imei1.h, p.font_size, BC.imei1.w);
+    drawBarcode(ctx, '356687114789203',                  p.imei2_x, p.imei2_y, BC.imei2.h, p.font_size, BC.imei2.w);
+    drawBarcode(ctx, '35673011186900',                   p.meid_x,  p.meid_y,  BC.meid.h,  p.font_size, BC.meid.w);
 
     ctx.font = `400 ${p.font_size}px 'SF Pro Custom', -apple-system, sans-serif`;
     ctx.letterSpacing = `${p.letter_spacing}px`;
@@ -615,7 +557,7 @@ export default function Home() {
 
             <div className="card pos-card">
                 <div className="coords-tabs">
-                  {(['barcode', 'text', 'size'] as const).map(t => (
+                  {(['barcode', 'text'] as const).map(t => (
                     <button key={t} className={`coords-tab${coordsTab === t ? ' active' : ''}`} onClick={() => setCoordsTab(t)}>{t}</button>
                   ))}
                 </div>
@@ -634,29 +576,6 @@ export default function Home() {
                     <NudgeRow label="imei[0]" xField="imei1_x" yField="imei1_y" {...nudgeProps} color="#3b82f6" />
                     <NudgeRow label="imei[1]" xField="imei2_x" yField="imei2_y" {...nudgeProps} color="#10b981" />
                     <NudgeRow label="meid"    xField="meid_x"  yField="meid_y"  {...nudgeProps} color="#e879f9" />
-                    <div className="pos-section-divider"><span>opacity</span></div>
-                    {([
-                      { label: 'eid',     field: 'eid_op',   color: '#f59e0b' },
-                      { label: 'imei[0]', field: 'imei1_op', color: '#3b82f6' },
-                      { label: 'imei[1]', field: 'imei2_op', color: '#10b981' },
-                      { label: 'meid',    field: 'meid_op',  color: '#e879f9' },
-                    ] as const).map(({ label, field, color }) => (
-                      <div key={field} className="pos-row">
-                        <span className="pos-label">
-                          <span className="pos-dot" style={{ background: color }} />
-                          {label}
-                        </span>
-                        <div className="nudge-group">
-                          <div className="nudge-axis">
-                            <span className="axis-lbl">α</span>
-                            <button className="nb" onClick={() => setPos(p => ({ ...p, [field]: parseFloat(Math.max(0, (p[field] ?? 1) - 0.05).toFixed(2)) }))}>‹</button>
-                            <input type="number" min="0" max="1" step="0.05" value={(pos[field] ?? 1).toFixed(2)} readOnly
-                              onChange={e => setPos(p => ({ ...p, [field]: Math.max(0, Math.min(1, parseFloat(e.target.value) || 0)) }))} />
-                            <button className="nb" onClick={() => setPos(p => ({ ...p, [field]: parseFloat(Math.min(1, (p[field] ?? 1) + 0.05).toFixed(2)) }))}>›</button>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
                   </>
                 )}
 
@@ -689,34 +608,6 @@ export default function Home() {
                   </>
                 )}
 
-                {coordsTab === 'size' && (
-                  <>
-                    <div className="pos-row font-sz-row">
-                      <span className="pos-label">font_sz</span>
-                      <div className="nudge-group">
-                        <div className="nudge-axis">
-                          <span className="axis-lbl">px</span>
-                          <button className="nb" onPointerDown={() => startFontNudge(-1)} onPointerUp={stopNudge} onPointerLeave={stopNudge}>‹</button>
-                          <input type="number" min="8" max="60" step="0.5" value={pos.font_size} readOnly
-                            onChange={e => setPos(p => ({ ...p, font_size: parseFloat(e.target.value) || 8 }))} />
-                          <button className="nb" onPointerDown={() => startFontNudge(1)} onPointerUp={stopNudge} onPointerLeave={stopNudge}>›</button>
-                        </div>
-                        <div className="font-step-row">
-                          <span className="axis-lbl">step</span>
-                          <div className="step-btns">
-                            {[1, 1.5, 2, 2.5].map(v => (
-                              <button key={v} className={`step-btn${fontStep === v ? ' active' : ''}`} onClick={() => setFontStepVal(v)}>{v}</button>
-                            ))}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <SizeRow label="eid"     hField="eid_h"   wField="eid_w"   pos={pos} onSetPos={setPos} onStartNudge={startNudge} onStopNudge={stopNudge} color="#f59e0b" />
-                    <SizeRow label="im0"     hField="imei1_h" wField="imei1_w" pos={pos} onSetPos={setPos} onStartNudge={startNudge} onStopNudge={stopNudge} color="#3b82f6" />
-                    <SizeRow label="im1"     hField="imei2_h" wField="imei2_w" pos={pos} onSetPos={setPos} onStartNudge={startNudge} onStopNudge={stopNudge} color="#10b981" />
-                    <SizeRow label="meid"    hField="meid_h"  wField="meid_w"  pos={pos} onSetPos={setPos} onStartNudge={startNudge} onStopNudge={stopNudge} color="#e879f9" />
-                  </>
-                )}
 
                 <div className="preview-wrap">
                   <div className="preview-header">
