@@ -909,11 +909,11 @@ textarea:focus{
 
     <div class="input-wrap">
       <div class="line-nums" id="lineNums">1</div>
-      <textarea id="bulkInput" placeholder="359876012345678&#10;359876012345679&#10;..."></textarea>
+      <textarea id="bulkInput" placeholder="89014103211118510720  ← EID (32 digit)&#10;359876012345678       ← IMEI 1 (15 digit)&#10;359876012345679       ← IMEI 2 (15 digit)&#10;&#10;89014103211118510721  ← set berikutnya&#10;359876012345680&#10;359876012345681"></textarea>
     </div>
 
     <div class="input-hint">
-      Hanya angka <span>·</span> 15 digit per baris <span>·</span> min 2 IMEI
+      3 baris per set <span>·</span> EID (32) → IMEI 1 (15) → IMEI 2 (15)
     </div>
 
     <div class="btn-row">
@@ -1195,9 +1195,10 @@ input.addEventListener("input", () => {
 
 function updateMeta() {
   const lines = input.value.split("\n").filter(Boolean);
-  imeiCount.textContent = lines.length + " IMEI";
-  const nums = lines.map((_, i) => i + 1).join("\n");
-  lineNums.textContent = nums || "1";
+  const sets = Math.floor(lines.length / 3);
+  imeiCount.textContent = sets + " set";
+  const allLines = input.value.split("\n");
+  lineNums.textContent = allLines.map((_, i) => i + 1).join("\n") || "1";
 }
 
 function showToast(msg) {
@@ -1253,31 +1254,39 @@ async function shareImage(dataUrl, index) {
 async function generateBulk() {
   const lines = input.value.split("\n").map(v => v.trim()).filter(Boolean);
 
-  if (lines.length < 2) {
-    showToast("Minimal 2 IMEI diperlukan");
+  if (lines.length < 3) {
+    showToast("Minimal 1 set: EID (32 digit) + IMEI 1 + IMEI 2");
     return;
   }
 
-  const kurang = lines.filter(v => v.length < 15);
-  const lebih = lines.filter(v => v.length > 15);
+  const totalSets = Math.floor(lines.length / 3);
+  const errors = [];
 
-  if (kurang.length || lebih.length) {
-    let pesan = [];
-    if (kurang.length) pesan.push("IMEI kurang dari 15 digit: " + kurang.join(", "));
-    if (lebih.length) pesan.push("IMEI lebih dari 15 digit: " + lebih.join(", "));
-    showToast(pesan.join(" · "));
+  for (let i = 0; i < totalSets; i++) {
+    const eid  = lines[i * 3];
+    const im1  = lines[i * 3 + 1];
+    const im2  = lines[i * 3 + 2];
+    if (eid.length !== 32)  errors.push(`Set ${i+1}: EID harus 32 digit (dapat ${eid.length})`);
+    if (im1.length !== 15)  errors.push(`Set ${i+1}: IMEI 1 harus 15 digit (dapat ${im1.length})`);
+    if (im2.length !== 15)  errors.push(`Set ${i+1}: IMEI 2 harus 15 digit (dapat ${im2.length})`);
+  }
+
+  if (errors.length) {
+    showToast(errors[0]);
     return;
   }
 
-  const totalPairs = Math.floor(lines.length / 2);
   const ctx = canvas.getContext("2d");
-
   resultsDiv.innerHTML = "";
   resultsWrap.style.display = "none";
 
-  for (let i = 0; i < totalPairs; i++) {
-    setLoading(true, i + 1, totalPairs);
+  for (let i = 0; i < totalSets; i++) {
+    setLoading(true, i + 1, totalSets);
     await new Promise(r => setTimeout(r, 30));
+
+    const eid  = lines[i * 3];
+    const im1  = lines[i * 3 + 1];
+    const im2  = lines[i * 3 + 2];
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.drawImage(baseImage, 0, 0);
@@ -1286,19 +1295,19 @@ async function generateBulk() {
     ctx.textBaseline = "top";
     ctx.textAlign = "left";
 
-    const fs  = parseInt(document.getElementById('font_size').value) || 17;
-    const ex  = parseInt(document.getElementById('eid_x').value)   || 28;
-    const ey  = parseInt(document.getElementById('eid_y').value)   || 645;
-    const i1x = parseInt(document.getElementById('imei1_x').value) || 28;
-    const i1y = parseInt(document.getElementById('imei1_y').value) || 863;
-    const i2x = parseInt(document.getElementById('imei2_x').value) || 28;
-    const i2y = parseInt(document.getElementById('imei2_y').value) || 1083;
+    const fs  = parseInt(document.getElementById('font_size').value) || 31;
+    const ex  = parseInt(document.getElementById('eid_x').value)   || 105;
+    const ey  = parseInt(document.getElementById('eid_y').value)   || 370;
+    const i1x = parseInt(document.getElementById('imei1_x').value) || 275;
+    const i1y = parseInt(document.getElementById('imei1_y').value) || 671;
+    const i2x = parseInt(document.getElementById('imei2_x').value) || 285;
+    const i2y = parseInt(document.getElementById('imei2_y').value) || 955;
 
     ctx.font = `400 ${fs}px 'SF Pro Custom', -apple-system, sans-serif`;
 
-    ctx.fillText(randomDigits(32), ex,  ey);
-    ctx.fillText(lines[i * 2],    i1x, i1y);
-    ctx.fillText(lines[i * 2 + 1],i2x, i2y);
+    ctx.fillText(eid, ex,  ey);
+    ctx.fillText(im1, i1x, i1y);
+    ctx.fillText(im2, i2x, i2y);
 
     const url = canvas.toDataURL("image/png");
 
@@ -1322,7 +1331,7 @@ async function generateBulk() {
 
   setLoading(false);
   resultsWrap.style.display = "block";
-  resultLabel.textContent = totalPairs + " result" + (totalPairs > 1 ? "s" : "");
+  resultLabel.textContent = totalSets + " result" + (totalSets > 1 ? "s" : "");
   resetBtn.style.display = "block";
 }
 
