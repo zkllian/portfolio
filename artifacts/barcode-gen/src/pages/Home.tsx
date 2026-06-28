@@ -279,9 +279,8 @@ export default function Home() {
       setIsLoading(false);
       setResults(newResults);
       setResultLabel(`${totalSets} output`);
-      const addedImei = totalSets * 2;
       setTotalImei(prev => {
-        const next = prev + addedImei;
+        const next = prev + totalSets;
         localStorage.setItem(COUNTER_KEY, String(next));
         return next;
       });
@@ -528,7 +527,7 @@ export default function Home() {
             <div className="card counter-card">
               <div className="counter-main">
                 <div className="counter-info">
-                  <span className="card-title">// total imei generated</span>
+                  <span className="card-title">// total barcode generated</span>
                   <span className="counter-number">{totalImei.toLocaleString()}</span>
                 </div>
                 {!confirmReset ? (
