@@ -176,63 +176,78 @@ export default function Home() {
   }
 
   async function generateBulk() {
-    const lines = inputVal.split('\n').map(v => v.trim()).filter(Boolean);
-    if (lines.length < 2) { showToast('Minimal 1 set: IMEI 1 + IMEI 2 (masing-masing 15 digit)'); return; }
+    try {
+      const lines = inputVal.split('\n').map(v => v.trim()).filter(Boolean);
+      if (lines.length < 2) { showToast('Minimal 1 set: IMEI 1 + IMEI 2 (masing-masing 15 digit)'); return; }
 
-    const totalSets = Math.floor(lines.length / 2);
-    for (let i = 0; i < totalSets; i++) {
-      const im1 = lines[i * 2], im2 = lines[i * 2 + 1];
-      if (im1.length !== 15) { showToast(`Set ${i+1}: IMEI 1 harus 15 digit (dapat ${im1.length})`); return; }
-      if (im2.length !== 15) { showToast(`Set ${i+1}: IMEI 2 harus 15 digit (dapat ${im2.length})`); return; }
+      const totalSets = Math.floor(lines.length / 2);
+      for (let i = 0; i < totalSets; i++) {
+        const im1 = lines[i * 2], im2 = lines[i * 2 + 1];
+        if (im1.length !== 15) { showToast(`Set ${i+1}: IMEI 1 harus 15 digit (dapat ${im1.length})`); return; }
+        if (im2.length !== 15) { showToast(`Set ${i+1}: IMEI 2 harus 15 digit (dapat ${im2.length})`); return; }
+      }
+
+      // Ensure base image is loaded
+      const img = baseImageRef.current;
+      if (!img) { showToast('Error: image belum siap, coba lagi'); return; }
+      if (!img.complete || !img.naturalWidth) {
+        await new Promise((resolve, reject) => {
+          img.onload = resolve;
+          img.onerror = () => reject(new Error('Gagal load template image'));
+        });
+      }
+      if (!img.naturalWidth) { showToast('Error: template image gagal dimuat'); return; }
+
+      // Ensure fonts are loaded
+      await Promise.allSettled([
+        document.fonts.load("400 32px 'SF Pro Custom'"),
+        document.fonts.load("500 32px 'SF Pro Custom'"),
+      ]);
+
+      const cvs = canvasRef.current;
+      if (!cvs) { showToast('Error: canvas tidak ditemukan'); return; }
+      cvs.width = img.naturalWidth;
+      cvs.height = img.naturalHeight;
+      const ctx = cvs.getContext('2d');
+      if (!ctx) { showToast('Error: tidak bisa buat canvas context'); return; }
+
+      const newResults = [];
+      setIsLoading(true);
+
+      for (let i = 0; i < totalSets; i++) {
+        setLoadingText('Generating barcode...');
+        setLoadingCount(`${i + 1}/${totalSets}`);
+        await new Promise(r => setTimeout(r, 30));
+
+        const eid = randomEID();
+        const im1 = lines[i * 2];
+        const im2 = lines[i * 2 + 1];
+        const p = posRef.current;
+
+        ctx.clearRect(0, 0, cvs.width, cvs.height);
+        ctx.drawImage(img, 0, 0);
+        ctx.fillStyle = '#000';
+        ctx.textBaseline = 'top';
+        ctx.textAlign = 'left';
+        ctx.font = `400 ${p.font_size}px 'SF Pro Custom', -apple-system, sans-serif`;
+
+        ctx.fillText(eid,               p.eid_x,   p.eid_y);
+        ctx.fillText(im1,               p.imei1_x, p.imei1_y);
+        ctx.fillText(im2,               p.imei2_x, p.imei2_y);
+        ctx.fillText(meidFromImei(im1), p.meid_x,  p.meid_y);
+
+        newResults.push({ url: cvs.toDataURL('image/png'), index: i + 1 });
+      }
+
+      setIsLoading(false);
+      setResults(newResults);
+      setResultLabel(totalSets + ' result' + (totalSets > 1 ? 's' : ''));
+      setView('results');
+      window.scrollTo({ top: 0, behavior: 'instant' });
+    } catch (err) {
+      setIsLoading(false);
+      showToast('Error: ' + (err?.message || String(err)));
     }
-
-    const img = baseImageRef.current;
-    if (!img.complete || !img.naturalWidth) {
-      await new Promise(r => { img.onload = r; });
-    }
-    await Promise.allSettled([
-      document.fonts.load("400 32px 'SF Pro Custom'"),
-      document.fonts.load("500 32px 'SF Pro Custom'"),
-    ]);
-
-    const cvs = canvasRef.current;
-    cvs.width = img.width;
-    cvs.height = img.height;
-    const ctx = cvs.getContext('2d');
-    const newResults = [];
-
-    setIsLoading(true);
-
-    for (let i = 0; i < totalSets; i++) {
-      setLoadingText('Generating barcode...');
-      setLoadingCount(`${i + 1}/${totalSets}`);
-      await new Promise(r => setTimeout(r, 30));
-
-      const eid = randomEID();
-      const im1 = lines[i * 2];
-      const im2 = lines[i * 2 + 1];
-      const p = posRef.current;
-
-      ctx.clearRect(0, 0, cvs.width, cvs.height);
-      ctx.drawImage(baseImageRef.current, 0, 0);
-      ctx.fillStyle = '#000';
-      ctx.textBaseline = 'top';
-      ctx.textAlign = 'left';
-      ctx.font = `400 ${p.font_size}px 'SF Pro Custom', -apple-system, sans-serif`;
-
-      ctx.fillText(eid,              p.eid_x,   p.eid_y);
-      ctx.fillText(im1,              p.imei1_x, p.imei1_y);
-      ctx.fillText(im2,              p.imei2_x, p.imei2_y);
-      ctx.fillText(meidFromImei(im1), p.meid_x,  p.meid_y);
-
-      newResults.push({ url: cvs.toDataURL('image/png'), index: i + 1 });
-    }
-
-    setIsLoading(false);
-    setResults(newResults);
-    setResultLabel(totalSets + ' result' + (totalSets > 1 ? 's' : ''));
-    setView('results');
-    window.scrollTo({ top: 0, behavior: 'instant' });
   }
 
   function downloadImage(dataUrl, index) {
