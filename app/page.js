@@ -44,9 +44,8 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
   const [loadingText, setLoadingText] = useState('Generating...');
   const [loadingCount, setLoadingCount] = useState('');
+  const [view, setView] = useState('input'); // 'input' | 'results'
   const [results, setResults] = useState([]);
-  const [showResults, setShowResults] = useState(false);
-  const [showReset, setShowReset] = useState(false);
   const [resultLabel, setResultLabel] = useState('0 results');
 
   const [posOpen, setPosOpen] = useState(false);
@@ -168,10 +167,15 @@ export default function Home() {
   function resetAll() {
     setInputVal('');
     setResults([]);
-    setShowResults(false);
-    setShowReset(false);
+    setView('input');
     setImeiCount('0 set');
     setLineNums('1');
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }
+
+  function goBack() {
+    setView('input');
+    window.scrollTo({ top: 0, behavior: 'instant' });
   }
 
   async function generateBulk() {
@@ -221,10 +225,9 @@ export default function Home() {
 
     setIsLoading(false);
     setResults(newResults);
-    setShowResults(true);
-    setShowReset(true);
     setResultLabel(totalSets + ' result' + (totalSets > 1 ? 's' : ''));
-    requestAnimationFrame(() => window.scrollTo({ top: scrollY, behavior: 'instant' }));
+    setView('results');
+    window.scrollTo({ top: 0, behavior: 'instant' });
   }
 
   function downloadImage(dataUrl, index) {
@@ -406,117 +409,122 @@ export default function Home() {
           <div className="page-desc">Generate barcode dari IMEI number. Masukkan IMEI 1 dan IMEI 2, masing-masing 15 digit. EID akan di-generate otomatis.</div>
         </div>
 
-        <div className="card">
-          <div className="card-header">
-            <span className="card-title">Input</span>
-            <span className="badge">{imeiCount}</span>
-          </div>
-          <div className="input-wrap">
-            <div className="line-nums">{lineNums}</div>
-            <textarea
-              value={inputVal}
-              onChange={handleInput}
-              placeholder={"359876012345678  ← IMEI 1 (15 digit)\n359876012345679  ← IMEI 2 (15 digit)\n\n359876012345680  ← set berikutnya\n359876012345681"}
-            />
-          </div>
-          <div className="input-hint">
-            2 baris per set <span>·</span> IMEI 1 (15) → IMEI 2 (15) <span>·</span> EID auto
-          </div>
-          <div className="btn-row">
-            <button className="btn btn-primary" onClick={generateBulk} disabled={isLoading}>Generate</button>
-            {showReset && <button className="btn btn-ghost" onClick={resetAll}>Reset</button>}
-          </div>
-          {isLoading && (
-            <div className="status-bar active">
-              <div className="spinner"></div>
-              <span className="status-progress">{loadingText}</span>
-              <span className="status-count">{loadingCount}</span>
-            </div>
-          )}
-        </div>
-
-        <div className="card pos-card">
-          <div className="card-header pos-toggle" onClick={() => setPosOpen(v => !v)}>
-            <span className="card-title">Posisi Teks</span>
-            <span className={`pos-arrow${posOpen ? ' open' : ''}`}>›</span>
-          </div>
-          <div className={`pos-body${posOpen ? ' open' : ''}`}>
-            <div className="nudge-step-row">
-              <span className="pos-label" style={{ width: 'auto', color: 'var(--text-dim)' }}>step</span>
-              <div className="step-btns">
-                {[1, 5, 10].map(v => (
-                  <button key={v} className={`step-btn${nudgeStep === v ? ' active' : ''}`} onClick={() => setStep(v)}>{v}</button>
-                ))}
+        {view === 'input' && (
+          <div className="view-input">
+            <div className="card">
+              <div className="card-header">
+                <span className="card-title">Input</span>
+                <span className="badge">{imeiCount}</span>
               </div>
-            </div>
-            <NudgeRow label="EID"    xField="eid_x"   yField="eid_y"   {...nudgeProps} />
-            <NudgeRow label="IMEI 1" xField="imei1_x" yField="imei1_y" {...nudgeProps} />
-            <NudgeRow label="IMEI 2" xField="imei2_x" yField="imei2_y" {...nudgeProps} />
-            <NudgeRow label="MEID"   xField="meid_x"  yField="meid_y"  {...nudgeProps} />
-            <div className="pos-row">
-              <span className="pos-label">Font</span>
-              <div className="nudge-group">
-                <div className="nudge-axis">
-                  <span className="axis-lbl">px</span>
-                  <button className="nb" onPointerDown={() => startNudge('font_size', -1)} onPointerUp={stopNudge} onPointerLeave={stopNudge}>‹</button>
-                  <input type="number" min="8" max="60" value={pos.font_size}
-                    onChange={e => setPos(p => ({ ...p, font_size: parseInt(e.target.value) || 8 }))} />
-                  <button className="nb" onPointerDown={() => startNudge('font_size', 1)} onPointerUp={stopNudge} onPointerLeave={stopNudge}>›</button>
-                </div>
+              <div className="input-wrap">
+                <div className="line-nums">{lineNums}</div>
+                <textarea
+                  value={inputVal}
+                  onChange={handleInput}
+                  placeholder={"359876012345678  ← IMEI 1 (15 digit)\n359876012345679  ← IMEI 2 (15 digit)\n\n359876012345680  ← set berikutnya\n359876012345681"}
+                />
               </div>
-            </div>
-            <div className="preview-wrap">
-              <div className="preview-header">
-                <span className="preview-label">live preview</span>
-                <span className="preview-dim">{previewDim}</span>
+              <div className="input-hint">
+                2 baris per set <span>·</span> IMEI 1 (15) → IMEI 2 (15) <span>·</span> EID auto
               </div>
-              <div className="preview-stage">
-                <canvas ref={previewCanvasRef} id="previewCanvas" onClick={handlePreviewClick}></canvas>
-                <div className="preview-tap-hint">tap gambar → ambil koordinat X,Y</div>
+              <div className="btn-row">
+                <button className="btn btn-primary" onClick={generateBulk} disabled={isLoading}>Generate</button>
               </div>
-              {showPickInfo && pickedCoord && (
-                <div className="preview-pick-info">
-                  <span className="pick-label">X: {pickedCoord.x}  Y: {pickedCoord.y} → terapkan ke:</span>
-                  <div className="pick-btns">
-                    <button onClick={() => applyPick('eid')}>EID</button>
-                    <button onClick={() => applyPick('imei1')}>IMEI 1</button>
-                    <button onClick={() => applyPick('imei2')}>IMEI 2</button>
-                    <button onClick={() => applyPick('meid')}>MEID</button>
-                    <button className="pick-cancel" onClick={() => setShowPickInfo(false)}>Batal</button>
-                  </div>
+              {isLoading && (
+                <div className="status-bar active">
+                  <div className="spinner"></div>
+                  <span className="status-progress">{loadingText}</span>
+                  <span className="status-count">{loadingCount}</span>
                 </div>
               )}
             </div>
-          </div>
-        </div>
 
-        {showResults && (
-          <div className="results-section">
-            <div className="divider">
-              <div className="divider-line"></div>
-              <span className="divider-label">{resultLabel}</span>
-              <div className="divider-line"></div>
-            </div>
-            {results.map(r => (
-              <div key={r.index} className="result-card" style={{ animationDelay: `${(r.index - 1) * 80}ms` }}>
-                <div className="result-header">
-                  <span className="result-name">barcode-{String(r.index).padStart(2, '0')}.png</span>
-                  <span className="result-status"><div className="dot-ready"></div>ready</span>
+            <div className="card pos-card">
+              <div className="card-header pos-toggle" onClick={() => setPosOpen(v => !v)}>
+                <span className="card-title">Posisi Teks</span>
+                <span className={`pos-arrow${posOpen ? ' open' : ''}`}>›</span>
+              </div>
+              <div className={`pos-body${posOpen ? ' open' : ''}`}>
+                <div className="nudge-step-row">
+                  <span className="pos-label" style={{ width: 'auto', color: 'var(--text-dim)' }}>step</span>
+                  <div className="step-btns">
+                    {[1, 5, 10].map(v => (
+                      <button key={v} className={`step-btn${nudgeStep === v ? ' active' : ''}`} onClick={() => setStep(v)}>{v}</button>
+                    ))}
+                  </div>
                 </div>
-                <div className="result-img-wrap">
-                  <img src={r.url} alt={`Barcode ${r.index}`} />
+                <NudgeRow label="EID"    xField="eid_x"   yField="eid_y"   {...nudgeProps} />
+                <NudgeRow label="IMEI 1" xField="imei1_x" yField="imei1_y" {...nudgeProps} />
+                <NudgeRow label="IMEI 2" xField="imei2_x" yField="imei2_y" {...nudgeProps} />
+                <NudgeRow label="MEID"   xField="meid_x"  yField="meid_y"  {...nudgeProps} />
+                <div className="pos-row">
+                  <span className="pos-label">Font</span>
+                  <div className="nudge-group">
+                    <div className="nudge-axis">
+                      <span className="axis-lbl">px</span>
+                      <button className="nb" onPointerDown={() => startNudge('font_size', -1)} onPointerUp={stopNudge} onPointerLeave={stopNudge}>‹</button>
+                      <input type="number" min="8" max="60" value={pos.font_size}
+                        onChange={e => setPos(p => ({ ...p, font_size: parseInt(e.target.value) || 8 }))} />
+                      <button className="nb" onPointerDown={() => startNudge('font_size', 1)} onPointerUp={stopNudge} onPointerLeave={stopNudge}>›</button>
+                    </div>
+                  </div>
                 </div>
-                <div className="result-actions">
-                  <button className="result-btn" onClick={() => downloadImage(r.url, r.index)}>↓ Download</button>
-                  <button className="result-btn primary-action" onClick={() => shareImage(r.url)}>↗ Share</button>
+                <div className="preview-wrap">
+                  <div className="preview-header">
+                    <span className="preview-label">live preview</span>
+                    <span className="preview-dim">{previewDim}</span>
+                  </div>
+                  <div className="preview-stage">
+                    <canvas ref={previewCanvasRef} id="previewCanvas" onClick={handlePreviewClick}></canvas>
+                    <div className="preview-tap-hint">tap gambar → ambil koordinat X,Y</div>
+                  </div>
+                  {showPickInfo && pickedCoord && (
+                    <div className="preview-pick-info">
+                      <span className="pick-label">X: {pickedCoord.x}  Y: {pickedCoord.y} → terapkan ke:</span>
+                      <div className="pick-btns">
+                        <button onClick={() => applyPick('eid')}>EID</button>
+                        <button onClick={() => applyPick('imei1')}>IMEI 1</button>
+                        <button onClick={() => applyPick('imei2')}>IMEI 2</button>
+                        <button onClick={() => applyPick('meid')}>MEID</button>
+                        <button className="pick-cancel" onClick={() => setShowPickInfo(false)}>Batal</button>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
-            ))}
+            </div>
+          </div>
+        )}
+
+        {view === 'results' && (
+          <div className="view-results">
+            <div className="results-topbar">
+              <button className="results-back-btn" onClick={goBack}>‹ Kembali</button>
+              <span className="results-count-badge">{resultLabel}</span>
+              <button className="results-reset-btn" onClick={resetAll}>Reset</button>
+            </div>
+            <div className="results-list">
+              {results.map(r => (
+                <div key={r.index} className="result-card" style={{ animationDelay: `${(r.index - 1) * 60}ms` }}>
+                  <div className="result-header">
+                    <span className="result-name">barcode-{String(r.index).padStart(2, '0')}.png</span>
+                    <span className="result-status"><div className="dot-ready"></div>ready</span>
+                  </div>
+                  <div className="result-img-wrap">
+                    <img src={r.url} alt={`Barcode ${r.index}`} />
+                  </div>
+                  <div className="result-actions">
+                    <button className="result-btn" onClick={() => downloadImage(r.url, r.index)}>↓ Download</button>
+                    <button className="result-btn primary-action" onClick={() => shareImage(r.url)}>↗ Share</button>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         )}
 
         <div className="footer">
-          <span className="footer-text">ready</span>
+          <span className="footer-text">{view === 'results' ? resultLabel : 'ready'}</span>
           <div className="footer-dot" id="secretDot" onClick={secretClick}>
             <div className={`dot-hint${dotHintVisible ? ' visible' : ''}`}>{dotHintMsg}</div>
           </div>
