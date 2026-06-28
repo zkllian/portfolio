@@ -430,7 +430,7 @@ export default function Home() {
                 <textarea
                   value={inputVal}
                   onChange={handleInput}
-                  placeholder={"359876012345678  ← IMEI 1 (15 digit)\n359876012345679  ← IMEI 2 (15 digit)\n\n359876012345680  ← set berikutnya\n359876012345681"}
+                  placeholder={"IMEI 1\nIMEI 2\n\nIMEI 1\nIMEI 2"}
                 />
               </div>
               <div className="input-hint">
