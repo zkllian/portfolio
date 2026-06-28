@@ -132,6 +132,8 @@ export default function Home() {
   const [dotHintVisible, setDotHintVisible] = useState(false);
   const tapCountRef = useRef(0);
   const tapResetRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const TAP_COLORS = ['#ffffff', '#7850ff', '#00b96b'];
+  const [dotColor, setDotColor] = useState('#ffffff');
 
   const COUNTER_KEY = 'imei_total_generated';
   const [totalImei, setTotalImei] = useState<number>(() => {
@@ -159,6 +161,7 @@ export default function Home() {
         canvasRef.current.width = img.width;
         canvasRef.current.height = img.height;
       }
+      drawPreview(posRef.current);
     };
     baseImageRef.current = img;
     if (document.fonts?.load) {
@@ -169,7 +172,7 @@ export default function Home() {
 
   useEffect(() => {
     const msgs = [
-      'tap 5x',
+      'tap 3x',
     ];
     let hintTimeout: ReturnType<typeof setTimeout>;
     let hideTimeout: ReturnType<typeof setTimeout>;
@@ -508,9 +511,12 @@ export default function Home() {
   function secretClick() {
     if (tapResetRef.current) clearTimeout(tapResetRef.current);
     tapCountRef.current += 1;
-    tapResetRef.current = setTimeout(() => { tapCountRef.current = 0; }, 1500);
-    if (tapCountRef.current < 5) return;
+    tapResetRef.current = setTimeout(() => { tapCountRef.current = 0; setDotColor('#ffffff'); }, 1500);
+    const nextColor = TAP_COLORS[tapCountRef.current % TAP_COLORS.length];
+    setDotColor(nextColor);
+    if (tapCountRef.current < 3) return;
     tapCountRef.current = 0;
+    setDotColor('#ffffff');
     setDotHintVisible(false);
     if (navigator.vibrate) navigator.vibrate([40, 30, 60]);
     playPop();
@@ -533,7 +539,7 @@ export default function Home() {
         <div className="logo-row">
           <div className="logo-icon-wrap" onClick={secretClick}>
             <div className="logo-icon-ring"></div>
-            <div className="logo-icon"></div>
+            <div className="logo-icon" style={{ background: dotColor, transition: 'background 0.2s ease' }}></div>
           </div>
           <div className="logo-label">
             <span className="logo-name">imei</span>
