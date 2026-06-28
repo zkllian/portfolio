@@ -38,16 +38,25 @@ body {
   font-family: 'Geist', -apple-system, BlinkMacSystemFont, sans-serif;
   font-size: 14px;
   min-height: 100vh;
-  padding-top: 0;
+  padding-top: 72px;
   padding-bottom: 80px;
   line-height: 1.5;
 }
 
-/* ── Inline logo row ── */
+/* ── Floating logo pill ── */
 .logo-wrap {
-  max-width: 480px;
-  margin: 0 auto;
-  padding: 20px 16px 0;
+  position: fixed;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  background: rgba(18,18,18,0.75);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 6px 14px 6px 8px;
+  width: fit-content;
 }
 
 /* consistent spacing token */
@@ -159,7 +168,7 @@ body {
 /* ── Page header (below navbar) ── */
 .container { max-width: 480px; margin: 0 auto; padding: 0 var(--page-px); }
 
-.header { margin-top: var(--page-gap); margin-bottom: 24px; }
+.header { margin-top: 0; margin-bottom: 24px; }
 
 .page-title { font-size: 22px; font-weight: 600; letter-spacing: -.03em; color: var(--accent); line-height: 1.2; }
 
