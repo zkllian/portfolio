@@ -1,0 +1,15 @@
+node_modules/
+.next/
+.env*.local
+
+# Replit internal files
+.replit
+replit.nix
+.upm/
+.cache/
+.local/
+.config/
+.agents/
+
+# Attached assets (Replit uploads)
+attached_assets/
