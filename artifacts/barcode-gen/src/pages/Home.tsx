@@ -131,8 +131,7 @@ export default function Home() {
   const nudgeTimerRef = useRef<ReturnType<typeof setTimeout> | ReturnType<typeof setInterval> | null>(null);
 
   function getWIBTimeStr(minutesBack = 0): string {
-    const now = new Date();
-    const wib = new Date(now.getTime() + (7 * 60 - now.getTimezoneOffset()) * 60000 - minutesBack * 60000);
+    const wib = new Date(Date.now() + 7 * 3600000 - minutesBack * 60000);
     const h = String(wib.getUTCHours()).padStart(2, '0');
     const m = String(wib.getUTCMinutes()).padStart(2, '0');
     return `${h}.${m}`;
