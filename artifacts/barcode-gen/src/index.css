@@ -13,7 +13,9 @@
   font-style: normal;
 }
 
-* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; user-select: none; -webkit-user-select: none; }
+
+textarea, input { user-select: text; -webkit-user-select: text; }
 
 :root {
   --bg: #000;
