@@ -3,9 +3,8 @@ import { useEffect, useRef, useState } from 'react';
 import JsBarcode from 'jsbarcode';
 
 
-function NudgeRow({ label, xField, yField, pos, onSetPos, onStartNudge, onStopNudge, color }: {
+function NudgeRow({ label, yField, pos, onSetPos, onStartNudge, onStopNudge, color }: {
   label: string;
-  xField: string;
   yField: string;
   pos: Record<string, number>;
   onSetPos: (fn: (p: Record<string, number>) => Record<string, number>) => void;
@@ -20,19 +19,6 @@ function NudgeRow({ label, xField, yField, pos, onSetPos, onStartNudge, onStopNu
         {label}
       </span>
       <div className="nudge-group">
-        <div className="nudge-axis">
-          <span className="axis-lbl">X</span>
-          <button className="nb"
-            onPointerDown={() => onStartNudge(xField, -1)}
-            onPointerUp={onStopNudge}
-            onPointerLeave={onStopNudge}>‹</button>
-          <input type="number" value={pos[xField]} readOnly
-            onChange={e => onSetPos(p => ({ ...p, [xField]: parseInt(e.target.value) || 0 }))} />
-          <button className="nb"
-            onPointerDown={() => onStartNudge(xField, 1)}
-            onPointerUp={onStopNudge}
-            onPointerLeave={onStopNudge}>›</button>
-        </div>
         <div className="nudge-axis">
           <span className="axis-lbl">Y</span>
           <button className="nb"
@@ -72,7 +58,6 @@ export default function Home() {
     imei1_tx: 270, imei1_ty: 672,
     imei2_tx: 278.5,imei2_ty: 956.5,
     meid_tx: 287.5,meid_ty: 1240,
-    letter_spacing: 0.5,
     font_size: 30.5,
   });
   const posRef = useRef(pos);
@@ -273,7 +258,7 @@ export default function Home() {
         drawBarcode(ctx, meidFromImei(im1), p.meid_x,  p.meid_y,  BC.meid.h,  p.font_size, BC.meid.w);
 
         ctx.font = `400 ${p.font_size}px 'SF Pro Custom', -apple-system, sans-serif`;
-        ctx.letterSpacing = `${p.letter_spacing}px`;
+        ctx.letterSpacing = '0.5px';
         ctx.fillStyle = '#000000';
         ctx.textBaseline = 'top';
         ctx.fillText(eid,               p.eid_tx,   p.eid_ty);
@@ -330,19 +315,6 @@ export default function Home() {
     nudgeStepRef.current = v;
   }
 
-  function startLetterSpacingNudge(dir: number) {
-    doLetterSpacingNudge(dir);
-    nudgeTimerRef.current = setTimeout(() => {
-      nudgeTimerRef.current = setInterval(() => doLetterSpacingNudge(dir), 60);
-    }, 350);
-  }
-
-  function doLetterSpacingNudge(dir: number) {
-    setPos(prev => ({
-      ...prev,
-      letter_spacing: parseFloat((prev.letter_spacing + dir * nudgeStepRef.current).toFixed(1)),
-    }));
-  }
 
   function startNudge(field: string, dir: number) {
     doNudge(field, dir);
@@ -413,7 +385,7 @@ export default function Home() {
     drawBarcode(ctx, '35673011186900',                   p.meid_x,  p.meid_y,  BC.meid.h,  p.font_size, BC.meid.w);
 
     ctx.font = `400 ${p.font_size}px 'SF Pro Custom', -apple-system, sans-serif`;
-    ctx.letterSpacing = `${p.letter_spacing}px`;
+    ctx.letterSpacing = '0.5px';
     ctx.fillStyle = '#000000';
     ctx.textBaseline = 'top';
     ctx.fillText('89049032000209061050588208994839', p.eid_tx,   p.eid_ty);
@@ -575,10 +547,10 @@ export default function Home() {
                         ))}
                       </div>
                     </div>
-                    <NudgeRow label="eid"     xField="eid_x"   yField="eid_y"   {...nudgeProps} color="#f59e0b" />
-                    <NudgeRow label="imei[0]" xField="imei1_x" yField="imei1_y" {...nudgeProps} color="#3b82f6" />
-                    <NudgeRow label="imei[1]" xField="imei2_x" yField="imei2_y" {...nudgeProps} color="#10b981" />
-                    <NudgeRow label="meid"    xField="meid_x"  yField="meid_y"  {...nudgeProps} color="#e879f9" />
+                    <NudgeRow label="eid"     yField="eid_y"   {...nudgeProps} color="#f59e0b" />
+                    <NudgeRow label="imei[0]" yField="imei1_y" {...nudgeProps} color="#3b82f6" />
+                    <NudgeRow label="imei[1]" yField="imei2_y" {...nudgeProps} color="#10b981" />
+                    <NudgeRow label="meid"    yField="meid_y"  {...nudgeProps} color="#e879f9" />
                   </>
                 )}
 
@@ -592,22 +564,10 @@ export default function Home() {
                         ))}
                       </div>
                     </div>
-                    <div className="pos-row font-sz-row">
-                      <span className="pos-label">letter_sp</span>
-                      <div className="nudge-group">
-                        <div className="nudge-axis">
-                          <span className="axis-lbl">px</span>
-                          <button className="nb" onPointerDown={() => startLetterSpacingNudge(-1)} onPointerUp={stopNudge} onPointerLeave={stopNudge}>‹</button>
-                          <input type="number" min="-20" max="100" step="0.5" value={pos.letter_spacing} readOnly
-                            onChange={e => setPos(p => ({ ...p, letter_spacing: parseFloat(e.target.value) || 0 }))} />
-                          <button className="nb" onPointerDown={() => startLetterSpacingNudge(1)} onPointerUp={stopNudge} onPointerLeave={stopNudge}>›</button>
-                        </div>
-                      </div>
-                    </div>
-                    <NudgeRow label="eid.t"  xField="eid_tx"   yField="eid_ty"   {...nudgeProps} color="#f59e0b" />
-                    <NudgeRow label="im0.t"  xField="imei1_tx" yField="imei1_ty" {...nudgeProps} color="#3b82f6" />
-                    <NudgeRow label="im1.t"  xField="imei2_tx" yField="imei2_ty" {...nudgeProps} color="#10b981" />
-                    <NudgeRow label="meid.t" xField="meid_tx"  yField="meid_ty"  {...nudgeProps} color="#e879f9" />
+                    <NudgeRow label="eid.t"  yField="eid_ty"   {...nudgeProps} color="#f59e0b" />
+                    <NudgeRow label="im0.t"  yField="imei1_ty" {...nudgeProps} color="#3b82f6" />
+                    <NudgeRow label="im1.t"  yField="imei2_ty" {...nudgeProps} color="#10b981" />
+                    <NudgeRow label="meid.t" yField="meid_ty"  {...nudgeProps} color="#e879f9" />
                   </>
                 )}
 
