@@ -18,7 +18,6 @@ function SizeRow({ label, hField, wField, pos, onSetPos, onStartNudge, onStopNud
         {color && <span className="pos-dot" style={{ background: color }} />}
         {label}
       </span>
-      <span className="pos-coord-badge">{pos[hField]}h × {pos[wField]}w</span>
       <div className="nudge-group">
         <div className="nudge-axis">
           <span className="axis-lbl">H</span>
@@ -55,7 +54,6 @@ function NudgeRow({ label, xField, yField, pos, onSetPos, onStartNudge, onStopNu
         {color && <span className="pos-dot" style={{ background: color }} />}
         {label}
       </span>
-      <span className="pos-coord-badge">{pos[xField]}, {pos[yField]}</span>
       <div className="nudge-group">
         <div className="nudge-axis">
           <span className="axis-lbl">X</span>
@@ -637,7 +635,6 @@ export default function Home() {
                           <span className="pos-dot" style={{ background: color }} />
                           {label}
                         </span>
-                        <span className="pos-coord-badge">{(pos[field] ?? 1).toFixed(2)}</span>
                         <div className="nudge-group">
                           <div className="nudge-axis">
                             <span className="axis-lbl">α</span>
