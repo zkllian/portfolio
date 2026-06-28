@@ -193,10 +193,7 @@ export default function Home() {
     const ctx = cvs.getContext('2d');
     const newResults = [];
 
-    const scrollY = window.scrollY;
-
     setIsLoading(true);
-    setShowResults(false);
 
     for (let i = 0; i < totalSets; i++) {
       setLoadingText('Generating barcode...');
