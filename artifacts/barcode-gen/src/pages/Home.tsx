@@ -99,7 +99,6 @@ export default function Home() {
   const [resultLabel, setResultLabel] = useState('0 output');
   const [oddNotice, setOddNotice] = useState('');
 
-  const [posOpen, setPosOpen] = useState(false);
   const [coordsTab, setCoordsTab] = useState<'barcode' | 'text' | 'size'>('barcode');
   const [pos, setPos] = useState<Record<string, number>>({
     eid_x: 19,     eid_y: 460,
@@ -110,7 +109,7 @@ export default function Home() {
     imei1_tx: 280, imei1_ty: 670,
     imei2_tx: 290, imei2_ty: 955.5,
     meid_tx: 290,  meid_ty: 1239.5,
-    line_spacing: 85,
+    letter_spacing: 0,
     font_size: 30.5,
     eid_h: 65,    eid_w: 700,
     imei1_h: 65,  imei1_w: 455,
@@ -209,11 +208,7 @@ export default function Home() {
   }, [creditOpen]);
 
   useEffect(() => {
-    if (posOpen) drawPreview(posRef.current);
-  }, [posOpen]);
-
-  useEffect(() => {
-    if (posOpen) drawPreview(pos);
+    drawPreview(pos);
   }, [pos]);
 
   function randomDigits(len: number) {
@@ -388,37 +383,18 @@ export default function Home() {
     }));
   }
 
-  function applyLineSpacing(v: number) {
-    const sp = Math.max(0, parseFloat(v.toFixed(1)));
-    setPos(prev => ({
-      ...prev,
-      line_spacing: sp,
-      eid_ty:    prev.eid_y    - sp,
-      imei1_ty:  prev.imei1_y  - sp,
-      imei2_ty:  prev.imei2_y  - sp,
-      meid_ty:   prev.meid_y   - sp,
-    }));
-  }
-
-  function startLineSpacingNudge(dir: number) {
-    doLineSpacingNudge(dir);
+  function startLetterSpacingNudge(dir: number) {
+    doLetterSpacingNudge(dir);
     nudgeTimerRef.current = setTimeout(() => {
-      nudgeTimerRef.current = setInterval(() => doLineSpacingNudge(dir), 60);
+      nudgeTimerRef.current = setInterval(() => doLetterSpacingNudge(dir), 60);
     }, 350);
   }
 
-  function doLineSpacingNudge(dir: number) {
-    setPos(prev => {
-      const sp = Math.max(0, parseFloat((prev.line_spacing + dir * nudgeStepRef.current).toFixed(1)));
-      return {
-        ...prev,
-        line_spacing: sp,
-        eid_ty:   prev.eid_y   - sp,
-        imei1_ty: prev.imei1_y - sp,
-        imei2_ty: prev.imei2_y - sp,
-        meid_ty:  prev.meid_y  - sp,
-      };
-    });
+  function doLetterSpacingNudge(dir: number) {
+    setPos(prev => ({
+      ...prev,
+      letter_spacing: parseFloat((prev.letter_spacing + dir * nudgeStepRef.current).toFixed(1)),
+    }));
   }
 
   function startNudge(field: string, dir: number) {
@@ -486,6 +462,7 @@ export default function Home() {
     drawBarcode(ctx, '35673011186900',                   p.meid_x,  p.meid_y,  p.meid_h,  p.font_size, p.meid_w);
 
     ctx.font = `400 ${p.font_size}px 'SF Pro Custom', -apple-system, sans-serif`;
+    ctx.letterSpacing = `${p.letter_spacing}px`;
     ctx.fillStyle = '#000000';
     ctx.textBaseline = 'top';
     ctx.fillText('89049032000209061050588208994839', p.eid_tx,   p.eid_ty);
@@ -620,11 +597,10 @@ export default function Home() {
             </div>
 
             <div className="card pos-card">
-              <div className="card-header pos-toggle" onClick={() => setPosOpen(v => !v)}>
+              <div className="card-header">
                 <span className="card-title">// coords</span>
-                <span className={`pos-arrow${posOpen ? ' open' : ''}`}>›</span>
               </div>
-              <div className={`pos-body${posOpen ? ' open' : ''}`}>
+              <div className="pos-body open">
                 <div className="coords-tabs">
                   {(['barcode', 'text', 'size'] as const).map(t => (
                     <button key={t} className={`coords-tab${coordsTab === t ? ' active' : ''}`} onClick={() => setCoordsTab(t)}>{t}</button>
@@ -659,14 +635,14 @@ export default function Home() {
                       </div>
                     </div>
                     <div className="pos-row font-sz-row">
-                      <span className="pos-label">line_sp</span>
+                      <span className="pos-label">letter_sp</span>
                       <div className="nudge-group">
                         <div className="nudge-axis">
                           <span className="axis-lbl">px</span>
-                          <button className="nb" onPointerDown={() => startLineSpacingNudge(-1)} onPointerUp={stopNudge} onPointerLeave={stopNudge}>‹</button>
-                          <input type="number" min="0" max="500" step="0.5" value={pos.line_spacing}
-                            onChange={e => applyLineSpacing(parseFloat(e.target.value) || 0)} />
-                          <button className="nb" onPointerDown={() => startLineSpacingNudge(1)} onPointerUp={stopNudge} onPointerLeave={stopNudge}>›</button>
+                          <button className="nb" onPointerDown={() => startLetterSpacingNudge(-1)} onPointerUp={stopNudge} onPointerLeave={stopNudge}>‹</button>
+                          <input type="number" min="-20" max="100" step="0.5" value={pos.letter_spacing}
+                            onChange={e => setPos(p => ({ ...p, letter_spacing: parseFloat(e.target.value) || 0 }))} />
+                          <button className="nb" onPointerDown={() => startLetterSpacingNudge(1)} onPointerUp={stopNudge} onPointerLeave={stopNudge}>›</button>
                         </div>
                       </div>
                     </div>
