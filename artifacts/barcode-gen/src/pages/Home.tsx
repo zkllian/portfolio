@@ -68,8 +68,8 @@ export default function Home() {
   }
   const [pos, setPos] = useState<Record<string, number>>(loadSavedPos);
   const posRef = useRef(pos);
-  const [nudgeStep, setNudgeStep] = useState(1);
-  const nudgeStepRef = useRef(1);
+  const [nudgeStep, setNudgeStep] = useState(0.5);
+  const nudgeStepRef = useRef(0.5);
 
   const BC = { eid: { h: 72, w: 700.5 }, imei1: { h: 71, w: 455 }, imei2: { h: 69, w: 455 }, meid: { h: 69.5, w: 380 } };
   const [previewDim, setPreviewDim] = useState('738 × 1600');
@@ -622,13 +622,6 @@ export default function Home() {
                     try { localStorage.setItem('bc-pos', JSON.stringify(posRef.current)); } catch {}
                     showToast('saved as default');
                   }}>save</button>
-                </div>
-                <div className="pos-section-divider pos-section-divider--with-step">
-                  <div className="step-btns">
-                    {[0.1, 0.5, 1, 5, 10].map(v => (
-                      <button key={v} className={`step-btn${nudgeStep === v ? ' active' : ''}`} onClick={() => setStep(v)}>{v}</button>
-                    ))}
-                  </div>
                 </div>
                 <NudgeRow label="eid.t"  yField="eid_ty"   {...nudgeProps} color="#f59e0b" />
                 <NudgeRow label="im0.t"  yField="imei1_ty" {...nudgeProps} color="#3b82f6" />
