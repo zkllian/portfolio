@@ -40,7 +40,6 @@ function NudgeRow({ label, xField, yField, pos, onSetPos, onStartNudge, onStopNu
 export default function Home() {
   const [inputVal, setInputVal] = useState('');
   const [imeiCount, setImeiCount] = useState('0 set');
-  const [lineNums, setLineNums] = useState('1');
   const [isLoading, setIsLoading] = useState(false);
   const [loadingText, setLoadingText] = useState('Generating...');
   const [loadingCount, setLoadingCount] = useState('');
@@ -161,7 +160,6 @@ export default function Home() {
     setInputVal(val);
     const lines = val.split('\n').filter(Boolean);
     setImeiCount(Math.floor(lines.length / 2) + ' set');
-    setLineNums(val.split('\n').map((_, i) => i + 1).join('\n') || '1');
   }
 
   function resetAll() {
@@ -426,11 +424,10 @@ export default function Home() {
                 <span className="badge">{imeiCount}</span>
               </div>
               <div className="input-wrap">
-                <div className="line-nums">{lineNums}</div>
                 <textarea
                   value={inputVal}
                   onChange={handleInput}
-                  placeholder={"IMEI 1\nIMEI 2\n\nIMEI 1\nIMEI 2"}
+                  placeholder="Masukan nomor IMEI..."
                 />
               </div>
               <div className="input-hint">
