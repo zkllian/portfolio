@@ -80,6 +80,13 @@ export default function Home() {
   const [inlineError, setInlineError] = useState('');
 
   const [dotHintVisible, setDotHintVisible] = useState(false);
+
+  const COUNTER_KEY = 'imei_total_generated';
+  const [totalImei, setTotalImei] = useState<number>(() => {
+    const saved = localStorage.getItem(COUNTER_KEY);
+    return saved ? parseInt(saved, 10) || 0 : 0;
+  });
+  const [confirmReset, setConfirmReset] = useState(false);
   const [dotHintMsg, setDotHintMsg] = useState('');
 
   const inputValRef = useRef('');
@@ -272,12 +279,25 @@ export default function Home() {
       setIsLoading(false);
       setResults(newResults);
       setResultLabel(`${totalSets} output`);
+      const addedImei = totalSets * 2;
+      setTotalImei(prev => {
+        const next = prev + addedImei;
+        localStorage.setItem(COUNTER_KEY, String(next));
+        return next;
+      });
       setView('results');
       window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
     } catch (err: unknown) {
       setIsLoading(false);
       setInlineError('Error: ' + ((err instanceof Error) ? err.message : String(err)));
     }
+  }
+
+  function resetCounter() {
+    setTotalImei(0);
+    localStorage.setItem(COUNTER_KEY, '0');
+    setConfirmReset(false);
+    showToast('counter direset');
   }
 
   function downloadImage(dataUrl: string, index: number) {
@@ -499,6 +519,24 @@ export default function Home() {
                   <span className="status-count">{loadingCount}</span>
                 </div>
               )}
+            </div>
+
+            <div className="card counter-card">
+              <div className="counter-main">
+                <div className="counter-info">
+                  <span className="card-title">// total imei generated</span>
+                  <span className="counter-number">{totalImei.toLocaleString()}</span>
+                </div>
+                {!confirmReset ? (
+                  <button className="counter-reset-btn" onClick={() => setConfirmReset(true)}>reset</button>
+                ) : (
+                  <div className="counter-confirm">
+                    <span className="counter-confirm-text">yakin?</span>
+                    <button className="counter-confirm-yes" onClick={resetCounter}>ya</button>
+                    <button className="counter-confirm-no" onClick={() => setConfirmReset(false)}>batal</button>
+                  </div>
+                )}
+              </div>
             </div>
 
             <div className="card pos-card">
