@@ -570,6 +570,39 @@ textarea:focus{
   height:6px;
   background:var(--blue);
   border-radius:50%;
+  position:relative;
+}
+
+.dot-hint{
+  position:absolute;
+  bottom:calc(100% + 8px);
+  right:0;
+  background:#111;
+  border:1px solid #2a2a2a;
+  color:#aaa;
+  font-size:10px;
+  font-family:'Geist',sans-serif;
+  white-space:nowrap;
+  padding:5px 9px;
+  border-radius:6px;
+  pointer-events:none;
+  opacity:0;
+  transform:translateY(4px);
+  transition:opacity .3s ease, transform .3s ease;
+}
+
+.dot-hint::after{
+  content:'';
+  position:absolute;
+  top:100%;
+  right:6px;
+  border:5px solid transparent;
+  border-top-color:#2a2a2a;
+}
+
+.dot-hint.visible{
+  opacity:1;
+  transform:translateY(0);
 }
 
 /* Position settings */
@@ -1046,7 +1079,9 @@ textarea:focus{
   <!-- Footer -->
   <div class="footer">
     <span class="footer-text" id="footerText">ready</span>
-    <div class="footer-dot" id="secretDot" onclick="secretClick()" title=""></div>
+    <div class="footer-dot" id="secretDot" onclick="secretClick()" title="">
+      <div class="dot-hint" id="dotHint"></div>
+    </div>
   </div>
 
 
@@ -1487,6 +1522,49 @@ document.querySelectorAll('#posBody input').forEach(inp => {
 
 // Draw when image loads (in case panel already open)
 baseImage.addEventListener('load', () => { if (document.getElementById('posBody').classList.contains('open')) drawPreview(); });
+
+// ── Dot Hint ─────────────────────────────────────────────────
+(function() {
+  const messages = [
+    'psst... coba klik aku 👀',
+    'ada yang tersembunyi di sini~',
+    'hmm, kira-kira ada apa ya?',
+    'jangan diklik kalau penasaran 😏',
+    'klik aku deh, sekali aja',
+    'ada rahasia kecil di sini...',
+    '...kamu tidak penasaran?',
+    'ini tombol apa ya 🤔',
+  ];
+
+  const hint = document.getElementById('dotHint');
+  let hintTimeout, hideTimeout;
+
+  function showHint() {
+    const msg = messages[Math.floor(Math.random() * messages.length)];
+    hint.textContent = msg;
+    hint.classList.add('visible');
+
+    hideTimeout = setTimeout(() => {
+      hint.classList.remove('visible');
+      scheduleNext();
+    }, 3000);
+  }
+
+  function scheduleNext() {
+    const delay = 12000 + Math.random() * 18000;
+    hintTimeout = setTimeout(showHint, delay);
+  }
+
+  document.getElementById('secretDot').addEventListener('click', () => {
+    clearTimeout(hintTimeout);
+    clearTimeout(hideTimeout);
+    hint.classList.remove('visible');
+    setTimeout(scheduleNext, 5000);
+  });
+
+  const firstDelay = 8000 + Math.random() * 10000;
+  hintTimeout = setTimeout(showHint, firstDelay);
+})();
 // ─────────────────────────────────────────────────────────────
 </script>
 
