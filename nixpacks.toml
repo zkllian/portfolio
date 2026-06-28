@@ -7,7 +7,8 @@ cmds = ["npx --yes pnpm@10 install --frozen-lockfile"]
 [phases.build]
 cmds = [
   "PORT=3000 BASE_PATH=/ npx pnpm@10 --filter @workspace/barcode-gen run build",
-  "npx pnpm@10 --filter @workspace/api-server run build"
+  "npx pnpm@10 --filter @workspace/api-server run build",
+  "npx pnpm@10 --filter @workspace/db run push"
 ]
 
 [start]
