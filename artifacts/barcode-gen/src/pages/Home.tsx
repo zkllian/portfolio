@@ -427,6 +427,7 @@ export default function Home() {
 
   function secretClick() {
     setDotHintVisible(false);
+    if (navigator.vibrate) navigator.vibrate([40, 30, 60]);
     playPop();
     spawnParticles();
     setCreditOpen(true);
