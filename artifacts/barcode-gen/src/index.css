@@ -136,7 +136,7 @@ body {
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 10px;
+  border-radius: var(--radius);
   color: rgba(255,255,255,0.85);
   font-size: 11px;
   font-family: 'Geist', sans-serif;
@@ -191,7 +191,7 @@ body {
 
 .card-title { font-size: 12px; font-weight: 500; color: var(--text-muted); text-transform: lowercase; letter-spacing: .08em; }
 
-.badge { font-size: 11px; font-family: 'Geist Mono', monospace; color: var(--text-dim); background: var(--surface2); border: 1px solid var(--border); padding: 2px 8px; border-radius: 4px; }
+.badge { font-size: 11px; font-family: 'Geist Mono', monospace; color: var(--text-dim); background: var(--surface2); border: 1px solid var(--border); padding: 2px 8px; border-radius: var(--radius); }
 
 .input-wrap { position: relative; overflow: hidden; border-radius: var(--radius); }
 
@@ -319,7 +319,7 @@ textarea:focus { border-color: #444; }
 
 .result-img-wrap { padding: 8px; background: var(--surface); }
 
-.result-img-wrap img { width: 100%; border-radius: 4px; display: block; border: 1px solid var(--border); }
+.result-img-wrap img { width: 100%; border-radius: var(--radius); display: block; border: 1px solid var(--border); }
 
 .result-actions { display: flex; border-top: 1px solid var(--border); }
 
@@ -339,13 +339,13 @@ textarea:focus { border-color: #444; }
 
 .credit-overlay.visible { opacity: 1; }
 
-.credit-modal { position: relative; background: #0a0a0a; border: 1px solid #2a2a2a; border-radius: 20px; padding: 36px 32px 28px; max-width: 300px; width: 90%; text-align: center; overflow: hidden; transform: scale(.85) translateY(20px); transition: transform .35s cubic-bezier(.34,1.56,.64,1), opacity .3s; opacity: 0; }
+.credit-modal { position: relative; background: #0a0a0a; border: 1px solid #2a2a2a; border-radius: 12px; padding: 36px 32px 28px; max-width: 300px; width: 90%; text-align: center; overflow: hidden; transform: scale(.85) translateY(20px); transition: transform .35s cubic-bezier(.34,1.56,.64,1), opacity .3s; opacity: 0; }
 
 .credit-overlay.visible .credit-modal { transform: scale(1) translateY(0); opacity: 1; }
 
 .credit-modal-glow { position: absolute; top: -80px; left: 50%; transform: translateX(-50%); width: 260px; height: 200px; background: radial-gradient(ellipse, rgba(120,80,255,.35) 0%, transparent 65%); pointer-events: none; }
 
-.credit-close { position: absolute; top: 12px; right: 14px; background: transparent; border: none; color: var(--text-dim); font-size: 14px; cursor: pointer; padding: 4px 6px; border-radius: 6px; transition: color .15s, background .15s; line-height: 1; }
+.credit-close { position: absolute; top: 12px; right: 14px; background: transparent; border: none; color: var(--text-dim); font-size: 14px; cursor: pointer; padding: 4px 6px; border-radius: var(--radius); transition: color .15s, background .15s; line-height: 1; }
 
 .credit-close:hover { color: var(--text); background: var(--surface2); }
 
@@ -393,7 +393,7 @@ textarea:focus { border-color: #444; }
 
 .step-btns { display: flex; gap: 4px; }
 
-.step-btn { padding: 3px 10px; font-size: 11px; font-family: 'Geist Mono', monospace; background: var(--surface2); border: 1px solid var(--border2); border-radius: 5px; color: var(--text-dim); cursor: pointer; transition: background .12s,color .12s,border-color .12s; }
+.step-btn { padding: 3px 10px; font-size: 11px; font-family: 'Geist Mono', monospace; background: var(--surface2); border: 1px solid var(--border2); border-radius: var(--radius); color: var(--text-dim); cursor: pointer; transition: background .12s,color .12s,border-color .12s; }
 
 .step-btn.active { background: #1a1a1a; border-color: #555; color: var(--text); }
 
@@ -403,11 +403,11 @@ textarea:focus { border-color: #444; }
 
 .axis-lbl { font-size: 10px; font-family: 'Geist Mono', monospace; color: var(--text-dim); width: 14px; text-align: right; flex-shrink: 0; }
 
-.nb { width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; background: var(--surface2); border: 1px solid var(--border2); border-radius: 6px; color: var(--text-muted); font-size: 13px; cursor: pointer; flex-shrink: 0; transition: background .1s,color .1s,transform .08s; user-select: none; -webkit-user-select: none; touch-action: none; }
+.nb { width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; background: var(--surface2); border: 1px solid var(--border2); border-radius: var(--radius); color: var(--text-muted); font-size: 13px; cursor: pointer; flex-shrink: 0; transition: background .1s,color .1s,transform .08s; user-select: none; -webkit-user-select: none; touch-action: none; }
 
 .nb:active { background: #2a2a2a; color: var(--text); transform: scale(.88); }
 
-.nudge-axis input { flex: 1; background: var(--surface2); border: 1px solid var(--border2); border-radius: 6px; color: var(--text); font-size: 12px; font-family: 'Geist Mono', monospace; padding: 5px 6px; outline: none; text-align: center; width: 0; min-width: 0; transition: border-color .15s; }
+.nudge-axis input { flex: 1; background: var(--surface2); border: 1px solid var(--border2); border-radius: var(--radius); color: var(--text); font-size: 12px; font-family: 'Geist Mono', monospace; padding: 5px 6px; outline: none; text-align: center; width: 0; min-width: 0; transition: border-color .15s; }
 
 .nudge-axis input:focus { border-color: #444; }
 
@@ -423,11 +423,11 @@ textarea:focus { border-color: #444; }
 
 .preview-dim { font-size: 11px; font-family: 'Geist Mono', monospace; color: var(--text-dim); opacity: .5; }
 
-.preview-stage { position: relative; border-radius: 8px; overflow: hidden; border: 1px solid var(--border); background: #111; cursor: crosshair; }
+.preview-stage { position: relative; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--border); background: #111; cursor: crosshair; }
 
 #previewCanvas { display: block; width: 100%; height: auto; }
 
-.preview-tap-hint { position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%); font-size: 10px; font-family: 'Geist Mono', monospace; color: rgba(255,255,255,.35); background: rgba(0,0,0,.5); padding: 3px 8px; border-radius: 4px; white-space: nowrap; pointer-events: none; }
+.preview-tap-hint { position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%); font-size: 10px; font-family: 'Geist Mono', monospace; color: rgba(255,255,255,.35); background: rgba(0,0,0,.5); padding: 3px 8px; border-radius: var(--radius); white-space: nowrap; pointer-events: none; }
 
 .preview-pick-info { margin-top: 10px; padding: 10px 12px; background: var(--surface2); border: 1px solid var(--border2); border-radius: var(--radius); }
 
@@ -435,7 +435,7 @@ textarea:focus { border-color: #444; }
 
 .pick-btns { display: flex; gap: 6px; flex-wrap: wrap; }
 
-.pick-btns button { padding: 5px 12px; font-size: 11px; font-family: 'Geist Mono', monospace; font-weight: 500; background: var(--surface); border: 1px solid var(--border2); border-radius: 6px; color: var(--text); cursor: pointer; transition: background .15s, border-color .15s; }
+.pick-btns button { padding: 5px 12px; font-size: 11px; font-family: 'Geist Mono', monospace; font-weight: 500; background: var(--surface); border: 1px solid var(--border2); border-radius: var(--radius); color: var(--text); cursor: pointer; transition: background .15s, border-color .15s; }
 
 .pick-btns button:hover { background: #1a1a1a; border-color: #444; }
 
