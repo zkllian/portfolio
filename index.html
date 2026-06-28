@@ -572,6 +572,87 @@ textarea:focus{
   border-radius:50%;
 }
 
+/* Position settings */
+.pos-card{padding:0;overflow:hidden;}
+
+.pos-toggle{
+  cursor:pointer;
+  user-select:none;
+  padding:14px 20px;
+  margin:0;
+  border-bottom:none;
+  transition:background .15s;
+}
+
+.pos-toggle:hover{background:var(--surface2);}
+
+.pos-arrow{
+  font-size:16px;
+  color:var(--text-dim);
+  transition:transform .2s;
+  display:inline-block;
+}
+
+.pos-arrow.open{transform:rotate(90deg);}
+
+.pos-body{
+  display:none;
+  padding:0 20px 16px;
+  border-top:1px solid var(--border);
+}
+
+.pos-body.open{display:block;}
+
+.pos-row{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:10px 0;
+  border-bottom:1px solid var(--border);
+}
+
+.pos-row:last-child{border-bottom:none;}
+
+.pos-label{
+  font-size:11px;
+  font-family:'Geist Mono',monospace;
+  color:var(--text-muted);
+  width:52px;
+  flex-shrink:0;
+}
+
+.pos-inputs{
+  display:flex;
+  gap:8px;
+  flex:1;
+}
+
+.pos-inputs label{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  font-size:11px;
+  font-family:'Geist Mono',monospace;
+  color:var(--text-dim);
+  flex:1;
+}
+
+.pos-inputs input{
+  flex:1;
+  background:var(--surface2);
+  border:1px solid var(--border2);
+  border-radius:6px;
+  color:var(--text);
+  font-size:12px;
+  font-family:'Geist Mono',monospace;
+  padding:5px 8px;
+  outline:none;
+  width:0;
+  transition:border-color .15s;
+}
+
+.pos-inputs input:focus{border-color:#444;}
+
 /* Alert toast */
 .toast{
   position:fixed;
@@ -645,6 +726,43 @@ textarea:focus{
       <div class="spinner"></div>
       <span class="status-progress" id="statusText">Generating...</span>
       <span class="status-count" id="statusCount"></span>
+    </div>
+  </div>
+
+  <!-- Position Settings -->
+  <div class="card pos-card">
+    <div class="card-header pos-toggle" onclick="togglePos()">
+      <span class="card-title">Posisi Teks</span>
+      <span class="pos-arrow" id="posArrow">›</span>
+    </div>
+    <div class="pos-body" id="posBody">
+      <div class="pos-row">
+        <span class="pos-label">EID</span>
+        <div class="pos-inputs">
+          <label>X <input type="number" id="eid_x" value="28"></label>
+          <label>Y <input type="number" id="eid_y" value="645"></label>
+        </div>
+      </div>
+      <div class="pos-row">
+        <span class="pos-label">IMEI 1</span>
+        <div class="pos-inputs">
+          <label>X <input type="number" id="imei1_x" value="28"></label>
+          <label>Y <input type="number" id="imei1_y" value="863"></label>
+        </div>
+      </div>
+      <div class="pos-row">
+        <span class="pos-label">IMEI 2</span>
+        <div class="pos-inputs">
+          <label>X <input type="number" id="imei2_x" value="28"></label>
+          <label>Y <input type="number" id="imei2_y" value="1083"></label>
+        </div>
+      </div>
+      <div class="pos-row">
+        <span class="pos-label">Font size</span>
+        <div class="pos-inputs">
+          <label>px <input type="number" id="font_size" value="17" min="8" max="60"></label>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -901,16 +1019,19 @@ async function generateBulk() {
     ctx.textBaseline = "top";
     ctx.textAlign = "left";
 
-    ctx.font = "400 17px -apple-system, 'Helvetica Neue', sans-serif";
+    const fs  = parseInt(document.getElementById('font_size').value) || 17;
+    const ex  = parseInt(document.getElementById('eid_x').value)   || 28;
+    const ey  = parseInt(document.getElementById('eid_y').value)   || 645;
+    const i1x = parseInt(document.getElementById('imei1_x').value) || 28;
+    const i1y = parseInt(document.getElementById('imei1_y').value) || 863;
+    const i2x = parseInt(document.getElementById('imei2_x').value) || 28;
+    const i2y = parseInt(document.getElementById('imei2_y').value) || 1083;
 
-    // EID — 32 random digits below EID barcode
-    ctx.fillText(randomDigits(32), 28, 645);
+    ctx.font = `400 ${fs}px -apple-system, 'Helvetica Neue', sans-serif`;
 
-    // IMEI 1 — below IMEI barcode
-    ctx.fillText(lines[i * 2], 28, 863);
-
-    // IMEI 2 — below IMEI2 barcode
-    ctx.fillText(lines[i * 2 + 1], 28, 1083);
+    ctx.fillText(randomDigits(32), ex,  ey);
+    ctx.fillText(lines[i * 2],    i1x, i1y);
+    ctx.fillText(lines[i * 2 + 1],i2x, i2y);
 
     const url = canvas.toDataURL("image/png");
 
@@ -939,6 +1060,13 @@ async function generateBulk() {
 }
 
 updateMeta();
+
+function togglePos() {
+  const body = document.getElementById('posBody');
+  const arrow = document.getElementById('posArrow');
+  const open = body.classList.toggle('open');
+  arrow.classList.toggle('open', open);
+}
 </script>
 
 </body>
