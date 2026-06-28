@@ -110,6 +110,7 @@ export default function Home() {
     imei1_tx: 280, imei1_ty: 670,
     imei2_tx: 290, imei2_ty: 955.5,
     meid_tx: 290,  meid_ty: 1239.5,
+    line_spacing: 85,
     font_size: 30.5,
     eid_h: 65,    eid_w: 700,
     imei1_h: 65,  imei1_w: 455,
@@ -389,6 +390,39 @@ export default function Home() {
       ...prev,
       font_size: Math.max(8, parseFloat((prev.font_size + dir * fontStepRef.current).toFixed(1))),
     }));
+  }
+
+  function applyLineSpacing(v: number) {
+    const sp = Math.max(0, parseFloat(v.toFixed(1)));
+    setPos(prev => ({
+      ...prev,
+      line_spacing: sp,
+      eid_ty:    prev.eid_y    - sp,
+      imei1_ty:  prev.imei1_y  - sp,
+      imei2_ty:  prev.imei2_y  - sp,
+      meid_ty:   prev.meid_y   - sp,
+    }));
+  }
+
+  function startLineSpacingNudge(dir: number) {
+    doLineSpacingNudge(dir);
+    nudgeTimerRef.current = setTimeout(() => {
+      nudgeTimerRef.current = setInterval(() => doLineSpacingNudge(dir), 60);
+    }, 350);
+  }
+
+  function doLineSpacingNudge(dir: number) {
+    setPos(prev => {
+      const sp = Math.max(0, parseFloat((prev.line_spacing + dir * nudgeStepRef.current).toFixed(1)));
+      return {
+        ...prev,
+        line_spacing: sp,
+        eid_ty:   prev.eid_y   - sp,
+        imei1_ty: prev.imei1_y - sp,
+        imei2_ty: prev.imei2_y - sp,
+        meid_ty:  prev.meid_y  - sp,
+      };
+    });
   }
 
   function startNudge(field: string, dir: number) {
@@ -754,6 +788,18 @@ export default function Home() {
                         {[0.5, 1, 5, 10].map(v => (
                           <button key={v} className={`step-btn${nudgeStep === v ? ' active' : ''}`} onClick={() => setStep(v)}>{v}</button>
                         ))}
+                      </div>
+                    </div>
+                    <div className="pos-row font-sz-row">
+                      <span className="pos-label">line_sp</span>
+                      <div className="nudge-group">
+                        <div className="nudge-axis">
+                          <span className="axis-lbl">px</span>
+                          <button className="nb" onPointerDown={() => startLineSpacingNudge(-1)} onPointerUp={stopNudge} onPointerLeave={stopNudge}>‹</button>
+                          <input type="number" min="0" max="500" step="0.5" value={pos.line_spacing}
+                            onChange={e => applyLineSpacing(parseFloat(e.target.value) || 0)} />
+                          <button className="nb" onPointerDown={() => startLineSpacingNudge(1)} onPointerUp={stopNudge} onPointerLeave={stopNudge}>›</button>
+                        </div>
                       </div>
                     </div>
                     <NudgeRow label="eid.t"  xField="eid_tx"   yField="eid_ty"   {...nudgeProps} color="#f59e0b" />
