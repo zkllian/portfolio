@@ -446,7 +446,7 @@ export default function Home() {
     <>
       <div className="logo-wrap">
         <div className="logo-row">
-          <div className="logo-icon-wrap">
+          <div className="logo-icon-wrap" onClick={secretClick}>
             <div className="logo-icon-ring"></div>
             <div className="logo-icon"></div>
           </div>
@@ -459,10 +459,6 @@ export default function Home() {
       </div>
 
       <div className="container">
-        <div className="header">
-          <div className="page-title">Barcode Generator</div>
-          <div className="page-desc">Generate barcode dari IMEI number. Masukkan IMEI 1 dan IMEI 2, masing-masing 15 digit. EID akan di-generate otomatis.</div>
-        </div>
 
         {view === 'input' && (
           <div className="view-input">
@@ -560,7 +556,6 @@ export default function Home() {
                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M8.5 2.5L4 7L8.5 11.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
-                Kembali
               </button>
               <span className="results-count-badge">{resultLabel}</span>
               <button className="results-reset-btn" onClick={resetAll}>Reset</button>
