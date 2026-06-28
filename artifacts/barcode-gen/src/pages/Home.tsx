@@ -451,9 +451,9 @@ export default function Home() {
             <div className="logo-icon"></div>
           </div>
           <div className="logo-label">
-            <span className="logo-name">barcode-gen</span>
+            <span className="logo-name">imei</span>
             <span className="logo-sep"> / </span>
-            <span>imei</span>
+            <span>barcode-gen</span>
           </div>
         </div>
       </div>
