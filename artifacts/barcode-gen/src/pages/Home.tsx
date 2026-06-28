@@ -48,7 +48,7 @@ export default function Home() {
   const [resultLabel, setResultLabel] = useState('0 output');
   const [oddNotice, setOddNotice] = useState('');
 
-  const [pos, setPos] = useState<Record<string, number>>({
+  const DEFAULT_POS: Record<string, number> = {
     eid_x: 19,     eid_y: 454,
     imei1_x: 141,  imei1_y: 744.5,
     imei2_x: 140.5,imei2_y: 1035,
@@ -58,7 +58,15 @@ export default function Home() {
     imei2_tx: 278.5,imei2_ty: 956.5,
     meid_tx: 287.5,meid_ty: 1240,
     font_size: 30.5,
-  });
+  };
+  function loadSavedPos(): Record<string, number> {
+    try {
+      const raw = localStorage.getItem('bc-pos');
+      if (raw) return { ...DEFAULT_POS, ...JSON.parse(raw) };
+    } catch {}
+    return { ...DEFAULT_POS };
+  }
+  const [pos, setPos] = useState<Record<string, number>>(loadSavedPos);
   const posRef = useRef(pos);
   const [nudgeStep, setNudgeStep] = useState(1);
   const nudgeStepRef = useRef(1);
@@ -529,6 +537,10 @@ export default function Home() {
             <div className="card pos-card">
                 <div className="card-header">
                   <span className="card-title">// coords</span>
+                  <button className="save-default-btn" onClick={() => {
+                    try { localStorage.setItem('bc-pos', JSON.stringify(posRef.current)); } catch {}
+                    showToast('saved as default');
+                  }}>save</button>
                 </div>
                 <div className="pos-section-divider pos-section-divider--with-step">
                   <div className="step-btns">

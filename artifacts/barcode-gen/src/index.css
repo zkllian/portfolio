@@ -188,6 +188,8 @@ body {
 .card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 16px; }
 
 .card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; padding-bottom: 14px; border-bottom: 1px solid var(--border); }
+.save-default-btn { padding: 3px 12px; font-size: 10px; font-family: 'Geist Mono', monospace; background: transparent; border: 1px solid var(--border2); border-radius: 999px; color: var(--text-dim); cursor: pointer; transition: background .12s, color .12s, border-color .12s; }
+.save-default-btn:active { background: var(--surface2); border-color: #555; color: var(--text); }
 
 .card-title { font-size: 12px; font-weight: 500; color: var(--text-muted); text-transform: lowercase; letter-spacing: .08em; }
 
