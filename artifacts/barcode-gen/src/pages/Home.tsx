@@ -48,7 +48,6 @@ export default function Home() {
   const [resultLabel, setResultLabel] = useState('0 output');
   const [oddNotice, setOddNotice] = useState('');
 
-  const [coordsTab, setCoordsTab] = useState<'barcode' | 'text'>('barcode');
   const [pos, setPos] = useState<Record<string, number>>({
     eid_x: 19,     eid_y: 454,
     imei1_x: 141,  imei1_y: 744.5,
@@ -531,45 +530,18 @@ export default function Home() {
                 <div className="card-header">
                   <span className="card-title">// coords</span>
                 </div>
-                <div className="coords-tabs">
-                  {(['barcode', 'text'] as const).map(t => (
-                    <button key={t} className={`coords-tab${coordsTab === t ? ' active' : ''}`} onClick={() => setCoordsTab(t)}>{t}</button>
-                  ))}
+                <div className="pos-section-divider pos-section-divider--with-step">
+                  <span>step</span>
+                  <div className="step-btns">
+                    {[0.1, 0.5, 1, 5, 10].map(v => (
+                      <button key={v} className={`step-btn${nudgeStep === v ? ' active' : ''}`} onClick={() => setStep(v)}>{v}</button>
+                    ))}
+                  </div>
                 </div>
-
-                {coordsTab === 'barcode' && (
-                  <>
-                    <div className="pos-section-divider pos-section-divider--with-step">
-                      <span>step</span>
-                      <div className="step-btns">
-                        {[0.1, 0.5, 1, 5, 10].map(v => (
-                          <button key={v} className={`step-btn${nudgeStep === v ? ' active' : ''}`} onClick={() => setStep(v)}>{v}</button>
-                        ))}
-                      </div>
-                    </div>
-                    <NudgeRow label="eid"     yField="eid_y"   {...nudgeProps} color="#f59e0b" />
-                    <NudgeRow label="imei[0]" yField="imei1_y" {...nudgeProps} color="#3b82f6" />
-                    <NudgeRow label="imei[1]" yField="imei2_y" {...nudgeProps} color="#10b981" />
-                    <NudgeRow label="meid"    yField="meid_y"  {...nudgeProps} color="#e879f9" />
-                  </>
-                )}
-
-                {coordsTab === 'text' && (
-                  <>
-                    <div className="pos-section-divider pos-section-divider--with-step">
-                      <span>step</span>
-                      <div className="step-btns">
-                        {[0.1, 0.5, 1, 5, 10].map(v => (
-                          <button key={v} className={`step-btn${nudgeStep === v ? ' active' : ''}`} onClick={() => setStep(v)}>{v}</button>
-                        ))}
-                      </div>
-                    </div>
-                    <NudgeRow label="eid.t"  yField="eid_ty"   {...nudgeProps} color="#f59e0b" />
-                    <NudgeRow label="im0.t"  yField="imei1_ty" {...nudgeProps} color="#3b82f6" />
-                    <NudgeRow label="im1.t"  yField="imei2_ty" {...nudgeProps} color="#10b981" />
-                    <NudgeRow label="meid.t" yField="meid_ty"  {...nudgeProps} color="#e879f9" />
-                  </>
-                )}
+                <NudgeRow label="eid.t"  yField="eid_ty"   {...nudgeProps} color="#f59e0b" />
+                <NudgeRow label="im0.t"  yField="imei1_ty" {...nudgeProps} color="#3b82f6" />
+                <NudgeRow label="im1.t"  yField="imei2_ty" {...nudgeProps} color="#10b981" />
+                <NudgeRow label="meid.t" yField="meid_ty"  {...nudgeProps} color="#e879f9" />
 
 
                 <div className="preview-wrap">
