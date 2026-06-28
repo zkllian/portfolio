@@ -1,0 +1,15 @@
+[phases.setup]
+nixPkgs = ["nodejs_22"]
+
+[phases.install]
+cmds = [
+  "corepack enable",
+  "corepack prepare pnpm@10 --activate",
+  "pnpm install --frozen-lockfile"
+]
+
+[phases.build]
+cmds = ["PORT=3000 BASE_PATH=/ pnpm --filter @workspace/barcode-gen run build"]
+
+[start]
+cmd = "npx serve artifacts/barcode-gen/dist/public -l $PORT --single"
