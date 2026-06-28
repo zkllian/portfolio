@@ -368,14 +368,10 @@ export default function Home() {
         format: 'CODE128',
         width: 2,
         height: barHeight,
-        displayValue: true,
-        fontSize: fontSize,
-        textMargin: 4,
+        displayValue: false,
         margin: 6,
         background: '#ffffff',
         lineColor: '#000000',
-        fontOptions: '',
-        font: '-apple-system, sans-serif',
       });
       if (barcodeWidth > 0 && tmp.width > 0) {
         const scaledH = tmp.height * (barcodeWidth / tmp.width);
