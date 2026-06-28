@@ -9,6 +9,7 @@ replit.nix
 .cache/
 .local/
 .config/
+.agents/
 
 # Attached assets (Replit uploads)
 attached_assets/
