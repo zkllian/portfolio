@@ -397,6 +397,8 @@ textarea:focus { border-color: #444; }
 
 .pos-section-divider:first-of-type { border-top: none; margin-top: 0; }
 
+.pos-section-divider--with-step { display: flex; align-items: center; justify-content: space-between; opacity: 1; }
+
 .nudge-step-row { display: flex; align-items: center; gap: 10px; padding: 8px 0 10px; border-bottom: 1px solid var(--border); margin-bottom: 2px; }
 
 .step-btns { display: flex; gap: 4px; }

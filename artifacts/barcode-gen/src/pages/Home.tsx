@@ -683,15 +683,14 @@ export default function Home() {
                 <span className={`pos-arrow${posOpen ? ' open' : ''}`}>›</span>
               </div>
               <div className={`pos-body${posOpen ? ' open' : ''}`}>
-                <div className="nudge-step-row">
-                  <span className="pos-label" style={{ width: 'auto', color: 'var(--text-dim)' }}>step</span>
+                <div className="pos-section-divider pos-section-divider--with-step">
+                  <span>barcode</span>
                   <div className="step-btns">
                     {[0.5, 1, 5, 10].map(v => (
                       <button key={v} className={`step-btn${nudgeStep === v ? ' active' : ''}`} onClick={() => setStep(v)}>{v}</button>
                     ))}
                   </div>
                 </div>
-                <div className="pos-section-divider">barcode</div>
                 <NudgeRow label="eid"     xField="eid_x"   yField="eid_y"   {...nudgeProps} color="#f59e0b" />
                 <NudgeRow label="imei[0]" xField="imei1_x" yField="imei1_y" {...nudgeProps} color="#3b82f6" />
                 <NudgeRow label="imei[1]" xField="imei2_x" yField="imei2_y" {...nudgeProps} color="#10b981" />
