@@ -431,18 +431,28 @@ export default function Home() {
       <div className="navbar">
         <div className="navbar-inner">
           <div className="logo-row">
-            <div className="logo-icon-wrap" onClick={secretClick}>
-              <div className="logo-icon-ring"></div>
-              <div className="logo-icon"></div>
-              <div className={`logo-hint${dotHintVisible ? ' visible' : ''}`}>
-                <span className="logo-hint-arrow"></span>
-                {dotHintMsg}
+            <div className="logo-left">
+              <div className="logo-icon-wrap" onClick={secretClick}>
+                <div className="logo-sq-icon">
+                  <svg viewBox="0 0 22 22" fill="none" width="17" height="17">
+                    <rect x="1"    y="3" width="2.5" height="16" rx="0.4" fill="white"/>
+                    <rect x="5.5"  y="3" width="1.5" height="16" rx="0.4" fill="white"/>
+                    <rect x="9"    y="3" width="3"   height="16" rx="0.4" fill="white"/>
+                    <rect x="14"   y="3" width="1.5" height="16" rx="0.4" fill="white"/>
+                    <rect x="17.5" y="3" width="1.5" height="16" rx="0.4" fill="white"/>
+                    <rect x="21"   y="3" width="1"   height="16" rx="0.4" fill="white"/>
+                  </svg>
+                </div>
+                <div className={`logo-hint${dotHintVisible ? ' visible' : ''}`}>
+                  <span className="logo-hint-arrow"></span>
+                  {dotHintMsg}
+                </div>
               </div>
-            </div>
-            <div className="logo-label">
-              <span className="logo-name">barcode-gen</span>
-              <span className="logo-sep"> / </span>
-              <span>imei</span>
+              <div className="logo-label">
+                <span className="logo-name">barcode-gen</span>
+                <span className="logo-sep"> / </span>
+                <span className="logo-sub">imei</span>
+              </div>
             </div>
           </div>
         </div>
