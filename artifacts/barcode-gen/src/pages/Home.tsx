@@ -47,13 +47,14 @@ function NudgeRow({ label, xField, yField, pos, onSetPos, onStartNudge, onStopNu
 
 export default function Home() {
   const [inputVal, setInputVal] = useState('');
-  const [imeiCount, setImeiCount] = useState('0 set');
+  const [imeiCount, setImeiCount] = useState('0x00 sets');
   const [isLoading, setIsLoading] = useState(false);
-  const [loadingText, setLoadingText] = useState('Generating...');
+  const [loadingText, setLoadingText] = useState('compiling...');
   const [loadingCount, setLoadingCount] = useState('');
   const [view, setView] = useState('input');
   const [results, setResults] = useState<{ url: string; index: number }[]>([]);
-  const [resultLabel, setResultLabel] = useState('0 results');
+  const [resultLabel, setResultLabel] = useState('0x00 output');
+  const [oddNotice, setOddNotice] = useState('');
 
   const [posOpen, setPosOpen] = useState(false);
   const [pos, setPos] = useState<Record<string, number>>({
@@ -175,7 +176,13 @@ export default function Home() {
     inputValRef.current = val;
     setInputVal(val);
     const lines = val.split('\n').filter(Boolean);
-    setImeiCount(Math.floor(lines.length / 2) + ' set');
+    const sets = Math.floor(lines.length / 2);
+    setImeiCount(`0x${sets.toString(16).padStart(2, '0')} sets`);
+    if (lines.length > 0 && lines.length % 2 !== 0) {
+      setOddNotice(`// imei baris ${lines.length} tidak diproses — butuh pasangan`);
+    } else {
+      setOddNotice('');
+    }
   }
 
   function resetAll() {
@@ -183,8 +190,9 @@ export default function Home() {
     setInputVal('');
     setResults([]);
     setView('input');
-    setImeiCount('0 set');
+    setImeiCount('0x00 sets');
     setInlineError('');
+    setOddNotice('');
     window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
   }
 
@@ -198,26 +206,26 @@ export default function Home() {
     try {
       const lines = inputValRef.current.split('\n').map((v: string) => v.trim()).filter(Boolean);
       if (lines.length < 2) {
-        setInlineError('Minimal 1 set: IMEI 1 + IMEI 2 (masing-masing 15 digit)');
+        setInlineError('// err: min 1 set — imei[0] + imei[1] required (15 digits each)');
         return;
       }
 
       const totalSets = Math.floor(lines.length / 2);
       for (let i = 0; i < totalSets; i++) {
         const im1 = lines[i * 2], im2 = lines[i * 2 + 1];
-        if (im1.length !== 15) { setInlineError(`Set ${i+1}: IMEI 1 harus 15 digit (dapat ${im1.length})`); return; }
-        if (im2.length !== 15) { setInlineError(`Set ${i+1}: IMEI 2 harus 15 digit (dapat ${im2.length})`); return; }
+        if (im1.length !== 15) { setInlineError(`// err set[${i}]: imei[0] expects 15 digits, got ${im1.length}`); return; }
+        if (im2.length !== 15) { setInlineError(`// err set[${i}]: imei[1] expects 15 digits, got ${im2.length}`); return; }
       }
 
       const img = baseImageRef.current;
-      if (!img) { setInlineError('Image belum siap, coba lagi'); return; }
+      if (!img) { setInlineError('// err: template not ready — retry'); return; }
       if (!img.complete || !img.naturalWidth) {
         await new Promise<void>((resolve, reject) => {
           img.onload = () => resolve();
           img.onerror = () => reject(new Error('Gagal load template image'));
         });
       }
-      if (!img.naturalWidth) { setInlineError('Template image gagal dimuat'); return; }
+      if (!img.naturalWidth) { setInlineError('// err: template image load failed'); return; }
 
       if (document.fonts?.load) {
         await Promise.allSettled([
@@ -227,18 +235,18 @@ export default function Home() {
       }
 
       const cvs = canvasRef.current;
-      if (!cvs) { setInlineError('Canvas tidak ditemukan'); return; }
+      if (!cvs) { setInlineError('// err: canvas context null'); return; }
       cvs.width = img.naturalWidth;
       cvs.height = img.naturalHeight;
       const ctx = cvs.getContext('2d');
-      if (!ctx) { setInlineError('Tidak bisa buat canvas context'); return; }
+      if (!ctx) { setInlineError('// err: ctx2d unavailable'); return; }
 
       const newResults: { url: string; index: number }[] = [];
       setIsLoading(true);
 
       for (let i = 0; i < totalSets; i++) {
-        setLoadingText('Generating barcode...');
-        setLoadingCount(`${i + 1}/${totalSets}`);
+        setLoadingText('compiling barcode...');
+        setLoadingCount(`[${i + 1}/${totalSets}]`);
         await new Promise(r => setTimeout(r, 30));
 
         const eid = randomEID();
@@ -263,7 +271,7 @@ export default function Home() {
 
       setIsLoading(false);
       setResults(newResults);
-      setResultLabel(totalSets + ' result' + (totalSets > 1 ? 's' : ''));
+      setResultLabel(`0x${totalSets.toString(16).padStart(2,'0')} output`);
       setView('results');
       window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
     } catch (err: unknown) {
@@ -464,22 +472,25 @@ export default function Home() {
           <div className="view-input">
             <div className="card">
               <div className="card-header">
-                <span className="card-title">Input</span>
+                <span className="card-title">// inject</span>
                 <span className="badge">{imeiCount}</span>
               </div>
               <div className="input-wrap">
                 <textarea
                   value={inputVal}
                   onChange={handleInput}
-                  placeholder="Masukan nomor IMEI..."
+                  placeholder={`35824xxx1x42018\n35824xxx1x42019\n86723xxx5x14031\n86723xxx5x14032\n49052xxx2x45610\n49052xxx2x45611\n35209xxx8x65478\n35209xxx8x65479\n01445xxx4x21090\n01445xxx4x21091`}
                 />
               </div>
 
+              {oddNotice && (
+                <div className="odd-notice">{oddNotice}</div>
+              )}
               {inlineError && (
                 <div className="inline-error">{inlineError}</div>
               )}
               <div className="btn-row">
-                <button className="btn btn-primary" onClick={() => generateBulk()} disabled={isLoading}>Generate</button>
+                <button className="btn btn-primary" onClick={() => generateBulk()} disabled={isLoading}>execute</button>
               </div>
               {isLoading && (
                 <div className="status-bar active">
@@ -492,7 +503,7 @@ export default function Home() {
 
             <div className="card pos-card">
               <div className="card-header pos-toggle" onClick={() => setPosOpen(v => !v)}>
-                <span className="card-title">Posisi Teks</span>
+                <span className="card-title">// coords</span>
                 <span className={`pos-arrow${posOpen ? ' open' : ''}`}>›</span>
               </div>
               <div className={`pos-body${posOpen ? ' open' : ''}`}>
@@ -504,12 +515,12 @@ export default function Home() {
                     ))}
                   </div>
                 </div>
-                <NudgeRow label="EID"    xField="eid_x"   yField="eid_y"   {...nudgeProps} />
-                <NudgeRow label="IMEI 1" xField="imei1_x" yField="imei1_y" {...nudgeProps} />
-                <NudgeRow label="IMEI 2" xField="imei2_x" yField="imei2_y" {...nudgeProps} />
-                <NudgeRow label="MEID"   xField="meid_x"  yField="meid_y"  {...nudgeProps} />
+                <NudgeRow label="eid"     xField="eid_x"   yField="eid_y"   {...nudgeProps} />
+                <NudgeRow label="imei[0]" xField="imei1_x" yField="imei1_y" {...nudgeProps} />
+                <NudgeRow label="imei[1]" xField="imei2_x" yField="imei2_y" {...nudgeProps} />
+                <NudgeRow label="meid"   xField="meid_x"  yField="meid_y"  {...nudgeProps} />
                 <div className="pos-row">
-                  <span className="pos-label">Font</span>
+                  <span className="pos-label">font_sz</span>
                   <div className="nudge-group">
                     <div className="nudge-axis">
                       <span className="axis-lbl">px</span>
@@ -556,7 +567,7 @@ export default function Home() {
                 </svg>
               </button>
               <span className="results-count-badge">{resultLabel}</span>
-              <button className="results-reset-btn" onClick={resetAll}>Reset</button>
+              <button className="results-reset-btn" onClick={resetAll}>flush()</button>
             </div>
             <div className="results-list">
               {results.map(r => (
