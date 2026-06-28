@@ -896,17 +896,16 @@ async function generateBulk() {
     ctx.textBaseline = "top";
     ctx.textAlign = "left";
 
-    // EID — 32 random digits below EID barcode
     ctx.font = "400 17px -apple-system, 'Helvetica Neue', sans-serif";
-    ctx.fillText(randomDigits(32), 28, 422);
+
+    // EID — 32 random digits below EID barcode
+    ctx.fillText(randomDigits(32), 28, 645);
 
     // IMEI 1 — below IMEI barcode
-    ctx.font = "400 17px -apple-system, 'Helvetica Neue', sans-serif";
-    ctx.fillText(lines[i * 2], 28, 645);
+    ctx.fillText(lines[i * 2], 28, 863);
 
     // IMEI 2 — below IMEI2 barcode
-    ctx.font = "400 17px -apple-system, 'Helvetica Neue', sans-serif";
-    ctx.fillText(lines[i * 2 + 1], 28, 863);
+    ctx.fillText(lines[i * 2 + 1], 28, 1083);
 
     const url = canvas.toDataURL("image/png");
 
