@@ -63,6 +63,7 @@ export default function Home() {
   const [oddNotice, setOddNotice] = useState('');
 
   const [posOpen, setPosOpen] = useState(false);
+  const [coordsTab, setCoordsTab] = useState<'barcode' | 'text' | 'size'>('barcode');
   const [pos, setPos] = useState<Record<string, number>>({
     eid_x: 102,    eid_y: 369,
     imei1_x: 275,  imei1_y: 670,
@@ -683,67 +684,94 @@ export default function Home() {
                 <span className={`pos-arrow${posOpen ? ' open' : ''}`}>›</span>
               </div>
               <div className={`pos-body${posOpen ? ' open' : ''}`}>
-                <div className="pos-section-divider pos-section-divider--with-step">
-                  <span>barcode</span>
-                  <div className="step-btns">
-                    {[0.5, 1, 5, 10].map(v => (
-                      <button key={v} className={`step-btn${nudgeStep === v ? ' active' : ''}`} onClick={() => setStep(v)}>{v}</button>
-                    ))}
-                  </div>
+                <div className="coords-tabs">
+                  {(['barcode', 'text', 'size'] as const).map(t => (
+                    <button key={t} className={`coords-tab${coordsTab === t ? ' active' : ''}`} onClick={() => setCoordsTab(t)}>{t}</button>
+                  ))}
                 </div>
-                <NudgeRow label="eid"     xField="eid_x"   yField="eid_y"   {...nudgeProps} color="#f59e0b" />
-                <NudgeRow label="imei[0]" xField="imei1_x" yField="imei1_y" {...nudgeProps} color="#3b82f6" />
-                <NudgeRow label="imei[1]" xField="imei2_x" yField="imei2_y" {...nudgeProps} color="#10b981" />
-                <NudgeRow label="meid"    xField="meid_x"  yField="meid_y"  {...nudgeProps} color="#e879f9" />
-                <div className="pos-section-divider">text</div>
-                <NudgeRow label="eid.t"   xField="eid_tx"  yField="eid_ty"  {...nudgeProps} color="#f59e0b" />
-                <NudgeRow label="im0.t"   xField="imei1_tx" yField="imei1_ty" {...nudgeProps} color="#3b82f6" />
-                <NudgeRow label="im1.t"   xField="imei2_tx" yField="imei2_ty" {...nudgeProps} color="#10b981" />
-                <NudgeRow label="meid.t"  xField="meid_tx" yField="meid_ty" {...nudgeProps} color="#e879f9" />
-                <div className="pos-row font-sz-row">
-                  <span className="pos-label">font_sz</span>
-                  <div className="nudge-group">
-                    <div className="nudge-axis">
-                      <span className="axis-lbl">px</span>
-                      <button className="nb" onPointerDown={() => startFontNudge(-1)} onPointerUp={stopNudge} onPointerLeave={stopNudge}>‹</button>
-                      <input type="number" min="8" max="60" step="0.5" value={pos.font_size}
-                        onChange={e => setPos(p => ({ ...p, font_size: parseFloat(e.target.value) || 8 }))} />
-                      <button className="nb" onPointerDown={() => startFontNudge(1)} onPointerUp={stopNudge} onPointerLeave={stopNudge}>›</button>
-                    </div>
-                    <div className="font-step-row">
-                      <span className="axis-lbl">step</span>
+
+                {coordsTab === 'barcode' && (
+                  <>
+                    <div className="pos-section-divider pos-section-divider--with-step">
+                      <span>step</span>
                       <div className="step-btns">
-                        {[1, 1.5, 2, 2.5].map(v => (
-                          <button key={v} className={`step-btn${fontStep === v ? ' active' : ''}`} onClick={() => setFontStepVal(v)}>{v}</button>
+                        {[0.5, 1, 5, 10].map(v => (
+                          <button key={v} className={`step-btn${nudgeStep === v ? ' active' : ''}`} onClick={() => setStep(v)}>{v}</button>
                         ))}
                       </div>
                     </div>
-                  </div>
-                </div>
-                <div className="pos-row">
-                  <span className="pos-label">bar_h</span>
-                  <div className="nudge-group">
-                    <div className="nudge-axis">
-                      <span className="axis-lbl">px</span>
-                      <button className="nb" onPointerDown={() => startNudge('barcode_h', -1)} onPointerUp={stopNudge} onPointerLeave={stopNudge}>‹</button>
-                      <input type="number" min="20" max="300" step="1" value={pos.barcode_h}
-                        onChange={e => setPos(p => ({ ...p, barcode_h: parseInt(e.target.value) || 20 }))} />
-                      <button className="nb" onPointerDown={() => startNudge('barcode_h', 1)} onPointerUp={stopNudge} onPointerLeave={stopNudge}>›</button>
+                    <NudgeRow label="eid"     xField="eid_x"   yField="eid_y"   {...nudgeProps} color="#f59e0b" />
+                    <NudgeRow label="imei[0]" xField="imei1_x" yField="imei1_y" {...nudgeProps} color="#3b82f6" />
+                    <NudgeRow label="imei[1]" xField="imei2_x" yField="imei2_y" {...nudgeProps} color="#10b981" />
+                    <NudgeRow label="meid"    xField="meid_x"  yField="meid_y"  {...nudgeProps} color="#e879f9" />
+                  </>
+                )}
+
+                {coordsTab === 'text' && (
+                  <>
+                    <div className="pos-section-divider pos-section-divider--with-step">
+                      <span>step</span>
+                      <div className="step-btns">
+                        {[0.5, 1, 5, 10].map(v => (
+                          <button key={v} className={`step-btn${nudgeStep === v ? ' active' : ''}`} onClick={() => setStep(v)}>{v}</button>
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                </div>
-                <div className="pos-row">
-                  <span className="pos-label">bar_w</span>
-                  <div className="nudge-group">
-                    <div className="nudge-axis">
-                      <span className="axis-lbl">px</span>
-                      <button className="nb" onPointerDown={() => startNudge('barcode_w', -1)} onPointerUp={stopNudge} onPointerLeave={stopNudge}>‹</button>
-                      <input type="number" min="50" max="1000" step="1" value={pos.barcode_w}
-                        onChange={e => setPos(p => ({ ...p, barcode_w: parseInt(e.target.value) || 50 }))} />
-                      <button className="nb" onPointerDown={() => startNudge('barcode_w', 1)} onPointerUp={stopNudge} onPointerLeave={stopNudge}>›</button>
+                    <NudgeRow label="eid.t"  xField="eid_tx"   yField="eid_ty"   {...nudgeProps} color="#f59e0b" />
+                    <NudgeRow label="im0.t"  xField="imei1_tx" yField="imei1_ty" {...nudgeProps} color="#3b82f6" />
+                    <NudgeRow label="im1.t"  xField="imei2_tx" yField="imei2_ty" {...nudgeProps} color="#10b981" />
+                    <NudgeRow label="meid.t" xField="meid_tx"  yField="meid_ty"  {...nudgeProps} color="#e879f9" />
+                  </>
+                )}
+
+                {coordsTab === 'size' && (
+                  <>
+                    <div className="pos-row font-sz-row">
+                      <span className="pos-label">font_sz</span>
+                      <div className="nudge-group">
+                        <div className="nudge-axis">
+                          <span className="axis-lbl">px</span>
+                          <button className="nb" onPointerDown={() => startFontNudge(-1)} onPointerUp={stopNudge} onPointerLeave={stopNudge}>‹</button>
+                          <input type="number" min="8" max="60" step="0.5" value={pos.font_size}
+                            onChange={e => setPos(p => ({ ...p, font_size: parseFloat(e.target.value) || 8 }))} />
+                          <button className="nb" onPointerDown={() => startFontNudge(1)} onPointerUp={stopNudge} onPointerLeave={stopNudge}>›</button>
+                        </div>
+                        <div className="font-step-row">
+                          <span className="axis-lbl">step</span>
+                          <div className="step-btns">
+                            {[1, 1.5, 2, 2.5].map(v => (
+                              <button key={v} className={`step-btn${fontStep === v ? ' active' : ''}`} onClick={() => setFontStepVal(v)}>{v}</button>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </div>
+                    <div className="pos-row">
+                      <span className="pos-label">bar_h</span>
+                      <div className="nudge-group">
+                        <div className="nudge-axis">
+                          <span className="axis-lbl">px</span>
+                          <button className="nb" onPointerDown={() => startNudge('barcode_h', -1)} onPointerUp={stopNudge} onPointerLeave={stopNudge}>‹</button>
+                          <input type="number" min="20" max="300" step="1" value={pos.barcode_h}
+                            onChange={e => setPos(p => ({ ...p, barcode_h: parseInt(e.target.value) || 20 }))} />
+                          <button className="nb" onPointerDown={() => startNudge('barcode_h', 1)} onPointerUp={stopNudge} onPointerLeave={stopNudge}>›</button>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="pos-row">
+                      <span className="pos-label">bar_w</span>
+                      <div className="nudge-group">
+                        <div className="nudge-axis">
+                          <span className="axis-lbl">px</span>
+                          <button className="nb" onPointerDown={() => startNudge('barcode_w', -1)} onPointerUp={stopNudge} onPointerLeave={stopNudge}>‹</button>
+                          <input type="number" min="50" max="1000" step="1" value={pos.barcode_w}
+                            onChange={e => setPos(p => ({ ...p, barcode_w: parseInt(e.target.value) || 50 }))} />
+                          <button className="nb" onPointerDown={() => startNudge('barcode_w', 1)} onPointerUp={stopNudge} onPointerLeave={stopNudge}>›</button>
+                        </div>
+                      </div>
+                    </div>
+                  </>
+                )}
 
                 <div className="preview-wrap">
                   <div className="preview-header">

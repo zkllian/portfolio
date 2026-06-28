@@ -381,7 +381,15 @@ textarea:focus { border-color: #444; }
 
 .pos-body.open { display: block; }
 
-.pos-section-divider { font-size: 10px; font-family: 'Geist Mono', monospace; color: var(--text-dim); padding: 10px 0 4px; letter-spacing: .04em; }
+.coords-tabs { display: flex; gap: 4px; padding: 12px 0 10px; border-bottom: 1px solid var(--border); margin-bottom: 2px; }
+
+.coords-tab { padding: 4px 14px; font-size: 10px; font-family: 'Geist Mono', monospace; background: transparent; border: 1px solid var(--border2); border-radius: 999px; color: var(--text-dim); cursor: pointer; transition: background .12s, color .12s, border-color .12s; }
+
+.coords-tab.active { background: var(--surface2); border-color: #555; color: var(--text); }
+
+.pos-section-divider { font-size: 9px; font-family: 'Geist Mono', monospace; color: var(--text-dim); opacity: 0.5; padding: 8px 0 4px; letter-spacing: 0.08em; text-transform: uppercase; }
+
+.pos-section-divider--with-step { display: flex; align-items: center; justify-content: space-between; opacity: 1; padding: 10px 0 6px; border-bottom: 1px solid var(--border); margin-bottom: 2px; }
 
 .pos-row { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border); }
 
@@ -392,12 +400,6 @@ textarea:focus { border-color: #444; }
 .pos-dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
 
 .pos-coord-badge { font-size: 9px; font-family: 'Geist Mono', monospace; color: var(--text-dim); white-space: nowrap; flex-shrink: 0; opacity: 0.55; min-width: 62px; }
-
-.pos-section-divider { font-size: 9px; font-family: 'Geist Mono', monospace; color: var(--text-dim); opacity: 0.5; padding: 8px 0 4px; letter-spacing: 0.08em; text-transform: uppercase; border-top: 1px solid var(--border); margin-top: 4px; }
-
-.pos-section-divider:first-of-type { border-top: none; margin-top: 0; }
-
-.pos-section-divider--with-step { display: flex; align-items: center; justify-content: space-between; opacity: 1; }
 
 .nudge-step-row { display: flex; align-items: center; gap: 10px; padding: 8px 0 10px; border-bottom: 1px solid var(--border); margin-bottom: 2px; }
 
