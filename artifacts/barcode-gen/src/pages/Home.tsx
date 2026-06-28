@@ -73,8 +73,8 @@ export default function Home() {
   const [fontStep, setFontStep] = useState(1);
   const fontStepRef = useRef(1);
   const [previewDim, setPreviewDim] = useState('738 × 1600');
-  const [pickedCoord, setPickedCoord] = useState<{ x: number; y: number } | null>(null);
-  const [showPickInfo, setShowPickInfo] = useState(false);
+  const [activeField, setActiveField] = useState<string | null>(null);
+  const [hoverField, setHoverField] = useState<string | null>(null);
 
   const [creditOpen, setCreditOpen] = useState(false);
   const [creditVisible, setCreditVisible] = useState(false);
@@ -99,8 +99,8 @@ export default function Home() {
   const previewCanvasRef = useRef<HTMLCanvasElement>(null);
   const baseImageRef = useRef<HTMLImageElement | null>(null);
   const nudgeTimerRef = useRef<ReturnType<typeof setTimeout> | ReturnType<typeof setInterval> | null>(null);
-  const pickedXRef = useRef(0);
-  const pickedYRef = useRef(0);
+  const dragFieldRef = useRef<string | null>(null);
+  const activeFieldRef = useRef<string | null>(null);
 
   const BASE = import.meta.env.BASE_URL;
 
@@ -387,18 +387,30 @@ export default function Home() {
     }
   }
 
-  function drawMarker(ctx: CanvasRenderingContext2D, x: number, y: number, color: string) {
-    const s = 14;
-    ctx.strokeStyle = color; ctx.lineWidth = 3;
+  function drawMarker(ctx: CanvasRenderingContext2D, x: number, y: number, color: string, isActive?: boolean) {
+    const s = isActive ? 22 : 14;
+    if (isActive) {
+      ctx.beginPath();
+      ctx.arc(x, y + 5, 36, 0, Math.PI * 2);
+      ctx.strokeStyle = color;
+      ctx.lineWidth = 2.5;
+      ctx.globalAlpha = 0.35;
+      ctx.stroke();
+      ctx.globalAlpha = 1;
+    }
+    ctx.strokeStyle = color;
+    ctx.lineWidth = isActive ? 4 : 3;
     ctx.beginPath();
     ctx.moveTo(x - s, y + 5); ctx.lineTo(x + s, y + 5);
     ctx.moveTo(x, y + 5 - s); ctx.lineTo(x, y + 5 + s);
     ctx.stroke();
-    ctx.strokeStyle = 'rgba(255,255,255,0.6)'; ctx.lineWidth = 1;
-    ctx.beginPath();
-    ctx.moveTo(x - s + 2, y + 5); ctx.lineTo(x + s - 2, y + 5);
-    ctx.moveTo(x, y + 5 - s + 2); ctx.lineTo(x, y + 5 + s - 2);
-    ctx.stroke();
+    if (!isActive) {
+      ctx.strokeStyle = 'rgba(255,255,255,0.6)'; ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(x - s + 2, y + 5); ctx.lineTo(x + s - 2, y + 5);
+      ctx.moveTo(x, y + 5 - s + 2); ctx.lineTo(x, y + 5 + s - 2);
+      ctx.stroke();
+    }
   }
 
   function drawPreview(p: Record<string, number>) {
@@ -420,31 +432,76 @@ export default function Home() {
     drawBarcode(ctx, '222222222222222',                  p.imei2_x, p.imei2_y, p.barcode_h, p.font_size, p.barcode_w);
     drawBarcode(ctx, '11111111111111',                   p.meid_x,  p.meid_y,  p.barcode_h, p.font_size, p.barcode_w);
 
-    drawMarker(ctx, p.eid_x,   p.eid_y,   '#f59e0b');
-    drawMarker(ctx, p.imei1_x, p.imei1_y, '#3b82f6');
-    drawMarker(ctx, p.imei2_x, p.imei2_y, '#10b981');
-    drawMarker(ctx, p.meid_x,  p.meid_y,  '#e879f9');
+    const af = activeFieldRef.current;
+    drawMarker(ctx, p.eid_x,   p.eid_y,   '#f59e0b', af === 'eid');
+    drawMarker(ctx, p.imei1_x, p.imei1_y, '#3b82f6', af === 'imei1');
+    drawMarker(ctx, p.imei2_x, p.imei2_y, '#10b981', af === 'imei2');
+    drawMarker(ctx, p.meid_x,  p.meid_y,  '#e879f9', af === 'meid');
   }
 
-  function handlePreviewClick(e: React.MouseEvent<HTMLCanvasElement>) {
+  function getCanvasCoords(e: React.PointerEvent<HTMLCanvasElement>) {
     const cvs = previewCanvasRef.current;
-    if (!cvs) return;
+    if (!cvs) return null;
     const rect = cvs.getBoundingClientRect();
-    const scaleX = cvs.width / rect.width;
-    const scaleY = cvs.height / rect.height;
-    pickedXRef.current = Math.round((e.clientX - rect.left) * scaleX);
-    pickedYRef.current = Math.round((e.clientY - rect.top) * scaleY);
-    setPickedCoord({ x: pickedXRef.current, y: pickedYRef.current });
-    setShowPickInfo(true);
+    return {
+      x: Math.round((e.clientX - rect.left) * (cvs.width / rect.width)),
+      y: Math.round((e.clientY - rect.top)  * (cvs.height / rect.height)),
+    };
   }
 
-  function applyPick(field: string) {
-    const x = pickedXRef.current, y = pickedYRef.current;
-    if (field === 'eid')        setPos(p => ({ ...p, eid_x: x, eid_y: y }));
-    else if (field === 'imei1') setPos(p => ({ ...p, imei1_x: x, imei1_y: y }));
-    else if (field === 'imei2') setPos(p => ({ ...p, imei2_x: x, imei2_y: y }));
-    else if (field === 'meid')  setPos(p => ({ ...p, meid_x: x, meid_y: y }));
-    setShowPickInfo(false);
+  function findNearestField(cx: number, cy: number, p: Record<string, number>): string | null {
+    const markers = [
+      { field: 'eid',   x: p.eid_x,   y: p.eid_y   },
+      { field: 'imei1', x: p.imei1_x, y: p.imei1_y },
+      { field: 'imei2', x: p.imei2_x, y: p.imei2_y },
+      { field: 'meid',  x: p.meid_x,  y: p.meid_y  },
+    ];
+    let nearest: string | null = null;
+    let minDist = 180;
+    for (const m of markers) {
+      const dist = Math.hypot(cx - m.x, cy - (m.y + 5));
+      if (dist < minDist) { minDist = dist; nearest = m.field; }
+    }
+    return nearest;
+  }
+
+  function fieldKeys(field: string): [string, string] {
+    if (field === 'eid')   return ['eid_x',   'eid_y'];
+    if (field === 'imei1') return ['imei1_x', 'imei1_y'];
+    if (field === 'imei2') return ['imei2_x', 'imei2_y'];
+    return ['meid_x', 'meid_y'];
+  }
+
+  function handleCanvasPointerDown(e: React.PointerEvent<HTMLCanvasElement>) {
+    const coords = getCanvasCoords(e);
+    if (!coords) return;
+    const field = findNearestField(coords.x, coords.y, posRef.current);
+    if (!field) return;
+    dragFieldRef.current = field;
+    activeFieldRef.current = field;
+    setActiveField(field);
+    (e.currentTarget as HTMLCanvasElement).setPointerCapture(e.pointerId);
+    e.preventDefault();
+  }
+
+  function handleCanvasPointerMove(e: React.PointerEvent<HTMLCanvasElement>) {
+    const coords = getCanvasCoords(e);
+    if (!coords) return;
+    if (dragFieldRef.current) {
+      const [xk, yk] = fieldKeys(dragFieldRef.current);
+      setPos(p => ({ ...p, [xk]: coords.x, [yk]: coords.y - 5 }));
+      e.preventDefault();
+    } else {
+      const nearest = findNearestField(coords.x, coords.y, posRef.current);
+      setHoverField(nearest);
+    }
+  }
+
+  function handleCanvasPointerUp() {
+    dragFieldRef.current = null;
+    activeFieldRef.current = null;
+    setActiveField(null);
+    setHoverField(null);
   }
 
   function playPop() {
@@ -639,20 +696,23 @@ export default function Home() {
                     <span className="preview-dim">{previewDim}</span>
                   </div>
                   <div className="preview-stage">
-                    <canvas ref={previewCanvasRef} id="previewCanvas" onClick={handlePreviewClick}></canvas>
+                    <canvas
+                      ref={previewCanvasRef}
+                      id="previewCanvas"
+                      style={{ cursor: activeField ? 'grabbing' : hoverField ? 'grab' : 'default' }}
+                      onPointerDown={handleCanvasPointerDown}
+                      onPointerMove={handleCanvasPointerMove}
+                      onPointerUp={handleCanvasPointerUp}
+                      onPointerLeave={handleCanvasPointerUp}
+                    />
                   </div>
-                  {showPickInfo && pickedCoord && (
-                    <div className="preview-pick-info">
-                      <span className="pick-label">X: {pickedCoord.x}  Y: {pickedCoord.y} → terapkan ke:</span>
-                      <div className="pick-btns">
-                        <button onClick={() => applyPick('eid')}>EID</button>
-                        <button onClick={() => applyPick('imei1')}>IMEI 1</button>
-                        <button onClick={() => applyPick('imei2')}>IMEI 2</button>
-                        <button onClick={() => applyPick('meid')}>MEID</button>
-                        <button className="pick-cancel" onClick={() => setShowPickInfo(false)}>Batal</button>
-                      </div>
-                    </div>
-                  )}
+                  <div className="preview-drag-hint">
+                    {activeField
+                      ? `// dragging: ${activeField} → x:${pos[activeField === 'eid' ? 'eid_x' : activeField === 'imei1' ? 'imei1_x' : activeField === 'imei2' ? 'imei2_x' : 'meid_x']}  y:${pos[activeField === 'eid' ? 'eid_y' : activeField === 'imei1' ? 'imei1_y' : activeField === 'imei2' ? 'imei2_y' : 'meid_y']}`
+                      : hoverField
+                      ? `// drag to move: ${hoverField}`
+                      : '// drag a marker to reposition'}
+                  </div>
                 </div>
               </div>
             </div>

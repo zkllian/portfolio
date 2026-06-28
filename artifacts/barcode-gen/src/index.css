@@ -423,7 +423,11 @@ textarea:focus { border-color: #444; }
 
 .preview-dim { font-size: 11px; font-family: 'Geist Mono', monospace; color: var(--text-dim); opacity: .5; }
 
-.preview-stage { position: relative; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--border); background: #111; cursor: crosshair; }
+.preview-stage { position: relative; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--border); background: #111; }
+
+.preview-drag-hint { margin-top: 8px; font-size: 11px; font-family: 'Geist Mono', monospace; color: var(--text-dim); transition: color .15s; }
+
+.preview-drag-hint:has-active { color: var(--text-muted); }
 
 #previewCanvas { display: block; width: 100%; height: auto; }
 
