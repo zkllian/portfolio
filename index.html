@@ -1,339 +1,667 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<title>Generator Barcode</title>
+<title>Barcode Generator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
 
 <style>
-@font-face{
-font-family:'SF Pro Custom';
-src:url('SF-Pro-Display-Regular.otf') format('opentype');
-font-weight:400;
-}
+*{box-sizing:border-box;margin:0;padding:0;}
 
-@font-face{
-font-family:'SF Pro Custom';
-src:url('SF-Pro-Display-Medium.otf') format('opentype');
-font-weight:500;
+:root{
+  --bg:#000;
+  --surface:#0a0a0a;
+  --surface2:#111;
+  --border:#1a1a1a;
+  --border2:#2a2a2a;
+  --text:#ededed;
+  --text-muted:#888;
+  --text-dim:#555;
+  --accent:#fff;
+  --accent-hover:#e0e0e0;
+  --blue:#0070f3;
+  --blue-hover:#0060df;
+  --green:#00b96b;
+  --radius:8px;
 }
 
 body{
-margin:0;
-padding:30px 0 120px;
-background:#f2f2f7;
-font-family:'SF Pro Custom',-apple-system,BlinkMacSystemFont,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Geist',-apple-system,BlinkMacSystemFont,sans-serif;
+  font-size:14px;
+  min-height:100vh;
+  padding:48px 16px 80px;
+  line-height:1.5;
 }
 
-.app-wrap{
-max-width:420px;
-margin:0 auto;
-padding:0 14px;
-box-sizing:border-box;
+.container{
+  max-width:480px;
+  margin:0 auto;
 }
 
-.glass-shell{
-padding:10px;
-border-radius:22px;
-background:rgba(255,255,255,0.25);
-backdrop-filter:blur(30px);
-box-shadow:0 8px 30px rgba(0,0,0,0.08);
-margin-bottom:22px;
+/* Header */
+.header{
+  margin-bottom:32px;
 }
 
-.window,.result-window{
-width:100%;
-background:white;
-border-radius:16px;
-border:1px solid rgba(0,0,0,0.08);
-box-shadow:0 10px 35px rgba(0,0,0,0.06);
-position:relative;
-padding:54px 14px 20px;
-box-sizing:border-box;
+.logo-row{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:20px;
 }
 
-.window-header{
-position:absolute;
-top:0;
-left:0;
-right:0;
-height:34px;
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:13px;
-font-weight:500;
-background:linear-gradient(#f9f9f9,#e9e9e9);
-border-bottom:1px solid rgba(0,0,0,0.08);
-border-top-left-radius:16px;
-border-top-right-radius:16px;
+.logo-icon{
+  width:20px;
+  height:20px;
+  background:var(--accent);
+  border-radius:50%;
+  flex-shrink:0;
 }
 
-.window-dots{
-position:absolute;
-left:12px;
-display:flex;
-gap:7px;
+.logo-label{
+  font-size:13px;
+  font-weight:500;
+  color:var(--text-muted);
+  letter-spacing:.02em;
 }
 
-.dot{
-width:12px;
-height:12px;
-border-radius:50%;
+.logo-sep{
+  color:var(--border2);
+  margin:0 2px;
 }
 
-.red{background:#ff5f57;}
-.yellow{background:#ffbd2e;}
-.green{background:#28c840;}
+.logo-name{
+  color:var(--text);
+}
+
+.page-title{
+  font-size:22px;
+  font-weight:600;
+  letter-spacing:-.03em;
+  color:var(--accent);
+  line-height:1.2;
+}
+
+.page-desc{
+  margin-top:6px;
+  font-size:13px;
+  color:var(--text-muted);
+  line-height:1.6;
+}
+
+/* Card */
+.card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:20px;
+  margin-bottom:16px;
+}
+
+.card-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:16px;
+  padding-bottom:14px;
+  border-bottom:1px solid var(--border);
+}
+
+.card-title{
+  font-size:12px;
+  font-weight:500;
+  color:var(--text-muted);
+  text-transform:uppercase;
+  letter-spacing:.08em;
+}
+
+.badge{
+  font-size:11px;
+  font-family:'Geist Mono',monospace;
+  color:var(--text-dim);
+  background:var(--surface2);
+  border:1px solid var(--border);
+  padding:2px 8px;
+  border-radius:4px;
+}
+
+/* Textarea */
+.input-wrap{
+  position:relative;
+}
+
+.line-nums{
+  position:absolute;
+  top:12px;
+  left:0;
+  width:36px;
+  text-align:right;
+  padding-right:8px;
+  font-size:12px;
+  font-family:'Geist Mono',monospace;
+  color:var(--text-dim);
+  line-height:1.7;
+  pointer-events:none;
+  user-select:none;
+}
 
 textarea{
-width:100%;
-height:170px;
-padding:14px;
-font-size:15px;
-border-radius:12px;
-border:1px solid #d2d2d7;
-resize:none;
-outline:none;
-box-sizing:border-box;
-font-family:'SF Pro Custom';
+  width:100%;
+  height:160px;
+  padding:12px 12px 12px 44px;
+  font-size:13px;
+  font-family:'Geist Mono',monospace;
+  color:var(--text);
+  background:var(--surface2);
+  border:1px solid var(--border2);
+  border-radius:var(--radius);
+  resize:none;
+  outline:none;
+  line-height:1.7;
+  transition:border-color .15s;
+  caret-color:var(--accent);
+}
+
+textarea::placeholder{
+  color:var(--text-dim);
+}
+
+textarea:focus{
+  border-color:#444;
+}
+
+.input-hint{
+  margin-top:8px;
+  font-size:11px;
+  color:var(--text-dim);
+  font-family:'Geist Mono',monospace;
+}
+
+.input-hint span{
+  color:var(--text-muted);
+}
+
+/* Buttons */
+.btn-row{
+  display:flex;
+  gap:8px;
+  margin-top:16px;
 }
 
 .btn{
-width:100%;
-padding:13px 0;
-margin-top:14px;
-font-size:15px;
-border-radius:12px;
-border:none;
-font-weight:500;
-cursor:pointer;
+  flex:1;
+  padding:9px 16px;
+  font-size:13px;
+  font-weight:500;
+  font-family:'Geist',sans-serif;
+  border-radius:var(--radius);
+  border:1px solid transparent;
+  cursor:pointer;
+  transition:background .15s, opacity .15s, border-color .15s;
+  letter-spacing:-.01em;
 }
 
-.generate{
-background:linear-gradient(#4da3ff,#0a84ff);
-color:white;
+.btn-primary{
+  background:var(--accent);
+  color:#000;
+  border-color:var(--accent);
 }
 
-.generate:disabled{
-opacity:.6;
+.btn-primary:hover{
+  background:var(--accent-hover);
 }
 
-.reset{
-display:none;
+.btn-primary:disabled{
+  opacity:.4;
+  cursor:not-allowed;
 }
 
-.action-row{
-display:flex;
-gap:10px;
-margin-top:14px;
+.btn-ghost{
+  background:transparent;
+  color:var(--text-muted);
+  border-color:var(--border2);
+  display:none;
 }
 
-.download-btn{
-flex:1;
-background:#e5e5ea;
+.btn-ghost:hover{
+  background:var(--surface2);
+  color:var(--text);
+  border-color:#444;
 }
 
-.share-btn{
-flex:1;
-background:#34c759;
-color:white;
+/* Status bar */
+.status-bar{
+  display:none;
+  align-items:center;
+  gap:8px;
+  padding:10px 12px;
+  background:var(--surface2);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  margin-top:12px;
+  font-size:12px;
+  font-family:'Geist Mono',monospace;
+  color:var(--text-muted);
 }
 
-.result-window img{
-width:100%;
-border-radius:12px;
-display:block;
+.status-bar.active{
+  display:flex;
+}
+
+.spinner{
+  width:12px;
+  height:12px;
+  border:1.5px solid var(--border2);
+  border-top-color:var(--accent);
+  border-radius:50%;
+  animation:spin .6s linear infinite;
+  flex-shrink:0;
+}
+
+@keyframes spin{to{transform:rotate(360deg);}}
+
+.status-progress{
+  flex:1;
+}
+
+.status-count{
+  color:var(--text-dim);
+}
+
+/* Divider */
+.divider{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin:24px 0;
+}
+
+.divider-line{
+  flex:1;
+  height:1px;
+  background:var(--border);
+}
+
+.divider-label{
+  font-size:11px;
+  color:var(--text-dim);
+  font-family:'Geist Mono',monospace;
+  white-space:nowrap;
+}
+
+/* Results */
+#results{}
+
+.result-card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:12px;
+  overflow:hidden;
+  margin-bottom:12px;
+  transition:border-color .15s;
+}
+
+.result-card:hover{
+  border-color:var(--border2);
+}
+
+.result-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:12px 16px;
+  border-bottom:1px solid var(--border);
+  background:var(--surface2);
+}
+
+.result-name{
+  font-size:12px;
+  font-weight:500;
+  font-family:'Geist Mono',monospace;
+  color:var(--text-muted);
+}
+
+.result-status{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  font-size:11px;
+  color:var(--green);
+  font-family:'Geist Mono',monospace;
+}
+
+.dot-ready{
+  width:6px;
+  height:6px;
+  background:var(--green);
+  border-radius:50%;
+}
+
+.result-img-wrap{
+  padding:16px;
+  background:var(--surface);
+}
+
+.result-img-wrap img{
+  width:100%;
+  border-radius:6px;
+  display:block;
+  border:1px solid var(--border);
+}
+
+.result-actions{
+  display:flex;
+  border-top:1px solid var(--border);
+}
+
+.result-btn{
+  flex:1;
+  padding:10px 16px;
+  font-size:12px;
+  font-weight:500;
+  font-family:'Geist',sans-serif;
+  color:var(--text-muted);
+  background:transparent;
+  border:none;
+  cursor:pointer;
+  transition:background .15s, color .15s;
+  letter-spacing:-.01em;
+}
+
+.result-btn:hover{
+  background:var(--surface2);
+  color:var(--text);
+}
+
+.result-btn + .result-btn{
+  border-left:1px solid var(--border);
+}
+
+.result-btn.primary-action{
+  color:var(--blue);
+}
+
+.result-btn.primary-action:hover{
+  color:#3b9eff;
+}
+
+/* Footer */
+.footer{
+  margin-top:32px;
+  padding-top:20px;
+  border-top:1px solid var(--border);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.footer-text{
+  font-size:11px;
+  color:var(--text-dim);
+  font-family:'Geist Mono',monospace;
+}
+
+.footer-dot{
+  width:6px;
+  height:6px;
+  background:var(--blue);
+  border-radius:50%;
+}
+
+/* Alert toast */
+.toast{
+  position:fixed;
+  bottom:24px;
+  left:50%;
+  transform:translateX(-50%) translateY(20px);
+  background:#fff;
+  color:#000;
+  font-size:13px;
+  font-weight:500;
+  padding:10px 16px;
+  border-radius:var(--radius);
+  box-shadow:0 4px 24px rgba(0,0,0,.5);
+  opacity:0;
+  transition:opacity .2s, transform .2s;
+  z-index:999;
+  white-space:nowrap;
+  pointer-events:none;
+  max-width:90vw;
+  white-space:normal;
+  text-align:center;
+}
+
+.toast.show{
+  opacity:1;
+  transform:translateX(-50%) translateY(0);
 }
 </style>
 </head>
 
 <body>
 
-<div class="app-wrap">
+<div class="container">
 
-<div class="glass-shell">
-<div class="window">
+  <!-- Header -->
+  <div class="header">
+    <div class="logo-row">
+      <div class="logo-icon"></div>
+      <div class="logo-label">
+        <span class="logo-name">barcode-gen</span>
+        <span class="logo-sep"> / </span>
+        <span>imei</span>
+      </div>
+    </div>
+    <div class="page-title">Barcode Generator</div>
+    <div class="page-desc">Generate barcode dari IMEI number. Masukkan minimal 2 IMEI, masing-masing 15 digit.</div>
+  </div>
 
-<div class="window-header">
+  <!-- Input Card -->
+  <div class="card">
+    <div class="card-header">
+      <span class="card-title">Input</span>
+      <span class="badge" id="imeiCount">0 IMEI</span>
+    </div>
 
-<div class="window-dots">
-<div class="dot red"></div>
-<div class="dot yellow"></div>
-<div class="dot green"></div>
+    <div class="input-wrap">
+      <div class="line-nums" id="lineNums">1</div>
+      <textarea id="bulkInput" placeholder="359876012345678&#10;359876012345679&#10;..."></textarea>
+    </div>
+
+    <div class="input-hint">
+      Hanya angka <span>·</span> 15 digit per baris <span>·</span> min 2 IMEI
+    </div>
+
+    <div class="btn-row">
+      <button id="generateBtn" class="btn btn-primary" onclick="generateBulk()">Generate</button>
+      <button id="resetBtn" class="btn btn-ghost" onclick="resetAll()">Reset</button>
+    </div>
+
+    <div class="status-bar" id="statusBar">
+      <div class="spinner"></div>
+      <span class="status-progress" id="statusText">Generating...</span>
+      <span class="status-count" id="statusCount"></span>
+    </div>
+  </div>
+
+  <!-- Results -->
+  <div id="resultsWrap" style="display:none;">
+    <div class="divider">
+      <div class="divider-line"></div>
+      <span class="divider-label" id="resultLabel">0 results</span>
+      <div class="divider-line"></div>
+    </div>
+    <div id="results"></div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <span class="footer-text">ready</span>
+    <div class="footer-dot"></div>
+  </div>
+
 </div>
 
-Generator Barcode
-</div>
-
-<textarea id="bulkInput" placeholder="ini IMEI"></textarea>
-
-<button id="generateBtn" class="btn generate" onclick="generateBulk()">Generate</button>
-<button id="resetBtn" class="btn reset" onclick="resetAll()">Reset</button>
-
-</div>
-</div>
-
-<div id="results"></div>
-
-</div>
+<div class="toast" id="toast"></div>
 
 <canvas id="canvas" style="display:none;"></canvas>
 
 <script>
+const baseImage = new Image();
+baseImage.src = "template.png";
 
-const baseImage=new Image();
-baseImage.src="template.png";
+const canvas = document.getElementById("canvas");
+const input = document.getElementById("bulkInput");
+const resetBtn = document.getElementById("resetBtn");
+const resultsDiv = document.getElementById("results");
+const resultsWrap = document.getElementById("resultsWrap");
+const generateBtn = document.getElementById("generateBtn");
+const statusBar = document.getElementById("statusBar");
+const statusText = document.getElementById("statusText");
+const statusCount = document.getElementById("statusCount");
+const imeiCount = document.getElementById("imeiCount");
+const lineNums = document.getElementById("lineNums");
+const resultLabel = document.getElementById("resultLabel");
 
-const canvas=document.getElementById("canvas");
-const input=document.getElementById("bulkInput");
-const resetBtn=document.getElementById("resetBtn");
-const resultsDiv=document.getElementById("results");
-const generateBtn=document.getElementById("generateBtn");
-
-baseImage.onload=()=>{
-canvas.width=baseImage.width;
-canvas.height=baseImage.height;
+baseImage.onload = () => {
+  canvas.width = baseImage.width;
+  canvas.height = baseImage.height;
 };
 
-input.addEventListener("input",()=>{
-input.value=input.value.replace(/[^0-9\n]/g,'');
+input.addEventListener("input", () => {
+  input.value = input.value.replace(/[^0-9\n]/g, '');
+  updateMeta();
 });
 
-function setLoading(state,text){
-generateBtn.disabled=state;
-generateBtn.textContent=text||"Generate";
+function updateMeta() {
+  const lines = input.value.split("\n").filter(Boolean);
+  imeiCount.textContent = lines.length + " IMEI";
+  const nums = lines.map((_, i) => i + 1).join("\n");
+  lineNums.textContent = nums || "1";
 }
 
-function resetAll(){
-input.value="";
-resultsDiv.innerHTML="";
-resetBtn.style.display="none";
+function showToast(msg) {
+  const t = document.getElementById("toast");
+  t.textContent = msg;
+  t.classList.add("show");
+  setTimeout(() => t.classList.remove("show"), 3000);
 }
 
-function randomDigits(len){
-return Array.from({length:len},()=>Math.floor(Math.random()*10)).join('');
+function setLoading(state, curr, total) {
+  generateBtn.disabled = state;
+  if (state) {
+    statusBar.classList.add("active");
+    statusText.textContent = "Generating barcode...";
+    statusCount.textContent = curr + "/" + total;
+  } else {
+    statusBar.classList.remove("active");
+  }
 }
 
-function downloadImage(dataUrl,index){
-const a=document.createElement("a");
-a.href=dataUrl;
-a.download=`barcode-${index}.png`;
-a.click();
+function resetAll() {
+  input.value = "";
+  resultsDiv.innerHTML = "";
+  resultsWrap.style.display = "none";
+  resetBtn.style.display = "none";
+  updateMeta();
 }
 
-async function shareImage(dataUrl,index){
-
-if(!navigator.share){
-return alert("Browser tidak mendukung share");
+function randomDigits(len) {
+  return Array.from({ length: len }, () => Math.floor(Math.random() * 10)).join('');
 }
 
-const res=await fetch(dataUrl);
-const blob=await res.blob();
-
-const file=new File([blob],"barcode.png",{type:"image/png"});
-
-if(navigator.canShare && navigator.canShare({files:[file]})){
-await navigator.share({
-files:[file]
-});
+function downloadImage(dataUrl, index) {
+  const a = document.createElement("a");
+  a.href = dataUrl;
+  a.download = `barcode-${index}.png`;
+  a.click();
 }
 
+async function shareImage(dataUrl, index) {
+  if (!navigator.share) {
+    showToast("Browser tidak mendukung share");
+    return;
+  }
+  const res = await fetch(dataUrl);
+  const blob = await res.blob();
+  const file = new File([blob], "barcode.png", { type: "image/png" });
+  if (navigator.canShare && navigator.canShare({ files: [file] })) {
+    await navigator.share({ files: [file] });
+  }
 }
 
-async function generateBulk(){
+async function generateBulk() {
+  const lines = input.value.split("\n").map(v => v.trim()).filter(Boolean);
 
-const lines=input.value.split("\n").map(v=>v.trim()).filter(Boolean);
+  if (lines.length < 2) {
+    showToast("Minimal 2 IMEI diperlukan");
+    return;
+  }
 
-if(lines.length<2){
-alert("Minimal 2 IMEI diperlukan");
-return;
+  const kurang = lines.filter(v => v.length < 15);
+  const lebih = lines.filter(v => v.length > 15);
+
+  if (kurang.length || lebih.length) {
+    let pesan = [];
+    if (kurang.length) pesan.push("IMEI kurang dari 15 digit: " + kurang.join(", "));
+    if (lebih.length) pesan.push("IMEI lebih dari 15 digit: " + lebih.join(", "));
+    showToast(pesan.join(" · "));
+    return;
+  }
+
+  const totalPairs = Math.floor(lines.length / 2);
+  const ctx = canvas.getContext("2d");
+
+  ctx.fillStyle = "#000";
+  ctx.textBaseline = "top";
+  ctx.font = "400 45.7px 'SF Pro Custom', -apple-system, sans-serif";
+
+  resultsDiv.innerHTML = "";
+  resultsWrap.style.display = "none";
+
+  for (let i = 0; i < totalPairs; i++) {
+    setLoading(true, i + 1, totalPairs);
+    await new Promise(r => setTimeout(r, 30));
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(baseImage, 0, 0);
+    ctx.setTransform(0.97, 0, 0, 1, 0, 0);
+    ctx.fillText(randomDigits(32), 187, 738);
+    ctx.fillText(lines[i * 2], 464, 1087.1);
+    ctx.fillText(lines[i * 2 + 1], 464, 1422.2);
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+
+    const url = canvas.toDataURL("image/png");
+
+    const card = document.createElement("div");
+    card.className = "result-card";
+    card.innerHTML = `
+      <div class="result-header">
+        <span class="result-name">barcode-${String(i + 1).padStart(2, '0')}.png</span>
+        <span class="result-status"><div class="dot-ready"></div>ready</span>
+      </div>
+      <div class="result-img-wrap">
+        <img src="${url}" alt="Barcode ${i + 1}">
+      </div>
+      <div class="result-actions">
+        <button class="result-btn" onclick="downloadImage('${url}',${i + 1})">↓ Download</button>
+        <button class="result-btn primary-action" onclick="shareImage('${url}',${i + 1})">↗ Share</button>
+      </div>
+    `;
+    resultsDiv.appendChild(card);
+  }
+
+  setLoading(false);
+  resultsWrap.style.display = "block";
+  resultLabel.textContent = totalPairs + " result" + (totalPairs > 1 ? "s" : "");
+  resetBtn.style.display = "block";
 }
 
-let kurang=lines.filter(v=>v.length<15);
-let lebih=lines.filter(v=>v.length>15);
-
-if(kurang.length||lebih.length){
-
-let pesan="";
-
-if(kurang.length){
-pesan+="IMEI kurang dari 15 digit:\n"+kurang.join("\n")+"\n\n";
-}
-
-if(lebih.length){
-pesan+="IMEI lebih dari 15 digit:\n"+lebih.join("\n");
-}
-
-alert(pesan.trim());
-return;
-}
-
-const totalPairs=Math.floor(lines.length/2);
-
-const ctx=canvas.getContext("2d");
-
-ctx.fillStyle="#000";
-ctx.textBaseline="top";
-ctx.font="400 45.7px 'SF Pro Custom'";
-
-resultsDiv.innerHTML="";
-resetBtn.style.display="none";
-
-for(let i=0;i<totalPairs;i++){
-
-setLoading(true,`Generating ${i+1}/${totalPairs}`);
-
-await new Promise(r=>setTimeout(r,30));
-
-ctx.clearRect(0,0,canvas.width,canvas.height);
-ctx.drawImage(baseImage,0,0);
-
-ctx.setTransform(0.97,0,0,1,0,0);
-
-ctx.fillText(randomDigits(32),187,738);
-ctx.fillText(lines[i*2],464,1087.1);
-ctx.fillText(lines[i*2+1],464,1422.2);
-
-ctx.setTransform(1,0,0,1,0,0);
-
-const url=canvas.toDataURL("image/png");
-
-const shell=document.createElement("div");
-shell.className="glass-shell";
-
-const div=document.createElement("div");
-div.className="result-window";
-
-div.innerHTML=`
-<div class="window-header">
-<div class="window-dots">
-<div class="dot red"></div>
-<div class="dot yellow"></div>
-<div class="dot green"></div>
-</div>
-Barcode #${i+1}
-</div>
-
-<img src="${url}">
-
-<div class="action-row">
-<button class="btn download-btn" onclick="downloadImage('${url}',${i+1})">Download</button>
-<button class="btn share-btn" onclick="shareImage('${url}',${i+1})">Share</button>
-</div>
-`;
-
-shell.appendChild(div);
-resultsDiv.appendChild(shell);
-
-}
-
-setLoading(false,"Generate");
-
-resetBtn.style.display="block";
-
-}
-
+updateMeta();
 </script>
 
 </body>
