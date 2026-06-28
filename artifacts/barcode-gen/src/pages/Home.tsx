@@ -446,13 +446,9 @@ export default function Home() {
     <>
       <div className="logo-wrap">
         <div className="logo-row">
-          <div className="logo-icon-wrap" onClick={secretClick}>
+          <div className="logo-icon-wrap">
             <div className="logo-icon-ring"></div>
             <div className="logo-icon"></div>
-            <div className={`logo-hint${dotHintVisible ? ' visible' : ''}`}>
-              <span className="logo-hint-arrow"></span>
-              {dotHintMsg}
-            </div>
           </div>
           <div className="logo-label">
             <span className="logo-name">barcode-gen</span>
@@ -601,6 +597,13 @@ export default function Home() {
           </div>
         </div>
       )}
+
+      <div className="secret-trigger" onClick={secretClick}>
+        <div className={`logo-hint bottom${dotHintVisible ? ' visible' : ''}`}>
+          <span className="logo-hint-arrow bottom-arrow"></span>
+          {dotHintMsg}
+        </div>
+      </div>
 
       <div className={`toast${showToastState ? ' show' : ''}`}>{toastMsg}</div>
       <canvas ref={canvasRef} style={{ display: 'none' }}></canvas>

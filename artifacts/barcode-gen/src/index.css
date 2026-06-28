@@ -124,11 +124,27 @@ body {
 }
 
 /* ── Aesthetic Hint Tooltip ── */
+/* ── Secret trigger (bottom center) ── */
+.secret-trigger {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.08);
+  cursor: pointer;
+  z-index: 100;
+  transition: background .2s;
+}
+.secret-trigger:hover { background: rgba(255,255,255,0.18); }
+
 .logo-hint {
   position: absolute;
-  top: 50%;
-  left: calc(100% + 12px);
-  transform: translateY(-50%) translateX(-6px);
+  bottom: calc(100% + 12px);
+  left: 50%;
+  transform: translateX(-50%) translateY(6px);
   background: #0d0d0d;
   border: 1px solid rgba(255,255,255,0.1);
   border-radius: 10px;
@@ -136,7 +152,7 @@ body {
   font-size: 11px;
   font-family: 'Geist', sans-serif;
   white-space: nowrap;
-  padding: 7px 12px 7px 14px;
+  padding: 7px 14px;
   pointer-events: none;
   opacity: 0;
   transition: opacity .35s ease, transform .35s ease;
@@ -147,19 +163,19 @@ body {
 
 .logo-hint.visible {
   opacity: 1;
-  transform: translateY(-50%) translateX(0);
+  transform: translateX(-50%) translateY(0);
 }
 
 .logo-hint-arrow {
   position: absolute;
-  top: 50%;
-  left: -5px;
-  transform: translateY(-50%) rotate(45deg);
+  bottom: -5px;
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
   width: 8px;
   height: 8px;
   background: #0d0d0d;
   border-bottom: 1px solid rgba(255,255,255,0.1);
-  border-left: 1px solid rgba(255,255,255,0.1);
+  border-right: 1px solid rgba(255,255,255,0.1);
   border-radius: 2px;
 }
 
