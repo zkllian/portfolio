@@ -424,6 +424,46 @@ textarea:focus { border-color: #444; }
 
 .pick-btns button.pick-cancel { color: var(--text-dim); margin-left: auto; }
 
+/* ── Floating bottom pill ── */
+.bottom-pill {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  background: rgba(18,18,18,0.75);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 7px 16px;
+  white-space: nowrap;
+}
+
+.bottom-pill-label {
+  font-size: 12px;
+  font-family: 'Geist Mono', monospace;
+  color: var(--text-muted);
+  letter-spacing: .02em;
+}
+
+.bottom-pill-back {
+  background: transparent;
+  border: none;
+  color: var(--text-dim);
+  font-size: 14px;
+  cursor: pointer;
+  padding: 0 8px 0 0;
+  line-height: 1;
+  transition: color .15s;
+  display: flex;
+  align-items: center;
+}
+.bottom-pill-back:hover { color: var(--text); }
+
 .toast { position: fixed; top: calc(var(--page-gap) + 8px); left: 50%; transform: translateX(-50%) translateY(-12px); background: #fff; color: #000; font-size: 13px; font-weight: 500; padding: 10px 16px; border-radius: var(--radius); box-shadow: 0 4px 24px rgba(0,0,0,.5); opacity: 0; transition: opacity .2s, transform .2s; z-index: 999; white-space: normal; pointer-events: none; max-width: 90vw; text-align: center; }
 
 .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
