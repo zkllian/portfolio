@@ -496,18 +496,18 @@ export default function Home() {
     ctx.clearRect(0, 0, W, H);
     ctx.drawImage(img, 0, 0);
 
-    drawBarcode(ctx, '89049032012345678901234567890123', p.eid_x,   p.eid_y,   p.eid_h,   p.font_size, p.eid_w);
-    drawBarcode(ctx, '111111111111111',                  p.imei1_x, p.imei1_y, p.imei1_h, p.font_size, p.imei1_w);
-    drawBarcode(ctx, '222222222222222',                  p.imei2_x, p.imei2_y, p.imei2_h, p.font_size, p.imei2_w);
-    drawBarcode(ctx, '11111111111111',                   p.meid_x,  p.meid_y,  p.meid_h,  p.font_size, p.meid_w);
+    drawBarcode(ctx, '89049032000209061050588208994839', p.eid_x,   p.eid_y,   p.eid_h,   p.font_size, p.eid_w);
+    drawBarcode(ctx, '356730111869006',                  p.imei1_x, p.imei1_y, p.imei1_h, p.font_size, p.imei1_w);
+    drawBarcode(ctx, '356687114789203',                  p.imei2_x, p.imei2_y, p.imei2_h, p.font_size, p.imei2_w);
+    drawBarcode(ctx, '35673011186900',                   p.meid_x,  p.meid_y,  p.meid_h,  p.font_size, p.meid_w);
 
     ctx.font = `400 ${p.font_size}px 'SF Pro Custom', -apple-system, sans-serif`;
     ctx.fillStyle = '#000000';
     ctx.textBaseline = 'top';
-    ctx.fillText('89049032012345678901234567890123', p.eid_tx,   p.eid_ty);
-    ctx.fillText('111111111111111',                  p.imei1_tx, p.imei1_ty);
-    ctx.fillText('222222222222222',                  p.imei2_tx, p.imei2_ty);
-    ctx.fillText('11111111111111',                   p.meid_tx,  p.meid_ty);
+    ctx.fillText('89049032000209061050588208994839', p.eid_tx,   p.eid_ty);
+    ctx.fillText('356730111869006',                  p.imei1_tx, p.imei1_ty);
+    ctx.fillText('356687114789203',                  p.imei2_tx, p.imei2_ty);
+    ctx.fillText('35673011186900',                   p.meid_tx,  p.meid_ty);
 
     const af = activeFieldRef.current;
     drawMarker(ctx, p.eid_x,   p.eid_y,   '#f59e0b', af === 'eid');
