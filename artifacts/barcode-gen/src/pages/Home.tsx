@@ -604,17 +604,6 @@ export default function Home() {
 
       <div className={`toast${showToastState ? ' show' : ''}`}>{toastMsg}</div>
       <canvas ref={canvasRef} style={{ display: 'none' }}></canvas>
-
-      <div className="bottom-pill">
-        {view === 'results' && (
-          <button className="bottom-pill-back" onClick={() => { setView('input'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>
-            ←
-          </button>
-        )}
-        <span className="bottom-pill-label">
-          {view === 'input' ? imeiCount : resultLabel}
-        </span>
-      </div>
     </>
   );
 }
