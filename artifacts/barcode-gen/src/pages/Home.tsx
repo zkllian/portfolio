@@ -195,6 +195,23 @@ export default function Home() {
   function randomEID() { return '89049032' + randomDigits(24); }
   function meidFromImei(imei: string) { return imei.slice(0, 14); }
 
+  function randomTime(): string {
+    const h = Math.floor(Math.random() * 16) + 7;
+    const m = Math.floor(Math.random() * 60);
+    return `${String(h).padStart(2, '0')}.${String(m).padStart(2, '0')}`;
+  }
+
+  function drawClock(ctx: CanvasRenderingContext2D, timeStr: string) {
+    const x = 33, y = 26, w = 115, h = 32;
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(x, y, w, h);
+    ctx.font = `600 24px -apple-system, "SF Pro Display", sans-serif`;
+    ctx.letterSpacing = '0px';
+    ctx.fillStyle = '#000000';
+    ctx.textBaseline = 'top';
+    ctx.fillText(timeStr, x, y);
+  }
+
   function showToast(msg: string) {
     setToastMsg(msg);
     setShowToastState(true);
@@ -287,6 +304,7 @@ export default function Home() {
 
         ctx.clearRect(0, 0, cvs.width, cvs.height);
         ctx.drawImage(img, 0, 0);
+        drawClock(ctx, randomTime());
 
         drawBarcode(ctx, eid,               p.eid_x,   p.eid_y,   BC.eid.h,   p.font_size, BC.eid.w);
         drawBarcode(ctx, im1,               p.imei1_x, p.imei1_y, BC.imei1.h, p.font_size, BC.imei1.w);
@@ -415,6 +433,7 @@ export default function Home() {
 
     ctx.clearRect(0, 0, W, H);
     ctx.drawImage(img, 0, 0);
+    drawClock(ctx, randomTime());
 
     drawBarcode(ctx, '89049032000209061050588208994839', p.eid_x,   p.eid_y,   BC.eid.h,   p.font_size, BC.eid.w);
     drawBarcode(ctx, '356730111869006',                  p.imei1_x, p.imei1_y, BC.imei1.h, p.font_size, BC.imei1.w);
