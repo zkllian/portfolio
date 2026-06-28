@@ -474,9 +474,7 @@ export default function Home() {
                   placeholder="Masukan nomor IMEI..."
                 />
               </div>
-              <div className="input-hint">
-                2 baris per set <span>·</span> IMEI 1 (15) → IMEI 2 (15) <span>·</span> EID auto
-              </div>
+
               {inlineError && (
                 <div className="inline-error">{inlineError}</div>
               )}
