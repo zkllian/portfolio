@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 import JsBarcode from 'jsbarcode';
 
-function NudgeRow({ label, xField, yField, pos, onSetPos, onStartNudge, onStopNudge }: {
+function NudgeRow({ label, xField, yField, pos, onSetPos, onStartNudge, onStopNudge, color }: {
   label: string;
   xField: string;
   yField: string;
@@ -10,10 +10,15 @@ function NudgeRow({ label, xField, yField, pos, onSetPos, onStartNudge, onStopNu
   onSetPos: (fn: (p: Record<string, number>) => Record<string, number>) => void;
   onStartNudge: (field: string, dir: number) => void;
   onStopNudge: () => void;
+  color?: string;
 }) {
   return (
     <div className="pos-row">
-      <span className="pos-label">{label}</span>
+      <span className="pos-label">
+        {color && <span className="pos-dot" style={{ background: color }} />}
+        {label}
+      </span>
+      <span className="pos-coord-badge">{pos[xField]}, {pos[yField]}</span>
       <div className="nudge-group">
         <div className="nudge-axis">
           <span className="axis-lbl">X</span>
@@ -59,10 +64,14 @@ export default function Home() {
 
   const [posOpen, setPosOpen] = useState(false);
   const [pos, setPos] = useState<Record<string, number>>({
-    eid_x: 102,   eid_y: 369,
-    imei1_x: 275, imei1_y: 670,
-    imei2_x: 285, imei2_y: 955,
-    meid_x: 285,  meid_y: 1238,
+    eid_x: 102,    eid_y: 369,
+    imei1_x: 275,  imei1_y: 670,
+    imei2_x: 285,  imei2_y: 955,
+    meid_x: 285,   meid_y: 1238,
+    eid_tx: 102,   eid_ty: 462,
+    imei1_tx: 275, imei1_ty: 763,
+    imei2_tx: 285, imei2_ty: 1048,
+    meid_tx: 285,  meid_ty: 1331,
     font_size: 31,
     barcode_h: 80,
     barcode_w: 500,
@@ -413,6 +422,26 @@ export default function Home() {
     }
   }
 
+  function drawTextMarker(ctx: CanvasRenderingContext2D, x: number, y: number, color: string, isActive?: boolean) {
+    const s = isActive ? 18 : 11;
+    ctx.save();
+    ctx.translate(x, y);
+    if (isActive) {
+      ctx.beginPath();
+      ctx.arc(0, 0, 32, 0, Math.PI * 2);
+      ctx.strokeStyle = color; ctx.lineWidth = 2; ctx.globalAlpha = 0.3;
+      ctx.stroke(); ctx.globalAlpha = 1;
+    }
+    ctx.beginPath();
+    ctx.moveTo(0, -s); ctx.lineTo(s, 0); ctx.lineTo(0, s); ctx.lineTo(-s, 0);
+    ctx.closePath();
+    ctx.fillStyle = color; ctx.globalAlpha = isActive ? 0.25 : 0.15;
+    ctx.fill(); ctx.globalAlpha = 1;
+    ctx.strokeStyle = color; ctx.lineWidth = isActive ? 3.5 : 2.5;
+    ctx.stroke();
+    ctx.restore();
+  }
+
   function drawPreview(p: Record<string, number>) {
     const img = baseImageRef.current;
     if (!img || !img.complete || !img.naturalWidth) return;
@@ -432,11 +461,24 @@ export default function Home() {
     drawBarcode(ctx, '222222222222222',                  p.imei2_x, p.imei2_y, p.barcode_h, p.font_size, p.barcode_w);
     drawBarcode(ctx, '11111111111111',                   p.meid_x,  p.meid_y,  p.barcode_h, p.font_size, p.barcode_w);
 
+    ctx.font = `400 ${p.font_size}px 'SF Pro Custom', -apple-system, sans-serif`;
+    ctx.fillStyle = '#000000';
+    ctx.textBaseline = 'top';
+    ctx.fillText('89049032012345678901234567890123', p.eid_tx,   p.eid_ty);
+    ctx.fillText('111111111111111',                  p.imei1_tx, p.imei1_ty);
+    ctx.fillText('222222222222222',                  p.imei2_tx, p.imei2_ty);
+    ctx.fillText('11111111111111',                   p.meid_tx,  p.meid_ty);
+
     const af = activeFieldRef.current;
     drawMarker(ctx, p.eid_x,   p.eid_y,   '#f59e0b', af === 'eid');
     drawMarker(ctx, p.imei1_x, p.imei1_y, '#3b82f6', af === 'imei1');
     drawMarker(ctx, p.imei2_x, p.imei2_y, '#10b981', af === 'imei2');
     drawMarker(ctx, p.meid_x,  p.meid_y,  '#e879f9', af === 'meid');
+
+    drawTextMarker(ctx, p.eid_tx,   p.eid_ty,   '#f59e0b', af === 'eid_t');
+    drawTextMarker(ctx, p.imei1_tx, p.imei1_ty, '#3b82f6', af === 'imei1_t');
+    drawTextMarker(ctx, p.imei2_tx, p.imei2_ty, '#10b981', af === 'imei2_t');
+    drawTextMarker(ctx, p.meid_tx,  p.meid_ty,  '#e879f9', af === 'meid_t');
   }
 
   function getCanvasCoords(e: React.PointerEvent<HTMLCanvasElement>) {
@@ -451,10 +493,14 @@ export default function Home() {
 
   function findNearestField(cx: number, cy: number, p: Record<string, number>): string | null {
     const markers = [
-      { field: 'eid',   x: p.eid_x,   y: p.eid_y   },
-      { field: 'imei1', x: p.imei1_x, y: p.imei1_y },
-      { field: 'imei2', x: p.imei2_x, y: p.imei2_y },
-      { field: 'meid',  x: p.meid_x,  y: p.meid_y  },
+      { field: 'eid',    x: p.eid_x,   y: p.eid_y   },
+      { field: 'imei1',  x: p.imei1_x, y: p.imei1_y },
+      { field: 'imei2',  x: p.imei2_x, y: p.imei2_y },
+      { field: 'meid',   x: p.meid_x,  y: p.meid_y  },
+      { field: 'eid_t',  x: p.eid_tx,  y: p.eid_ty  },
+      { field: 'imei1_t',x: p.imei1_tx,y: p.imei1_ty},
+      { field: 'imei2_t',x: p.imei2_tx,y: p.imei2_ty},
+      { field: 'meid_t', x: p.meid_tx, y: p.meid_ty },
     ];
     let nearest: string | null = null;
     let minDist = 180;
@@ -466,10 +512,14 @@ export default function Home() {
   }
 
   function fieldKeys(field: string): [string, string] {
-    if (field === 'eid')   return ['eid_x',   'eid_y'];
-    if (field === 'imei1') return ['imei1_x', 'imei1_y'];
-    if (field === 'imei2') return ['imei2_x', 'imei2_y'];
-    return ['meid_x', 'meid_y'];
+    if (field === 'eid')    return ['eid_x',   'eid_y'];
+    if (field === 'imei1')  return ['imei1_x', 'imei1_y'];
+    if (field === 'imei2')  return ['imei2_x', 'imei2_y'];
+    if (field === 'meid')   return ['meid_x',  'meid_y'];
+    if (field === 'eid_t')  return ['eid_tx',  'eid_ty'];
+    if (field === 'imei1_t')return ['imei1_tx','imei1_ty'];
+    if (field === 'imei2_t')return ['imei2_tx','imei2_ty'];
+    return ['meid_tx', 'meid_ty'];
   }
 
   function handleCanvasPointerDown(e: React.PointerEvent<HTMLCanvasElement>) {
@@ -641,10 +691,16 @@ export default function Home() {
                     ))}
                   </div>
                 </div>
-                <NudgeRow label="eid"     xField="eid_x"   yField="eid_y"   {...nudgeProps} />
-                <NudgeRow label="imei[0]" xField="imei1_x" yField="imei1_y" {...nudgeProps} />
-                <NudgeRow label="imei[1]" xField="imei2_x" yField="imei2_y" {...nudgeProps} />
-                <NudgeRow label="meid"    xField="meid_x"  yField="meid_y"  {...nudgeProps} />
+                <div className="pos-section-divider">barcode</div>
+                <NudgeRow label="eid"     xField="eid_x"   yField="eid_y"   {...nudgeProps} color="#f59e0b" />
+                <NudgeRow label="imei[0]" xField="imei1_x" yField="imei1_y" {...nudgeProps} color="#3b82f6" />
+                <NudgeRow label="imei[1]" xField="imei2_x" yField="imei2_y" {...nudgeProps} color="#10b981" />
+                <NudgeRow label="meid"    xField="meid_x"  yField="meid_y"  {...nudgeProps} color="#e879f9" />
+                <div className="pos-section-divider">text</div>
+                <NudgeRow label="eid.t"   xField="eid_tx"  yField="eid_ty"  {...nudgeProps} color="#f59e0b" />
+                <NudgeRow label="im0.t"   xField="imei1_tx" yField="imei1_ty" {...nudgeProps} color="#3b82f6" />
+                <NudgeRow label="im1.t"   xField="imei2_tx" yField="imei2_ty" {...nudgeProps} color="#10b981" />
+                <NudgeRow label="meid.t"  xField="meid_tx" yField="meid_ty" {...nudgeProps} color="#e879f9" />
                 <div className="pos-row font-sz-row">
                   <span className="pos-label">font_sz</span>
                   <div className="nudge-group">
@@ -708,7 +764,7 @@ export default function Home() {
                   </div>
                   <div className="preview-drag-hint">
                     {activeField
-                      ? `// dragging: ${activeField} → x:${pos[activeField === 'eid' ? 'eid_x' : activeField === 'imei1' ? 'imei1_x' : activeField === 'imei2' ? 'imei2_x' : 'meid_x']}  y:${pos[activeField === 'eid' ? 'eid_y' : activeField === 'imei1' ? 'imei1_y' : activeField === 'imei2' ? 'imei2_y' : 'meid_y']}`
+                      ? `// dragging: ${activeField} → x:${pos[fieldKeys(activeField)[0]]}  y:${pos[fieldKeys(activeField)[1]]}`
                       : hoverField
                       ? `// drag to move: ${hoverField}`
                       : '// drag a marker to reposition'}
