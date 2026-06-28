@@ -88,6 +88,13 @@ export default function Home() {
   const TAP_COLORS = ['#ffffff', '#7850ff', '#00b96b'];
   const [dotColor, setDotColor] = useState('#ffffff');
 
+  const [statsOpen, setStatsOpen] = useState(false);
+  const [statsVisible, setStatsVisible] = useState(false);
+  const [statsCount, setStatsCount] = useState<number | null>(null);
+  const [statsLoading, setStatsLoading] = useState(false);
+  const counterTapRef = useRef(0);
+  const counterTapResetRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
   const COUNTER_KEY = 'imei_total_generated';
   const DATE_KEY    = 'imei_total_generated_date';
   function getWIBDateStr() {
@@ -314,6 +321,13 @@ export default function Home() {
         localStorage.setItem(DATE_KEY, getWIBDateStr());
         return next;
       });
+      try {
+        fetch('/api/stats/ping', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ count: totalSets }),
+        }).catch(() => {});
+      } catch {}
       setView('results');
       window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
     } catch (err: unknown) {
@@ -491,6 +505,43 @@ export default function Home() {
     setTimeout(() => setCreditOpen(false), 300);
   }
 
+  async function fetchStatsAndOpen() {
+    setStatsLoading(true);
+    setStatsCount(null);
+    setStatsOpen(true);
+    requestAnimationFrame(() => requestAnimationFrame(() => setStatsVisible(true)));
+    try {
+      const res = await fetch('/api/stats/today');
+      if (res.ok) {
+        const data = await res.json() as { count: number };
+        setStatsCount(data.count);
+      } else {
+        setStatsCount(-1);
+      }
+    } catch {
+      setStatsCount(-1);
+    } finally {
+      setStatsLoading(false);
+    }
+  }
+
+  function handleCounterTap() {
+    if (counterTapResetRef.current) clearTimeout(counterTapResetRef.current);
+    counterTapRef.current += 1;
+    counterTapResetRef.current = setTimeout(() => { counterTapRef.current = 0; }, 1200);
+    if (counterTapRef.current >= 3) {
+      counterTapRef.current = 0;
+      if (navigator.vibrate) navigator.vibrate([30, 20, 50]);
+      fetchStatsAndOpen();
+    }
+  }
+
+  function closeStats(e: React.MouseEvent) {
+    if (e && e.target !== e.currentTarget) return;
+    setStatsVisible(false);
+    setTimeout(() => setStatsOpen(false), 300);
+  }
+
   const nudgeProps = { pos, onSetPos: setPos, onStartNudge: startNudge, onStopNudge: stopNudge };
 
   return (
@@ -561,7 +612,7 @@ export default function Home() {
                   </div>
                 )}
               </div>
-              <span className="counter-number">{totalImei.toLocaleString()}</span>
+              <span className="counter-number" onClick={handleCounterTap} style={{ cursor: 'default', userSelect: 'none' }}>{totalImei.toLocaleString()}</span>
             </div>
 
             <div className="card pos-card">
@@ -634,6 +685,24 @@ export default function Home() {
         )}
 
       </div>
+
+      {statsOpen && (
+        <div className={`credit-overlay open${statsVisible ? ' visible' : ''}`} onClick={closeStats}>
+          <div className="credit-modal" style={{ gap: '10px' }}>
+            <div className="credit-modal-glow"></div>
+            <button className="credit-close" onClick={() => { setStatsVisible(false); setTimeout(() => setStatsOpen(false), 300); }}>✕</button>
+            <div className="credit-tag">// global stats</div>
+            <div className="credit-modal-name" style={{ fontSize: '13px', color: 'var(--text-muted, #888)', marginBottom: '4px' }}>total barcode di-generate hari ini</div>
+            <div className="counter-number" style={{ fontSize: '56px', lineHeight: 1, margin: '8px 0' }}>
+              {statsLoading ? '···' : statsCount === null || statsCount === -1 ? '—' : statsCount.toLocaleString()}
+            </div>
+            <div className="credit-modal-divider"></div>
+            <div className="credit-modal-footer">
+              {statsLoading ? 'loading...' : statsCount === -1 ? 'server tidak tersedia' : 'barcode-gen · all users · WIB'}
+            </div>
+          </div>
+        </div>
+      )}
 
       {creditOpen && (
         <div className={`credit-overlay open${creditVisible ? ' visible' : ''}`} onClick={closeCredit}>
