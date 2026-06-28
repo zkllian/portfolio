@@ -509,7 +509,7 @@ export default function Home() {
                 <div className="nudge-step-row">
                   <span className="pos-label" style={{ width: 'auto', color: 'var(--text-dim)' }}>step</span>
                   <div className="step-btns">
-                    {[1, 5, 10].map(v => (
+                    {[0.5, 1, 5, 10].map(v => (
                       <button key={v} className={`step-btn${nudgeStep === v ? ' active' : ''}`} onClick={() => setStep(v)}>{v}</button>
                     ))}
                   </div>
@@ -524,8 +524,8 @@ export default function Home() {
                     <div className="nudge-axis">
                       <span className="axis-lbl">px</span>
                       <button className="nb" onPointerDown={() => startNudge('font_size', -1)} onPointerUp={stopNudge} onPointerLeave={stopNudge}>‹</button>
-                      <input type="number" min="8" max="60" value={pos.font_size}
-                        onChange={e => setPos(p => ({ ...p, font_size: parseInt(e.target.value) || 8 }))} />
+                      <input type="number" min="8" max="60" step="0.5" value={pos.font_size}
+                        onChange={e => setPos(p => ({ ...p, font_size: parseFloat(e.target.value) || 8 }))} />
                       <button className="nb" onPointerDown={() => startNudge('font_size', 1)} onPointerUp={stopNudge} onPointerLeave={stopNudge}>›</button>
                     </div>
                   </div>
