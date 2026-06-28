@@ -123,8 +123,6 @@ export default function Home() {
   const [fontStep, setFontStep] = useState(1);
   const fontStepRef = useRef(1);
   const [previewDim, setPreviewDim] = useState('738 × 1600');
-  const [activeField, setActiveField] = useState<string | null>(null);
-  const [hoverField, setHoverField] = useState<string | null>(null);
 
   const [creditOpen, setCreditOpen] = useState(false);
   const [creditVisible, setCreditVisible] = useState(false);
@@ -149,8 +147,6 @@ export default function Home() {
   const previewCanvasRef = useRef<HTMLCanvasElement>(null);
   const baseImageRef = useRef<HTMLImageElement | null>(null);
   const nudgeTimerRef = useRef<ReturnType<typeof setTimeout> | ReturnType<typeof setInterval> | null>(null);
-  const dragFieldRef = useRef<string | null>(null);
-  const activeFieldRef = useRef<string | null>(null);
 
   const BASE = import.meta.env.BASE_URL;
 
@@ -470,52 +466,6 @@ export default function Home() {
     }
   }
 
-  function drawMarker(ctx: CanvasRenderingContext2D, x: number, y: number, color: string, isActive?: boolean) {
-    const s = isActive ? 22 : 14;
-    if (isActive) {
-      ctx.beginPath();
-      ctx.arc(x, y + 5, 36, 0, Math.PI * 2);
-      ctx.strokeStyle = color;
-      ctx.lineWidth = 2.5;
-      ctx.globalAlpha = 0.35;
-      ctx.stroke();
-      ctx.globalAlpha = 1;
-    }
-    ctx.strokeStyle = color;
-    ctx.lineWidth = isActive ? 4 : 3;
-    ctx.beginPath();
-    ctx.moveTo(x - s, y + 5); ctx.lineTo(x + s, y + 5);
-    ctx.moveTo(x, y + 5 - s); ctx.lineTo(x, y + 5 + s);
-    ctx.stroke();
-    if (!isActive) {
-      ctx.strokeStyle = 'rgba(255,255,255,0.6)'; ctx.lineWidth = 1;
-      ctx.beginPath();
-      ctx.moveTo(x - s + 2, y + 5); ctx.lineTo(x + s - 2, y + 5);
-      ctx.moveTo(x, y + 5 - s + 2); ctx.lineTo(x, y + 5 + s - 2);
-      ctx.stroke();
-    }
-  }
-
-  function drawTextMarker(ctx: CanvasRenderingContext2D, x: number, y: number, color: string, isActive?: boolean) {
-    const s = isActive ? 18 : 11;
-    ctx.save();
-    ctx.translate(x, y);
-    if (isActive) {
-      ctx.beginPath();
-      ctx.arc(0, 0, 32, 0, Math.PI * 2);
-      ctx.strokeStyle = color; ctx.lineWidth = 2; ctx.globalAlpha = 0.3;
-      ctx.stroke(); ctx.globalAlpha = 1;
-    }
-    ctx.beginPath();
-    ctx.moveTo(0, -s); ctx.lineTo(s, 0); ctx.lineTo(0, s); ctx.lineTo(-s, 0);
-    ctx.closePath();
-    ctx.fillStyle = color; ctx.globalAlpha = isActive ? 0.25 : 0.15;
-    ctx.fill(); ctx.globalAlpha = 1;
-    ctx.strokeStyle = color; ctx.lineWidth = isActive ? 3.5 : 2.5;
-    ctx.stroke();
-    ctx.restore();
-  }
-
   function drawPreview(p: Record<string, number>) {
     const img = baseImageRef.current;
     if (!img || !img.complete || !img.naturalWidth) return;
@@ -543,90 +493,8 @@ export default function Home() {
     ctx.fillText('356687114789203',                  p.imei2_tx, p.imei2_ty);
     ctx.fillText('35673011186900',                   p.meid_tx,  p.meid_ty);
 
-    const af = activeFieldRef.current;
-    drawMarker(ctx, p.eid_x,   p.eid_y,   '#f59e0b', af === 'eid');
-    drawMarker(ctx, p.imei1_x, p.imei1_y, '#3b82f6', af === 'imei1');
-    drawMarker(ctx, p.imei2_x, p.imei2_y, '#10b981', af === 'imei2');
-    drawMarker(ctx, p.meid_x,  p.meid_y,  '#e879f9', af === 'meid');
-
-    drawTextMarker(ctx, p.eid_tx,   p.eid_ty,   '#f59e0b', af === 'eid_t');
-    drawTextMarker(ctx, p.imei1_tx, p.imei1_ty, '#3b82f6', af === 'imei1_t');
-    drawTextMarker(ctx, p.imei2_tx, p.imei2_ty, '#10b981', af === 'imei2_t');
-    drawTextMarker(ctx, p.meid_tx,  p.meid_ty,  '#e879f9', af === 'meid_t');
   }
 
-  function getCanvasCoords(e: React.PointerEvent<HTMLCanvasElement>) {
-    const cvs = previewCanvasRef.current;
-    if (!cvs) return null;
-    const rect = cvs.getBoundingClientRect();
-    return {
-      x: Math.round((e.clientX - rect.left) * (cvs.width / rect.width)),
-      y: Math.round((e.clientY - rect.top)  * (cvs.height / rect.height)),
-    };
-  }
-
-  function findNearestField(cx: number, cy: number, p: Record<string, number>): string | null {
-    const markers = [
-      { field: 'eid',    x: p.eid_x,   y: p.eid_y   },
-      { field: 'imei1',  x: p.imei1_x, y: p.imei1_y },
-      { field: 'imei2',  x: p.imei2_x, y: p.imei2_y },
-      { field: 'meid',   x: p.meid_x,  y: p.meid_y  },
-      { field: 'eid_t',  x: p.eid_tx,  y: p.eid_ty  },
-      { field: 'imei1_t',x: p.imei1_tx,y: p.imei1_ty},
-      { field: 'imei2_t',x: p.imei2_tx,y: p.imei2_ty},
-      { field: 'meid_t', x: p.meid_tx, y: p.meid_ty },
-    ];
-    let nearest: string | null = null;
-    let minDist = 180;
-    for (const m of markers) {
-      const dist = Math.hypot(cx - m.x, cy - (m.y + 5));
-      if (dist < minDist) { minDist = dist; nearest = m.field; }
-    }
-    return nearest;
-  }
-
-  function fieldKeys(field: string): [string, string] {
-    if (field === 'eid')    return ['eid_x',   'eid_y'];
-    if (field === 'imei1')  return ['imei1_x', 'imei1_y'];
-    if (field === 'imei2')  return ['imei2_x', 'imei2_y'];
-    if (field === 'meid')   return ['meid_x',  'meid_y'];
-    if (field === 'eid_t')  return ['eid_tx',  'eid_ty'];
-    if (field === 'imei1_t')return ['imei1_tx','imei1_ty'];
-    if (field === 'imei2_t')return ['imei2_tx','imei2_ty'];
-    return ['meid_tx', 'meid_ty'];
-  }
-
-  function handleCanvasPointerDown(e: React.PointerEvent<HTMLCanvasElement>) {
-    const coords = getCanvasCoords(e);
-    if (!coords) return;
-    const field = findNearestField(coords.x, coords.y, posRef.current);
-    if (!field) return;
-    dragFieldRef.current = field;
-    activeFieldRef.current = field;
-    setActiveField(field);
-    (e.currentTarget as HTMLCanvasElement).setPointerCapture(e.pointerId);
-    e.preventDefault();
-  }
-
-  function handleCanvasPointerMove(e: React.PointerEvent<HTMLCanvasElement>) {
-    const coords = getCanvasCoords(e);
-    if (!coords) return;
-    if (dragFieldRef.current) {
-      const [xk, yk] = fieldKeys(dragFieldRef.current);
-      setPos(p => ({ ...p, [xk]: coords.x, [yk]: coords.y - 5 }));
-      e.preventDefault();
-    } else {
-      const nearest = findNearestField(coords.x, coords.y, posRef.current);
-      setHoverField(nearest);
-    }
-  }
-
-  function handleCanvasPointerUp() {
-    dragFieldRef.current = null;
-    activeFieldRef.current = null;
-    setActiveField(null);
-    setHoverField(null);
-  }
 
   function playPop() {
     try {
@@ -847,19 +715,7 @@ export default function Home() {
                     <canvas
                       ref={previewCanvasRef}
                       id="previewCanvas"
-                      style={{ cursor: activeField ? 'grabbing' : hoverField ? 'grab' : 'default' }}
-                      onPointerDown={handleCanvasPointerDown}
-                      onPointerMove={handleCanvasPointerMove}
-                      onPointerUp={handleCanvasPointerUp}
-                      onPointerLeave={handleCanvasPointerUp}
                     />
-                  </div>
-                  <div className="preview-drag-hint">
-                    {activeField
-                      ? `// dragging: ${activeField} → x:${pos[fieldKeys(activeField)[0]]}  y:${pos[fieldKeys(activeField)[1]]}`
-                      : hoverField
-                      ? `// drag to move: ${hoverField}`
-                      : '// drag a marker to reposition'}
                   </div>
                 </div>
               </div>
