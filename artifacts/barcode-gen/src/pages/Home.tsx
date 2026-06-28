@@ -2,6 +2,43 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 import JsBarcode from 'jsbarcode';
 
+function SizeRow({ label, hField, wField, pos, onSetPos, onStartNudge, onStopNudge, color }: {
+  label: string;
+  hField: string;
+  wField: string;
+  pos: Record<string, number>;
+  onSetPos: (fn: (p: Record<string, number>) => Record<string, number>) => void;
+  onStartNudge: (field: string, dir: number) => void;
+  onStopNudge: () => void;
+  color?: string;
+}) {
+  return (
+    <div className="pos-row">
+      <span className="pos-label">
+        {color && <span className="pos-dot" style={{ background: color }} />}
+        {label}
+      </span>
+      <span className="pos-coord-badge">{pos[hField]}h × {pos[wField]}w</span>
+      <div className="nudge-group">
+        <div className="nudge-axis">
+          <span className="axis-lbl">H</span>
+          <button className="nb" onPointerDown={() => onStartNudge(hField, -1)} onPointerUp={onStopNudge} onPointerLeave={onStopNudge}>‹</button>
+          <input type="number" min="20" max="300" step="1" value={pos[hField]}
+            onChange={e => onSetPos(p => ({ ...p, [hField]: parseInt(e.target.value) || 20 }))} />
+          <button className="nb" onPointerDown={() => onStartNudge(hField, 1)} onPointerUp={onStopNudge} onPointerLeave={onStopNudge}>›</button>
+        </div>
+        <div className="nudge-axis">
+          <span className="axis-lbl">W</span>
+          <button className="nb" onPointerDown={() => onStartNudge(wField, -1)} onPointerUp={onStopNudge} onPointerLeave={onStopNudge}>‹</button>
+          <input type="number" min="50" max="1000" step="1" value={pos[wField]}
+            onChange={e => onSetPos(p => ({ ...p, [wField]: parseInt(e.target.value) || 50 }))} />
+          <button className="nb" onPointerDown={() => onStartNudge(wField, 1)} onPointerUp={onStopNudge} onPointerLeave={onStopNudge}>›</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function NudgeRow({ label, xField, yField, pos, onSetPos, onStartNudge, onStopNudge, color }: {
   label: string;
   xField: string;
@@ -74,8 +111,10 @@ export default function Home() {
     imei2_tx: 290, imei2_ty: 955.5,
     meid_tx: 290,  meid_ty: 1239.5,
     font_size: 31,
-    barcode_h: 80,
-    barcode_w: 500,
+    eid_h: 80,    eid_w: 500,
+    imei1_h: 80,  imei1_w: 500,
+    imei2_h: 80,  imei2_w: 500,
+    meid_h: 80,   meid_w: 500,
   });
   const posRef = useRef(pos);
   const [nudgeStep, setNudgeStep] = useState(1);
@@ -279,10 +318,10 @@ export default function Home() {
         ctx.clearRect(0, 0, cvs.width, cvs.height);
         ctx.drawImage(img, 0, 0);
 
-        drawBarcode(ctx, eid,               p.eid_x,   p.eid_y,   p.barcode_h, p.font_size, p.barcode_w);
-        drawBarcode(ctx, im1,               p.imei1_x, p.imei1_y, p.barcode_h, p.font_size, p.barcode_w);
-        drawBarcode(ctx, im2,               p.imei2_x, p.imei2_y, p.barcode_h, p.font_size, p.barcode_w);
-        drawBarcode(ctx, meidFromImei(im1), p.meid_x,  p.meid_y,  p.barcode_h, p.font_size, p.barcode_w);
+        drawBarcode(ctx, eid,               p.eid_x,   p.eid_y,   p.eid_h,   p.font_size, p.eid_w);
+        drawBarcode(ctx, im1,               p.imei1_x, p.imei1_y, p.imei1_h, p.font_size, p.imei1_w);
+        drawBarcode(ctx, im2,               p.imei2_x, p.imei2_y, p.imei2_h, p.font_size, p.imei2_w);
+        drawBarcode(ctx, meidFromImei(im1), p.meid_x,  p.meid_y,  p.meid_h,  p.font_size, p.meid_w);
 
         newResults.push({ url: cvs.toDataURL('image/png'), index: i + 1 });
       }
@@ -457,10 +496,10 @@ export default function Home() {
     ctx.clearRect(0, 0, W, H);
     ctx.drawImage(img, 0, 0);
 
-    drawBarcode(ctx, '89049032012345678901234567890123', p.eid_x,   p.eid_y,   p.barcode_h, p.font_size, p.barcode_w);
-    drawBarcode(ctx, '111111111111111',                  p.imei1_x, p.imei1_y, p.barcode_h, p.font_size, p.barcode_w);
-    drawBarcode(ctx, '222222222222222',                  p.imei2_x, p.imei2_y, p.barcode_h, p.font_size, p.barcode_w);
-    drawBarcode(ctx, '11111111111111',                   p.meid_x,  p.meid_y,  p.barcode_h, p.font_size, p.barcode_w);
+    drawBarcode(ctx, '89049032012345678901234567890123', p.eid_x,   p.eid_y,   p.eid_h,   p.font_size, p.eid_w);
+    drawBarcode(ctx, '111111111111111',                  p.imei1_x, p.imei1_y, p.imei1_h, p.font_size, p.imei1_w);
+    drawBarcode(ctx, '222222222222222',                  p.imei2_x, p.imei2_y, p.imei2_h, p.font_size, p.imei2_w);
+    drawBarcode(ctx, '11111111111111',                   p.meid_x,  p.meid_y,  p.meid_h,  p.font_size, p.meid_w);
 
     ctx.font = `400 ${p.font_size}px 'SF Pro Custom', -apple-system, sans-serif`;
     ctx.fillStyle = '#000000';
@@ -746,30 +785,10 @@ export default function Home() {
                         </div>
                       </div>
                     </div>
-                    <div className="pos-row">
-                      <span className="pos-label">bar_h</span>
-                      <div className="nudge-group">
-                        <div className="nudge-axis">
-                          <span className="axis-lbl">px</span>
-                          <button className="nb" onPointerDown={() => startNudge('barcode_h', -1)} onPointerUp={stopNudge} onPointerLeave={stopNudge}>‹</button>
-                          <input type="number" min="20" max="300" step="1" value={pos.barcode_h}
-                            onChange={e => setPos(p => ({ ...p, barcode_h: parseInt(e.target.value) || 20 }))} />
-                          <button className="nb" onPointerDown={() => startNudge('barcode_h', 1)} onPointerUp={stopNudge} onPointerLeave={stopNudge}>›</button>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="pos-row">
-                      <span className="pos-label">bar_w</span>
-                      <div className="nudge-group">
-                        <div className="nudge-axis">
-                          <span className="axis-lbl">px</span>
-                          <button className="nb" onPointerDown={() => startNudge('barcode_w', -1)} onPointerUp={stopNudge} onPointerLeave={stopNudge}>‹</button>
-                          <input type="number" min="50" max="1000" step="1" value={pos.barcode_w}
-                            onChange={e => setPos(p => ({ ...p, barcode_w: parseInt(e.target.value) || 50 }))} />
-                          <button className="nb" onPointerDown={() => startNudge('barcode_w', 1)} onPointerUp={stopNudge} onPointerLeave={stopNudge}>›</button>
-                        </div>
-                      </div>
-                    </div>
+                    <SizeRow label="eid"     hField="eid_h"   wField="eid_w"   pos={pos} onSetPos={setPos} onStartNudge={startNudge} onStopNudge={stopNudge} color="#f59e0b" />
+                    <SizeRow label="im0"     hField="imei1_h" wField="imei1_w" pos={pos} onSetPos={setPos} onStartNudge={startNudge} onStopNudge={stopNudge} color="#3b82f6" />
+                    <SizeRow label="im1"     hField="imei2_h" wField="imei2_w" pos={pos} onSetPos={setPos} onStartNudge={startNudge} onStopNudge={stopNudge} color="#10b981" />
+                    <SizeRow label="meid"    hField="meid_h"  wField="meid_w"  pos={pos} onSetPos={setPos} onStartNudge={startNudge} onStopNudge={stopNudge} color="#e879f9" />
                   </>
                 )}
 
