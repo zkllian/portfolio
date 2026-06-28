@@ -311,6 +311,15 @@ export default function Home() {
         drawBarcode(ctx, im2,               p.imei2_x, p.imei2_y, p.imei2_h, p.font_size, p.imei2_w, p.imei2_op);
         drawBarcode(ctx, meidFromImei(im1), p.meid_x,  p.meid_y,  p.meid_h,  p.font_size, p.meid_w,  p.meid_op);
 
+        ctx.font = `400 ${p.font_size}px 'SF Pro Custom', -apple-system, sans-serif`;
+        ctx.letterSpacing = `${p.letter_spacing}px`;
+        ctx.fillStyle = '#000000';
+        ctx.textBaseline = 'top';
+        ctx.fillText(eid,               p.eid_tx,   p.eid_ty);
+        ctx.fillText(im1,               p.imei1_tx, p.imei1_ty);
+        ctx.fillText(im2,               p.imei2_tx, p.imei2_ty);
+        ctx.fillText(meidFromImei(im1), p.meid_tx,  p.meid_ty);
+
         newResults.push({ url: cvs.toDataURL('image/png'), index: i + 1 });
       }
 
