@@ -377,7 +377,7 @@ textarea:focus { border-color: #444; }
 
 .pos-section-divider { font-size: 9px; font-family: 'Geist Mono', monospace; color: var(--text-dim); opacity: 0.5; padding: 10px 0 4px; letter-spacing: 0.08em; text-transform: uppercase; }
 
-.pos-section-divider--with-step { display: flex; align-items: center; justify-content: space-between; opacity: 1; padding: 10px 0 10px; border-bottom: 1px solid var(--border); }
+.pos-section-divider--with-step { display: flex; align-items: center; justify-content: flex-end; opacity: 1; padding: 10px 0; border-bottom: 1px solid var(--border); }
 
 .pos-section-divider--with-step span:first-child { font-size: 9px; font-family: 'Geist Mono', monospace; color: var(--text-dim); letter-spacing: 0.08em; text-transform: uppercase; }
 

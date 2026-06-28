@@ -531,7 +531,6 @@ export default function Home() {
                   <span className="card-title">// coords</span>
                 </div>
                 <div className="pos-section-divider pos-section-divider--with-step">
-                  <span>step</span>
                   <div className="step-btns">
                     {[0.1, 0.5, 1, 5, 10].map(v => (
                       <button key={v} className={`step-btn${nudgeStep === v ? ' active' : ''}`} onClick={() => setStep(v)}>{v}</button>
