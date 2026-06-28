@@ -63,10 +63,6 @@ export default function Home() {
     imei1_x: 275, imei1_y: 670,
     imei2_x: 285, imei2_y: 955,
     meid_x: 285,  meid_y: 1238,
-    eid_txt_x: 102,   eid_txt_y: 470,
-    imei1_txt_x: 275, imei1_txt_y: 770,
-    imei2_txt_x: 285, imei2_txt_y: 1055,
-    meid_txt_x: 285,  meid_txt_y: 1338,
     font_size: 31,
     barcode_h: 80,
     barcode_w: 500,
@@ -273,16 +269,10 @@ export default function Home() {
         ctx.clearRect(0, 0, cvs.width, cvs.height);
         ctx.drawImage(img, 0, 0);
 
-        const meid = meidFromImei(im1);
-        drawBarcode(ctx, eid,  p.eid_x,   p.eid_y,   p.barcode_h, p.font_size, p.barcode_w);
-        drawBarcode(ctx, im1,  p.imei1_x, p.imei1_y, p.barcode_h, p.font_size, p.barcode_w);
-        drawBarcode(ctx, im2,  p.imei2_x, p.imei2_y, p.barcode_h, p.font_size, p.barcode_w);
-        drawBarcode(ctx, meid, p.meid_x,  p.meid_y,  p.barcode_h, p.font_size, p.barcode_w);
-
-        drawLabel(ctx, eid,  p.eid_txt_x,   p.eid_txt_y,   p.font_size);
-        drawLabel(ctx, im1,  p.imei1_txt_x, p.imei1_txt_y, p.font_size);
-        drawLabel(ctx, im2,  p.imei2_txt_x, p.imei2_txt_y, p.font_size);
-        drawLabel(ctx, meid, p.meid_txt_x,  p.meid_txt_y,  p.font_size);
+        drawBarcode(ctx, eid,               p.eid_x,   p.eid_y,   p.barcode_h, p.font_size, p.barcode_w);
+        drawBarcode(ctx, im1,               p.imei1_x, p.imei1_y, p.barcode_h, p.font_size, p.barcode_w);
+        drawBarcode(ctx, im2,               p.imei2_x, p.imei2_y, p.barcode_h, p.font_size, p.barcode_w);
+        drawBarcode(ctx, meidFromImei(im1), p.meid_x,  p.meid_y,  p.barcode_h, p.font_size, p.barcode_w);
 
         newResults.push({ url: cvs.toDataURL('image/png'), index: i + 1 });
       }
@@ -378,10 +368,14 @@ export default function Home() {
         format: 'CODE128',
         width: 2,
         height: barHeight,
-        displayValue: false,
+        displayValue: true,
+        fontSize: fontSize,
+        textMargin: 4,
         margin: 6,
         background: '#ffffff',
         lineColor: '#000000',
+        fontOptions: '',
+        font: '-apple-system, sans-serif',
       });
       if (barcodeWidth > 0 && tmp.width > 0) {
         const scaledH = tmp.height * (barcodeWidth / tmp.width);
@@ -395,13 +389,6 @@ export default function Home() {
       ctx.font = `400 ${fontSize}px -apple-system, sans-serif`;
       ctx.fillText(value, x, y);
     }
-  }
-
-  function drawLabel(ctx: CanvasRenderingContext2D, value: string, x: number, y: number, fontSize: number) {
-    ctx.fillStyle = '#000';
-    ctx.textBaseline = 'top';
-    ctx.font = `400 ${fontSize}px -apple-system, sans-serif`;
-    ctx.fillText(value, x, y);
   }
 
   function drawMarker(ctx: CanvasRenderingContext2D, x: number, y: number, color: string) {
@@ -432,29 +419,15 @@ export default function Home() {
     ctx.clearRect(0, 0, W, H);
     ctx.drawImage(img, 0, 0);
 
-    const previewEid  = '89049032012345678901234567890123';
-    const previewIm1  = '111111111111111';
-    const previewIm2  = '222222222222222';
-    const previewMeid = '11111111111111';
-
-    drawBarcode(ctx, previewEid,  p.eid_x,   p.eid_y,   p.barcode_h, p.font_size, p.barcode_w);
-    drawBarcode(ctx, previewIm1,  p.imei1_x, p.imei1_y, p.barcode_h, p.font_size, p.barcode_w);
-    drawBarcode(ctx, previewIm2,  p.imei2_x, p.imei2_y, p.barcode_h, p.font_size, p.barcode_w);
-    drawBarcode(ctx, previewMeid, p.meid_x,  p.meid_y,  p.barcode_h, p.font_size, p.barcode_w);
-
-    drawLabel(ctx, previewEid,  p.eid_txt_x,   p.eid_txt_y,   p.font_size);
-    drawLabel(ctx, previewIm1,  p.imei1_txt_x, p.imei1_txt_y, p.font_size);
-    drawLabel(ctx, previewIm2,  p.imei2_txt_x, p.imei2_txt_y, p.font_size);
-    drawLabel(ctx, previewMeid, p.meid_txt_x,  p.meid_txt_y,  p.font_size);
+    drawBarcode(ctx, '89049032012345678901234567890123', p.eid_x,   p.eid_y,   p.barcode_h, p.font_size, p.barcode_w);
+    drawBarcode(ctx, '111111111111111',                  p.imei1_x, p.imei1_y, p.barcode_h, p.font_size, p.barcode_w);
+    drawBarcode(ctx, '222222222222222',                  p.imei2_x, p.imei2_y, p.barcode_h, p.font_size, p.barcode_w);
+    drawBarcode(ctx, '11111111111111',                   p.meid_x,  p.meid_y,  p.barcode_h, p.font_size, p.barcode_w);
 
     drawMarker(ctx, p.eid_x,   p.eid_y,   '#f59e0b');
     drawMarker(ctx, p.imei1_x, p.imei1_y, '#3b82f6');
     drawMarker(ctx, p.imei2_x, p.imei2_y, '#10b981');
     drawMarker(ctx, p.meid_x,  p.meid_y,  '#e879f9');
-    drawMarker(ctx, p.eid_txt_x,   p.eid_txt_y,   '#f59e0b');
-    drawMarker(ctx, p.imei1_txt_x, p.imei1_txt_y, '#3b82f6');
-    drawMarker(ctx, p.imei2_txt_x, p.imei2_txt_y, '#10b981');
-    drawMarker(ctx, p.meid_txt_x,  p.meid_txt_y,  '#e879f9');
   }
 
   function handlePreviewClick(e: React.MouseEvent<HTMLCanvasElement>) {
@@ -621,11 +594,6 @@ export default function Home() {
                 <NudgeRow label="imei[0]" xField="imei1_x" yField="imei1_y" {...nudgeProps} />
                 <NudgeRow label="imei[1]" xField="imei2_x" yField="imei2_y" {...nudgeProps} />
                 <NudgeRow label="meid"    xField="meid_x"  yField="meid_y"  {...nudgeProps} />
-                <div className="pos-section-divider">// teks</div>
-                <NudgeRow label="eid.txt"     xField="eid_txt_x"   yField="eid_txt_y"   {...nudgeProps} />
-                <NudgeRow label="imei[0].txt" xField="imei1_txt_x" yField="imei1_txt_y" {...nudgeProps} />
-                <NudgeRow label="imei[1].txt" xField="imei2_txt_x" yField="imei2_txt_y" {...nudgeProps} />
-                <NudgeRow label="meid.txt"    xField="meid_txt_x"  yField="meid_txt_y"  {...nudgeProps} />
                 <div className="pos-row font-sz-row">
                   <span className="pos-label">font_sz</span>
                   <div className="nudge-group">
