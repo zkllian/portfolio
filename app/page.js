@@ -189,6 +189,8 @@ export default function Home() {
     const ctx = cvs.getContext('2d');
     const newResults = [];
 
+    const scrollY = window.scrollY;
+
     setIsLoading(true);
     setShowResults(false);
 
@@ -222,6 +224,7 @@ export default function Home() {
     setShowResults(true);
     setShowReset(true);
     setResultLabel(totalSets + ' result' + (totalSets > 1 ? 's' : ''));
+    requestAnimationFrame(() => window.scrollTo({ top: scrollY, behavior: 'instant' }));
   }
 
   function downloadImage(dataUrl, index) {
@@ -488,14 +491,14 @@ export default function Home() {
         </div>
 
         {showResults && (
-          <div>
+          <div className="results-section">
             <div className="divider">
               <div className="divider-line"></div>
               <span className="divider-label">{resultLabel}</span>
               <div className="divider-line"></div>
             </div>
             {results.map(r => (
-              <div key={r.index} className="result-card">
+              <div key={r.index} className="result-card" style={{ animationDelay: `${(r.index - 1) * 80}ms` }}>
                 <div className="result-header">
                   <span className="result-name">barcode-{String(r.index).padStart(2, '0')}.png</span>
                   <span className="result-status"><div className="dot-ready"></div>ready</span>

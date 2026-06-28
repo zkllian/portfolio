@@ -114,7 +114,14 @@ textarea:focus { border-color: #444; }
 
 .divider-label { font-size: 11px; color: var(--text-dim); font-family: 'Geist Mono', monospace; white-space: nowrap; }
 
-.result-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin-bottom: 12px; transition: border-color .15s; }
+@keyframes fadeSlideIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.results-section { animation: fadeSlideIn .3s ease-out both; }
+
+.result-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin-bottom: 12px; transition: border-color .15s; animation: fadeSlideIn .35s ease-out both; }
 
 .result-card:hover { border-color: var(--border2); }
 
