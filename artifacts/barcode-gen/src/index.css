@@ -39,32 +39,16 @@ body {
   font-family: 'Geist', -apple-system, BlinkMacSystemFont, sans-serif;
   font-size: 14px;
   min-height: 100vh;
-  padding-top: calc(var(--navbar-h) + 8px);
+  padding-top: 0;
   padding-bottom: 80px;
   line-height: 1.5;
 }
 
-/* ── Sticky Navbar ── */
-.navbar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 200;
-  background: rgba(0,0,0,0.85);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border-bottom: 1px solid var(--border);
-  height: var(--navbar-h);
-  display: flex;
-  align-items: center;
-}
-
-.navbar-inner {
+/* ── Inline logo row ── */
+.logo-wrap {
   max-width: 480px;
   margin: 0 auto;
-  width: 100%;
-  padding: 0 16px;
+  padding: 20px 16px 0;
 }
 
 .logo-row { display: flex; align-items: center; gap: 10px; }

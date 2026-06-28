@@ -444,22 +444,20 @@ export default function Home() {
 
   return (
     <>
-      <div className="navbar">
-        <div className="navbar-inner">
-          <div className="logo-row">
-            <div className="logo-icon-wrap" onClick={secretClick}>
-              <div className="logo-icon-ring"></div>
-              <div className="logo-icon"></div>
-              <div className={`logo-hint${dotHintVisible ? ' visible' : ''}`}>
-                <span className="logo-hint-arrow"></span>
-                {dotHintMsg}
-              </div>
+      <div className="logo-wrap">
+        <div className="logo-row">
+          <div className="logo-icon-wrap" onClick={secretClick}>
+            <div className="logo-icon-ring"></div>
+            <div className="logo-icon"></div>
+            <div className={`logo-hint${dotHintVisible ? ' visible' : ''}`}>
+              <span className="logo-hint-arrow"></span>
+              {dotHintMsg}
             </div>
-            <div className="logo-label">
-              <span className="logo-name">barcode-gen</span>
-              <span className="logo-sep"> / </span>
-              <span>imei</span>
-            </div>
+          </div>
+          <div className="logo-label">
+            <span className="logo-name">barcode-gen</span>
+            <span className="logo-sep"> / </span>
+            <span>imei</span>
           </div>
         </div>
       </div>
