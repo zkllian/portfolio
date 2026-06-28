@@ -930,7 +930,7 @@ textarea:focus{
       </div>
     </div>
     <div class="page-title">Barcode Generator</div>
-    <div class="page-desc">Generate barcode dari IMEI number. Masukkan minimal 2 IMEI, masing-masing 15 digit.</div>
+    <div class="page-desc">Generate barcode dari IMEI number. Masukkan IMEI 1 dan IMEI 2, masing-masing 15 digit. EID akan di-generate otomatis.</div>
   </div>
 
   <!-- Input Card -->
@@ -942,11 +942,11 @@ textarea:focus{
 
     <div class="input-wrap">
       <div class="line-nums" id="lineNums">1</div>
-      <textarea id="bulkInput" placeholder="89014103211118510720  ← EID (32 digit)&#10;359876012345678       ← IMEI 1 (15 digit)&#10;359876012345679       ← IMEI 2 (15 digit)&#10;&#10;89014103211118510721  ← set berikutnya&#10;359876012345680&#10;359876012345681"></textarea>
+      <textarea id="bulkInput" placeholder="359876012345678  ← IMEI 1 (15 digit)&#10;359876012345679  ← IMEI 2 (15 digit)&#10;&#10;359876012345680  ← set berikutnya&#10;359876012345681"></textarea>
     </div>
 
     <div class="input-hint">
-      3 baris per set <span>·</span> EID (32) → IMEI 1 (15) → IMEI 2 (15)
+      2 baris per set <span>·</span> IMEI 1 (15) → IMEI 2 (15) <span>·</span> EID auto
     </div>
 
     <div class="btn-row">
@@ -1230,7 +1230,7 @@ input.addEventListener("input", () => {
 
 function updateMeta() {
   const lines = input.value.split("\n").filter(Boolean);
-  const sets = Math.floor(lines.length / 3);
+  const sets = Math.floor(lines.length / 2);
   imeiCount.textContent = sets + " set";
   const allLines = input.value.split("\n");
   lineNums.textContent = allLines.map((_, i) => i + 1).join("\n") || "1";
@@ -1289,21 +1289,19 @@ async function shareImage(dataUrl, index) {
 async function generateBulk() {
   const lines = input.value.split("\n").map(v => v.trim()).filter(Boolean);
 
-  if (lines.length < 3) {
-    showToast("Minimal 1 set: EID (32 digit) + IMEI 1 + IMEI 2");
+  if (lines.length < 2) {
+    showToast("Minimal 1 set: IMEI 1 + IMEI 2 (masing-masing 15 digit)");
     return;
   }
 
-  const totalSets = Math.floor(lines.length / 3);
+  const totalSets = Math.floor(lines.length / 2);
   const errors = [];
 
   for (let i = 0; i < totalSets; i++) {
-    const eid  = lines[i * 3];
-    const im1  = lines[i * 3 + 1];
-    const im2  = lines[i * 3 + 2];
-    if (eid.length !== 32)  errors.push(`Set ${i+1}: EID harus 32 digit (dapat ${eid.length})`);
-    if (im1.length !== 15)  errors.push(`Set ${i+1}: IMEI 1 harus 15 digit (dapat ${im1.length})`);
-    if (im2.length !== 15)  errors.push(`Set ${i+1}: IMEI 2 harus 15 digit (dapat ${im2.length})`);
+    const im1 = lines[i * 2];
+    const im2 = lines[i * 2 + 1];
+    if (im1.length !== 15) errors.push(`Set ${i+1}: IMEI 1 harus 15 digit (dapat ${im1.length})`);
+    if (im2.length !== 15) errors.push(`Set ${i+1}: IMEI 2 harus 15 digit (dapat ${im2.length})`);
   }
 
   if (errors.length) {
@@ -1319,9 +1317,9 @@ async function generateBulk() {
     setLoading(true, i + 1, totalSets);
     await new Promise(r => setTimeout(r, 30));
 
-    const eid  = lines[i * 3];
-    const im1  = lines[i * 3 + 1];
-    const im2  = lines[i * 3 + 2];
+    const eid  = randomDigits(32);
+    const im1  = lines[i * 2];
+    const im2  = lines[i * 2 + 1];
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.drawImage(baseImage, 0, 0);
