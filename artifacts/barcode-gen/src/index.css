@@ -369,15 +369,17 @@ textarea:focus { border-color: #444; }
 
 .pos-card { overflow: hidden; }
 
-.coords-tabs { display: flex; gap: 4px; padding: 12px 0 10px; border-bottom: 1px solid var(--border); margin-bottom: 2px; }
+.coords-tabs { display: flex; gap: 4px; padding: 12px 0 10px; border-bottom: 1px solid var(--border); margin-bottom: 0; }
 
 .coords-tab { padding: 4px 14px; font-size: 10px; font-family: 'Geist Mono', monospace; background: transparent; border: 1px solid var(--border2); border-radius: 999px; color: var(--text-dim); cursor: pointer; transition: background .12s, color .12s, border-color .12s; }
 
 .coords-tab.active { background: var(--surface2); border-color: #555; color: var(--text); }
 
-.pos-section-divider { font-size: 9px; font-family: 'Geist Mono', monospace; color: var(--text-dim); opacity: 0.5; padding: 8px 0 4px; letter-spacing: 0.08em; text-transform: uppercase; }
+.pos-section-divider { font-size: 9px; font-family: 'Geist Mono', monospace; color: var(--text-dim); opacity: 0.5; padding: 10px 0 4px; letter-spacing: 0.08em; text-transform: uppercase; }
 
-.pos-section-divider--with-step { display: flex; align-items: center; justify-content: space-between; opacity: 1; padding: 10px 0 6px; border-bottom: 1px solid var(--border); margin-bottom: 2px; }
+.pos-section-divider--with-step { display: flex; align-items: center; justify-content: space-between; opacity: 1; padding: 10px 0 10px; border-bottom: 1px solid var(--border); }
+
+.pos-section-divider--with-step span:first-child { font-size: 9px; font-family: 'Geist Mono', monospace; color: var(--text-dim); letter-spacing: 0.08em; text-transform: uppercase; }
 
 .pos-row { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border); }
 
@@ -389,7 +391,7 @@ textarea:focus { border-color: #444; }
 
 .pos-coord-badge { font-size: 9px; font-family: 'Geist Mono', monospace; color: var(--text-dim); white-space: nowrap; flex-shrink: 0; opacity: 0.55; min-width: 62px; }
 
-.nudge-step-row { display: flex; align-items: center; gap: 10px; padding: 8px 0 10px; border-bottom: 1px solid var(--border); margin-bottom: 2px; }
+.nudge-step-row { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--border); }
 
 .step-btns { display: flex; gap: 4px; }
 
@@ -407,11 +409,12 @@ textarea:focus { border-color: #444; }
 
 .nb:active { background: #2a2a2a; color: var(--text); transform: scale(.88); }
 
-.nudge-axis input { flex: 1; background: var(--surface2); border: 1px solid var(--border2); border-radius: var(--radius); color: var(--text); font-size: 12px; font-family: 'Geist Mono', monospace; padding: 5px 6px; outline: none; text-align: center; width: 0; min-width: 0; transition: border-color .15s; }
+.nudge-axis input { flex: 1; background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius); color: var(--text-dim); font-size: 12px; font-family: 'Geist Mono', monospace; padding: 5px 6px; outline: none; text-align: center; width: 0; min-width: 0; cursor: default; pointer-events: none; -moz-appearance: textfield; }
 
-.nudge-axis input:focus { border-color: #444; }
+.nudge-axis input::-webkit-outer-spin-button,
+.nudge-axis input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
 
-.font-sz-row { align-items: flex-start; padding-top: 12px; }
+.font-sz-row { align-items: flex-start; padding-top: 10px; }
 
 .font-step-row { display: flex; align-items: center; gap: 4px; margin-top: 6px; }
 

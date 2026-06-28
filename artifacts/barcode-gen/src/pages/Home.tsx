@@ -22,14 +22,14 @@ function SizeRow({ label, hField, wField, pos, onSetPos, onStartNudge, onStopNud
         <div className="nudge-axis">
           <span className="axis-lbl">H</span>
           <button className="nb" onPointerDown={() => onStartNudge(hField, -1)} onPointerUp={onStopNudge} onPointerLeave={onStopNudge}>‹</button>
-          <input type="number" min="20" max="300" step="1" value={pos[hField]}
+          <input type="number" min="20" max="300" step="1" value={pos[hField]} readOnly
             onChange={e => onSetPos(p => ({ ...p, [hField]: parseInt(e.target.value) || 20 }))} />
           <button className="nb" onPointerDown={() => onStartNudge(hField, 1)} onPointerUp={onStopNudge} onPointerLeave={onStopNudge}>›</button>
         </div>
         <div className="nudge-axis">
           <span className="axis-lbl">W</span>
           <button className="nb" onPointerDown={() => onStartNudge(wField, -1)} onPointerUp={onStopNudge} onPointerLeave={onStopNudge}>‹</button>
-          <input type="number" min="50" max="1000" step="1" value={pos[wField]}
+          <input type="number" min="50" max="1000" step="1" value={pos[wField]} readOnly
             onChange={e => onSetPos(p => ({ ...p, [wField]: parseInt(e.target.value) || 50 }))} />
           <button className="nb" onPointerDown={() => onStartNudge(wField, 1)} onPointerUp={onStopNudge} onPointerLeave={onStopNudge}>›</button>
         </div>
@@ -61,7 +61,7 @@ function NudgeRow({ label, xField, yField, pos, onSetPos, onStartNudge, onStopNu
             onPointerDown={() => onStartNudge(xField, -1)}
             onPointerUp={onStopNudge}
             onPointerLeave={onStopNudge}>‹</button>
-          <input type="number" value={pos[xField]}
+          <input type="number" value={pos[xField]} readOnly
             onChange={e => onSetPos(p => ({ ...p, [xField]: parseInt(e.target.value) || 0 }))} />
           <button className="nb"
             onPointerDown={() => onStartNudge(xField, 1)}
@@ -74,7 +74,7 @@ function NudgeRow({ label, xField, yField, pos, onSetPos, onStartNudge, onStopNu
             onPointerDown={() => onStartNudge(yField, -1)}
             onPointerUp={onStopNudge}
             onPointerLeave={onStopNudge}>▲</button>
-          <input type="number" value={pos[yField]}
+          <input type="number" value={pos[yField]} readOnly
             onChange={e => onSetPos(p => ({ ...p, [yField]: parseInt(e.target.value) || 0 }))} />
           <button className="nb"
             onPointerDown={() => onStartNudge(yField, 1)}
@@ -99,20 +99,20 @@ export default function Home() {
 
   const [coordsTab, setCoordsTab] = useState<'barcode' | 'text' | 'size'>('barcode');
   const [pos, setPos] = useState<Record<string, number>>({
-    eid_x: 19,     eid_y: 460,
-    imei1_x: 141,  imei1_y: 750,
-    imei2_x: 141,  imei2_y: 1040,
+    eid_x: 19,     eid_y: 454,
+    imei1_x: 141,  imei1_y: 744.5,
+    imei2_x: 140.5,imei2_y: 1035,
     meid_x: 179,   meid_y: 1325,
-    eid_tx: 110,   eid_ty: 369,
-    imei1_tx: 280, imei1_ty: 670,
-    imei2_tx: 290, imei2_ty: 955.5,
-    meid_tx: 290,  meid_ty: 1239.5,
-    letter_spacing: 0,
+    eid_tx: 98.8,  eid_ty: 370,
+    imei1_tx: 270, imei1_ty: 672,
+    imei2_tx: 278.5,imei2_ty: 956.5,
+    meid_tx: 287.5,meid_ty: 1240,
+    letter_spacing: 0.5,
     font_size: 30.5,
-    eid_h: 65,    eid_w: 700,    eid_op: 1,
-    imei1_h: 65,  imei1_w: 455,  imei1_op: 1,
-    imei2_h: 65,  imei2_w: 455,  imei2_op: 1,
-    meid_h: 65,   meid_w: 380,   meid_op: 1,
+    eid_h: 72,    eid_w: 700.5,  eid_op: 1,
+    imei1_h: 71,  imei1_w: 455,  imei1_op: 1,
+    imei2_h: 69,  imei2_w: 455,  imei2_op: 1,
+    meid_h: 69.5, meid_w: 380,   meid_op: 1,
   });
   const posRef = useRef(pos);
   const [nudgeStep, setNudgeStep] = useState(1);
@@ -641,7 +641,7 @@ export default function Home() {
                           <div className="nudge-axis">
                             <span className="axis-lbl">α</span>
                             <button className="nb" onClick={() => setPos(p => ({ ...p, [field]: parseFloat(Math.max(0, (p[field] ?? 1) - 0.05).toFixed(2)) }))}>‹</button>
-                            <input type="number" min="0" max="1" step="0.05" value={(pos[field] ?? 1).toFixed(2)}
+                            <input type="number" min="0" max="1" step="0.05" value={(pos[field] ?? 1).toFixed(2)} readOnly
                               onChange={e => setPos(p => ({ ...p, [field]: Math.max(0, Math.min(1, parseFloat(e.target.value) || 0)) }))} />
                             <button className="nb" onClick={() => setPos(p => ({ ...p, [field]: parseFloat(Math.min(1, (p[field] ?? 1) + 0.05).toFixed(2)) }))}>›</button>
                           </div>
@@ -667,7 +667,7 @@ export default function Home() {
                         <div className="nudge-axis">
                           <span className="axis-lbl">px</span>
                           <button className="nb" onPointerDown={() => startLetterSpacingNudge(-1)} onPointerUp={stopNudge} onPointerLeave={stopNudge}>‹</button>
-                          <input type="number" min="-20" max="100" step="0.5" value={pos.letter_spacing}
+                          <input type="number" min="-20" max="100" step="0.5" value={pos.letter_spacing} readOnly
                             onChange={e => setPos(p => ({ ...p, letter_spacing: parseFloat(e.target.value) || 0 }))} />
                           <button className="nb" onPointerDown={() => startLetterSpacingNudge(1)} onPointerUp={stopNudge} onPointerLeave={stopNudge}>›</button>
                         </div>
@@ -688,7 +688,7 @@ export default function Home() {
                         <div className="nudge-axis">
                           <span className="axis-lbl">px</span>
                           <button className="nb" onPointerDown={() => startFontNudge(-1)} onPointerUp={stopNudge} onPointerLeave={stopNudge}>‹</button>
-                          <input type="number" min="8" max="60" step="0.5" value={pos.font_size}
+                          <input type="number" min="8" max="60" step="0.5" value={pos.font_size} readOnly
                             onChange={e => setPos(p => ({ ...p, font_size: parseFloat(e.target.value) || 8 }))} />
                           <button className="nb" onPointerDown={() => startFontNudge(1)} onPointerUp={stopNudge} onPointerLeave={stopNudge}>›</button>
                         </div>
