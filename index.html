@@ -575,8 +575,9 @@ textarea:focus{
 
 .dot-hint{
   position:absolute;
-  bottom:calc(100% + 8px);
-  right:0;
+  right:calc(100% + 8px);
+  top:50%;
+  transform:translateY(-50%) translateX(4px);
   background:#111;
   border:1px solid #2a2a2a;
   color:#aaa;
@@ -587,22 +588,22 @@ textarea:focus{
   border-radius:6px;
   pointer-events:none;
   opacity:0;
-  transform:translateY(4px);
   transition:opacity .3s ease, transform .3s ease;
 }
 
 .dot-hint::after{
   content:'';
   position:absolute;
-  top:100%;
-  right:6px;
+  top:50%;
+  left:100%;
+  transform:translateY(-50%);
   border:5px solid transparent;
-  border-top-color:#2a2a2a;
+  border-left-color:#2a2a2a;
 }
 
 .dot-hint.visible{
   opacity:1;
-  transform:translateY(0);
+  transform:translateY(-50%) translateX(0);
 }
 
 /* Position settings */
