@@ -556,7 +556,12 @@ export default function Home() {
         {view === 'results' && (
           <div className="view-results">
             <div className="results-topbar">
-              <button className="results-back-btn" onClick={goBack}>‹ Kembali</button>
+              <button className="results-back-btn" onClick={goBack}>
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M8.5 2.5L4 7L8.5 11.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+                Kembali
+              </button>
               <span className="results-count-badge">{resultLabel}</span>
               <button className="results-reset-btn" onClick={resetAll}>Reset</button>
             </div>
