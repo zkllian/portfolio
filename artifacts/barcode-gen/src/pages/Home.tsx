@@ -1,5 +1,6 @@
 'use client';
 import { useEffect, useRef, useState, useCallback } from 'react';
+import JsBarcode from 'jsbarcode';
 
 function NudgeRow({ label, xField, yField, pos, onSetPos, onStartNudge, onStopNudge }: {
   label: string;
@@ -63,6 +64,7 @@ export default function Home() {
     imei2_x: 285, imei2_y: 955,
     meid_x: 285, meid_y: 1238,
     font_size: 31,
+    barcode_h: 80,
   });
   const posRef = useRef(pos);
   const [nudgeStep, setNudgeStep] = useState(1);
@@ -265,15 +267,11 @@ export default function Home() {
 
         ctx.clearRect(0, 0, cvs.width, cvs.height);
         ctx.drawImage(img, 0, 0);
-        ctx.fillStyle = '#000';
-        ctx.textBaseline = 'top';
-        ctx.textAlign = 'left';
-        ctx.font = `400 ${p.font_size}px 'SF Pro Custom', -apple-system, sans-serif`;
 
-        ctx.fillText(eid,               p.eid_x,   p.eid_y);
-        ctx.fillText(im1,               p.imei1_x, p.imei1_y);
-        ctx.fillText(im2,               p.imei2_x, p.imei2_y);
-        ctx.fillText(meidFromImei(im1), p.meid_x,  p.meid_y);
+        drawBarcode(ctx, eid,               p.eid_x,   p.eid_y,   p.barcode_h, p.font_size);
+        drawBarcode(ctx, im1,               p.imei1_x, p.imei1_y, p.barcode_h, p.font_size);
+        drawBarcode(ctx, im2,               p.imei2_x, p.imei2_y, p.barcode_h, p.font_size);
+        drawBarcode(ctx, meidFromImei(im1), p.meid_x,  p.meid_y,  p.barcode_h, p.font_size);
 
         newResults.push({ url: cvs.toDataURL('image/png'), index: i + 1 });
       }
@@ -362,6 +360,31 @@ export default function Home() {
     setPos(prev => ({ ...prev, [field]: (prev[field] || 0) + dir * nudgeStepRef.current }));
   }
 
+  function drawBarcode(ctx: CanvasRenderingContext2D, value: string, x: number, y: number, barHeight: number, fontSize: number) {
+    const tmp = document.createElement('canvas');
+    try {
+      JsBarcode(tmp, value, {
+        format: 'CODE128',
+        width: 2,
+        height: barHeight,
+        displayValue: true,
+        fontSize: fontSize,
+        textMargin: 4,
+        margin: 6,
+        background: '#ffffff',
+        lineColor: '#000000',
+        fontOptions: '',
+        font: "-apple-system, sans-serif",
+      });
+      ctx.drawImage(tmp, x, y);
+    } catch {
+      ctx.fillStyle = '#000';
+      ctx.textBaseline = 'top';
+      ctx.font = `400 ${fontSize}px -apple-system, sans-serif`;
+      ctx.fillText(value, x, y);
+    }
+  }
+
   function drawMarker(ctx: CanvasRenderingContext2D, x: number, y: number, color: string) {
     const s = 14;
     ctx.strokeStyle = color; ctx.lineWidth = 3;
@@ -389,13 +412,11 @@ export default function Home() {
 
     ctx.clearRect(0, 0, W, H);
     ctx.drawImage(img, 0, 0);
-    ctx.fillStyle = '#000'; ctx.textBaseline = 'top'; ctx.textAlign = 'left';
-    ctx.font = `400 ${p.font_size}px 'SF Pro Custom', -apple-system, sans-serif`;
 
-    ctx.fillText('88166587266534996332652007294687', p.eid_x,   p.eid_y);
-    ctx.fillText('111111111111111',                  p.imei1_x, p.imei1_y);
-    ctx.fillText('222222222222222',                  p.imei2_x, p.imei2_y);
-    ctx.fillText('11111111111111',                   p.meid_x,  p.meid_y);
+    drawBarcode(ctx, '89049032012345678901234567890123', p.eid_x,   p.eid_y,   p.barcode_h, p.font_size);
+    drawBarcode(ctx, '111111111111111',                  p.imei1_x, p.imei1_y, p.barcode_h, p.font_size);
+    drawBarcode(ctx, '222222222222222',                  p.imei2_x, p.imei2_y, p.barcode_h, p.font_size);
+    drawBarcode(ctx, '11111111111111',                   p.meid_x,  p.meid_y,  p.barcode_h, p.font_size);
 
     drawMarker(ctx, p.eid_x,   p.eid_y,   '#f59e0b');
     drawMarker(ctx, p.imei1_x, p.imei1_y, '#3b82f6');
@@ -601,6 +622,19 @@ export default function Home() {
                     </div>
                   </div>
                 </div>
+                <div className="pos-row">
+                  <span className="pos-label">bar_h</span>
+                  <div className="nudge-group">
+                    <div className="nudge-axis">
+                      <span className="axis-lbl">px</span>
+                      <button className="nb" onPointerDown={() => startNudge('barcode_h', -1)} onPointerUp={stopNudge} onPointerLeave={stopNudge}>‹</button>
+                      <input type="number" min="20" max="300" step="1" value={pos.barcode_h}
+                        onChange={e => setPos(p => ({ ...p, barcode_h: parseInt(e.target.value) || 20 }))} />
+                      <button className="nb" onPointerDown={() => startNudge('barcode_h', 1)} onPointerUp={stopNudge} onPointerLeave={stopNudge}>›</button>
+                    </div>
+                  </div>
+                </div>
+
                 <div className="preview-wrap">
                   <div className="preview-header">
                     <span className="preview-label">live preview</span>
