@@ -653,6 +653,110 @@ textarea:focus{
 
 .pos-inputs input:focus{border-color:#444;}
 
+/* Live preview */
+.preview-wrap{
+  margin-top:14px;
+  border-top:1px solid var(--border);
+  padding-top:14px;
+}
+
+.preview-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:10px;
+}
+
+.preview-label{
+  font-size:11px;
+  font-family:'Geist Mono',monospace;
+  color:var(--text-dim);
+  text-transform:uppercase;
+  letter-spacing:.08em;
+}
+
+.preview-dim{
+  font-size:11px;
+  font-family:'Geist Mono',monospace;
+  color:var(--text-dim);
+  opacity:.5;
+}
+
+.preview-stage{
+  position:relative;
+  border-radius:8px;
+  overflow:hidden;
+  border:1px solid var(--border);
+  background:#111;
+  cursor:crosshair;
+}
+
+#previewCanvas{
+  display:block;
+  width:100%;
+  height:auto;
+}
+
+.preview-tap-hint{
+  position:absolute;
+  bottom:8px;
+  left:50%;
+  transform:translateX(-50%);
+  font-size:10px;
+  font-family:'Geist Mono',monospace;
+  color:rgba(255,255,255,.35);
+  background:rgba(0,0,0,.5);
+  padding:3px 8px;
+  border-radius:4px;
+  white-space:nowrap;
+  pointer-events:none;
+}
+
+.preview-pick-info{
+  margin-top:10px;
+  padding:10px 12px;
+  background:var(--surface2);
+  border:1px solid var(--border2);
+  border-radius:var(--radius);
+}
+
+.pick-label{
+  display:block;
+  font-size:11px;
+  font-family:'Geist Mono',monospace;
+  color:var(--text-muted);
+  margin-bottom:8px;
+}
+
+.pick-btns{
+  display:flex;
+  gap:6px;
+  flex-wrap:wrap;
+}
+
+.pick-btns button{
+  padding:5px 12px;
+  font-size:11px;
+  font-family:'Geist Mono',monospace;
+  font-weight:500;
+  background:var(--surface);
+  border:1px solid var(--border2);
+  border-radius:6px;
+  color:var(--text);
+  cursor:pointer;
+  transition:background .15s, border-color .15s;
+}
+
+.pick-btns button:hover{
+  background:#1a1a1a;
+  border-color:#444;
+}
+
+.pick-btns button.pick-cancel{
+  color:var(--text-dim);
+  margin-left:auto;
+}
+
 /* Alert toast */
 .toast{
   position:fixed;
@@ -761,6 +865,27 @@ textarea:focus{
         <span class="pos-label">Font size</span>
         <div class="pos-inputs">
           <label>px <input type="number" id="font_size" value="17" min="8" max="60"></label>
+        </div>
+      </div>
+
+      <!-- Live Preview -->
+      <div class="preview-wrap">
+        <div class="preview-header">
+          <span class="preview-label">live preview</span>
+          <span class="preview-dim" id="previewDim">738 × 1600</span>
+        </div>
+        <div class="preview-stage">
+          <canvas id="previewCanvas"></canvas>
+          <div class="preview-tap-hint">tap gambar → ambil koordinat X,Y</div>
+        </div>
+        <div class="preview-pick-info" id="previewPickInfo" style="display:none;">
+          <span class="pick-label" id="pickLabel">Pilih field target:</span>
+          <div class="pick-btns">
+            <button onclick="applyPick('eid')">EID</button>
+            <button onclick="applyPick('imei1')">IMEI 1</button>
+            <button onclick="applyPick('imei2')">IMEI 2</button>
+            <button class="pick-cancel" onclick="cancelPick()">Batal</button>
+          </div>
         </div>
       </div>
     </div>
@@ -1066,7 +1191,122 @@ function togglePos() {
   const arrow = document.getElementById('posArrow');
   const open = body.classList.toggle('open');
   arrow.classList.toggle('open', open);
+  if (open) drawPreview();
 }
+
+// ── Live Preview ─────────────────────────────────────────────
+const previewCanvas = document.getElementById('previewCanvas');
+const previewCtx = previewCanvas.getContext('2d');
+let pickedX = 0, pickedY = 0;
+
+function getPos() {
+  const fs   = parseInt(document.getElementById('font_size').value) || 17;
+  return {
+    fs,
+    ex:  parseInt(document.getElementById('eid_x').value)   || 28,
+    ey:  parseInt(document.getElementById('eid_y').value)   || 645,
+    i1x: parseInt(document.getElementById('imei1_x').value) || 28,
+    i1y: parseInt(document.getElementById('imei1_y').value) || 863,
+    i2x: parseInt(document.getElementById('imei2_x').value) || 28,
+    i2y: parseInt(document.getElementById('imei2_y').value) || 1083,
+  };
+}
+
+function drawPreview() {
+  if (!baseImage.complete || !baseImage.naturalWidth) return;
+  const W = baseImage.width, H = baseImage.height;
+  previewCanvas.width  = W;
+  previewCanvas.height = H;
+  document.getElementById('previewDim').textContent = `${W} × ${H}`;
+
+  const p = getPos();
+  previewCtx.clearRect(0, 0, W, H);
+  previewCtx.drawImage(baseImage, 0, 0);
+
+  previewCtx.fillStyle = '#000';
+  previewCtx.textBaseline = 'top';
+  previewCtx.textAlign = 'left';
+  previewCtx.font = `400 ${p.fs}px -apple-system, 'Helvetica Neue', sans-serif`;
+
+  previewCtx.fillText('88166587266534996332652007294687', p.ex,  p.ey);
+  previewCtx.fillText('111111111111111',                  p.i1x, p.i1y);
+  previewCtx.fillText('222222222222222',                  p.i2x, p.i2y);
+
+  // crosshair markers
+  drawMarker(p.ex,  p.ey,  '#f59e0b');
+  drawMarker(p.i1x, p.i1y, '#3b82f6');
+  drawMarker(p.i2x, p.i2y, '#10b981');
+
+  // legend
+  const legend = [
+    { color:'#f59e0b', label:'EID' },
+    { color:'#3b82f6', label:'IMEI 1' },
+    { color:'#10b981', label:'IMEI 2' },
+  ];
+  legend.forEach((l, i) => {
+    previewCtx.fillStyle = l.color;
+    previewCtx.fillRect(16, 16 + i * 36, 10, 10);
+    previewCtx.fillStyle = '#000';
+    previewCtx.font = `500 ${Math.max(p.fs - 2, 12)}px -apple-system, sans-serif`;
+    previewCtx.fillText(l.label, 32, 14 + i * 36);
+  });
+}
+
+function drawMarker(x, y, color) {
+  const s = 14;
+  previewCtx.strokeStyle = color;
+  previewCtx.lineWidth = 3;
+  previewCtx.beginPath();
+  previewCtx.moveTo(x - s, y + 5); previewCtx.lineTo(x + s, y + 5);
+  previewCtx.moveTo(x, y + 5 - s); previewCtx.lineTo(x, y + 5 + s);
+  previewCtx.stroke();
+  previewCtx.strokeStyle = 'rgba(255,255,255,0.6)';
+  previewCtx.lineWidth = 1;
+  previewCtx.beginPath();
+  previewCtx.moveTo(x - s + 2, y + 5); previewCtx.lineTo(x + s - 2, y + 5);
+  previewCtx.moveTo(x, y + 5 - s + 2); previewCtx.lineTo(x, y + 5 + s - 2);
+  previewCtx.stroke();
+}
+
+// Tap on preview → pick coordinate
+previewCanvas.addEventListener('click', e => {
+  const rect = previewCanvas.getBoundingClientRect();
+  const scaleX = previewCanvas.width  / rect.width;
+  const scaleY = previewCanvas.height / rect.height;
+  pickedX = Math.round((e.clientX - rect.left) * scaleX);
+  pickedY = Math.round((e.clientY - rect.top)  * scaleY);
+  document.getElementById('pickLabel').textContent =
+    `X: ${pickedX}  Y: ${pickedY} → terapkan ke:`;
+  document.getElementById('previewPickInfo').style.display = 'block';
+});
+
+function applyPick(field) {
+  if (field === 'eid') {
+    document.getElementById('eid_x').value  = pickedX;
+    document.getElementById('eid_y').value  = pickedY;
+  } else if (field === 'imei1') {
+    document.getElementById('imei1_x').value = pickedX;
+    document.getElementById('imei1_y').value = pickedY;
+  } else {
+    document.getElementById('imei2_x').value = pickedX;
+    document.getElementById('imei2_y').value = pickedY;
+  }
+  cancelPick();
+  drawPreview();
+}
+
+function cancelPick() {
+  document.getElementById('previewPickInfo').style.display = 'none';
+}
+
+// Auto-redraw on any input change
+document.querySelectorAll('#posBody input').forEach(inp => {
+  inp.addEventListener('input', drawPreview);
+});
+
+// Draw when image loads (in case panel already open)
+baseImage.addEventListener('load', () => { if (document.getElementById('posBody').classList.contains('open')) drawPreview(); });
+// ─────────────────────────────────────────────────────────────
 </script>
 
 </body>
