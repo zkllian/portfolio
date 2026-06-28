@@ -111,10 +111,10 @@ export default function Home() {
     meid_tx: 290,  meid_ty: 1239.5,
     letter_spacing: 0,
     font_size: 30.5,
-    eid_h: 65,    eid_w: 700,
-    imei1_h: 65,  imei1_w: 455,
-    imei2_h: 65,  imei2_w: 455,
-    meid_h: 65,   meid_w: 380,
+    eid_h: 65,    eid_w: 700,    eid_op: 1,
+    imei1_h: 65,  imei1_w: 455,  imei1_op: 1,
+    imei2_h: 65,  imei2_w: 455,  imei2_op: 1,
+    meid_h: 65,   meid_w: 380,   meid_op: 1,
   });
   const posRef = useRef(pos);
   const [nudgeStep, setNudgeStep] = useState(1);
@@ -310,10 +310,10 @@ export default function Home() {
         ctx.clearRect(0, 0, cvs.width, cvs.height);
         ctx.drawImage(img, 0, 0);
 
-        drawBarcode(ctx, eid,               p.eid_x,   p.eid_y,   p.eid_h,   p.font_size, p.eid_w);
-        drawBarcode(ctx, im1,               p.imei1_x, p.imei1_y, p.imei1_h, p.font_size, p.imei1_w);
-        drawBarcode(ctx, im2,               p.imei2_x, p.imei2_y, p.imei2_h, p.font_size, p.imei2_w);
-        drawBarcode(ctx, meidFromImei(im1), p.meid_x,  p.meid_y,  p.meid_h,  p.font_size, p.meid_w);
+        drawBarcode(ctx, eid,               p.eid_x,   p.eid_y,   p.eid_h,   p.font_size, p.eid_w,   p.eid_op);
+        drawBarcode(ctx, im1,               p.imei1_x, p.imei1_y, p.imei1_h, p.font_size, p.imei1_w, p.imei1_op);
+        drawBarcode(ctx, im2,               p.imei2_x, p.imei2_y, p.imei2_h, p.font_size, p.imei2_w, p.imei2_op);
+        drawBarcode(ctx, meidFromImei(im1), p.meid_x,  p.meid_y,  p.meid_h,  p.font_size, p.meid_w,  p.meid_op);
 
         newResults.push({ url: cvs.toDataURL('image/png'), index: i + 1 });
       }
@@ -416,7 +416,7 @@ export default function Home() {
     setPos(prev => ({ ...prev, [field]: (prev[field] || 0) + dir * nudgeStepRef.current }));
   }
 
-  function drawBarcode(ctx: CanvasRenderingContext2D, value: string, x: number, y: number, barHeight: number, fontSize: number, barcodeWidth: number) {
+  function drawBarcode(ctx: CanvasRenderingContext2D, value: string, x: number, y: number, barHeight: number, fontSize: number, barcodeWidth: number, opacity = 1) {
     const tmp = document.createElement('canvas');
     try {
       JsBarcode(tmp, value, {
@@ -428,17 +428,21 @@ export default function Home() {
         background: '#ffffff',
         lineColor: '#000000',
       });
+      ctx.globalAlpha = Math.max(0, Math.min(1, opacity));
       if (barcodeWidth > 0 && tmp.width > 0) {
         const scaledH = tmp.height * (barcodeWidth / tmp.width);
         ctx.drawImage(tmp, x, y, barcodeWidth, scaledH);
       } else {
         ctx.drawImage(tmp, x, y);
       }
+      ctx.globalAlpha = 1;
     } catch {
+      ctx.globalAlpha = Math.max(0, Math.min(1, opacity));
       ctx.fillStyle = '#000';
       ctx.textBaseline = 'top';
       ctx.font = `400 ${fontSize}px -apple-system, sans-serif`;
       ctx.fillText(value, x, y);
+      ctx.globalAlpha = 1;
     }
   }
 
@@ -456,10 +460,10 @@ export default function Home() {
     ctx.clearRect(0, 0, W, H);
     ctx.drawImage(img, 0, 0);
 
-    drawBarcode(ctx, '89049032000209061050588208994839', p.eid_x,   p.eid_y,   p.eid_h,   p.font_size, p.eid_w);
-    drawBarcode(ctx, '356730111869006',                  p.imei1_x, p.imei1_y, p.imei1_h, p.font_size, p.imei1_w);
-    drawBarcode(ctx, '356687114789203',                  p.imei2_x, p.imei2_y, p.imei2_h, p.font_size, p.imei2_w);
-    drawBarcode(ctx, '35673011186900',                   p.meid_x,  p.meid_y,  p.meid_h,  p.font_size, p.meid_w);
+    drawBarcode(ctx, '89049032000209061050588208994839', p.eid_x,   p.eid_y,   p.eid_h,   p.font_size, p.eid_w,   p.eid_op);
+    drawBarcode(ctx, '356730111869006',                  p.imei1_x, p.imei1_y, p.imei1_h, p.font_size, p.imei1_w, p.imei1_op);
+    drawBarcode(ctx, '356687114789203',                  p.imei2_x, p.imei2_y, p.imei2_h, p.font_size, p.imei2_w, p.imei2_op);
+    drawBarcode(ctx, '35673011186900',                   p.meid_x,  p.meid_y,  p.meid_h,  p.font_size, p.meid_w,  p.meid_op);
 
     ctx.font = `400 ${p.font_size}px 'SF Pro Custom', -apple-system, sans-serif`;
     ctx.letterSpacing = `${p.letter_spacing}px`;
@@ -621,6 +625,30 @@ export default function Home() {
                     <NudgeRow label="imei[0]" xField="imei1_x" yField="imei1_y" {...nudgeProps} color="#3b82f6" />
                     <NudgeRow label="imei[1]" xField="imei2_x" yField="imei2_y" {...nudgeProps} color="#10b981" />
                     <NudgeRow label="meid"    xField="meid_x"  yField="meid_y"  {...nudgeProps} color="#e879f9" />
+                    <div className="pos-section-divider"><span>opacity</span></div>
+                    {([
+                      { label: 'eid',     field: 'eid_op',   color: '#f59e0b' },
+                      { label: 'imei[0]', field: 'imei1_op', color: '#3b82f6' },
+                      { label: 'imei[1]', field: 'imei2_op', color: '#10b981' },
+                      { label: 'meid',    field: 'meid_op',  color: '#e879f9' },
+                    ] as const).map(({ label, field, color }) => (
+                      <div key={field} className="pos-row">
+                        <span className="pos-label">
+                          <span className="pos-dot" style={{ background: color }} />
+                          {label}
+                        </span>
+                        <span className="pos-coord-badge">{(pos[field] ?? 1).toFixed(2)}</span>
+                        <div className="nudge-group">
+                          <div className="nudge-axis">
+                            <span className="axis-lbl">α</span>
+                            <button className="nb" onClick={() => setPos(p => ({ ...p, [field]: parseFloat(Math.max(0, (p[field] ?? 1) - 0.05).toFixed(2)) }))}>‹</button>
+                            <input type="number" min="0" max="1" step="0.05" value={(pos[field] ?? 1).toFixed(2)}
+                              onChange={e => setPos(p => ({ ...p, [field]: Math.max(0, Math.min(1, parseFloat(e.target.value) || 0)) }))} />
+                            <button className="nb" onClick={() => setPos(p => ({ ...p, [field]: parseFloat(Math.min(1, (p[field] ?? 1) + 0.05).toFixed(2)) }))}>›</button>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
                   </>
                 )}
 
