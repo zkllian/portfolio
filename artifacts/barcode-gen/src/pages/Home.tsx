@@ -65,6 +65,7 @@ export default function Home() {
     meid_x: 285, meid_y: 1238,
     font_size: 31,
     barcode_h: 80,
+    barcode_w: 500,
   });
   const posRef = useRef(pos);
   const [nudgeStep, setNudgeStep] = useState(1);
@@ -268,10 +269,10 @@ export default function Home() {
         ctx.clearRect(0, 0, cvs.width, cvs.height);
         ctx.drawImage(img, 0, 0);
 
-        drawBarcode(ctx, eid,               p.eid_x,   p.eid_y,   p.barcode_h, p.font_size);
-        drawBarcode(ctx, im1,               p.imei1_x, p.imei1_y, p.barcode_h, p.font_size);
-        drawBarcode(ctx, im2,               p.imei2_x, p.imei2_y, p.barcode_h, p.font_size);
-        drawBarcode(ctx, meidFromImei(im1), p.meid_x,  p.meid_y,  p.barcode_h, p.font_size);
+        drawBarcode(ctx, eid,               p.eid_x,   p.eid_y,   p.barcode_h, p.font_size, p.barcode_w);
+        drawBarcode(ctx, im1,               p.imei1_x, p.imei1_y, p.barcode_h, p.font_size, p.barcode_w);
+        drawBarcode(ctx, im2,               p.imei2_x, p.imei2_y, p.barcode_h, p.font_size, p.barcode_w);
+        drawBarcode(ctx, meidFromImei(im1), p.meid_x,  p.meid_y,  p.barcode_h, p.font_size, p.barcode_w);
 
         newResults.push({ url: cvs.toDataURL('image/png'), index: i + 1 });
       }
@@ -360,7 +361,7 @@ export default function Home() {
     setPos(prev => ({ ...prev, [field]: (prev[field] || 0) + dir * nudgeStepRef.current }));
   }
 
-  function drawBarcode(ctx: CanvasRenderingContext2D, value: string, x: number, y: number, barHeight: number, fontSize: number) {
+  function drawBarcode(ctx: CanvasRenderingContext2D, value: string, x: number, y: number, barHeight: number, fontSize: number, barcodeWidth: number) {
     const tmp = document.createElement('canvas');
     try {
       JsBarcode(tmp, value, {
@@ -376,7 +377,12 @@ export default function Home() {
         fontOptions: '',
         font: "-apple-system, sans-serif",
       });
-      ctx.drawImage(tmp, x, y);
+      if (barcodeWidth > 0 && tmp.width > 0) {
+        const scaledH = tmp.height * (barcodeWidth / tmp.width);
+        ctx.drawImage(tmp, x, y, barcodeWidth, scaledH);
+      } else {
+        ctx.drawImage(tmp, x, y);
+      }
     } catch {
       ctx.fillStyle = '#000';
       ctx.textBaseline = 'top';
@@ -413,29 +419,15 @@ export default function Home() {
     ctx.clearRect(0, 0, W, H);
     ctx.drawImage(img, 0, 0);
 
-    drawBarcode(ctx, '89049032012345678901234567890123', p.eid_x,   p.eid_y,   p.barcode_h, p.font_size);
-    drawBarcode(ctx, '111111111111111',                  p.imei1_x, p.imei1_y, p.barcode_h, p.font_size);
-    drawBarcode(ctx, '222222222222222',                  p.imei2_x, p.imei2_y, p.barcode_h, p.font_size);
-    drawBarcode(ctx, '11111111111111',                   p.meid_x,  p.meid_y,  p.barcode_h, p.font_size);
+    drawBarcode(ctx, '89049032012345678901234567890123', p.eid_x,   p.eid_y,   p.barcode_h, p.font_size, p.barcode_w);
+    drawBarcode(ctx, '111111111111111',                  p.imei1_x, p.imei1_y, p.barcode_h, p.font_size, p.barcode_w);
+    drawBarcode(ctx, '222222222222222',                  p.imei2_x, p.imei2_y, p.barcode_h, p.font_size, p.barcode_w);
+    drawBarcode(ctx, '11111111111111',                   p.meid_x,  p.meid_y,  p.barcode_h, p.font_size, p.barcode_w);
 
     drawMarker(ctx, p.eid_x,   p.eid_y,   '#f59e0b');
     drawMarker(ctx, p.imei1_x, p.imei1_y, '#3b82f6');
     drawMarker(ctx, p.imei2_x, p.imei2_y, '#10b981');
     drawMarker(ctx, p.meid_x,  p.meid_y,  '#e879f9');
-
-    const legend = [
-      { color: '#f59e0b', label: 'EID' },
-      { color: '#3b82f6', label: 'IMEI 1' },
-      { color: '#10b981', label: 'IMEI 2' },
-      { color: '#e879f9', label: 'MEID' },
-    ];
-    legend.forEach((l, i) => {
-      ctx.fillStyle = l.color;
-      ctx.fillRect(16, 16 + i * 36, 10, 10);
-      ctx.fillStyle = '#000';
-      ctx.font = `500 ${Math.max(p.font_size - 2, 12)}px -apple-system, sans-serif`;
-      ctx.fillText(l.label, 32, 14 + i * 36);
-    });
   }
 
   function handlePreviewClick(e: React.MouseEvent<HTMLCanvasElement>) {
@@ -631,6 +623,18 @@ export default function Home() {
                       <input type="number" min="20" max="300" step="1" value={pos.barcode_h}
                         onChange={e => setPos(p => ({ ...p, barcode_h: parseInt(e.target.value) || 20 }))} />
                       <button className="nb" onPointerDown={() => startNudge('barcode_h', 1)} onPointerUp={stopNudge} onPointerLeave={stopNudge}>›</button>
+                    </div>
+                  </div>
+                </div>
+                <div className="pos-row">
+                  <span className="pos-label">bar_w</span>
+                  <div className="nudge-group">
+                    <div className="nudge-axis">
+                      <span className="axis-lbl">px</span>
+                      <button className="nb" onPointerDown={() => startNudge('barcode_w', -1)} onPointerUp={stopNudge} onPointerLeave={stopNudge}>‹</button>
+                      <input type="number" min="50" max="1000" step="1" value={pos.barcode_w}
+                        onChange={e => setPos(p => ({ ...p, barcode_w: parseInt(e.target.value) || 50 }))} />
+                      <button className="nb" onPointerDown={() => startNudge('barcode_w', 1)} onPointerUp={stopNudge} onPointerLeave={stopNudge}>›</button>
                     </div>
                   </div>
                 </div>
