@@ -367,19 +367,7 @@ textarea:focus { border-color: #444; }
 
 @keyframes particle-fly { 0% { opacity: 1; transform: translate(0,0) scale(1); } 100% { opacity: 0; transform: var(--tx) scale(0); } }
 
-.pos-card { padding: 0; overflow: hidden; }
-
-.pos-toggle { cursor: pointer; user-select: none; padding: 14px 20px; margin: 0; transition: background .15s; }
-
-.pos-toggle:hover { background: var(--surface2); }
-
-.pos-arrow { font-size: 16px; color: var(--text-dim); transition: transform .2s; display: inline-block; }
-
-.pos-arrow.open { transform: rotate(90deg); }
-
-.pos-body { display: none; padding: 12px 20px 16px; }
-
-.pos-body.open { display: block; }
+.pos-card { overflow: hidden; }
 
 .coords-tabs { display: flex; gap: 4px; padding: 12px 0 10px; border-bottom: 1px solid var(--border); margin-bottom: 2px; }
 

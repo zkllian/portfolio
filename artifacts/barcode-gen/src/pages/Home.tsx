@@ -599,10 +599,6 @@ export default function Home() {
             </div>
 
             <div className="card pos-card">
-              <div className="card-header">
-                <span className="card-title">// coords</span>
-              </div>
-              <div className="pos-body open">
                 <div className="coords-tabs">
                   {(['barcode', 'text', 'size'] as const).map(t => (
                     <button key={t} className={`coords-tab${coordsTab === t ? ' active' : ''}`} onClick={() => setCoordsTab(t)}>{t}</button>
@@ -719,7 +715,6 @@ export default function Home() {
                     />
                   </div>
                 </div>
-              </div>
             </div>
           </div>
         )}
