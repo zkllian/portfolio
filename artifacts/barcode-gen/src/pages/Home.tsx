@@ -102,19 +102,19 @@ export default function Home() {
   const [posOpen, setPosOpen] = useState(false);
   const [coordsTab, setCoordsTab] = useState<'barcode' | 'text' | 'size'>('barcode');
   const [pos, setPos] = useState<Record<string, number>>({
-    eid_x: 102,    eid_y: 369,
-    imei1_x: 275,  imei1_y: 670,
-    imei2_x: 285,  imei2_y: 955,
-    meid_x: 285,   meid_y: 1238,
+    eid_x: 19,     eid_y: 460,
+    imei1_x: 141,  imei1_y: 750,
+    imei2_x: 141,  imei2_y: 1040,
+    meid_x: 179,   meid_y: 1325,
     eid_tx: 110,   eid_ty: 369,
     imei1_tx: 280, imei1_ty: 670,
     imei2_tx: 290, imei2_ty: 955.5,
     meid_tx: 290,  meid_ty: 1239.5,
-    font_size: 31,
-    eid_h: 80,    eid_w: 500,
-    imei1_h: 80,  imei1_w: 500,
-    imei2_h: 80,  imei2_w: 500,
-    meid_h: 80,   meid_w: 500,
+    font_size: 30.5,
+    eid_h: 65,    eid_w: 700,
+    imei1_h: 65,  imei1_w: 455,
+    imei2_h: 65,  imei2_w: 455,
+    meid_h: 65,   meid_w: 380,
   });
   const posRef = useRef(pos);
   const [nudgeStep, setNudgeStep] = useState(1);
