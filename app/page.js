@@ -44,7 +44,7 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
   const [loadingText, setLoadingText] = useState('Generating...');
   const [loadingCount, setLoadingCount] = useState('');
-  const [view, setView] = useState('input'); // 'input' | 'results'
+  const [view, setView] = useState('input');
   const [results, setResults] = useState([]);
   const [resultLabel, setResultLabel] = useState('0 results');
 
@@ -111,7 +111,7 @@ export default function Home() {
     function showHint() {
       setDotHintMsg(msgs[Math.floor(Math.random() * msgs.length)]);
       setDotHintVisible(true);
-      hideTimeout = setTimeout(() => { setDotHintVisible(false); scheduleNext(); }, 3000);
+      hideTimeout = setTimeout(() => { setDotHintVisible(false); scheduleNext(); }, 3500);
     }
     function scheduleNext() {
       hintTimeout = setTimeout(showHint, 12000 + Math.random() * 18000);
@@ -392,16 +392,28 @@ export default function Home() {
 
   return (
     <>
-      <div className="container">
-        <div className="header">
+      <div className="navbar">
+        <div className="navbar-inner">
           <div className="logo-row">
-            <div className="logo-icon"></div>
+            <div className="logo-icon-wrap" onClick={secretClick}>
+              <div className="logo-icon-ring"></div>
+              <div className="logo-icon"></div>
+              <div className={`logo-hint${dotHintVisible ? ' visible' : ''}`}>
+                <span className="logo-hint-arrow"></span>
+                {dotHintMsg}
+              </div>
+            </div>
             <div className="logo-label">
               <span className="logo-name">barcode-gen</span>
               <span className="logo-sep"> / </span>
               <span>imei</span>
             </div>
           </div>
+        </div>
+      </div>
+
+      <div className="container">
+        <div className="header">
           <div className="page-title">Barcode Generator</div>
           <div className="page-desc">Generate barcode dari IMEI number. Masukkan IMEI 1 dan IMEI 2, masing-masing 15 digit. EID akan di-generate otomatis.</div>
         </div>
@@ -522,9 +534,7 @@ export default function Home() {
 
         <div className="footer">
           <span className="footer-text">{view === 'results' ? resultLabel : 'ready'}</span>
-          <div className="footer-dot" id="secretDot" onClick={secretClick}>
-            <div className={`dot-hint${dotHintVisible ? ' visible' : ''}`}>{dotHintMsg}</div>
-          </div>
+          <div className="footer-dot-deco"></div>
         </div>
       </div>
 
