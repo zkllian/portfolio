@@ -278,7 +278,7 @@ textarea:focus { border-color: #444; }
   background: var(--surface2);
   border: 1px solid var(--border);
   padding: 4px 10px;
-  border-radius: 20px;
+  border-radius: var(--radius);
   white-space: nowrap;
 }
 
@@ -305,7 +305,7 @@ textarea:focus { border-color: #444; }
   align-items: start;
 }
 
-.result-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; transition: border-color .15s; animation: fadeSlideIn .35s ease-out both; }
+.result-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; transition: border-color .15s; animation: fadeSlideIn .35s ease-out both; }
 
 .result-card:hover { border-color: var(--border2); }
 
@@ -369,7 +369,7 @@ textarea:focus { border-color: #444; }
 
 .pos-card { padding: 0; overflow: hidden; }
 
-.pos-toggle { cursor: pointer; user-select: none; padding: 14px 20px; margin: 0; border-bottom: none; transition: background .15s; }
+.pos-toggle { cursor: pointer; user-select: none; padding: 14px 20px; margin: 0; transition: background .15s; }
 
 .pos-toggle:hover { background: var(--surface2); }
 
@@ -377,7 +377,7 @@ textarea:focus { border-color: #444; }
 
 .pos-arrow.open { transform: rotate(90deg); }
 
-.pos-body { display: none; padding: 0 20px 16px; border-top: 1px solid var(--border); }
+.pos-body { display: none; padding: 12px 20px 16px; }
 
 .pos-body.open { display: block; }
 
@@ -448,11 +448,6 @@ textarea:focus { border-color: #444; }
 .inline-error { margin-top: 10px; padding: 9px 12px; background: #1a0a0a; border: 1px solid #5a1a1a; border-radius: var(--radius); color: #ff6b6b; font-size: 12px; font-family: 'Geist Mono', monospace; }
 
 /* ── Counter card ── */
-.counter-card { padding: 14px 20px; }
-
-.counter-main { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-
-.counter-info { display: flex; flex-direction: column; gap: 4px; }
 
 .counter-number { font-size: 26px; font-weight: 600; font-family: 'Geist Mono', monospace; color: var(--accent); letter-spacing: -.04em; line-height: 1; }
 

@@ -555,11 +555,8 @@ export default function Home() {
             </div>
 
             <div className="card counter-card">
-              <div className="counter-main">
-                <div className="counter-info">
-                  <span className="card-title">// total barcode generated</span>
-                  <span className="counter-number">{totalImei.toLocaleString()}</span>
-                </div>
+              <div className="card-header">
+                <span className="card-title">// total barcode generated</span>
                 {!confirmReset ? (
                   <button className="counter-reset-btn" onClick={() => setConfirmReset(true)}>reset</button>
                 ) : (
@@ -570,6 +567,7 @@ export default function Home() {
                   </div>
                 )}
               </div>
+              <span className="counter-number">{totalImei.toLocaleString()}</span>
             </div>
 
             <div className="card pos-card">
@@ -668,6 +666,7 @@ export default function Home() {
                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M8.5 2.5L4 7L8.5 11.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
+                back
               </button>
               <span className="results-count-badge">{resultLabel}</span>
               <button className="results-reset-btn" onClick={resetAll}>flush()</button>
