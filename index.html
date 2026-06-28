@@ -997,13 +997,13 @@ textarea:focus{
           <div class="nudge-axis">
             <span class="axis-lbl">X</span>
             <button class="nb" onpointerdown="startNudge('eid_x',-1)" onpointerup="stopNudge()" onpointerleave="stopNudge()">‹</button>
-            <input type="number" id="eid_x" value="105" oninput="drawPreview()">
+            <input type="number" id="eid_x" value="102" oninput="drawPreview()">
             <button class="nb" onpointerdown="startNudge('eid_x',1)" onpointerup="stopNudge()" onpointerleave="stopNudge()">›</button>
           </div>
           <div class="nudge-axis">
             <span class="axis-lbl">Y</span>
             <button class="nb" onpointerdown="startNudge('eid_y',-1)" onpointerup="stopNudge()" onpointerleave="stopNudge()">▲</button>
-            <input type="number" id="eid_y" value="370" oninput="drawPreview()">
+            <input type="number" id="eid_y" value="369" oninput="drawPreview()">
             <button class="nb" onpointerdown="startNudge('eid_y',1)" onpointerup="stopNudge()" onpointerleave="stopNudge()">▼</button>
           </div>
         </div>
@@ -1021,7 +1021,7 @@ textarea:focus{
           <div class="nudge-axis">
             <span class="axis-lbl">Y</span>
             <button class="nb" onpointerdown="startNudge('imei1_y',-1)" onpointerup="stopNudge()" onpointerleave="stopNudge()">▲</button>
-            <input type="number" id="imei1_y" value="671" oninput="drawPreview()">
+            <input type="number" id="imei1_y" value="670" oninput="drawPreview()">
             <button class="nb" onpointerdown="startNudge('imei1_y',1)" onpointerup="stopNudge()" onpointerleave="stopNudge()">▼</button>
           </div>
         </div>
@@ -1057,7 +1057,7 @@ textarea:focus{
           <div class="nudge-axis">
             <span class="axis-lbl">Y</span>
             <button class="nb" onpointerdown="startNudge('meid_y',-1)" onpointerup="stopNudge()" onpointerleave="stopNudge()">▲</button>
-            <input type="number" id="meid_y" value="1240" oninput="drawPreview()">
+            <input type="number" id="meid_y" value="1238" oninput="drawPreview()">
             <button class="nb" onpointerdown="startNudge('meid_y',1)" onpointerup="stopNudge()" onpointerleave="stopNudge()">▼</button>
           </div>
         </div>
@@ -1455,14 +1455,14 @@ function getPos() {
   const fs   = parseInt(document.getElementById('font_size').value) || 31;
   return {
     fs,
-    ex:  parseInt(document.getElementById('eid_x').value)   || 105,
-    ey:  parseInt(document.getElementById('eid_y').value)   || 370,
+    ex:  parseInt(document.getElementById('eid_x').value)   || 102,
+    ey:  parseInt(document.getElementById('eid_y').value)   || 369,
     i1x: parseInt(document.getElementById('imei1_x').value) || 275,
-    i1y: parseInt(document.getElementById('imei1_y').value) || 671,
+    i1y: parseInt(document.getElementById('imei1_y').value) || 670,
     i2x: parseInt(document.getElementById('imei2_x').value) || 285,
     i2y: parseInt(document.getElementById('imei2_y').value) || 955,
     mdx: parseInt(document.getElementById('meid_x').value)  || 285,
-    mdy: parseInt(document.getElementById('meid_y').value)  || 1240,
+    mdy: parseInt(document.getElementById('meid_y').value)  || 1238,
   };
 }
 
