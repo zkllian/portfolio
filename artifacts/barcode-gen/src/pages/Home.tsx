@@ -608,8 +608,8 @@ export default function Home() {
       )}
 
       <div className="secret-trigger" onClick={secretClick}>
-        <div className={`logo-hint bottom${dotHintVisible ? ' visible' : ''}`}>
-          <span className="logo-hint-arrow bottom-arrow"></span>
+        <div className="secret-dot"></div>
+        <div className={`logo-hint${dotHintVisible ? ' visible' : ''}`}>
           {dotHintMsg}
         </div>
       </div>
