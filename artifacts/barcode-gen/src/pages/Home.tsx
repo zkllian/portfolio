@@ -47,13 +47,13 @@ function NudgeRow({ label, xField, yField, pos, onSetPos, onStartNudge, onStopNu
 
 export default function Home() {
   const [inputVal, setInputVal] = useState('');
-  const [imeiCount, setImeiCount] = useState('0x00 sets');
+  const [imeiCount, setImeiCount] = useState('0 sets');
   const [isLoading, setIsLoading] = useState(false);
   const [loadingText, setLoadingText] = useState('compiling...');
   const [loadingCount, setLoadingCount] = useState('');
   const [view, setView] = useState('input');
   const [results, setResults] = useState<{ url: string; index: number }[]>([]);
-  const [resultLabel, setResultLabel] = useState('0x00 output');
+  const [resultLabel, setResultLabel] = useState('0 output');
   const [oddNotice, setOddNotice] = useState('');
 
   const [posOpen, setPosOpen] = useState(false);
@@ -177,7 +177,7 @@ export default function Home() {
     setInputVal(val);
     const lines = val.split('\n').filter(Boolean);
     const sets = Math.floor(lines.length / 2);
-    setImeiCount(`0x${sets.toString(16).padStart(2, '0')} sets`);
+    setImeiCount(`${sets} sets`);
     if (lines.length > 0 && lines.length % 2 !== 0) {
       setOddNotice(`// imei baris ${lines.length} tidak diproses — butuh pasangan`);
     } else {
@@ -271,7 +271,7 @@ export default function Home() {
 
       setIsLoading(false);
       setResults(newResults);
-      setResultLabel(`0x${totalSets.toString(16).padStart(2,'0')} output`);
+      setResultLabel(`${totalSets} output`);
       setView('results');
       window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
     } catch (err: unknown) {
@@ -538,7 +538,6 @@ export default function Home() {
                   </div>
                   <div className="preview-stage">
                     <canvas ref={previewCanvasRef} id="previewCanvas" onClick={handlePreviewClick}></canvas>
-                    <div className="preview-tap-hint">tap gambar → ambil koordinat X,Y</div>
                   </div>
                   {showPickInfo && pickedCoord && (
                     <div className="preview-pick-info">
