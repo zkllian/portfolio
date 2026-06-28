@@ -67,6 +67,8 @@ export default function Home() {
   const posRef = useRef(pos);
   const [nudgeStep, setNudgeStep] = useState(1);
   const nudgeStepRef = useRef(1);
+  const [fontStep, setFontStep] = useState(1);
+  const fontStepRef = useRef(1);
   const [previewDim, setPreviewDim] = useState('738 × 1600');
   const [pickedCoord, setPickedCoord] = useState<{ x: number; y: number } | null>(null);
   const [showPickInfo, setShowPickInfo] = useState(false);
@@ -322,6 +324,25 @@ export default function Home() {
     nudgeStepRef.current = v;
   }
 
+  function setFontStepVal(v: number) {
+    setFontStep(v);
+    fontStepRef.current = v;
+  }
+
+  function startFontNudge(dir: number) {
+    doFontNudge(dir);
+    nudgeTimerRef.current = setTimeout(() => {
+      nudgeTimerRef.current = setInterval(() => doFontNudge(dir), 60);
+    }, 350);
+  }
+
+  function doFontNudge(dir: number) {
+    setPos(prev => ({
+      ...prev,
+      font_size: Math.max(8, parseFloat((prev.font_size + dir * fontStepRef.current).toFixed(1))),
+    }));
+  }
+
   function startNudge(field: string, dir: number) {
     doNudge(field, dir);
     nudgeTimerRef.current = setTimeout(() => {
@@ -560,15 +581,23 @@ export default function Home() {
                 <NudgeRow label="imei[0]" xField="imei1_x" yField="imei1_y" {...nudgeProps} />
                 <NudgeRow label="imei[1]" xField="imei2_x" yField="imei2_y" {...nudgeProps} />
                 <NudgeRow label="meid"   xField="meid_x"  yField="meid_y"  {...nudgeProps} />
-                <div className="pos-row">
+                <div className="pos-row font-sz-row">
                   <span className="pos-label">font_sz</span>
                   <div className="nudge-group">
                     <div className="nudge-axis">
                       <span className="axis-lbl">px</span>
-                      <button className="nb" onPointerDown={() => startNudge('font_size', -1)} onPointerUp={stopNudge} onPointerLeave={stopNudge}>‹</button>
+                      <button className="nb" onPointerDown={() => startFontNudge(-1)} onPointerUp={stopNudge} onPointerLeave={stopNudge}>‹</button>
                       <input type="number" min="8" max="60" step="0.5" value={pos.font_size}
                         onChange={e => setPos(p => ({ ...p, font_size: parseFloat(e.target.value) || 8 }))} />
-                      <button className="nb" onPointerDown={() => startNudge('font_size', 1)} onPointerUp={stopNudge} onPointerLeave={stopNudge}>›</button>
+                      <button className="nb" onPointerDown={() => startFontNudge(1)} onPointerUp={stopNudge} onPointerLeave={stopNudge}>›</button>
+                    </div>
+                    <div className="font-step-row">
+                      <span className="axis-lbl">step</span>
+                      <div className="step-btns">
+                        {[1, 1.5, 2, 2.5].map(v => (
+                          <button key={v} className={`step-btn${fontStep === v ? ' active' : ''}`} onClick={() => setFontStepVal(v)}>{v}</button>
+                        ))}
+                      </div>
                     </div>
                   </div>
                 </div>

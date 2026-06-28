@@ -397,6 +397,10 @@ textarea:focus { border-color: #444; }
 
 .nudge-axis input:focus { border-color: #444; }
 
+.font-sz-row { align-items: flex-start; padding-top: 12px; }
+
+.font-step-row { display: flex; align-items: center; gap: 4px; margin-top: 6px; }
+
 .preview-wrap { margin-top: 14px; border-top: 1px solid var(--border); padding-top: 14px; }
 
 .preview-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
