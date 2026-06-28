@@ -950,13 +950,13 @@ textarea:focus{
           <div class="nudge-axis">
             <span class="axis-lbl">X</span>
             <button class="nb" onpointerdown="startNudge('eid_x',-1)" onpointerup="stopNudge()" onpointerleave="stopNudge()">‹</button>
-            <input type="number" id="eid_x" value="28" oninput="drawPreview()">
+            <input type="number" id="eid_x" value="105" oninput="drawPreview()">
             <button class="nb" onpointerdown="startNudge('eid_x',1)" onpointerup="stopNudge()" onpointerleave="stopNudge()">›</button>
           </div>
           <div class="nudge-axis">
             <span class="axis-lbl">Y</span>
             <button class="nb" onpointerdown="startNudge('eid_y',-1)" onpointerup="stopNudge()" onpointerleave="stopNudge()">▲</button>
-            <input type="number" id="eid_y" value="645" oninput="drawPreview()">
+            <input type="number" id="eid_y" value="370" oninput="drawPreview()">
             <button class="nb" onpointerdown="startNudge('eid_y',1)" onpointerup="stopNudge()" onpointerleave="stopNudge()">▼</button>
           </div>
         </div>
@@ -968,13 +968,13 @@ textarea:focus{
           <div class="nudge-axis">
             <span class="axis-lbl">X</span>
             <button class="nb" onpointerdown="startNudge('imei1_x',-1)" onpointerup="stopNudge()" onpointerleave="stopNudge()">‹</button>
-            <input type="number" id="imei1_x" value="28" oninput="drawPreview()">
+            <input type="number" id="imei1_x" value="275" oninput="drawPreview()">
             <button class="nb" onpointerdown="startNudge('imei1_x',1)" onpointerup="stopNudge()" onpointerleave="stopNudge()">›</button>
           </div>
           <div class="nudge-axis">
             <span class="axis-lbl">Y</span>
             <button class="nb" onpointerdown="startNudge('imei1_y',-1)" onpointerup="stopNudge()" onpointerleave="stopNudge()">▲</button>
-            <input type="number" id="imei1_y" value="863" oninput="drawPreview()">
+            <input type="number" id="imei1_y" value="671" oninput="drawPreview()">
             <button class="nb" onpointerdown="startNudge('imei1_y',1)" onpointerup="stopNudge()" onpointerleave="stopNudge()">▼</button>
           </div>
         </div>
@@ -986,13 +986,13 @@ textarea:focus{
           <div class="nudge-axis">
             <span class="axis-lbl">X</span>
             <button class="nb" onpointerdown="startNudge('imei2_x',-1)" onpointerup="stopNudge()" onpointerleave="stopNudge()">‹</button>
-            <input type="number" id="imei2_x" value="28" oninput="drawPreview()">
+            <input type="number" id="imei2_x" value="285" oninput="drawPreview()">
             <button class="nb" onpointerdown="startNudge('imei2_x',1)" onpointerup="stopNudge()" onpointerleave="stopNudge()">›</button>
           </div>
           <div class="nudge-axis">
             <span class="axis-lbl">Y</span>
             <button class="nb" onpointerdown="startNudge('imei2_y',-1)" onpointerup="stopNudge()" onpointerleave="stopNudge()">▲</button>
-            <input type="number" id="imei2_y" value="1083" oninput="drawPreview()">
+            <input type="number" id="imei2_y" value="955" oninput="drawPreview()">
             <button class="nb" onpointerdown="startNudge('imei2_y',1)" onpointerup="stopNudge()" onpointerleave="stopNudge()">▼</button>
           </div>
         </div>
@@ -1004,7 +1004,7 @@ textarea:focus{
           <div class="nudge-axis">
             <span class="axis-lbl">px</span>
             <button class="nb" onpointerdown="startNudge('font_size',-1)" onpointerup="stopNudge()" onpointerleave="stopNudge()">‹</button>
-            <input type="number" id="font_size" value="17" min="8" max="60" oninput="drawPreview()">
+            <input type="number" id="font_size" value="31" min="8" max="60" oninput="drawPreview()">
             <button class="nb" onpointerdown="startNudge('font_size',1)" onpointerup="stopNudge()" onpointerleave="stopNudge()">›</button>
           </div>
         </div>
@@ -1372,15 +1372,15 @@ const previewCtx = previewCanvas.getContext('2d');
 let pickedX = 0, pickedY = 0;
 
 function getPos() {
-  const fs   = parseInt(document.getElementById('font_size').value) || 17;
+  const fs   = parseInt(document.getElementById('font_size').value) || 31;
   return {
     fs,
-    ex:  parseInt(document.getElementById('eid_x').value)   || 28,
-    ey:  parseInt(document.getElementById('eid_y').value)   || 645,
-    i1x: parseInt(document.getElementById('imei1_x').value) || 28,
-    i1y: parseInt(document.getElementById('imei1_y').value) || 863,
-    i2x: parseInt(document.getElementById('imei2_x').value) || 28,
-    i2y: parseInt(document.getElementById('imei2_y').value) || 1083,
+    ex:  parseInt(document.getElementById('eid_x').value)   || 105,
+    ey:  parseInt(document.getElementById('eid_y').value)   || 370,
+    i1x: parseInt(document.getElementById('imei1_x').value) || 275,
+    i1y: parseInt(document.getElementById('imei1_y').value) || 671,
+    i2x: parseInt(document.getElementById('imei2_x').value) || 285,
+    i2y: parseInt(document.getElementById('imei2_y').value) || 955,
   };
 }
 
