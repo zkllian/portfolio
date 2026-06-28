@@ -3,8 +3,9 @@ import { useEffect, useRef, useState } from 'react';
 import JsBarcode from 'jsbarcode';
 
 
-function NudgeRow({ label, yField, pos, onSetPos, onStartNudge, onStopNudge, color }: {
+function NudgeRow({ label, xField, yField, pos, onSetPos, onStartNudge, onStopNudge, color }: {
   label: string;
+  xField?: string;
   yField: string;
   pos: Record<string, number>;
   onSetPos: (fn: (p: Record<string, number>) => Record<string, number>) => void;
@@ -19,6 +20,21 @@ function NudgeRow({ label, yField, pos, onSetPos, onStartNudge, onStopNudge, col
         {label}
       </span>
       <div className="nudge-group">
+        {xField && (
+          <div className="nudge-axis">
+            <span className="axis-lbl">X</span>
+            <button className="nb"
+              onPointerDown={() => onStartNudge(xField, -1)}
+              onPointerUp={onStopNudge}
+              onPointerLeave={onStopNudge}>‹</button>
+            <input type="number" value={pos[xField]} readOnly
+              onChange={e => onSetPos(p => ({ ...p, [xField]: parseFloat(e.target.value) || 0 }))} />
+            <button className="nb"
+              onPointerDown={() => onStartNudge(xField, 1)}
+              onPointerUp={onStopNudge}
+              onPointerLeave={onStopNudge}>›</button>
+          </div>
+        )}
         <div className="nudge-axis">
           <span className="axis-lbl">Y</span>
           <button className="nb"
@@ -26,7 +42,7 @@ function NudgeRow({ label, yField, pos, onSetPos, onStartNudge, onStopNudge, col
             onPointerUp={onStopNudge}
             onPointerLeave={onStopNudge}>▲</button>
           <input type="number" value={pos[yField]} readOnly
-            onChange={e => onSetPos(p => ({ ...p, [yField]: parseInt(e.target.value) || 0 }))} />
+            onChange={e => onSetPos(p => ({ ...p, [yField]: parseFloat(e.target.value) || 0 }))} />
           <button className="nb"
             onPointerDown={() => onStartNudge(yField, 1)}
             onPointerUp={onStopNudge}
@@ -594,7 +610,7 @@ export default function Home() {
                 <NudgeRow label="im0.t"  yField="imei1_ty" {...nudgeProps} color="#3b82f6" />
                 <NudgeRow label="im1.t"  yField="imei2_ty" {...nudgeProps} color="#10b981" />
                 <NudgeRow label="meid.t" yField="meid_ty"  {...nudgeProps} color="#e879f9" />
-                <NudgeRow label="time.t" yField="time_ty"  {...nudgeProps} color="#f43f5e" />
+                <NudgeRow label="time.t" xField="time_tx" yField="time_ty" {...nudgeProps} color="#f43f5e" />
 
 
                 <div className="preview-wrap">
