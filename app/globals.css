@@ -41,8 +41,6 @@ body {
   min-height: 100vh;
   padding-top: calc(var(--navbar-h) + 8px);
   padding-bottom: 80px;
-  padding-left: 16px;
-  padding-right: 16px;
   line-height: 1.5;
 }
 
@@ -63,7 +61,7 @@ body {
 }
 
 .navbar-inner {
-  max-width: 512px;
+  max-width: 480px;
   margin: 0 auto;
   width: 100%;
   padding: 0 16px;
@@ -173,7 +171,7 @@ body {
 .logo-name { color: var(--text); }
 
 /* ── Page header (below navbar) ── */
-.container { max-width: 480px; margin: 0 auto; }
+.container { max-width: 480px; margin: 0 auto; padding: 0 16px; }
 
 .header { margin-bottom: 32px; }
 
