@@ -68,10 +68,12 @@ export default function Home() {
   const [toastMsg, setToastMsg] = useState('');
   const [showToastState, setShowToastState] = useState(false);
   const toastTimerRef = useRef(null);
+  const [inlineError, setInlineError] = useState('');
 
   const [dotHintVisible, setDotHintVisible] = useState(false);
   const [dotHintMsg, setDotHintMsg] = useState('');
 
+  const inputValRef = useRef('');
   const canvasRef = useRef(null);
   const previewCanvasRef = useRef(null);
   const baseImageRef = useRef(null);
@@ -91,8 +93,10 @@ export default function Home() {
       }
     };
     baseImageRef.current = img;
-    document.fonts.load("400 32px 'SF Pro Custom'");
-    document.fonts.load("500 32px 'SF Pro Custom'");
+    if (document.fonts?.load) {
+      document.fonts.load("400 32px 'SF Pro Custom'");
+      document.fonts.load("500 32px 'SF Pro Custom'");
+    }
   }, []);
 
   useEffect(() => {
@@ -157,16 +161,19 @@ export default function Home() {
 
   function handleInput(e) {
     const val = e.target.value.replace(/[^0-9\n]/g, '');
+    inputValRef.current = val;
     setInputVal(val);
     const lines = val.split('\n').filter(Boolean);
     setImeiCount(Math.floor(lines.length / 2) + ' set');
   }
 
   function resetAll() {
+    inputValRef.current = '';
     setInputVal('');
     setResults([]);
     setView('input');
     setImeiCount('0 set');
+    setInlineError('');
     window.scrollTo({ top: 0, behavior: 'instant' });
   }
 
@@ -176,40 +183,46 @@ export default function Home() {
   }
 
   async function generateBulk() {
+    setInlineError('');
     try {
-      const lines = inputVal.split('\n').map(v => v.trim()).filter(Boolean);
-      if (lines.length < 2) { showToast('Minimal 1 set: IMEI 1 + IMEI 2 (masing-masing 15 digit)'); return; }
+      const lines = inputValRef.current.split('\n').map(v => v.trim()).filter(Boolean);
+      if (lines.length < 2) {
+        setInlineError('Minimal 1 set: IMEI 1 + IMEI 2 (masing-masing 15 digit)');
+        return;
+      }
 
       const totalSets = Math.floor(lines.length / 2);
       for (let i = 0; i < totalSets; i++) {
         const im1 = lines[i * 2], im2 = lines[i * 2 + 1];
-        if (im1.length !== 15) { showToast(`Set ${i+1}: IMEI 1 harus 15 digit (dapat ${im1.length})`); return; }
-        if (im2.length !== 15) { showToast(`Set ${i+1}: IMEI 2 harus 15 digit (dapat ${im2.length})`); return; }
+        if (im1.length !== 15) { setInlineError(`Set ${i+1}: IMEI 1 harus 15 digit (dapat ${im1.length})`); return; }
+        if (im2.length !== 15) { setInlineError(`Set ${i+1}: IMEI 2 harus 15 digit (dapat ${im2.length})`); return; }
       }
 
       // Ensure base image is loaded
       const img = baseImageRef.current;
-      if (!img) { showToast('Error: image belum siap, coba lagi'); return; }
+      if (!img) { setInlineError('Image belum siap, coba lagi'); return; }
       if (!img.complete || !img.naturalWidth) {
         await new Promise((resolve, reject) => {
           img.onload = resolve;
           img.onerror = () => reject(new Error('Gagal load template image'));
         });
       }
-      if (!img.naturalWidth) { showToast('Error: template image gagal dimuat'); return; }
+      if (!img.naturalWidth) { setInlineError('Template image gagal dimuat'); return; }
 
-      // Ensure fonts are loaded
-      await Promise.allSettled([
-        document.fonts.load("400 32px 'SF Pro Custom'"),
-        document.fonts.load("500 32px 'SF Pro Custom'"),
-      ]);
+      // Ensure fonts are loaded (safe for browsers without document.fonts)
+      if (document.fonts?.load) {
+        await Promise.allSettled([
+          document.fonts.load("400 32px 'SF Pro Custom'"),
+          document.fonts.load("500 32px 'SF Pro Custom'"),
+        ]);
+      }
 
       const cvs = canvasRef.current;
-      if (!cvs) { showToast('Error: canvas tidak ditemukan'); return; }
+      if (!cvs) { setInlineError('Canvas tidak ditemukan'); return; }
       cvs.width = img.naturalWidth;
       cvs.height = img.naturalHeight;
       const ctx = cvs.getContext('2d');
-      if (!ctx) { showToast('Error: tidak bisa buat canvas context'); return; }
+      if (!ctx) { setInlineError('Tidak bisa buat canvas context'); return; }
 
       const newResults = [];
       setIsLoading(true);
@@ -246,7 +259,7 @@ export default function Home() {
       window.scrollTo({ top: 0, behavior: 'instant' });
     } catch (err) {
       setIsLoading(false);
-      showToast('Error: ' + (err?.message || String(err)));
+      setInlineError('Error: ' + (err?.message || String(err)));
     }
   }
 
@@ -458,8 +471,11 @@ export default function Home() {
               <div className="input-hint">
                 2 baris per set <span>·</span> IMEI 1 (15) → IMEI 2 (15) <span>·</span> EID auto
               </div>
+              {inlineError && (
+                <div className="inline-error">{inlineError}</div>
+              )}
               <div className="btn-row">
-                <button className="btn btn-primary" onClick={generateBulk} disabled={isLoading}>Generate</button>
+                <button className="btn btn-primary" onClick={() => generateBulk()} disabled={isLoading}>Generate</button>
               </div>
               {isLoading && (
                 <div className="status-bar active">
