@@ -676,10 +676,20 @@ textarea:focus { border-color: #444; }
     top: 80px;
   }
   .cv-main {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     gap: 20px;
+    align-items: start;
   }
+  /* tentang saya + kompetensi + pengalaman = full width */
+  .cv-main > *:nth-child(1),
+  .cv-main > *:nth-child(2),
+  .cv-main > *:nth-child(3) { grid-column: 1 / -1; }
+  /* pendidikan + proyek = side by side (smaller) */
+  .cv-main > *:nth-child(4),
+  .cv-main > *:nth-child(5) { grid-column: span 1; }
+  /* keahlian = full width (large) */
+  .cv-main > *:nth-child(6) { grid-column: 1 / -1; }
 
   /* Home page: left + right */
   .view-input {
