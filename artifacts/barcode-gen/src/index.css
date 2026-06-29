@@ -929,6 +929,15 @@ textarea:focus { border-color: #444; }
   min-width: 0;
 }
 
+.spotify-label {
+  font-size: 9px;
+  font-family: 'Geist Mono', monospace;
+  color: var(--text-dim);
+  letter-spacing: .08em;
+  text-transform: lowercase;
+  margin-bottom: 3px;
+}
+
 .spotify-track {
   font-size: 13px;
   font-weight: 600;

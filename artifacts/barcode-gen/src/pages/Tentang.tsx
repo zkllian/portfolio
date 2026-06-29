@@ -57,6 +57,7 @@ export default function Tentang() {
           >
             <img className="spotify-art" src="/spotify-like-i-do.png" alt="like i do" />
             <div className="spotify-info">
+              <div className="spotify-label">recently played</div>
               <div className="spotify-track">like i do</div>
               <div className="spotify-artist">andy arysh</div>
             </div>
