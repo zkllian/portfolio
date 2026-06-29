@@ -221,7 +221,7 @@ body {
   top: calc(100% + 10px);
   left: 0;
   transform: translateY(-8px) scale(0.96);
-  background: rgba(12,12,12,0.55);
+  background: rgba(14,14,14,0.86);
   backdrop-filter: blur(28px) saturate(1.6);
   -webkit-backdrop-filter: blur(28px) saturate(1.6);
   border: 1px solid rgba(255,255,255,0.10);
