@@ -785,6 +785,17 @@ textarea:focus { border-color: #444; }
   flex-shrink: 0;
 }
 
+@media (max-width: 480px) {
+  .cv-entry-header {
+    flex-wrap: wrap;
+    gap: 2px;
+  }
+  .cv-entry-period {
+    width: 100%;
+    margin-top: 1px;
+  }
+}
+
 .cv-group-label {
   font-size: 9px;
   font-family: 'Geist Mono', monospace;
