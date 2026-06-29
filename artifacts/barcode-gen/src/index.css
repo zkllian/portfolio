@@ -323,7 +323,7 @@ body {
 .save-default-btn { padding: 3px 12px; font-size: 10px; font-family: 'Geist Mono', monospace; background: transparent; border: 1px solid var(--border2); border-radius: var(--radius); color: var(--text-dim); cursor: pointer; transition: background .12s, color .12s, border-color .12s; }
 .save-default-btn:active { background: var(--surface2); border-color: #555; color: var(--text); }
 
-.card-title { font-size: 12px; font-weight: 500; color: var(--text-muted); text-transform: lowercase; letter-spacing: .08em; }
+.card-title { display: flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 500; color: var(--text-muted); text-transform: lowercase; letter-spacing: .08em; }
 
 .badge { font-size: 11px; font-family: 'Geist Mono', monospace; color: var(--text-dim); background: var(--surface2); border: 1px solid var(--border); padding: 2px 8px; border-radius: var(--radius); }
 
@@ -464,7 +464,7 @@ textarea:focus { border-color: #444; }
 
 .result-actions { display: flex; border-top: 1px solid var(--border); }
 
-.result-btn { flex: 1; padding: 8px 6px; font-size: 11px; font-weight: 500; font-family: 'Geist', sans-serif; color: var(--text-muted); background: transparent; border: none; cursor: pointer; transition: background .15s, color .15s; letter-spacing: -.01em; }
+.result-btn { flex: 1; display: flex; align-items: center; justify-content: center; gap: 6px; padding: 8px 6px; font-size: 11px; font-weight: 500; font-family: 'Geist', sans-serif; color: var(--text-muted); background: transparent; border: none; cursor: pointer; transition: background .15s, color .15s; letter-spacing: -.01em; }
 
 .result-btn:hover { background: var(--surface2); color: var(--text); }
 
@@ -535,7 +535,7 @@ textarea:focus { border-color: #444; }
 
 .preview-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
 
-.preview-label { font-size: 11px; font-family: 'Geist Mono', monospace; color: var(--text-dim); text-transform: lowercase; letter-spacing: .08em; }
+.preview-label { display: flex; align-items: center; gap: 5px; font-size: 11px; font-family: 'Geist Mono', monospace; color: var(--text-dim); text-transform: lowercase; letter-spacing: .08em; }
 
 .preview-dim { font-size: 11px; font-family: 'Geist Mono', monospace; color: var(--text-dim); opacity: .5; }
 
