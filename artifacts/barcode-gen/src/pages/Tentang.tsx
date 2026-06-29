@@ -144,6 +144,10 @@ export default function Tentang() {
                 <li>melakukan pembaruan dan pengorganisasian koleksi buku secara berkala agar tetap relevan dan mudah diakses</li>
               </ul>
             </div>
+          </div>
+
+          <div className="cv-section">
+            <div className="cv-section-label">// kontribusi digital</div>
 
             <div className="cv-entry">
               <div className="cv-entry-header">
@@ -155,51 +159,61 @@ export default function Tentang() {
                 <li>membuat dan mengelola blog secara independen dengan monetisasi melalui google adsense</li>
               </ul>
             </div>
-          </div>
 
-          <div className="cv-section">
-            <div className="cv-section-label">// kontribusi digital</div>
-            <div className="cv-contrib-table">
-              <div className="cv-contrib-row cv-contrib-row--head">
-                <span>perusahaan</span>
-                <span>peran</span>
-                <span>periode</span>
+            <div className="cv-entry">
+              <div className="cv-entry-header">
+                <span className="cv-entry-role">community manager</span>
+                <span className="cv-entry-company">verso</span>
               </div>
-              <div className="cv-contrib-row">
-                <span>injective</span>
-                <span>brand ambassador</span>
-                <span>jan 2024 – mar 2025</span>
+              <div className="cv-entry-period">maret 2018 – desember 2019</div>
+            </div>
+
+            <div className="cv-entry">
+              <div className="cv-entry-header">
+                <span className="cv-entry-role">brand ambassador</span>
+                <span className="cv-entry-company">injective</span>
               </div>
-              <div className="cv-contrib-row">
-                <span>nesa</span>
-                <span>brand ambassador</span>
-                <span>mar 2024 – mei 2025</span>
+              <div className="cv-entry-period">januari 2024 – maret 2025</div>
+            </div>
+
+            <div className="cv-entry">
+              <div className="cv-entry-header">
+                <span className="cv-entry-role">brand ambassador</span>
+                <span className="cv-entry-company">nesa</span>
               </div>
-              <div className="cv-contrib-row">
-                <span>swisstronik</span>
-                <span>brand ambassador</span>
-                <span>sep 2024 – jan 2025</span>
+              <div className="cv-entry-period">maret 2024 – mei 2025</div>
+            </div>
+
+            <div className="cv-entry">
+              <div className="cv-entry-header">
+                <span className="cv-entry-role">content writer</span>
+                <span className="cv-entry-company">mitosis</span>
               </div>
-              <div className="cv-contrib-row">
-                <span>mitosis</span>
-                <span>content writer</span>
-                <span>jul 2024 – apr 2025</span>
+              <div className="cv-entry-period">juli 2024 – april 2025</div>
+            </div>
+
+            <div className="cv-entry">
+              <div className="cv-entry-header">
+                <span className="cv-entry-role">content writer</span>
+                <span className="cv-entry-company">story protocol</span>
               </div>
-              <div className="cv-contrib-row">
-                <span>story protocol</span>
-                <span>content writer</span>
-                <span>jul 2024 – apr 2025</span>
+              <div className="cv-entry-period">juli 2024 – april 2025</div>
+            </div>
+
+            <div className="cv-entry">
+              <div className="cv-entry-header">
+                <span className="cv-entry-role">content writer</span>
+                <span className="cv-entry-company">union</span>
               </div>
-              <div className="cv-contrib-row">
-                <span>union</span>
-                <span>content writer</span>
-                <span>jul 2024 – apr 2025</span>
+              <div className="cv-entry-period">juli 2024 – april 2025</div>
+            </div>
+
+            <div className="cv-entry">
+              <div className="cv-entry-header">
+                <span className="cv-entry-role">brand ambassador</span>
+                <span className="cv-entry-company">swisstronik</span>
               </div>
-              <div className="cv-contrib-row">
-                <span>verso</span>
-                <span>community manager</span>
-                <span>mar 2018 – des 2019</span>
-              </div>
+              <div className="cv-entry-period">september 2024 – januari 2025</div>
             </div>
           </div>
 
