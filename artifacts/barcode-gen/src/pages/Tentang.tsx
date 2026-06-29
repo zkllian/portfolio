@@ -119,13 +119,27 @@ export default function Tentang() {
             <div className="cv-entry">
               <div className="cv-entry-header">
                 <div className="cv-entry-header-left">
-                  <span className="cv-entry-role">administrator intern</span>
+                  <span className="cv-entry-role">admin intern</span>
                   <span className="cv-entry-company">universitas suryakancana</span>
                 </div>
                 <span className="cv-entry-period">agu – nov 2017</span>
               </div>
               <ul className="cv-list">
                 <li>mengelola operasional harian perpustakaan, melayani pengunjung secara langsung, serta menginput dan memelihara data koleksi buku ke dalam sistem database universitas</li>
+              </ul>
+            </div>
+
+            <div className="cv-entry">
+              <div className="cv-entry-header">
+                <div className="cv-entry-header-left">
+                  <span className="cv-entry-role">digital marketing</span>
+                  <span className="cv-entry-company">zenius store</span>
+                </div>
+                <span className="cv-entry-period">mar – sep 2021</span>
+              </div>
+              <ul className="cv-list">
+                <li>melayani pelanggan dan memproses pesanan melalui whatsapp, mulai dari konsultasi produk hingga konfirmasi order</li>
+                <li>menyiapkan, mengemas, dan mengelola pengiriman pesanan serta memastikan pesanan terkirim dengan baik</li>
               </ul>
             </div>
 
