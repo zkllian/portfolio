@@ -636,7 +636,7 @@ textarea:focus { border-color: #444; }
 
 .cv-avatar {
   width: 72px;
-  height: 58px;
+  align-self: stretch;
   border-radius: var(--radius);
   flex-shrink: 0;
   border: 1px solid var(--border);
