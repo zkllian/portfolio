@@ -782,6 +782,24 @@ textarea:focus { border-color: #444; }
   -webkit-user-select: text;
 }
 
+.cv-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 2px;
+}
+
+.cv-tag {
+  font-size: 11px;
+  font-family: 'Geist Mono', monospace;
+  color: var(--text-muted);
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 2px 8px;
+  white-space: nowrap;
+}
+
 .cv-links-section { gap: 12px; }
 
 .cv-contrib-table {

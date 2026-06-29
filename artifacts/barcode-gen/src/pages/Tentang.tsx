@@ -249,34 +249,22 @@ export default function Tentang() {
           <div className="cv-section">
             <div className="cv-section-label">// keahlian</div>
             <div className="cv-info-grid">
-              <div className="cv-info-row">
-                <span className="cv-info-key">web dev</span>
-                <span className="cv-info-val">next.js · react · vite · typescript · tailwind css · express.js · drizzle orm · tanstack query · wouter · zod · vercel · telegram bot · ui/web design</span>
-              </div>
-              <div className="cv-info-row">
-                <span className="cv-info-key">marketing</span>
-                <span className="cv-info-val">facebook ads · seo dasar · social media management · content planning</span>
-              </div>
-              <div className="cv-info-row">
-                <span className="cv-info-key">konten</span>
-                <span className="cv-info-val">community management · content writing · copywriting</span>
-              </div>
-              <div className="cv-info-row">
-                <span className="cv-info-key">desain</span>
-                <span className="cv-info-val">adobe photoshop · canva · figma · graphic design</span>
-              </div>
-              <div className="cv-info-row">
-                <span className="cv-info-key">administrasi</span>
-                <span className="cv-info-val">microsoft office · google workspace · data entry</span>
-              </div>
-              <div className="cv-info-row">
-                <span className="cv-info-key">bahasa</span>
-                <span className="cv-info-val">indonesia · inggris</span>
-              </div>
-              <div className="cv-info-row">
-                <span className="cv-info-key">sertifikasi</span>
-                <span className="cv-info-val">sertifikasi komputer · microsoft office</span>
-              </div>
+              {([
+                { key: 'web dev', tags: ['next.js','react','vite','typescript','tailwind css','express.js','drizzle orm','tanstack query','wouter','zod','vercel','telegram bot','ui/web design'] },
+                { key: 'marketing', tags: ['facebook ads','seo dasar','social media management','content planning'] },
+                { key: 'konten', tags: ['community management','content writing','copywriting'] },
+                { key: 'desain', tags: ['adobe photoshop','canva','figma','graphic design'] },
+                { key: 'administrasi', tags: ['microsoft office','google workspace','data entry'] },
+                { key: 'bahasa', tags: ['indonesia','inggris'] },
+                { key: 'sertifikasi', tags: ['sertifikasi komputer','microsoft office'] },
+              ] as { key: string; tags: string[] }[]).map(({ key, tags }) => (
+                <div key={key} className="cv-info-row">
+                  <span className="cv-info-key">{key}</span>
+                  <div className="cv-tags">
+                    {tags.map(t => <span key={t} className="cv-tag">{t}</span>)}
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
 
