@@ -338,6 +338,11 @@ textarea:focus { border-color: #444; }
 .status-count { color: var(--text-dim); }
 
 /* ── Page transitions ── */
+.page-wrap--enter,
+.page-wrap--enter ~ * {
+  position: relative;
+  z-index: 1;
+}
 .page-wrap--enter {
   animation: pageEnter 0.22s ease both;
 }
