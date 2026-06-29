@@ -958,10 +958,12 @@ textarea:focus { border-color: #444; }
   border: 1px solid var(--border);
   border-radius: 8px;
   text-decoration: none;
-  transition: border-color 0.28s ease, background 0.28s ease, transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: background 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+              border-color 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+              transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
   will-change: transform;
 }
-.spotify-card:hover { background: var(--border); border-color: var(--border2); transform: scale(1.012); }
+.spotify-card:hover { background: #181818; border-color: #2a2a2a; transform: scale(1.01); }
 .spotify-card--bare {
   background: transparent;
   border: none;
