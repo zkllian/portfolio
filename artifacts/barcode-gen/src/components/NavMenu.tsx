@@ -6,7 +6,7 @@ export default function NavMenu() {
   const [location, navigate] = useLocation();
   const { secretClick, dotColor, modal: creditModal } = useCredit();
 
-  const isTentang = location === '/tentang' || location === '/';
+  const isTentang = location === '/tentang';
 
   /* ── breadcrumb expand/collapse animation ── */
   const [shown, setShown] = useState(isTentang);
