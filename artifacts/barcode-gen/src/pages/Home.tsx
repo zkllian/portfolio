@@ -1,5 +1,6 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
+import { useLocation } from 'wouter';
 import JsBarcode from 'jsbarcode';
 
 
@@ -52,6 +53,7 @@ function genUserId() {
 }
 
 export default function Home() {
+  const [, navigate] = useLocation();
   const [inputVal, setInputVal] = useState('');
   const [imeiCount, setImeiCount] = useState('0 sets');
   const [isLoading, setIsLoading] = useState(false);
@@ -608,7 +610,7 @@ export default function Home() {
 
         {menuOpen && (
           <div className={`nav-menu${menuVisible ? ' visible' : ''}`}>
-            <button className="nav-menu-item" onClick={closeMenu}>
+            <button className="nav-menu-item" onClick={() => { closeMenu(); navigate('/tentang'); }}>
               tentang
             </button>
             <div className="nav-menu-sub-wrap">

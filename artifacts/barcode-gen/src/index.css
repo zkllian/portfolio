@@ -582,3 +582,198 @@ textarea:focus { border-color: #444; }
 .stats-reset-no:hover { background: var(--surface2); }
 
 .stats-note { font-size: 10px; font-family: 'Geist Mono', monospace; color: var(--text-dim); opacity: .45; white-space: nowrap; margin-left: auto; }
+
+/* ── Tentang / CV Page ── */
+.cv-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.cv-hero {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 18px;
+}
+
+.cv-name {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text);
+  letter-spacing: -0.01em;
+  margin-bottom: 6px;
+}
+
+.cv-meta {
+  font-size: 12px;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.cv-meta-dot { color: var(--text-dim); }
+
+.cv-contacts {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.cv-contact-link {
+  font-size: 12px;
+  font-family: 'Geist Mono', monospace;
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color 0.15s;
+  user-select: text;
+  -webkit-user-select: text;
+}
+.cv-contact-link:hover { color: var(--text); }
+
+.cv-section {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 18px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.cv-section-label {
+  font-size: 11px;
+  font-family: 'Geist Mono', monospace;
+  color: var(--text-dim);
+  letter-spacing: 0.05em;
+}
+
+.cv-about {
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.65;
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+.cv-entry {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border);
+}
+.cv-entry:last-child { padding-bottom: 0; border-bottom: none; }
+
+.cv-entry-header {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.cv-entry-role {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.cv-entry-company {
+  font-size: 12px;
+  font-family: 'Geist Mono', monospace;
+  color: var(--blue);
+}
+.cv-entry-company::before { content: '·'; color: var(--text-dim); margin-right: 6px; }
+
+.cv-entry-period {
+  font-size: 11px;
+  font-family: 'Geist Mono', monospace;
+  color: var(--text-dim);
+}
+
+.cv-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-top: 2px;
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+.cv-list li {
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.6;
+  padding-left: 14px;
+  position: relative;
+}
+.cv-list li::before {
+  content: '>';
+  position: absolute;
+  left: 0;
+  color: var(--text-dim);
+  font-family: 'Geist Mono', monospace;
+  font-size: 11px;
+}
+
+.cv-info-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cv-info-row {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.cv-info-key {
+  font-size: 10px;
+  font-family: 'Geist Mono', monospace;
+  color: var(--text-dim);
+  letter-spacing: 0.04em;
+}
+
+.cv-info-val {
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.55;
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+.cv-links-section { gap: 12px; }
+
+.cv-links {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.cv-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  text-decoration: none;
+  transition: border-color 0.15s, background 0.15s;
+}
+.cv-link:hover { background: #161616; border-color: var(--border2); }
+
+.cv-link-handle {
+  font-size: 13px;
+  font-family: 'Geist Mono', monospace;
+  color: var(--text-muted);
+}
+
+.cv-link-arrow {
+  font-size: 13px;
+  color: var(--text-dim);
+}
