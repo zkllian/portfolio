@@ -105,7 +105,7 @@ export default function Tentang() {
           </div>
 
           <a
-            className="spotify-card spotify-card--bare"
+            className="spotify-card"
             href="https://open.spotify.com/track/38u55vfPVcVYoqcbuQzpyu?si=I-YjAcsxQaO9cGh6AAL_hA"
             target="_blank"
             rel="noreferrer"
