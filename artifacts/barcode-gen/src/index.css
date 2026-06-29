@@ -207,7 +207,7 @@ body {
 .logo-menu-btn:active { background: none; outline: none; box-shadow: none; }
 
 .logo-menu-arrow {
-  font-size: 13px;
+  font-size: 17px;
   color: var(--text-dim);
   transition: transform 0.18s ease;
   line-height: 1;
