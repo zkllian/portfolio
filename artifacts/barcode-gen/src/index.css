@@ -136,14 +136,7 @@ body {
 
 .logo-name { color: var(--text); }
 
-/* ── Page header (below navbar) ── */
 .container { max-width: 480px; margin: 0 auto; padding: 0 var(--page-px); }
-
-.header { margin-top: 0; margin-bottom: 24px; }
-
-.page-title { font-size: 22px; font-weight: 600; letter-spacing: -.03em; color: var(--accent); line-height: 1.2; }
-
-.page-desc { margin-top: 6px; font-size: 13px; color: var(--text-muted); line-height: 1.6; }
 
 .card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 16px; }
 
@@ -163,10 +156,6 @@ textarea::placeholder { color: var(--text-dim); }
 
 textarea:focus { border-color: #444; }
 
-.input-hint { margin-top: 8px; font-size: 11px; color: var(--text-dim); font-family: 'Geist Mono', monospace; }
-
-.input-hint span { color: var(--text-muted); }
-
 .btn-row { display: flex; gap: 8px; margin-top: 16px; }
 
 .btn { flex: 1; padding: 9px 16px; font-size: 13px; font-weight: 500; font-family: 'Geist', sans-serif; border-radius: var(--radius); border: 1px solid transparent; cursor: pointer; transition: background .15s, opacity .15s, border-color .15s; letter-spacing: -.01em; user-select: none; -webkit-user-select: none; }
@@ -177,9 +166,6 @@ textarea:focus { border-color: #444; }
 
 .btn-primary:disabled { opacity: .4; cursor: not-allowed; }
 
-.btn-ghost { background: transparent; color: var(--text-muted); border-color: var(--border2); }
-
-.btn-ghost:hover { background: var(--surface2); color: var(--text); border-color: #444; }
 
 .status-bar { display: none; align-items: center; gap: 8px; padding: 10px 12px; background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius); margin-top: 12px; font-size: 12px; font-family: 'Geist Mono', monospace; color: var(--text-muted); }
 
@@ -331,18 +317,6 @@ textarea:focus { border-color: #444; }
 
 .pos-card { overflow: hidden; }
 
-.coords-tabs { display: flex; gap: 4px; padding: 12px 0 10px; border-bottom: 1px solid var(--border); margin-bottom: 0; }
-
-.coords-tab { padding: 4px 14px; font-size: 10px; font-family: 'Geist Mono', monospace; background: transparent; border: 1px solid var(--border2); border-radius: 999px; color: var(--text-dim); cursor: pointer; transition: background .12s, color .12s, border-color .12s; }
-
-.coords-tab.active { background: var(--surface2); border-color: #555; color: var(--text); }
-
-.pos-section-divider { font-size: 9px; font-family: 'Geist Mono', monospace; color: var(--text-dim); opacity: 0.5; padding: 10px 0 4px; letter-spacing: 0.08em; text-transform: uppercase; }
-
-.pos-section-divider--with-step { display: flex; align-items: center; justify-content: flex-end; opacity: 1; padding: 10px 0; border-bottom: 1px solid var(--border); }
-
-.pos-section-divider--with-step span:first-child { font-size: 9px; font-family: 'Geist Mono', monospace; color: var(--text-dim); letter-spacing: 0.08em; text-transform: uppercase; }
-
 .pos-row { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border); }
 
 .pos-row:last-child { border-bottom: none; }
@@ -350,16 +324,6 @@ textarea:focus { border-color: #444; }
 .pos-label { font-size: 11px; font-family: 'Geist Mono', monospace; color: var(--text-muted); width: 60px; flex-shrink: 0; display: flex; align-items: center; gap: 5px; }
 
 .pos-dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
-
-.pos-coord-badge { font-size: 9px; font-family: 'Geist Mono', monospace; color: var(--text-dim); white-space: nowrap; flex-shrink: 0; opacity: 0.55; min-width: 62px; }
-
-.nudge-step-row { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--border); }
-
-.step-btns { display: flex; gap: 4px; }
-
-.step-btn { padding: 3px 10px; font-size: 11px; font-family: 'Geist Mono', monospace; background: var(--surface2); border: 1px solid var(--border2); border-radius: var(--radius); color: var(--text-dim); cursor: pointer; transition: background .12s,color .12s,border-color .12s; }
-
-.step-btn.active { background: #1a1a1a; border-color: #555; color: var(--text); }
 
 .nudge-group { flex: 1; display: flex; flex-direction: column; gap: 6px; }
 
@@ -376,10 +340,6 @@ textarea:focus { border-color: #444; }
 .nudge-axis input::-webkit-outer-spin-button,
 .nudge-axis input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
 
-.font-sz-row { align-items: flex-start; padding-top: 10px; }
-
-.font-step-row { display: flex; align-items: center; gap: 4px; margin-top: 6px; }
-
 .preview-wrap { margin-top: 14px; border-top: 1px solid var(--border); padding-top: 14px; }
 
 .preview-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
@@ -390,25 +350,7 @@ textarea:focus { border-color: #444; }
 
 .preview-stage { position: relative; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--border); background: #111; }
 
-.preview-drag-hint { margin-top: 8px; font-size: 11px; font-family: 'Geist Mono', monospace; color: var(--text-dim); transition: color .15s; }
-
-.preview-drag-hint:has-active { color: var(--text-muted); }
-
 #previewCanvas { display: block; width: 100%; height: auto; }
-
-.preview-tap-hint { position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%); font-size: 10px; font-family: 'Geist Mono', monospace; color: rgba(255,255,255,.35); background: rgba(0,0,0,.5); padding: 3px 8px; border-radius: var(--radius); white-space: nowrap; pointer-events: none; }
-
-.preview-pick-info { margin-top: 10px; padding: 10px 12px; background: var(--surface2); border: 1px solid var(--border2); border-radius: var(--radius); }
-
-.pick-label { display: block; font-size: 11px; font-family: 'Geist Mono', monospace; color: var(--text-muted); margin-bottom: 8px; }
-
-.pick-btns { display: flex; gap: 6px; flex-wrap: wrap; }
-
-.pick-btns button { padding: 5px 12px; font-size: 11px; font-family: 'Geist Mono', monospace; font-weight: 500; background: var(--surface); border: 1px solid var(--border2); border-radius: var(--radius); color: var(--text); cursor: pointer; transition: background .15s, border-color .15s; }
-
-.pick-btns button:hover { background: #1a1a1a; border-color: #444; }
-
-.pick-btns button.pick-cancel { color: var(--text-dim); margin-left: auto; }
 
 .toast {
   position: fixed;

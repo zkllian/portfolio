@@ -209,6 +209,7 @@ export default function Home() {
       o2.frequency.setValueAtTime(900, t + 0.05); o2.frequency.exponentialRampToValueAtTime(1400, t + 0.15);
       g2.gain.setValueAtTime(0.18, t + 0.05); g2.gain.exponentialRampToValueAtTime(0.001, t + 0.3);
       o2.start(t + 0.05); o2.stop(t + 0.3);
+      setTimeout(() => ac.close().catch(() => {}), 500);
     } catch {}
   }
 
@@ -405,13 +406,19 @@ export default function Home() {
   }
 
   async function shareImage(dataUrl: string) {
-    if (!navigator.share) { showToast('Browser tidak mendukung share'); return; }
-    const res = await fetch(dataUrl);
-    const blob = await res.blob();
-    const file = new File([blob], 'barcode.png', { type: 'image/png' });
-    // @ts-ignore
-    if (navigator.canShare && navigator.canShare({ files: [file] })) {
-      await navigator.share({ files: [file] });
+    if (!navigator.share) { showToast('browser tidak mendukung share'); return; }
+    try {
+      const res = await fetch(dataUrl);
+      const blob = await res.blob();
+      const file = new File([blob], 'barcode.png', { type: 'image/png' });
+      // @ts-ignore
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        await navigator.share({ files: [file] });
+      }
+    } catch (e: unknown) {
+      if (e instanceof Error && e.name !== 'AbortError') {
+        showToast('gagal share');
+      }
     }
   }
 
