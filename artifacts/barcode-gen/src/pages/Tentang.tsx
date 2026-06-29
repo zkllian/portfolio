@@ -68,7 +68,10 @@ export default function Tentang() {
 
           {/* ── Tentang saya ── */}
           <div className="cv-section">
-            <div className="cv-section-label">// tentang saya</div>
+            <div className="cv-section-label">
+              <svg className="cv-section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+              tentang saya
+            </div>
             <p className="cv-about">
               ketertarikan saya terhadap teknologi dimulai dari warnet sekitar 2010 — dari sana saya mulai bereksperimen sendiri,
               hingga pada 2012 mengelola blog di blogspot dan berhasil bermitra dengan google adsense. perjalanan formal saya
@@ -83,7 +86,10 @@ export default function Tentang() {
 
           {/* ── Kompetensi utama ── */}
           <div className="cv-section">
-            <div className="cv-section-label">// kompetensi utama</div>
+            <div className="cv-section-label">
+              <svg className="cv-section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              kompetensi utama
+            </div>
             <div className="cv-competency-list">
               <div className="cv-competency-item">
                 <span className="cv-competency-num">01</span>
@@ -114,7 +120,10 @@ export default function Tentang() {
 
           {/* ── Pengalaman (formal + digital, merged) ── */}
           <div className="cv-section">
-            <div className="cv-section-label">// pengalaman</div>
+            <div className="cv-section-label">
+              <svg className="cv-section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+              pengalaman
+            </div>
 
             <div className="cv-entry">
               <div className="cv-entry-header">
@@ -252,7 +261,10 @@ export default function Tentang() {
 
           {/* ── Pendidikan ── */}
           <div className="cv-section">
-            <div className="cv-section-label">// pendidikan</div>
+            <div className="cv-section-label">
+              <svg className="cv-section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+              pendidikan
+            </div>
             <div className="cv-entry">
               <div className="cv-entry-header">
                 <div className="cv-entry-header-left">
@@ -270,16 +282,23 @@ export default function Tentang() {
 
           {/* ── Proyek ── */}
           <div className="cv-section">
-            <div className="cv-section-label">// proyek</div>
+            <div className="cv-section-label">
+              <svg className="cv-section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+              proyek
+            </div>
 
             <div className="cv-entry">
               <div className="cv-entry-header">
                 <div className="cv-entry-header-left">
-                  <span className="cv-entry-role">zkllian</span>
+                  <span className="cv-entry-role">llian portfolio</span>
                 </div>
-                <span className="cv-entry-period">2024</span>
+                <span className="cv-entry-period">2025 – skrg</span>
               </div>
-              <p className="cv-about" style={{ marginTop: 2 }}>situs portofolio profesional yang dirancang untuk menampilkan keahlian teknis, proyek pilihan, dan riwayat karier sebagai referensi bagi rekruter maupun klien.</p>
+              <p className="cv-about" style={{ marginTop: 2 }}>situs portfolio pribadi yang menampilkan keahlian teknis, riwayat karier, dan proyek pilihan — dibangun dengan react, vite, dan typescript.</p>
+              <a className="cv-entry-link" href="https://zkllian.vercel.app" target="_blank" rel="noreferrer">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ width: 10, height: 10 }}><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                zkllian.vercel.app
+              </a>
             </div>
 
             <div className="cv-entry">
@@ -305,7 +324,10 @@ export default function Tentang() {
 
           {/* ── Keahlian ── */}
           <div className="cv-section">
-            <div className="cv-section-label">// keahlian</div>
+            <div className="cv-section-label">
+              <svg className="cv-section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+              keahlian
+            </div>
             <div className="cv-info-grid">
               {([
                 { key: 'web dev', tags: ['next.js','react','vite','typescript','tailwind css','express.js','drizzle orm','tanstack query','wouter','zod','vercel','telegram bot','ui/web design'] },
@@ -329,7 +351,10 @@ export default function Tentang() {
 
           {/* ── Temukan saya ── */}
           <div className="cv-section cv-links-section">
-            <div className="cv-section-label">// temukan saya</div>
+            <div className="cv-section-label">
+              <svg className="cv-section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              temukan saya
+            </div>
             <div className="cv-links">
               <a className="cv-link" href="https://twitter.com/llianified" target="_blank" rel="noreferrer">
                 <div className="cv-link-left">

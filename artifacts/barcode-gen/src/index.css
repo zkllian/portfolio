@@ -729,7 +729,30 @@ textarea:focus { border-color: #444; }
   font-family: 'Geist Mono', monospace;
   color: var(--text-dim);
   letter-spacing: 0.05em;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
+
+.cv-section-icon {
+  width: 11px;
+  height: 11px;
+  flex-shrink: 0;
+  opacity: 0.7;
+}
+
+.cv-entry-link {
+  font-size: 11px;
+  font-family: 'Geist Mono', monospace;
+  color: var(--blue);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  opacity: 0.85;
+  transition: opacity 0.15s;
+}
+.cv-entry-link:hover { opacity: 1; text-decoration: underline; }
 
 .cv-about {
   font-size: 13px;
