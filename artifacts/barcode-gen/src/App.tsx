@@ -6,17 +6,23 @@ import NavMenu from '@/components/NavMenu';
 
 function PageTransition({ children }: { children: React.ReactNode }) {
   const [location] = useLocation();
+  const [phase, setPhase] = useState<'enter' | 'exit'>('enter');
   const [animKey, setAnimKey] = useState(0);
   const prevRef = useRef(location);
 
   useEffect(() => {
     if (location === prevRef.current) return;
     prevRef.current = location;
-    setAnimKey(k => k + 1);
+    setPhase('exit');
+    const t = setTimeout(() => {
+      setAnimKey(k => k + 1);
+      setPhase('enter');
+    }, 200);
+    return () => clearTimeout(t);
   }, [location]);
 
   return (
-    <div key={animKey} className="page-wrap page-wrap--enter">
+    <div key={animKey} className={`page-wrap page-wrap--${phase}`}>
       {children}
     </div>
   );
