@@ -739,14 +739,7 @@ textarea:focus { border-color: #444; }
   width: 11px;
   height: 11px;
   flex-shrink: 0;
-  opacity: 0;
-  transform: rotate(-80deg) scale(0.6);
-  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.18s,
-              opacity 0.3s ease 0.18s;
-}
-.reveal-in .cv-section-icon {
   opacity: 0.7;
-  transform: rotate(0deg) scale(1);
 }
 
 .cv-entry-link {
@@ -904,27 +897,6 @@ textarea:focus { border-color: #444; }
   border-radius: 4px;
   padding: 2px 8px;
   white-space: nowrap;
-  position: relative;
-  overflow: hidden;
-  cursor: default;
-  transition: color 0.25s, border-color 0.25s;
-}
-.cv-tag::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: 4px;
-  background: radial-gradient(circle at center, rgba(0, 112, 243, 0.32) 0%, transparent 72%);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  pointer-events: none;
-}
-.cv-tag:hover {
-  color: #5eaaff;
-  border-color: rgba(0, 112, 243, 0.4);
-}
-.cv-tag:hover::after {
-  opacity: 1;
 }
 
 .cv-links-section { gap: 12px; }
@@ -1130,9 +1102,6 @@ textarea:focus { border-color: #444; }
               0 0 0 0.5px rgba(0,0,0,0.05) inset;
 }
 [data-theme="light"] .nav-menu-item:hover { background: rgba(0,0,0,0.05); }
-[data-theme="light"] .cv-tag:hover::after {
-  background: radial-gradient(circle at center, rgba(0, 112, 243, 0.18) 0%, transparent 72%);
-}
 
 /* ── Scroll Reveal ── */
 .reveal {
