@@ -89,15 +89,17 @@ export default function Tentang() {
           <div className="cv-hero">
             <img className="cv-avatar" src="/avatar.png" alt="avatar" />
             <div className="cv-hero-info">
-              <div className="cv-name">yoga aprilliansyah n</div>
+              <div className="cv-name">yoga aprilliansyan n</div>
+              <div className="cv-role">front-end developer</div>
               <div className="cv-meta">
                 <span>26 tahun</span>
                 <span className="cv-meta-dot">·</span>
                 <span>cianjur</span>
               </div>
               <div className="cv-contacts">
-                <a className="cv-contact-link" href="tel:08950895110">0895-0895-1100</a>
                 <a className="cv-contact-link" href="mailto:llianified@gmail.com">llianified@gmail.com</a>
+                <a className="cv-contact-link" href="https://twitter.com/llianified" target="_blank" rel="noreferrer">@llianified</a>
+                <a className="cv-contact-link" href="https://github.com/zkllian" target="_blank" rel="noreferrer">github.com/zkllian</a>
               </div>
             </div>
           </div>
@@ -121,9 +123,9 @@ export default function Tentang() {
           <div className="cv-section">
             <div className="cv-section-label">// tentang saya</div>
             <p className="cv-about">
-              lulusan teknik komputer &amp; jaringan berusia 26 tahun dengan pengalaman di bidang administrasi,
-              dan pemasaran digital. menyukai kerja sama dalam tim dan terbiasa menyelesaikan pekerjaan dengan
-              rapi dan tepat waktu.
+              front-end developer dengan latar belakang teknik komputer &amp; jaringan. berpengalaman dalam
+              pengembangan web, desain ui, dan kontribusi digital di ekosistem web3 sebagai brand ambassador,
+              content writer, dan community manager. terbiasa bekerja mandiri maupun dalam tim.
             </p>
           </div>
 
@@ -132,19 +134,7 @@ export default function Tentang() {
 
             <div className="cv-entry">
               <div className="cv-entry-header">
-                <span className="cv-entry-role">digital marketing</span>
-                <span className="cv-entry-company">zenius store</span>
-              </div>
-              <div className="cv-entry-period">maret 2021 – september 2021</div>
-              <ul className="cv-list">
-                <li>melayani pelanggan dan memproses pesanan melalui whatsapp, mulai dari konsultasi produk hingga konfirmasi order</li>
-                <li>menyiapkan, mengemas, dan mengelola pengiriman pesanan serta memastikan pesanan terkirim dengan baik</li>
-              </ul>
-            </div>
-
-            <div className="cv-entry">
-              <div className="cv-entry-header">
-                <span className="cv-entry-role">admin perpustakaan</span>
+                <span className="cv-entry-role">administrator intern</span>
                 <span className="cv-entry-company">universitas suryakancana</span>
               </div>
               <div className="cv-entry-period">agustus 2017 – november 2017</div>
@@ -153,6 +143,63 @@ export default function Tentang() {
                 <li>membantu pengunjung menemukan referensi yang dibutuhkan dengan cepat, meningkatkan kepuasan layanan secara konsisten</li>
                 <li>melakukan pembaruan dan pengorganisasian koleksi buku secara berkala agar tetap relevan dan mudah diakses</li>
               </ul>
+            </div>
+
+            <div className="cv-entry">
+              <div className="cv-entry-header">
+                <span className="cv-entry-role">blogger</span>
+                <span className="cv-entry-company">blog independen · blogspot + google adsense</span>
+              </div>
+              <div className="cv-entry-period">2012</div>
+              <ul className="cv-list">
+                <li>membuat dan mengelola blog secara independen dengan monetisasi melalui google adsense</li>
+              </ul>
+            </div>
+          </div>
+
+          <div className="cv-section">
+            <div className="cv-section-label">// kontribusi digital</div>
+            <div className="cv-contrib-table">
+              <div className="cv-contrib-row cv-contrib-row--head">
+                <span>perusahaan</span>
+                <span>peran</span>
+                <span>periode</span>
+              </div>
+              <div className="cv-contrib-row">
+                <span>injective</span>
+                <span>brand ambassador</span>
+                <span>jan 2024 – mar 2025</span>
+              </div>
+              <div className="cv-contrib-row">
+                <span>nesa</span>
+                <span>brand ambassador</span>
+                <span>mar 2024 – mei 2025</span>
+              </div>
+              <div className="cv-contrib-row">
+                <span>swisstronik</span>
+                <span>brand ambassador</span>
+                <span>sep 2024 – jan 2025</span>
+              </div>
+              <div className="cv-contrib-row">
+                <span>mitosis</span>
+                <span>content writer</span>
+                <span>jul 2024 – apr 2025</span>
+              </div>
+              <div className="cv-contrib-row">
+                <span>story protocol</span>
+                <span>content writer</span>
+                <span>jul 2024 – apr 2025</span>
+              </div>
+              <div className="cv-contrib-row">
+                <span>union</span>
+                <span>content writer</span>
+                <span>jul 2024 – apr 2025</span>
+              </div>
+              <div className="cv-contrib-row">
+                <span>verso</span>
+                <span>community manager</span>
+                <span>mar 2018 – des 2019</span>
+              </div>
             </div>
           </div>
 
@@ -172,23 +219,63 @@ export default function Tentang() {
           </div>
 
           <div className="cv-section">
-            <div className="cv-section-label">// informasi tambahan</div>
+            <div className="cv-section-label">// proyek</div>
+
+            <div className="cv-entry">
+              <div className="cv-entry-header">
+                <span className="cv-entry-role">zkllian</span>
+                <span className="cv-entry-period" style={{ marginLeft: 0 }}>2024</span>
+              </div>
+              <p className="cv-about" style={{ marginTop: 2 }}>portofolio profesional dibangun dengan next.js, react, shadcn ui, tailwind, dan magic ui.</p>
+            </div>
+
+            <div className="cv-entry">
+              <div className="cv-entry-header">
+                <span className="cv-entry-role">jobstreet scraper</span>
+                <span className="cv-entry-period" style={{ marginLeft: 0 }}>2024</span>
+              </div>
+              <p className="cv-about" style={{ marginTop: 2 }}>scraper data lowongan kerja dari jobstreet menggunakan python.</p>
+            </div>
+
+            <div className="cv-entry">
+              <div className="cv-entry-header">
+                <span className="cv-entry-role">admob auto impression</span>
+                <span className="cv-entry-period" style={{ marginLeft: 0 }}>2024</span>
+              </div>
+              <p className="cv-about" style={{ marginTop: 2 }}>tools otomasi tayangan admob dibangun dengan kotlin dan java.</p>
+            </div>
+          </div>
+
+          <div className="cv-section">
+            <div className="cv-section-label">// keahlian</div>
             <div className="cv-info-grid">
               <div className="cv-info-row">
-                <span className="cv-info-key">hard skills</span>
-                <span className="cv-info-val">administrasi data · adobe photoshop · canva · content planning · figma · google workspace · manajemen media sosial · microsoft office</span>
+                <span className="cv-info-key">web dev</span>
+                <span className="cv-info-val">next.js · react · web development · vercel · telegram bot · ui/web design</span>
               </div>
               <div className="cv-info-row">
-                <span className="cv-info-key">soft skills</span>
-                <span className="cv-info-val">komunikasi · kerja tim · problem solving · manajemen waktu</span>
+                <span className="cv-info-key">marketing</span>
+                <span className="cv-info-val">facebook ads · seo dasar · social media management · content planning</span>
+              </div>
+              <div className="cv-info-row">
+                <span className="cv-info-key">konten</span>
+                <span className="cv-info-val">community management · content writing · copywriting</span>
+              </div>
+              <div className="cv-info-row">
+                <span className="cv-info-key">desain</span>
+                <span className="cv-info-val">adobe photoshop · canva · figma · graphic design</span>
+              </div>
+              <div className="cv-info-row">
+                <span className="cv-info-key">administrasi</span>
+                <span className="cv-info-val">microsoft office · google workspace · data entry</span>
               </div>
               <div className="cv-info-row">
                 <span className="cv-info-key">bahasa</span>
-                <span className="cv-info-val">inggris · indonesia</span>
+                <span className="cv-info-val">indonesia · inggris</span>
               </div>
               <div className="cv-info-row">
                 <span className="cv-info-key">sertifikasi</span>
-                <span className="cv-info-val">komputer · microsoft office</span>
+                <span className="cv-info-val">sertifikasi komputer · microsoft office</span>
               </div>
             </div>
           </div>
@@ -196,12 +283,16 @@ export default function Tentang() {
           <div className="cv-section cv-links-section">
             <div className="cv-section-label">// temukan saya</div>
             <div className="cv-links">
-              <a className="cv-link" href="https://instagram.com/llianified" target="_blank" rel="noreferrer">
+              <a className="cv-link" href="https://twitter.com/llianified" target="_blank" rel="noreferrer">
                 <span className="cv-link-handle">@llianified</span>
                 <span className="cv-link-arrow">↗</span>
               </a>
               <a className="cv-link" href="https://instagram.com/lli.__.an" target="_blank" rel="noreferrer">
                 <span className="cv-link-handle">@lli.__.an</span>
+                <span className="cv-link-arrow">↗</span>
+              </a>
+              <a className="cv-link" href="https://github.com/zkllian" target="_blank" rel="noreferrer">
+                <span className="cv-link-handle">github.com/zkllian</span>
                 <span className="cv-link-arrow">↗</span>
               </a>
               <a className="cv-link" href="https://zkllian.vercel.app" target="_blank" rel="noreferrer">
