@@ -155,11 +155,17 @@ body {
   letter-spacing: .02em;
   transition: background 0.15s;
   outline: none;
+  -webkit-appearance: none;
+  appearance: none;
   -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  box-shadow: none;
 }
 .logo-menu-btn:hover { background: rgba(255,255,255,0.07); }
-.logo-menu-btn:focus { outline: none; }
-.logo-menu-btn:active { background: none; }
+.logo-menu-btn:focus,
+.logo-menu-btn:focus-visible,
+.logo-menu-btn:focus-within { outline: none; box-shadow: none; background: none; }
+.logo-menu-btn:active { background: none; outline: none; box-shadow: none; }
 
 .logo-root { color: var(--text); }
 
