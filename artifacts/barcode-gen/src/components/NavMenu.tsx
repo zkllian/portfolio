@@ -16,13 +16,14 @@ export default function NavMenu() {
   useEffect(() => {
     if (location === prevLocRef.current) return;
     prevLocRef.current = location;
-    setPhase('out');
+    const DELAY = 120;
+    const t0 = setTimeout(() => setPhase('out'), DELAY);
     const t1 = setTimeout(() => {
       setShown(location === '/tentang');
       setPhase('in');
-    }, 180);
-    const t2 = setTimeout(() => setPhase('idle'), 180 + 420);
-    return () => { clearTimeout(t1); clearTimeout(t2); };
+    }, DELAY + 180);
+    const t2 = setTimeout(() => setPhase('idle'), DELAY + 180 + 420);
+    return () => { clearTimeout(t0); clearTimeout(t1); clearTimeout(t2); };
   }, [location]);
 
   const crumbClass = `logo-crumbs${
