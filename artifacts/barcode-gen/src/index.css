@@ -606,6 +606,24 @@ textarea:focus { border-color: #444; }
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 20px 18px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.cv-avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center top;
+  flex-shrink: 0;
+  border: 1px solid var(--border);
+}
+
+.cv-hero-info {
+  flex: 1;
+  min-width: 0;
 }
 
 .cv-name {

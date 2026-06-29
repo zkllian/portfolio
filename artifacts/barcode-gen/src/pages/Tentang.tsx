@@ -85,15 +85,18 @@ export default function Tentang() {
         <div className="cv-wrap">
 
           <div className="cv-hero">
-            <div className="cv-name">yoga aprilliansyah n</div>
-            <div className="cv-meta">
-              <span>26 tahun</span>
-              <span className="cv-meta-dot">·</span>
-              <span>cianjur</span>
-            </div>
-            <div className="cv-contacts">
-              <a className="cv-contact-link" href="tel:08950895110">0895-0895-1100</a>
-              <a className="cv-contact-link" href="mailto:llianified@gmail.com">llianified@gmail.com</a>
+            <img className="cv-avatar" src="/avatar.png" alt="avatar" />
+            <div className="cv-hero-info">
+              <div className="cv-name">yoga aprilliansyah n</div>
+              <div className="cv-meta">
+                <span>26 tahun</span>
+                <span className="cv-meta-dot">·</span>
+                <span>cianjur</span>
+              </div>
+              <div className="cv-contacts">
+                <a className="cv-contact-link" href="tel:08950895110">0895-0895-1100</a>
+                <a className="cv-contact-link" href="mailto:llianified@gmail.com">llianified@gmail.com</a>
+              </div>
             </div>
           </div>
 
