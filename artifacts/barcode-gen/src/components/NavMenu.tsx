@@ -124,7 +124,7 @@ export default function NavMenu() {
           <div className="logo-icon-wrap" onClick={secretClick}>
             <div className="logo-icon-ring logo-icon-ring--1"></div>
             <div className="logo-icon-ring logo-icon-ring--2"></div>
-            <div className="logo-icon" style={{ background: dotColor, transition: 'background 0.2s ease' }}></div>
+            <div className="logo-icon" style={{ background: theme === 'light' && dotColor === '#ffffff' ? '#0a0a0a' : dotColor, transition: 'background 0.2s ease' }}></div>
           </div>
           <div className="logo-label">
             <button className="logo-menu-btn" onClick={toggleMenu}>
