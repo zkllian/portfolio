@@ -1,8 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
 import { useLocation } from 'wouter';
+import { useCredit } from '@/hooks/useCredit';
 
 export default function Tentang() {
   const [, navigate] = useLocation();
+  const { secretClick, dotColor, modal: creditModal } = useCredit();
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [menuVisible, setMenuVisible] = useState(false);
@@ -49,10 +51,10 @@ export default function Tentang() {
     <>
       <div className="logo-wrap" ref={menuRef}>
         <div className="logo-row">
-          <div className="logo-icon-wrap">
+          <div className="logo-icon-wrap" onClick={secretClick}>
             <div className="logo-icon-ring logo-icon-ring--1"></div>
             <div className="logo-icon-ring logo-icon-ring--2"></div>
-            <div className="logo-icon"></div>
+            <div className="logo-icon" style={{ background: dotColor, transition: 'background 0.2s ease' }}></div>
           </div>
           <div className="logo-label">
             <button className="logo-menu-btn" onClick={toggleMenu}>
@@ -195,6 +197,8 @@ export default function Tentang() {
 
         </div>
       </div>
+
+      {creditModal}
     </>
   );
 }
