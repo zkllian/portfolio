@@ -61,10 +61,10 @@ body {
 /* ── Floating logo pill ── */
 .logo-wrap {
   position: relative;
-  background: rgba(18,18,18,0.97);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border: 1px solid var(--border);
+  background: rgba(10,10,10,0.62);
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  border: 1px solid rgba(255,255,255,0.08);
   border-radius: 999px;
   padding: 6px 14px 6px 8px;
   width: fit-content;
@@ -188,9 +188,7 @@ body {
   top: calc(100% + 10px);
   left: 0;
   transform: translateY(-8px) scale(0.96);
-  background: rgba(14,14,14,0.82);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  background: #0e0e0e;
   border: 1px solid var(--border2);
   border-radius: 10px;
   min-width: 160px;
