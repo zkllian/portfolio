@@ -587,14 +587,14 @@ export default function Home() {
 
   return (
     <>
-      <div className="logo-wrap">
+      <div className="logo-wrap" ref={menuRef}>
         <div className="logo-row">
           <div className="logo-icon-wrap" onClick={secretClick}>
             <div className="logo-icon-ring logo-icon-ring--1"></div>
             <div className="logo-icon-ring logo-icon-ring--2"></div>
             <div className="logo-icon" style={{ background: dotColor, transition: 'background 0.2s ease' }}></div>
           </div>
-          <div className="logo-label" ref={menuRef}>
+          <div className="logo-label">
             <button className="logo-menu-btn" onClick={toggleMenu}>
               <span className="logo-root">llian</span>
               <span className={`logo-menu-arrow${menuOpen ? ' open' : ''}`}>▾</span>
@@ -603,24 +603,24 @@ export default function Home() {
             <span className="logo-crumb">imei</span>
             <span className="logo-sep"> / </span>
             <span className="logo-crumb">barcode-gen</span>
-
-            {menuOpen && (
-              <div className={`nav-menu${menuVisible ? ' visible' : ''}`}>
-                <button className="nav-menu-item" onClick={closeMenu}>
-                  tentang
-                </button>
-                <div className="nav-menu-sub-wrap">
-                  <span className="nav-menu-item nav-menu-item--parent">imei</span>
-                  <div className="nav-menu-sub">
-                    <button className="nav-menu-item nav-menu-item--child" onClick={closeMenu}>
-                      barcode gen
-                    </button>
-                  </div>
-                </div>
-              </div>
-            )}
           </div>
         </div>
+
+        {menuOpen && (
+          <div className={`nav-menu${menuVisible ? ' visible' : ''}`}>
+            <button className="nav-menu-item" onClick={closeMenu}>
+              tentang
+            </button>
+            <div className="nav-menu-sub-wrap">
+              <span className="nav-menu-item nav-menu-item--parent">imei</span>
+              <div className="nav-menu-sub">
+                <button className="nav-menu-item nav-menu-item--child" onClick={closeMenu}>
+                  barcode gen
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
 
       <div className="container">

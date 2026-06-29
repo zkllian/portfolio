@@ -132,7 +132,7 @@ body {
   100% { transform: scale(2.1);  opacity: 0; }
 }
 
-.logo-label { font-size: 13px; font-weight: 500; color: var(--text-muted); letter-spacing: .02em; display: flex; align-items: center; position: relative; white-space: nowrap; }
+.logo-label { font-size: 13px; font-weight: 500; color: var(--text-muted); letter-spacing: .02em; display: flex; align-items: center; white-space: nowrap; }
 
 .logo-sep { color: var(--border2); margin: 0 2px; }
 
@@ -175,8 +175,9 @@ body {
 /* ── Nav dropdown menu ── */
 .nav-menu {
   position: absolute;
-  top: calc(100% + 12px);
-  left: 0;
+  top: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%) translateY(-6px) scale(0.97);
   background: rgba(14,14,14,0.96);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
@@ -190,13 +191,12 @@ body {
     0 2px 8px -2px rgba(0,0,0,0.5),
     0 0 0 0.5px rgba(255,255,255,0.04) inset;
   opacity: 0;
-  transform: translateY(-6px) scale(0.97);
   transition: opacity 0.18s ease, transform 0.18s ease;
   pointer-events: none;
 }
 .nav-menu.visible {
   opacity: 1;
-  transform: translateY(0) scale(1);
+  transform: translateX(-50%) translateY(0) scale(1);
   pointer-events: all;
 }
 
