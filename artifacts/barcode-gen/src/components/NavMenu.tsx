@@ -64,7 +64,7 @@ export default function NavMenu() {
   }
   function closeMenu() {
     setMenuVisible(false);
-    setTimeout(() => setMenuOpen(false), 180);
+    setTimeout(() => setMenuOpen(false), 240);
   }
   function toggleMenu() {
     if (menuOpen) closeMenu(); else openMenu();
