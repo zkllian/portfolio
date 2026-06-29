@@ -188,7 +188,9 @@ body {
   top: calc(100% + 10px);
   left: 0;
   transform: translateY(-8px) scale(0.96);
-  background: #0e0e0e;
+  background: rgba(14,14,14,0.82);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--border2);
   border-radius: 10px;
   min-width: 160px;
