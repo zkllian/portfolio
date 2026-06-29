@@ -821,6 +821,33 @@ textarea:focus { border-color: #444; }
 
 .cv-links-section { gap: 12px; }
 
+.cv-competency-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cv-competency-item {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.cv-competency-num {
+  font-size: 10px;
+  font-family: 'Geist Mono', monospace;
+  color: var(--text-dim);
+  flex-shrink: 0;
+  margin-top: 2px;
+  letter-spacing: 0.04em;
+}
+
+.cv-competency-text {
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.65;
+}
+
 .cv-contrib-table {
   display: flex;
   flex-direction: column;

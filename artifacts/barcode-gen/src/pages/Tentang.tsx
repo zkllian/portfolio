@@ -135,6 +135,36 @@ export default function Tentang() {
           </div>
 
           <div className="cv-section">
+            <div className="cv-section-label">// kompetensi utama</div>
+            <div className="cv-competency-list">
+              <div className="cv-competency-item">
+                <span className="cv-competency-num">01</span>
+                <p className="cv-competency-text">kepekaan tinggi terhadap estetika visual — mampu menilai apakah sebuah tampilan terlihat rapi, terstruktur, dan elegan; memahami prinsip tata letak yang membuat desain terasa profesional</p>
+              </div>
+              <div className="cv-competency-item">
+                <span className="cv-competency-num">02</span>
+                <p className="cv-competency-text">perhatian terhadap detail — mampu mendeteksi inkonsistensi visual dan teks sekecil tanda baca, ukuran elemen, dan perbedaan warna antar komponen</p>
+              </div>
+              <div className="cv-competency-item">
+                <span className="cv-competency-num">03</span>
+                <p className="cv-competency-text">pemahaman pemasaran digital — berpengalaman menjalankan iklan facebook ads, menulis konten untuk konversi, serta memahami dasar-dasar seo untuk meningkatkan visibilitas digital</p>
+              </div>
+              <div className="cv-competency-item">
+                <span className="cv-competency-num">04</span>
+                <p className="cv-competency-text">kemampuan teknis yang fungsional — dapat membangun dan mendeploy website, membuat bot telegram untuk otomasi pemasaran, serta mengonfigurasi domain dan hosting secara mandiri</p>
+              </div>
+              <div className="cv-competency-item">
+                <span className="cv-competency-num">05</span>
+                <p className="cv-competency-text">pengalaman administrasi dan pelayanan — terlatih mengelola data, melayani kebutuhan pengguna secara langsung, dan menjaga keakuratan pencatatan dalam lingkungan kerja formal</p>
+              </div>
+              <div className="cv-competency-item">
+                <span className="cv-competency-num">06</span>
+                <p className="cv-competency-text">komunikasi yang efisien — mampu menyampaikan kebutuhan secara singkat dan jelas, baik dalam tim maupun kepada audiens digital, meminimalkan miskomunikasi</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="cv-section">
             <div className="cv-section-label">// pengalaman</div>
 
             <div className="cv-entry">
