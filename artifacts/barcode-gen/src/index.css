@@ -636,12 +636,12 @@ textarea:focus { border-color: #444; }
 
 .cv-avatar {
   width: 72px;
-  height: 72px;
+  height: 58px;
   border-radius: var(--radius);
   flex-shrink: 0;
   border: 1px solid var(--border);
   background-image: url('/avatar.png');
-  background-size: 130%;
+  background-size: cover;
   background-position: top center;
   background-repeat: no-repeat;
 }
