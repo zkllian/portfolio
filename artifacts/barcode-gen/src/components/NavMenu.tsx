@@ -112,29 +112,29 @@ export default function NavMenu() {
               </button>
             </div>
           </div>
+        </div>
 
-          {menuOpen && (
-            <div className={`nav-menu${menuVisible ? ' visible' : ''}`}>
-              <button
-                className={`nav-menu-item${isTentang ? ' nav-menu-item--active' : ''}`}
-                onClick={() => { if (!isTentang) { closeMenu(); navigate('/tentang'); } else closeMenu(); }}
-              >
-                tentang
-              </button>
-              <div className="nav-menu-sub-wrap">
-                <span className="nav-menu-item nav-menu-item--parent">projects</span>
-                <div className="nav-menu-sub">
-                  <button
-                    className={`nav-menu-item nav-menu-item--child${!isTentang ? ' nav-menu-item--active' : ''}`}
-                    onClick={() => { if (isTentang) { closeMenu(); navigate('/projects/imei/barcode-gen'); } else closeMenu(); }}
-                  >
-                    imei / barcode-gen
-                  </button>
-                </div>
+        {menuOpen && (
+          <div className={`nav-menu${menuVisible ? ' visible' : ''}`}>
+            <button
+              className={`nav-menu-item${isTentang ? ' nav-menu-item--active' : ''}`}
+              onClick={() => { if (!isTentang) { closeMenu(); navigate('/tentang'); } else closeMenu(); }}
+            >
+              tentang
+            </button>
+            <div className="nav-menu-sub-wrap">
+              <span className="nav-menu-item nav-menu-item--parent">projects</span>
+              <div className="nav-menu-sub">
+                <button
+                  className={`nav-menu-item nav-menu-item--child${!isTentang ? ' nav-menu-item--active' : ''}`}
+                  onClick={() => { if (isTentang) { closeMenu(); navigate('/projects/imei/barcode-gen'); } else closeMenu(); }}
+                >
+                  imei / barcode-gen
+                </button>
               </div>
             </div>
-          )}
-        </div>
+          </div>
+        )}
 
         {shown ? (
           <div className={`breadcrumb-pill ${crumbClass}`}>
