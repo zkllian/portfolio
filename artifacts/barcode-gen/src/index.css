@@ -777,6 +777,54 @@ textarea:focus { border-color: #444; }
 
 .cv-links-section { gap: 12px; }
 
+.spotify-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  text-decoration: none;
+  transition: border-color 0.15s, background 0.15s;
+}
+.spotify-card:hover { background: #161616; border-color: var(--border2); }
+
+.spotify-art {
+  width: 44px;
+  height: 44px;
+  border-radius: 4px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.spotify-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.spotify-track {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.spotify-artist {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.spotify-logo {
+  width: 18px;
+  height: 18px;
+  color: #1db954;
+  flex-shrink: 0;
+}
+
 .cv-links {
   display: flex;
   flex-direction: column;

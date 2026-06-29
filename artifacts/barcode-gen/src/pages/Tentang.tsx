@@ -177,6 +177,25 @@ export default function Tentang() {
             </div>
           </div>
 
+          <div className="cv-section">
+            <div className="cv-section-label">// recently played</div>
+            <a
+              className="spotify-card"
+              href="https://open.spotify.com/track/38u55vfPVcVYoqcbuQzpyu?si=I-YjAcsxQaO9cGh6AAL_hA"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <img className="spotify-art" src="/spotify-like-i-do.png" alt="Like I Do" />
+              <div className="spotify-info">
+                <div className="spotify-track">like i do</div>
+                <div className="spotify-artist">andy arysh</div>
+              </div>
+              <svg className="spotify-logo" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.516 17.297a.748.748 0 01-1.03.25c-2.819-1.723-6.365-2.112-10.542-1.157a.748.748 0 01-.353-1.452c4.573-1.045 8.492-.594 11.675 1.338.354.216.466.68.25 1.021zm1.472-3.276a.936.936 0 01-1.288.308c-3.226-1.983-8.145-2.557-11.967-1.399a.937.937 0 01-.577-1.787c4.363-1.323 9.786-.682 13.525 1.59.44.27.578.845.307 1.288zm.126-3.41c-3.868-2.297-10.243-2.508-13.933-1.388a1.122 1.122 0 01-.651-2.146c4.243-1.287 11.29-1.038 15.738 1.607a1.122 1.122 0 01-1.154 1.927z"/>
+              </svg>
+            </a>
+          </div>
+
           <div className="cv-section cv-links-section">
             <div className="cv-section-label">// temukan saya</div>
             <div className="cv-links">
