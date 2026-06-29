@@ -651,6 +651,56 @@ textarea:focus { border-color: #444; }
   animation: fadeSlideIn 0.25s ease-out both;
 }
 
+.cv-sidebar { display: contents; }
+.cv-main    { display: contents; }
+
+/* ── Desktop responsive layout ── */
+@media (min-width: 860px) {
+  .container {
+    max-width: 1080px;
+  }
+
+  /* Tentang page: sidebar + main */
+  .cv-wrap {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    grid-template-rows: auto;
+    align-items: start;
+    gap: 20px;
+  }
+  .cv-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    position: sticky;
+    top: 80px;
+  }
+  .cv-main {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  /* Home page: left + right */
+  .view-input {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+    gap: 20px;
+  }
+  .home-left,
+  .home-right {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  /* Results list 2-col on desktop */
+  .results-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 .cv-hero {
   background: var(--surface);
   border: 1px solid var(--border);

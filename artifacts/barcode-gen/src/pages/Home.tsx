@@ -488,6 +488,7 @@ export default function Home() {
 
         {view === 'input' && (
           <div className="view-input">
+            <div className="home-left">
             <div className="card">
               <div className="card-header">
                 <span className="card-title">// inject</span>
@@ -518,7 +519,9 @@ export default function Home() {
                 </div>
               )}
             </div>
+            </div>{/* end home-left */}
 
+            <div className="home-right">
             <div className="card counter-card">
               <div className="card-header">
                 <span className="card-title">// barcode hari ini</span>
@@ -560,6 +563,7 @@ export default function Home() {
                   </div>
                 </div>
             </div>
+            </div>{/* end home-right */}
           </div>
         )}
 
