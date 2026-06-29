@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Route, Switch, useLocation } from 'wouter';
 import Home from '@/pages/Home';
 import Tentang from '@/pages/Tentang';
+import NavMenu from '@/components/NavMenu';
 
 function PageTransition({ children }: { children: React.ReactNode }) {
   const [location] = useLocation();
@@ -23,14 +24,17 @@ function PageTransition({ children }: { children: React.ReactNode }) {
 
 function App() {
   return (
-    <PageTransition>
-      <Switch>
-        <Route path="/" component={Home} />
-        <Route path="/projects/imei/barcode-gen" component={Home} />
-        <Route path="/tentang" component={Tentang} />
-        <Route component={Home} />
-      </Switch>
-    </PageTransition>
+    <>
+      <NavMenu />
+      <PageTransition>
+        <Switch>
+          <Route path="/" component={Home} />
+          <Route path="/projects/imei/barcode-gen" component={Home} />
+          <Route path="/tentang" component={Tentang} />
+          <Route component={Home} />
+        </Switch>
+      </PageTransition>
+    </>
   );
 }
 
