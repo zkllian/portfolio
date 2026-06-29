@@ -765,6 +765,10 @@ textarea:focus { border-color: #444; }
   display: flex;
   flex-direction: column;
   gap: 3px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 10px;
 }
 
 .cv-info-key {
