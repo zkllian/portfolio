@@ -1,6 +1,5 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
-import { useLocation } from 'wouter';
 import JsBarcode from 'jsbarcode';
 import { useCredit } from '@/hooks/useCredit';
 
@@ -54,11 +53,10 @@ function genUserId() {
 }
 
 export default function Home() {
-  const [, navigate] = useLocation();
   const [inputVal, setInputVal] = useState('');
   const [imeiCount, setImeiCount] = useState('0 sets');
   const [isLoading, setIsLoading] = useState(false);
-  const [loadingText, setLoadingText] = useState('compiling...');
+  const loadingText = 'compiling barcode...';
   const [loadingCount, setLoadingCount] = useState('');
   const [view, setView] = useState('input');
   const [results, setResults] = useState<{ url: string; index: number }[]>([]);
@@ -112,10 +110,6 @@ export default function Home() {
     return saved ? parseInt(saved, 10) || 0 : 0;
   });
   const [confirmReset, setConfirmReset] = useState(false);
-
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [menuVisible, setMenuVisible] = useState(false);
-  const menuRef = useRef<HTMLDivElement>(null);
 
   const { secretClick, dotColor, modal: creditModal } = useCredit();
 
@@ -183,39 +177,11 @@ export default function Home() {
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        if (statsOpen) closeStats();
-        if (menuOpen) closeMenu();
-      }
+      if (e.key === 'Escape' && statsOpen) closeStats();
     };
     document.addEventListener('keydown', handler);
     return () => document.removeEventListener('keydown', handler);
-  }, [statsOpen, menuOpen]);
-
-  useEffect(() => {
-    if (!menuOpen) return;
-    function handleOutside(e: MouseEvent) {
-      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
-        closeMenu();
-      }
-    }
-    document.addEventListener('mousedown', handleOutside);
-    return () => document.removeEventListener('mousedown', handleOutside);
-  }, [menuOpen]);
-
-  function openMenu() {
-    setMenuOpen(true);
-    requestAnimationFrame(() => requestAnimationFrame(() => setMenuVisible(true)));
-  }
-
-  function closeMenu() {
-    setMenuVisible(false);
-    setTimeout(() => setMenuOpen(false), 180);
-  }
-
-  function toggleMenu() {
-    if (menuOpen) closeMenu(); else openMenu();
-  }
+  }, [statsOpen]);
 
   function randomDigits(len: number) {
     return Array.from({ length: len }, () => Math.floor(Math.random() * 10)).join('');
@@ -281,7 +247,7 @@ export default function Home() {
       if (!img.complete || !img.naturalWidth) {
         await new Promise<void>((resolve, reject) => {
           img.onload = () => resolve();
-          img.onerror = () => reject(new Error('Gagal load template image'));
+          img.onerror = () => reject(new Error('gagal load template'));
         });
       }
       if (!img.naturalWidth) { setInlineError('// err: template image load failed'); return; }
@@ -304,7 +270,6 @@ export default function Home() {
       setIsLoading(true);
 
       for (let i = 0; i < totalSets; i++) {
-        setLoadingText('compiling barcode...');
         setLoadingCount(`[${i + 1}/${totalSets}]`);
         await new Promise(r => setTimeout(r, 30));
 
@@ -353,7 +318,7 @@ export default function Home() {
       window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
     } catch (err: unknown) {
       setIsLoading(false);
-      setInlineError('Error: ' + ((err instanceof Error) ? err.message : String(err)));
+      setInlineError('// err: ' + ((err instanceof Error) ? err.message : String(err)));
     }
   }
 
@@ -523,44 +488,6 @@ export default function Home() {
 
   return (
     <>
-      <div className="logo-wrap" ref={menuRef}>
-        <div className="logo-row">
-          <div className="logo-icon-wrap" onClick={secretClick}>
-            <div className="logo-icon-ring logo-icon-ring--1"></div>
-            <div className="logo-icon-ring logo-icon-ring--2"></div>
-            <div className="logo-icon" style={{ background: dotColor, transition: 'background 0.2s ease' }}></div>
-          </div>
-          <div className="logo-label">
-            <button className="logo-menu-btn" onClick={toggleMenu}>
-              <span className="logo-root">llian</span>
-              <span className={`logo-menu-arrow${menuOpen ? ' open' : ''}`}>▾</span>
-            </button>
-            <span className="logo-sep"> / </span>
-            <span className="logo-crumb">projects</span>
-            <span className="logo-sep"> / </span>
-            <span className="logo-crumb">imei</span>
-            <span className="logo-sep"> / </span>
-            <span className="logo-crumb">barcode-gen</span>
-          </div>
-        </div>
-
-        {menuOpen && (
-          <div className={`nav-menu${menuVisible ? ' visible' : ''}`}>
-            <button className="nav-menu-item" onClick={() => { closeMenu(); navigate('/tentang'); }}>
-              tentang
-            </button>
-            <div className="nav-menu-sub-wrap">
-              <span className="nav-menu-item nav-menu-item--parent">projects</span>
-              <div className="nav-menu-sub">
-                <button className="nav-menu-item nav-menu-item--child nav-menu-item--active" onClick={closeMenu}>
-                  imei / barcode-gen
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
-
       <div className="container">
 
         {view === 'input' && (
@@ -619,7 +546,7 @@ export default function Home() {
                   <span className="card-title">// coords</span>
                   <button className="save-default-btn" onClick={() => {
                     try { localStorage.setItem('bc-pos', JSON.stringify(posRef.current)); } catch {}
-                    showToast('saved as default');
+                    showToast('tersimpan sebagai default');
                   }}>save</button>
                 </div>
                 <NudgeRow label="eid.t"  yField="eid_ty"   {...nudgeProps} color="#f59e0b" />
@@ -629,7 +556,7 @@ export default function Home() {
 
                 <div className="preview-wrap">
                   <div className="preview-header">
-                    <span className="preview-label">live preview</span>
+                    <span className="preview-label">// live preview</span>
                     <span className="preview-dim">{previewDim}</span>
                   </div>
                   <div className="preview-stage">
@@ -647,7 +574,7 @@ export default function Home() {
                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M8.5 2.5L4 7L8.5 11.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
-                back
+                kembali
               </button>
               <span className="results-count-badge">{resultLabel}</span>
               <button className="results-reset-btn" onClick={resetAll}>reset</button>
@@ -657,14 +584,14 @@ export default function Home() {
                 <div key={r.index} className="result-card" style={{ animationDelay: `${(r.index - 1) * 60}ms` }}>
                   <div className="result-header">
                     <span className="result-name">barcode-{String(r.index).padStart(2, '0')}.png</span>
-                    <span className="result-status"><div className="dot-ready"></div>ready</span>
+                    <span className="result-status"><div className="dot-ready"></div>siap</span>
                   </div>
                   <div className="result-img-wrap">
-                    <img src={r.url} alt={`Barcode ${r.index}`} />
+                    <img src={r.url} alt={`barcode ${r.index}`} />
                   </div>
                   <div className="result-actions">
-                    <button className="result-btn" onClick={() => downloadImage(r.url, r.index)}>↓ download</button>
-                    <button className="result-btn primary-action" onClick={() => shareImage(r.url)}>↗ share</button>
+                    <button className="result-btn" onClick={() => downloadImage(r.url, r.index)}>↓ unduh</button>
+                    <button className="result-btn primary-action" onClick={() => shareImage(r.url)}>↗ bagikan</button>
                   </div>
                 </div>
               ))}
@@ -725,7 +652,7 @@ export default function Home() {
                   <button className="stats-reset-no" onClick={() => setConfirmResetGlobal(false)}>batal</button>
                 </div>
               )}
-              <span className="stats-note">barcode-gen · all users · WIB</span>
+              <span className="stats-note">barcode-gen · semua pengguna · WIB</span>
             </div>
           </div>
         </div>

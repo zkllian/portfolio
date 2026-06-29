@@ -2,7 +2,7 @@ import { Router, type IRouter } from "express";
 import fs from "fs";
 import path from "path";
 import { createDb, dailyStatsTable, allTimeStatsTable, userDailyStatsTable } from "@workspace/db";
-import { eq, sql, ne } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
 
 const STATS_FILE = path.resolve(process.cwd(), "stats.json");
 const db = createDb();
@@ -58,7 +58,7 @@ router.get("/stats/today", async (req, res) => {
 
   const f = readFile();
   const todayCount = f.date === today ? f.count : 0;
-  res.json({ date: today, today: todayCount, total: f.total, mine: 0, others: todayCount });
+  return res.json({ date: today, today: todayCount, total: f.total, mine: 0, others: todayCount });
 });
 
 router.post("/stats/ping", async (req, res) => {
