@@ -46,13 +46,21 @@ body {
   text-transform: lowercase;
 }
 
-/* ── Floating logo pill ── */
-.logo-wrap {
+/* ── Floating nav bar (wrapper) ── */
+.nav-bar {
   position: fixed;
   top: 16px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ── Floating logo pill ── */
+.logo-wrap {
+  position: relative;
   background: rgba(18,18,18,0.97);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
@@ -60,7 +68,7 @@ body {
   border-radius: 999px;
   padding: 6px 14px 6px 8px;
   width: fit-content;
-  max-width: calc(100vw - 32px);
+  max-width: calc(100vw - 120px);
   white-space: nowrap;
   box-shadow:
     0 8px 24px -4px rgba(0,0,0,0.55),
@@ -1033,7 +1041,7 @@ textarea:focus { border-color: #444; }
   text-decoration: none;
   transition: border-color 0.15s, background 0.15s;
 }
-.cv-link:hover { background: #161616; border-color: var(--border2); }
+.cv-link:hover { background: var(--border); border-color: var(--border2); }
 
 .cv-link-left {
   display: flex;
@@ -1063,19 +1071,25 @@ textarea:focus { border-color: #444; }
 
 /* ── Theme Toggle Button ── */
 .theme-toggle {
-  background: none;
-  border: none;
+  background: rgba(18,18,18,0.97);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 7px 11px;
   cursor: pointer;
-  padding: 4px;
-  border-radius: 6px;
   color: var(--text-dim);
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background 0.15s, color 0.15s;
+  transition: color 0.15s;
   -webkit-tap-highlight-color: transparent;
+  box-shadow:
+    0 8px 24px -4px rgba(0,0,0,0.55),
+    0 2px 8px -2px rgba(0,0,0,0.4);
+  flex-shrink: 0;
 }
-.theme-toggle:hover { background: rgba(128,128,128,0.12); color: var(--text-muted); }
+.theme-toggle:hover { color: var(--text-muted); }
 
 /* ── Light Mode ── */
 [data-theme="light"] {
@@ -1090,7 +1104,8 @@ textarea:focus { border-color: #444; }
   --accent: #0a0a0a;
   --accent-hover: #222;
 }
-[data-theme="light"] .logo-wrap {
+[data-theme="light"] .logo-wrap,
+[data-theme="light"] .theme-toggle {
   background: rgba(255,255,255,0.97);
   box-shadow: 0 4px 16px -2px rgba(0,0,0,0.1), 0 1px 4px rgba(0,0,0,0.07),
               0 0 0 0.5px rgba(0,0,0,0.06) inset;
