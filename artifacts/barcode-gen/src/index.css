@@ -753,6 +753,7 @@ textarea:focus { border-color: #444; }
   transition: opacity 0.15s;
 }
 .cv-entry-link:hover { opacity: 1; text-decoration: underline; }
+.cv-entry-link--dead { cursor: default; opacity: 0.35; pointer-events: none; }
 
 .cv-about {
   font-size: 13px;
