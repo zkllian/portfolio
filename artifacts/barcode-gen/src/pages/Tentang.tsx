@@ -152,7 +152,7 @@ export default function Tentang() {
             <div className="cv-entry">
               <div className="cv-entry-header">
                 <span className="cv-entry-role">blogger</span>
-                <span className="cv-entry-company">blog independen · blogspot + google adsense</span>
+                <span className="cv-entry-company">blog independen</span>
               </div>
               <div className="cv-entry-period">2012</div>
               <ul className="cv-list">
@@ -166,6 +166,10 @@ export default function Tentang() {
                 <span className="cv-entry-company">verso</span>
               </div>
               <div className="cv-entry-period">maret 2018 – desember 2019</div>
+              <ul className="cv-list">
+                <li>mengelola komunitas digital verso dan memastikan interaksi anggota berjalan aktif dan sehat</li>
+                <li>menjadi penghubung antara tim dan komunitas, menyampaikan pembaruan dan merespons pertanyaan anggota</li>
+              </ul>
             </div>
 
             <div className="cv-entry">
@@ -174,6 +178,10 @@ export default function Tentang() {
                 <span className="cv-entry-company">injective</span>
               </div>
               <div className="cv-entry-period">januari 2024 – maret 2025</div>
+              <ul className="cv-list">
+                <li>mempromosikan ekosistem injective melalui konten edukasi dan aktivitas komunitas di media sosial</li>
+                <li>membantu onboarding pengguna baru dan menjawab pertanyaan seputar protokol</li>
+              </ul>
             </div>
 
             <div className="cv-entry">
@@ -182,6 +190,10 @@ export default function Tentang() {
                 <span className="cv-entry-company">nesa</span>
               </div>
               <div className="cv-entry-period">maret 2024 – mei 2025</div>
+              <ul className="cv-list">
+                <li>menyebarkan kesadaran tentang infrastruktur desentralisasi nesa melalui konten dan diskusi komunitas</li>
+                <li>berpartisipasi aktif dalam kampanye dan program ambassador resmi</li>
+              </ul>
             </div>
 
             <div className="cv-entry">
@@ -190,6 +202,10 @@ export default function Tentang() {
                 <span className="cv-entry-company">mitosis</span>
               </div>
               <div className="cv-entry-period">juli 2024 – april 2025</div>
+              <ul className="cv-list">
+                <li>menulis konten teknis dan edukatif seputar protokol mitosis untuk audiens komunitas web3</li>
+                <li>menyederhanakan konsep likuiditas termodulasi menjadi tulisan yang mudah dipahami</li>
+              </ul>
             </div>
 
             <div className="cv-entry">
@@ -198,6 +214,10 @@ export default function Tentang() {
                 <span className="cv-entry-company">story protocol</span>
               </div>
               <div className="cv-entry-period">juli 2024 – april 2025</div>
+              <ul className="cv-list">
+                <li>membuat konten seputar ip protocol dan ekosistem story untuk komunitas dan media sosial</li>
+                <li>menjelaskan mekanisme registrasi aset intelektual on-chain secara sederhana dan menarik</li>
+              </ul>
             </div>
 
             <div className="cv-entry">
@@ -206,6 +226,10 @@ export default function Tentang() {
                 <span className="cv-entry-company">union</span>
               </div>
               <div className="cv-entry-period">juli 2024 – april 2025</div>
+              <ul className="cv-list">
+                <li>menulis konten edukasi tentang interoperabilitas cross-chain yang dibangun union untuk komunitas</li>
+                <li>mendukung pertumbuhan audiens melalui thread dan artikel yang informatif</li>
+              </ul>
             </div>
 
             <div className="cv-entry">
@@ -214,6 +238,10 @@ export default function Tentang() {
                 <span className="cv-entry-company">swisstronik</span>
               </div>
               <div className="cv-entry-period">september 2024 – januari 2025</div>
+              <ul className="cv-list">
+                <li>mempromosikan solusi privasi dan kepatuhan swisstronik kepada komunitas web3 berbahasa indonesia</li>
+                <li>berpartisipasi dalam testnet dan kampanye resmi sebagai representasi komunitas</li>
+              </ul>
             </div>
           </div>
 
