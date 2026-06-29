@@ -607,7 +607,7 @@ textarea:focus { border-color: #444; }
   border-radius: var(--radius);
   padding: 20px 18px;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 18px;
 }
 
@@ -789,6 +789,13 @@ textarea:focus { border-color: #444; }
   transition: border-color 0.15s, background 0.15s;
 }
 .spotify-card:hover { background: #161616; border-color: var(--border2); }
+.spotify-card--bare {
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  padding: 4px 0;
+}
+.spotify-card--bare:hover { background: transparent; border-color: transparent; }
 
 .spotify-art {
   width: 44px;
