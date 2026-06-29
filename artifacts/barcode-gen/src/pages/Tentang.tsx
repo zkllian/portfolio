@@ -167,8 +167,8 @@ export default function Tentang() {
               </div>
               <div className="cv-entry-period">maret 2018 – desember 2019</div>
               <ul className="cv-list">
-                <li>mengelola komunitas digital verso dan memastikan interaksi anggota berjalan aktif dan sehat</li>
-                <li>menjadi penghubung antara tim dan komunitas, menyampaikan pembaruan dan merespons pertanyaan anggota</li>
+                <li>moderasi dan pengelolaan komunitas verso sehari-hari</li>
+                <li>memastikan diskusi berjalan kondusif dan anggota mendapat respons yang cepat</li>
               </ul>
             </div>
 
@@ -179,8 +179,8 @@ export default function Tentang() {
               </div>
               <div className="cv-entry-period">januari 2024 – maret 2025</div>
               <ul className="cv-list">
-                <li>mempromosikan ekosistem injective melalui konten edukasi dan aktivitas komunitas di media sosial</li>
-                <li>membantu onboarding pengguna baru dan menjawab pertanyaan seputar protokol</li>
+                <li>membuat konten seputar ekosistem injective di media sosial</li>
+                <li>aktif di komunitas, membantu menjawab pertanyaan dan mengenalkan proyek ke audiens baru</li>
               </ul>
             </div>
 
@@ -191,8 +191,8 @@ export default function Tentang() {
               </div>
               <div className="cv-entry-period">maret 2024 – mei 2025</div>
               <ul className="cv-list">
-                <li>menyebarkan kesadaran tentang infrastruktur desentralisasi nesa melalui konten dan diskusi komunitas</li>
-                <li>berpartisipasi aktif dalam kampanye dan program ambassador resmi</li>
+                <li>mempromosikan nesa lewat postingan dan diskusi komunitas</li>
+                <li>mengikuti program ambassador dan testnet resmi</li>
               </ul>
             </div>
 
@@ -203,8 +203,8 @@ export default function Tentang() {
               </div>
               <div className="cv-entry-period">juli 2024 – april 2025</div>
               <ul className="cv-list">
-                <li>menulis konten teknis dan edukatif seputar protokol mitosis untuk audiens komunitas web3</li>
-                <li>menyederhanakan konsep likuiditas termodulasi menjadi tulisan yang mudah dipahami</li>
+                <li>menulis artikel dan thread tentang cara kerja protokol mitosis</li>
+                <li>menyajikan informasi teknis dengan bahasa yang lebih mudah dicerna</li>
               </ul>
             </div>
 
@@ -215,8 +215,8 @@ export default function Tentang() {
               </div>
               <div className="cv-entry-period">juli 2024 – april 2025</div>
               <ul className="cv-list">
-                <li>membuat konten seputar ip protocol dan ekosistem story untuk komunitas dan media sosial</li>
-                <li>menjelaskan mekanisme registrasi aset intelektual on-chain secara sederhana dan menarik</li>
+                <li>menulis konten tentang story protocol dan cara kerja registrasi ip on-chain</li>
+                <li>membuat thread edukasi untuk komunitas berbahasa indonesia</li>
               </ul>
             </div>
 
@@ -227,8 +227,8 @@ export default function Tentang() {
               </div>
               <div className="cv-entry-period">juli 2024 – april 2025</div>
               <ul className="cv-list">
-                <li>menulis konten edukasi tentang interoperabilitas cross-chain yang dibangun union untuk komunitas</li>
-                <li>mendukung pertumbuhan audiens melalui thread dan artikel yang informatif</li>
+                <li>menulis konten seputar union dan ekosistem cross-chain-nya</li>
+                <li>membantu audiens memahami cara kerja bridging dan interoperabilitas</li>
               </ul>
             </div>
 
@@ -239,8 +239,8 @@ export default function Tentang() {
               </div>
               <div className="cv-entry-period">september 2024 – januari 2025</div>
               <ul className="cv-list">
-                <li>mempromosikan solusi privasi dan kepatuhan swisstronik kepada komunitas web3 berbahasa indonesia</li>
-                <li>berpartisipasi dalam testnet dan kampanye resmi sebagai representasi komunitas</li>
+                <li>membuat konten dan aktif di komunitas swisstronik</li>
+                <li>mengikuti testnet dan kegiatan ambassador sebagai representasi komunitas lokal</li>
               </ul>
             </div>
           </div>
