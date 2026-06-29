@@ -81,13 +81,14 @@ body {
   -webkit-backdrop-filter: blur(20px) saturate(1.4);
   border: 1px solid rgba(255,255,255,0.13);
   border-radius: 999px;
-  padding: 6px 14px;
+  padding: 9px 14px;
   display: flex;
   align-items: center;
   gap: 4px;
   white-space: nowrap;
   font-size: 13px;
   font-weight: 500;
+  font-family: 'Geist', -apple-system, BlinkMacSystemFont, sans-serif;
   letter-spacing: .02em;
   box-shadow: 0 4px 16px rgba(0,0,0,0.45);
 }
