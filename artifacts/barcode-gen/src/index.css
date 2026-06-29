@@ -979,7 +979,7 @@ textarea:focus { border-color: #444; }
   text-decoration: none;
   transition: border-color 0.15s, background 0.15s;
 }
-.spotify-card:hover { background: #161616; border-color: var(--border2); }
+.spotify-card:hover { background: var(--border); border-color: var(--border2); }
 .spotify-card--bare {
   background: transparent;
   border: none;
