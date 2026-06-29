@@ -173,11 +173,6 @@ body {
   font-size: 10px;
   color: var(--text-dim);
   transition: transform 0.18s ease;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 14px;
-  height: 14px;
   line-height: 1;
 }
 .logo-menu-arrow.open { transform: rotate(180deg); }
