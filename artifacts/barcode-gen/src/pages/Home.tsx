@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import JsBarcode from 'jsbarcode';
+import { FiZap } from 'react-icons/fi';
 
 
 function NudgeRow({ label, yField, pos, onSetPos, onStartNudge, onStopNudge, color }: {
@@ -508,7 +509,10 @@ export default function Home() {
                 <div className="inline-error">{inlineError}</div>
               )}
               <div className="btn-row">
-                <button className="btn btn-primary" onClick={() => generateBulk()} disabled={isLoading}>execute</button>
+                <button className="btn btn-primary" onClick={() => generateBulk()} disabled={isLoading}>
+                <FiZap size={13} style={{ flexShrink: 0 }} />
+                execute
+              </button>
               </div>
               {isLoading && (
                 <div className="status-bar active">
