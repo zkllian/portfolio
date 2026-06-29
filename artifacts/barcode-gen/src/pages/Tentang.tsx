@@ -1,7 +1,24 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 export default function Tentang() {
   useEffect(() => { window.scrollTo(0, 0); }, []);
+
+  // Equalize competency item heights
+  const competencyRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const el = competencyRef.current;
+    if (!el) return;
+    function equalize() {
+      const items = Array.from(el!.querySelectorAll<HTMLElement>('.cv-competency-item'));
+      items.forEach(i => (i.style.height = 'auto'));
+      const max = Math.max(...items.map(i => i.offsetHeight));
+      items.forEach(i => (i.style.height = `${max}px`));
+    }
+    equalize();
+    const ro = new ResizeObserver(equalize);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
 
   // Scroll reveal
   useEffect(() => {
@@ -114,7 +131,7 @@ export default function Tentang() {
               <svg className="cv-section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
               kompetensi utama
             </div>
-            <div className="cv-competency-list">
+            <div className="cv-competency-list" ref={competencyRef}>
               <div className="cv-competency-item">
                 <span className="cv-competency-num">01</span>
                 <p className="cv-competency-text">peka soal tampilan — saya bisa langsung tahu kalau sebuah desain terasa "ada yang aneh", entah itu spasi yang nggak pas, warna yang nggak konsisten, atau layout yang berantakan</p>
