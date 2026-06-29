@@ -382,15 +382,6 @@ export default function Tentang() {
                 </div>
                 <span className="cv-link-arrow">↗</span>
               </a>
-              <a className="cv-link" href="https://zkllian.vercel.app" target="_blank" rel="noreferrer">
-                <div className="cv-link-left">
-                  <svg className="cv-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                    <circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/>
-                  </svg>
-                  <span className="cv-link-handle">zkllian.vercel.app</span>
-                </div>
-                <span className="cv-link-arrow">↗</span>
-              </a>
             </div>
           </div>
 
