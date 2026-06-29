@@ -788,9 +788,6 @@ textarea:focus { border-color: #444; }
   font-family: 'Geist Mono', monospace;
   color: var(--text-dim);
   letter-spacing: .08em;
-  padding: 2px 0 0;
-  border-top: 1px solid var(--border);
-  margin-top: 2px;
 }
 
 .cv-list {
