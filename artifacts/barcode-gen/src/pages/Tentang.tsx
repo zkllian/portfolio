@@ -98,14 +98,13 @@ export default function Tentang() {
               tentang saya
             </div>
             <p className="cv-about">
-              ketertarikan saya terhadap teknologi dimulai dari warnet sekitar 2010 — dari sana saya mulai bereksperimen sendiri,
-              hingga pada 2012 mengelola blog di blogspot dan berhasil bermitra dengan google adsense. perjalanan formal saya
-              berlanjut ke dunia administrasi sebagai admin perpustakaan di universitas suryakancana, lalu berkembang ke
-              pemasaran digital: menjalankan iklan facebook ads, menulis konten, dan mengelola media sosial. saya terus belajar
-              secara mandiri — membangun dan mendeploy website dengan next.js dan vercel, serta membuat bot telegram untuk
-              otomasi pemasaran. saya memiliki kepekaan terhadap tampilan digital: saya tahu bagaimana sebuah desain bisa
-              terlihat rapi, terstruktur, dan elegan. pengalaman saya di komunitas web3 melengkapi kemampuan saya dalam
-              membangun keterlibatan audiens secara online.
+              saya mulai kenal internet dari warnet di 2010, dan sejak itu nggak pernah berhenti ngoprek hal baru.
+              di 2012, saya bikin blog sendiri di blogspot — sampai akhirnya keterima google adsense dan bisa
+              menghasilkan dari sana. itu jadi titik awal saya percaya bahwa belajar sendiri pun bisa menghasilkan sesuatu
+              yang nyata. setelah sempat kerja di perpustakaan kampus dan toko online, saya masuk ke dunia pemasaran digital
+              dan komunitas online — nulis konten, urus media sosial, sampai bikin bot telegram buat otomasi.
+              sekarang saya juga bisa bikin dan deploy website sendiri. saya orang yang cukup teliti soal tampilan:
+              kalau ada yang nggak simetris atau fontnya aneh, saya langsung nyadar.
             </p>
           </div>
 
@@ -118,27 +117,27 @@ export default function Tentang() {
             <div className="cv-competency-list">
               <div className="cv-competency-item">
                 <span className="cv-competency-num">01</span>
-                <p className="cv-competency-text">kepekaan tinggi terhadap estetika visual — mampu menilai apakah sebuah tampilan terlihat rapi, terstruktur, dan elegan; memahami prinsip tata letak yang membuat desain terasa profesional</p>
+                <p className="cv-competency-text">peka soal tampilan — saya bisa langsung tahu kalau sebuah desain terasa "ada yang aneh", entah itu spasi yang nggak pas, warna yang nggak konsisten, atau layout yang berantakan</p>
               </div>
               <div className="cv-competency-item">
                 <span className="cv-competency-num">02</span>
-                <p className="cv-competency-text">perhatian terhadap detail — mampu mendeteksi inkonsistensi visual dan teks sekecil tanda baca, ukuran elemen, dan perbedaan warna antar komponen</p>
+                <p className="cv-competency-text">teliti dan nggak suka setengah-setengah — saya tipe orang yang periksa ulang sebelum kirim, termasuk hal kecil seperti tanda baca atau urutan data yang harusnya konsisten</p>
               </div>
               <div className="cv-competency-item">
                 <span className="cv-competency-num">03</span>
-                <p className="cv-competency-text">pemahaman pemasaran digital — berpengalaman menjalankan iklan facebook ads, menulis konten untuk konversi, serta memahami dasar-dasar seo untuk meningkatkan visibilitas digital</p>
+                <p className="cv-competency-text">ngerti pemasaran digital dari sisi yang praktikal — pernah langsung jalanin iklan facebook ads, nulis konten buat audiens nyata, dan tahu gimana cara supaya konten bisa ditemukan di google</p>
               </div>
               <div className="cv-competency-item">
                 <span className="cv-competency-num">04</span>
-                <p className="cv-competency-text">kemampuan teknis yang fungsional — dapat membangun dan mendeploy website, membuat bot telegram untuk otomasi pemasaran, serta mengonfigurasi domain dan hosting secara mandiri</p>
+                <p className="cv-competency-text">bisa bikin website dan deploy sendiri — mulai dari setup project, nulis kode, sampai live di internet; termasuk bikin bot telegram untuk kebutuhan otomasi tanpa harus nunggu orang lain</p>
               </div>
               <div className="cv-competency-item">
                 <span className="cv-competency-num">05</span>
-                <p className="cv-competency-text">pengalaman administrasi dan pelayanan — terlatih mengelola data, melayani kebutuhan pengguna secara langsung, dan menjaga keakuratan pencatatan dalam lingkungan kerja formal</p>
+                <p className="cv-competency-text">terbiasa dengan pekerjaan yang butuh kerapian data — punya pengalaman input dan kelola data di lingkungan kerja formal, jadi tahu cara kerja yang terstruktur dan bisa diandalkan</p>
               </div>
               <div className="cv-competency-item">
                 <span className="cv-competency-num">06</span>
-                <p className="cv-competency-text">komunikasi yang efisien — mampu menyampaikan kebutuhan secara singkat dan jelas, baik dalam tim maupun kepada audiens digital, meminimalkan miskomunikasi</p>
+                <p className="cv-competency-text">komunikasi langsung dan jelas — saya lebih suka bilang apa yang perlu disampaikan secara ringkas, baik ke tim maupun ke audiens; nggak suka berputar-putar</p>
               </div>
             </div>
           </div>
@@ -159,7 +158,7 @@ export default function Tentang() {
                 <span className="cv-entry-period">agu – nov 2017</span>
               </div>
               <ul className="cv-list">
-                <li>mengelola operasional harian perpustakaan, melayani pengunjung secara langsung, serta menginput dan memelihara data koleksi buku ke dalam sistem database universitas</li>
+                <li>bantu operasional harian perpustakaan — layani pengunjung langsung, input data koleksi buku ke sistem, dan pastikan catatan tetap akurat dan rapi</li>
               </ul>
             </div>
 
@@ -172,8 +171,8 @@ export default function Tentang() {
                 <span className="cv-entry-period">mar – sep 2021</span>
               </div>
               <ul className="cv-list">
-                <li>melayani pelanggan dan memproses pesanan melalui whatsapp, mulai dari konsultasi produk hingga konfirmasi order</li>
-                <li>menyiapkan, mengemas, dan mengelola pengiriman pesanan serta memastikan pesanan terkirim dengan baik</li>
+                <li>layani pelanggan via whatsapp — mulai bantu pilih produk, proses order, sampai konfirmasi pembayaran</li>
+                <li>siapkan dan kemas pesanan, koordinasi pengiriman, dan pastiin barang nyampe ke tangan pembeli dengan baik</li>
               </ul>
             </div>
 
@@ -188,7 +187,7 @@ export default function Tentang() {
                 <span className="cv-entry-period">2012</span>
               </div>
               <ul className="cv-list">
-                <li>mengelola blog pribadi di platform blogspot dan berhasil bermitra dengan google adsense — pencapaian pertama dalam memonetisasi konten digital secara mandiri</li>
+                <li>bikin blog pribadi di blogspot, nulis sendiri, sampai akhirnya diterima google adsense — pertama kali saya ngerasain bisa menghasilkan dari internet secara mandiri</li>
               </ul>
             </div>
 
@@ -201,7 +200,7 @@ export default function Tentang() {
                 <span className="cv-entry-period">mar 2018 – des 2019</span>
               </div>
               <ul className="cv-list">
-                <li>merancang dan mengelola program keterlibatan komunitas, membangun pengalaman pengguna yang positif, serta menjaga konsistensi komunikasi antara tim proyek dan anggota komunitas</li>
+                <li>urus komunitas proyek — buat program biar anggota aktif, jaga komunikasi antara tim dan member tetap jelas, dan pastiin pengalaman di komunitas terasa menyenangkan</li>
               </ul>
             </div>
 
@@ -214,7 +213,7 @@ export default function Tentang() {
                 <span className="cv-entry-period">jan 2024 – mar 2025</span>
               </div>
               <ul className="cv-list">
-                <li>memperkuat citra merek melalui produksi konten tertulis, desain grafis, dan strategi media sosial yang ditargetkan kepada komunitas digital di platform twitter/x</li>
+                <li>promosiin brand di twitter/x lewat konten tulisan, grafis, dan strategi posting yang disesuaikan sama karakter komunitas digital yang ada di platform itu</li>
               </ul>
             </div>
 
@@ -227,7 +226,7 @@ export default function Tentang() {
                 <span className="cv-entry-period">mar 2024 – mei 2025</span>
               </div>
               <ul className="cv-list">
-                <li>membangun kesadaran merek dan mendorong keterlibatan audiens melalui konten yang estetis dan konsisten secara visual — mulai dari copywriting hingga aset grafis</li>
+                <li>bangun awareness brand lewat konten yang secara visual konsisten — nulis copy, bikin aset grafis, dan pastiin posting rutin biar audiens terus engaged</li>
               </ul>
             </div>
 
@@ -240,7 +239,7 @@ export default function Tentang() {
                 <span className="cv-entry-period">jul 2024 – apr 2025</span>
               </div>
               <ul className="cv-list">
-                <li>memproduksi konten edukatif dan kreatif untuk mendukung pertumbuhan komunitas serta meningkatkan keterlibatan pengguna di ekosistem proyek</li>
+                <li>bikin konten edukatif dan cerita seputar proyek yang cukup menarik buat dibaca dan dishare — fokusnya bikin komunitas paham tanpa harus baca whitepaper panjang</li>
               </ul>
             </div>
 
@@ -253,7 +252,7 @@ export default function Tentang() {
                 <span className="cv-entry-period">jul 2024 – apr 2025</span>
               </div>
               <ul className="cv-list">
-                <li>menghasilkan konten informatif dan menarik yang mendukung komunikasi proyek kepada audiens komunitas secara konsisten</li>
+                <li>tulis konten yang informatif dan cukup menarik buat orang yang baru kenal proyek — dijaga konsisten supaya audiens nggak kehilangan konteks</li>
               </ul>
             </div>
 
@@ -266,7 +265,7 @@ export default function Tentang() {
                 <span className="cv-entry-period">jul 2024 – apr 2025</span>
               </div>
               <ul className="cv-list">
-                <li>berkontribusi aktif dalam ekosistem komunitas melalui produksi konten digital yang memperkuat visibilitas dan relevansi proyek</li>
+                <li>aktif di ekosistem komunitas — bikin konten digital yang bikin proyek lebih mudah ditemukan dan relevan buat audiensnya</li>
               </ul>
             </div>
 
@@ -279,7 +278,7 @@ export default function Tentang() {
                 <span className="cv-entry-period">sep 2024 – jan 2025</span>
               </div>
               <ul className="cv-list">
-                <li>merepresentasikan merek secara daring melalui konten media sosial rutin, copywriting kampanye, dan pengelolaan interaksi dengan komunitas untuk memperluas jangkauan proyek</li>
+                <li>jadi wajah brand di media sosial — posting rutin, nulis copy kampanye, dan balas interaksi komunitas supaya jangkauan proyek makin luas</li>
               </ul>
             </div>
           </div>
@@ -299,8 +298,8 @@ export default function Tentang() {
                 <span className="cv-entry-period">2015 – 2018</span>
               </div>
               <ul className="cv-list">
-                <li>mendalami perancangan, pembangunan, dan pemeliharaan jaringan komputer</li>
-                <li>dasar pemrograman dan sistem operasi sebagai fondasi karier di bidang teknologi dan digital</li>
+                <li>belajar cara pasang, konfigurasi, dan rawat jaringan komputer dari nol — ini yang pertama kali bikin saya ngerti gimana internet bekerja di balik layar</li>
+                <li>dapet dasar pemrograman dan sistem operasi yang jadi modal awal untuk terus belajar hal teknis secara mandiri setelah lulus</li>
               </ul>
             </div>
           </div>
@@ -320,7 +319,7 @@ export default function Tentang() {
                 </div>
                 <span className="cv-entry-period">2025 – skrg</span>
               </div>
-              <p className="cv-about" style={{ marginTop: 2 }}>situs portfolio pribadi yang menampilkan keahlian teknis, riwayat karier, dan proyek pilihan — dibangun dengan react, vite, dan typescript.</p>
+              <p className="cv-about" style={{ marginTop: 2 }}>situs portfolio pribadi ini — yang sekarang lagi kamu baca. dibangun sendiri pakai react, vite, dan typescript, karena saya mau buktiin bahwa saya bisa bikin sesuatu dari nol sampai online.</p>
             </div>
 
             <div className="cv-entry">
@@ -331,7 +330,7 @@ export default function Tentang() {
                 </div>
                 <span className="cv-entry-period">2024</span>
               </div>
-              <p className="cv-about" style={{ marginTop: 2 }}>perkakas open source untuk mengotomatisasi pengambilan data lowongan kerja dari platform jobstreet secara terstruktur dan efisien.</p>
+              <p className="cv-about" style={{ marginTop: 2 }}>tool open source buat scraping data lowongan dari jobstreet — dibuat karena capek cari loker satu-satu, jadi langsung otomatis sekaligus.</p>
             </div>
 
             <div className="cv-entry">
@@ -342,7 +341,7 @@ export default function Tentang() {
                 </div>
                 <span className="cv-entry-period">2024</span>
               </div>
-              <p className="cv-about" style={{ marginTop: 2 }}>perkakas open source berbasis otomasi untuk meningkatkan volume tayangan admob, dirancang untuk efisiensi operasional tanpa intervensi manual.</p>
+              <p className="cv-about" style={{ marginTop: 2 }}>tool open source berbasis otomasi untuk naikin volume tayangan admob tanpa harus intervensi manual — biar kerja di background sendiri.</p>
             </div>
           </div>
 
