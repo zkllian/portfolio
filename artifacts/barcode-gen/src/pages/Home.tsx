@@ -126,6 +126,9 @@ export default function Home() {
   const [confirmResetGlobal, setConfirmResetGlobal] = useState(false);
   const [resetting, setResetting] = useState(false);
 
+  const counterTapRef = useRef(0);
+  const counterTapResetRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
   const inputValRef = useRef('');
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const previewCanvasRef = useRef<HTMLCanvasElement>(null);
@@ -490,6 +493,17 @@ export default function Home() {
     ctx.fillText('35673011186900',                   p.meid_tx,  p.meid_ty);
   }
 
+  function handleCounterTap() {
+    if (counterTapResetRef.current) clearTimeout(counterTapResetRef.current);
+    counterTapRef.current += 1;
+    counterTapResetRef.current = setTimeout(() => { counterTapRef.current = 0; }, 1200);
+    if (counterTapRef.current >= 3) {
+      counterTapRef.current = 0;
+      if (navigator.vibrate) navigator.vibrate([30, 20, 50]);
+      openStats();
+    }
+  }
+
   async function openStats() {
     setStats(null);
     setStatsError(false);
@@ -590,13 +604,6 @@ export default function Home() {
               <div className="card-header">
                 <span className="card-title">// total barcode generated</span>
                 <div className="counter-header-actions">
-                  <button className="stats-globe-btn" onClick={openStats} title="global stats">
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                      <circle cx="12" cy="12" r="10"/>
-                      <line x1="2" y1="12" x2="22" y2="12"/>
-                      <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
-                    </svg>
-                  </button>
                   {!confirmReset ? (
                     <button className="counter-reset-btn" onClick={() => setConfirmReset(true)}>reset</button>
                   ) : (
@@ -608,7 +615,7 @@ export default function Home() {
                   )}
                 </div>
               </div>
-              <span className="counter-number">{totalImei.toLocaleString()}</span>
+              <span className="counter-number" onClick={handleCounterTap} style={{ cursor: 'default', userSelect: 'none' }}>{totalImei.toLocaleString()}</span>
             </div>
 
             <div className="card pos-card">
