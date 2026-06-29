@@ -26,6 +26,23 @@ async function migrate() {
         count INTEGER NOT NULL DEFAULT 0
       )`
     );
+    await db.execute(
+      `CREATE TABLE IF NOT EXISTS all_time_stats (
+        key TEXT PRIMARY KEY,
+        value INTEGER NOT NULL DEFAULT 0
+      )`
+    );
+    await db.execute(
+      `CREATE TABLE IF NOT EXISTS user_daily_stats (
+        user_id TEXT NOT NULL,
+        date TEXT NOT NULL,
+        count INTEGER NOT NULL DEFAULT 0,
+        PRIMARY KEY (user_id, date)
+      )`
+    );
+    await db.execute(
+      `INSERT INTO all_time_stats (key, value) VALUES ('total', 0) ON CONFLICT DO NOTHING`
+    );
     logger.info("DB migration OK");
   } catch (err) {
     logger.warn({ err }, "DB migration failed — continuing anyway");

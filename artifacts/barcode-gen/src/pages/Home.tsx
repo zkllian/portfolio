@@ -37,6 +37,20 @@ function NudgeRow({ label, yField, pos, onSetPos, onStartNudge, onStopNudge, col
   );
 }
 
+function genUserId() {
+  try {
+    const k = 'bc-user-id';
+    let id = localStorage.getItem(k);
+    if (!id) {
+      id = crypto.randomUUID();
+      localStorage.setItem(k, id);
+    }
+    return id;
+  } catch {
+    return 'anon';
+  }
+}
+
 export default function Home() {
   const [inputVal, setInputVal] = useState('');
   const [imeiCount, setImeiCount] = useState('0 sets');
@@ -68,7 +82,6 @@ export default function Home() {
   }
   const [pos, setPos] = useState<Record<string, number>>(loadSavedPos);
   const posRef = useRef(pos);
-  const [nudgeStep, setNudgeStep] = useState(0.5);
   const nudgeStepRef = useRef(0.5);
 
   const BC = { eid: { h: 72, w: 700.5 }, imei1: { h: 71, w: 455 }, imei2: { h: 69, w: 455 }, meid: { h: 69.5, w: 380 } };
@@ -97,11 +110,21 @@ export default function Home() {
   });
   const [confirmReset, setConfirmReset] = useState(false);
 
+  type StatsData = { today: number; total: number; mine: number; others: number } | null;
+  const [statsOpen, setStatsOpen] = useState(false);
+  const [statsVisible, setStatsVisible] = useState(false);
+  const [stats, setStats] = useState<StatsData>(null);
+  const [statsLoading, setStatsLoading] = useState(false);
+  const [statsError, setStatsError] = useState(false);
+  const [confirmResetGlobal, setConfirmResetGlobal] = useState(false);
+  const [resetting, setResetting] = useState(false);
+
   const inputValRef = useRef('');
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const previewCanvasRef = useRef<HTMLCanvasElement>(null);
   const baseImageRef = useRef<HTMLImageElement | null>(null);
   const nudgeTimerRef = useRef<ReturnType<typeof setTimeout> | ReturnType<typeof setInterval> | null>(null);
+  const userIdRef = useRef<string>(genUserId());
 
   const BASE = import.meta.env.BASE_URL;
 
@@ -145,6 +168,15 @@ export default function Home() {
   useEffect(() => {
     drawPreview(pos);
   }, [pos]);
+
+  useEffect(() => {
+    if (!statsOpen) return;
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') closeStats();
+    };
+    document.addEventListener('keydown', handler);
+    return () => document.removeEventListener('keydown', handler);
+  }, [statsOpen]);
 
   function randomDigits(len: number) {
     return Array.from({ length: len }, () => Math.floor(Math.random() * 10)).join('');
@@ -275,7 +307,7 @@ export default function Home() {
         fetch('/api/stats/ping', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ count: totalSets }),
+          body: JSON.stringify({ count: totalSets, userId: userIdRef.current }),
         }).catch(() => {});
       } catch {}
       setView('results');
@@ -309,11 +341,6 @@ export default function Home() {
     if (navigator.canShare && navigator.canShare({ files: [file] })) {
       await navigator.share({ files: [file] });
     }
-  }
-
-  function setStep(v: number) {
-    setNudgeStep(v);
-    nudgeStepRef.current = v;
   }
 
   function startNudge(field: string, dir: number) {
@@ -394,6 +421,48 @@ export default function Home() {
     ctx.fillText('35673011186900',                   p.meid_tx,  p.meid_ty);
   }
 
+  async function openStats() {
+    setStats(null);
+    setStatsError(false);
+    setConfirmResetGlobal(false);
+    setStatsLoading(true);
+    setStatsOpen(true);
+    requestAnimationFrame(() => requestAnimationFrame(() => setStatsVisible(true)));
+    try {
+      const res = await fetch(`/api/stats/today?userId=${encodeURIComponent(userIdRef.current)}`);
+      if (res.ok) {
+        const data = await res.json() as { today: number; total: number; mine: number; others: number };
+        setStats(data);
+      } else {
+        setStatsError(true);
+      }
+    } catch {
+      setStatsError(true);
+    } finally {
+      setStatsLoading(false);
+    }
+  }
+
+  function closeStats() {
+    setStatsVisible(false);
+    setConfirmResetGlobal(false);
+    setTimeout(() => setStatsOpen(false), 300);
+  }
+
+  async function handleGlobalReset() {
+    setResetting(true);
+    try {
+      await fetch('/api/stats/reset', { method: 'POST' });
+      setStats({ today: 0, total: 0, mine: 0, others: 0 });
+      setConfirmResetGlobal(false);
+      showToast('global stats direset');
+    } catch {
+      showToast('gagal reset');
+    } finally {
+      setResetting(false);
+    }
+  }
+
   const nudgeProps = { pos, onSetPos: setPos, onStartNudge: startNudge, onStopNudge: stopNudge };
 
   return (
@@ -451,15 +520,24 @@ export default function Home() {
             <div className="card counter-card">
               <div className="card-header">
                 <span className="card-title">// total barcode generated</span>
-                {!confirmReset ? (
-                  <button className="counter-reset-btn" onClick={() => setConfirmReset(true)}>reset</button>
-                ) : (
-                  <div className="counter-confirm">
-                    <span className="counter-confirm-text">yakin?</span>
-                    <button className="counter-confirm-yes" onClick={resetCounter}>ya</button>
-                    <button className="counter-confirm-no" onClick={() => setConfirmReset(false)}>batal</button>
-                  </div>
-                )}
+                <div className="counter-header-actions">
+                  <button className="stats-globe-btn" onClick={openStats} title="global stats">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                      <circle cx="12" cy="12" r="10"/>
+                      <line x1="2" y1="12" x2="22" y2="12"/>
+                      <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                    </svg>
+                  </button>
+                  {!confirmReset ? (
+                    <button className="counter-reset-btn" onClick={() => setConfirmReset(true)}>reset</button>
+                  ) : (
+                    <div className="counter-confirm">
+                      <span className="counter-confirm-text">yakin?</span>
+                      <button className="counter-confirm-yes" onClick={resetCounter}>ya</button>
+                      <button className="counter-confirm-no" onClick={() => setConfirmReset(false)}>batal</button>
+                    </div>
+                  )}
+                </div>
               </div>
               <span className="counter-number">{totalImei.toLocaleString()}</span>
             </div>
@@ -483,10 +561,7 @@ export default function Home() {
                     <span className="preview-dim">{previewDim}</span>
                   </div>
                   <div className="preview-stage">
-                    <canvas
-                      ref={previewCanvasRef}
-                      id="previewCanvas"
-                    />
+                    <canvas ref={previewCanvasRef} id="previewCanvas" />
                   </div>
                 </div>
             </div>
@@ -526,6 +601,63 @@ export default function Home() {
         )}
 
       </div>
+
+      {statsOpen && (
+        <div className={`stats-overlay open${statsVisible ? ' visible' : ''}`} onClick={e => { if (e.target === e.currentTarget) closeStats(); }}>
+          <div className="stats-modal">
+            <div className="stats-modal-header">
+              <span className="stats-modal-title">// global stats</span>
+              <button className="stats-close-btn" onClick={closeStats}>✕</button>
+            </div>
+
+            <div className="stats-grid">
+              <div className="stats-cell">
+                <span className="stats-cell-label">hari ini</span>
+                <span className="stats-cell-value">
+                  {statsLoading ? <span className="stats-shimmer">···</span> : statsError ? '—' : (stats?.today ?? 0).toLocaleString()}
+                </span>
+              </div>
+              <div className="stats-cell">
+                <span className="stats-cell-label">total keseluruhan</span>
+                <span className="stats-cell-value">
+                  {statsLoading ? <span className="stats-shimmer">···</span> : statsError ? '—' : (stats?.total ?? 0).toLocaleString()}
+                </span>
+              </div>
+              <div className="stats-cell stats-cell--accent">
+                <span className="stats-cell-label">aku</span>
+                <span className="stats-cell-value">
+                  {statsLoading ? <span className="stats-shimmer">···</span> : statsError ? '—' : (stats?.mine ?? 0).toLocaleString()}
+                </span>
+              </div>
+              <div className="stats-cell">
+                <span className="stats-cell-label">orang lain</span>
+                <span className="stats-cell-value">
+                  {statsLoading ? <span className="stats-shimmer">···</span> : statsError ? '—' : (stats?.others ?? 0).toLocaleString()}
+                </span>
+              </div>
+            </div>
+
+            {statsError && (
+              <div className="stats-error-note">server tidak tersedia</div>
+            )}
+
+            <div className="stats-modal-footer">
+              {!confirmResetGlobal ? (
+                <button className="stats-reset-btn" onClick={() => setConfirmResetGlobal(true)}>reset global</button>
+              ) : (
+                <div className="stats-reset-confirm">
+                  <span className="stats-reset-confirm-text">reset semua data?</span>
+                  <button className="stats-reset-yes" onClick={handleGlobalReset} disabled={resetting}>
+                    {resetting ? '···' : 'ya'}
+                  </button>
+                  <button className="stats-reset-no" onClick={() => setConfirmResetGlobal(false)}>batal</button>
+                </div>
+              )}
+              <span className="stats-note">barcode-gen · all users · WIB</span>
+            </div>
+          </div>
+        </div>
+      )}
 
       <div className={`toast${showToastState ? ' show' : ''}`}>{toastMsg}</div>
       <canvas ref={canvasRef} style={{ display: 'none' }}></canvas>
