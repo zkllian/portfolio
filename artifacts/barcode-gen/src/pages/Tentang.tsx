@@ -1,16 +1,53 @@
-import { useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useLocation } from 'wouter';
 
 export default function Tentang() {
   const [, navigate] = useLocation();
 
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [menuVisible, setMenuVisible] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
+  useEffect(() => {
+    if (!menuOpen) return;
+    function handleOutside(e: MouseEvent) {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        closeMenu();
+      }
+    }
+    document.addEventListener('mousedown', handleOutside);
+    return () => document.removeEventListener('mousedown', handleOutside);
+  }, [menuOpen]);
+
+  useEffect(() => {
+    function handler(e: KeyboardEvent) {
+      if (e.key === 'Escape' && menuOpen) closeMenu();
+    }
+    document.addEventListener('keydown', handler);
+    return () => document.removeEventListener('keydown', handler);
+  }, [menuOpen]);
+
+  function openMenu() {
+    setMenuOpen(true);
+    requestAnimationFrame(() => requestAnimationFrame(() => setMenuVisible(true)));
+  }
+
+  function closeMenu() {
+    setMenuVisible(false);
+    setTimeout(() => setMenuOpen(false), 180);
+  }
+
+  function toggleMenu() {
+    if (menuOpen) closeMenu(); else openMenu();
+  }
+
   return (
     <>
-      <div className="logo-wrap">
+      <div className="logo-wrap" ref={menuRef}>
         <div className="logo-row">
           <div className="logo-icon-wrap">
             <div className="logo-icon-ring logo-icon-ring--1"></div>
@@ -18,11 +55,30 @@ export default function Tentang() {
             <div className="logo-icon"></div>
           </div>
           <div className="logo-label">
-            <span className="logo-back" onClick={() => navigate('/')}>llian</span>
+            <button className="logo-menu-btn" onClick={toggleMenu}>
+              <span className="logo-root">llian</span>
+              <span className={`logo-menu-arrow${menuOpen ? ' open' : ''}`}>▾</span>
+            </button>
             <span className="logo-sep"> / </span>
             <span className="logo-crumb">tentang</span>
           </div>
         </div>
+
+        {menuOpen && (
+          <div className={`nav-menu${menuVisible ? ' visible' : ''}`}>
+            <button className="nav-menu-item nav-menu-item--active" onClick={closeMenu}>
+              tentang
+            </button>
+            <div className="nav-menu-sub-wrap">
+              <span className="nav-menu-item nav-menu-item--parent">imei</span>
+              <div className="nav-menu-sub">
+                <button className="nav-menu-item nav-menu-item--child" onClick={() => { closeMenu(); navigate('/'); }}>
+                  barcode gen
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
 
       <div className="container">
