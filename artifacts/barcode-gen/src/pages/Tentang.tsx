@@ -1,15 +1,14 @@
 import { useEffect } from 'react';
 
 export default function Tentang() {
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
+  useEffect(() => { window.scrollTo(0, 0); }, []);
 
   return (
     <>
       <div className="container">
         <div className="cv-wrap">
 
+          {/* ── Hero ── */}
           <div className="cv-hero">
             <img className="cv-avatar" src="/avatar.png" alt="avatar" />
             <div className="cv-hero-info">
@@ -49,6 +48,7 @@ export default function Tentang() {
             </div>
           </div>
 
+          {/* ── Spotify ── */}
           <a
             className="spotify-card"
             href="https://open.spotify.com/track/38u55vfPVcVYoqcbuQzpyu?si=I-YjAcsxQaO9cGh6AAL_hA"
@@ -66,6 +66,7 @@ export default function Tentang() {
             </svg>
           </a>
 
+          {/* ── Tentang saya ── */}
           <div className="cv-section">
             <div className="cv-section-label">// tentang saya</div>
             <p className="cv-about">
@@ -80,6 +81,7 @@ export default function Tentang() {
             </p>
           </div>
 
+          {/* ── Kompetensi utama ── */}
           <div className="cv-section">
             <div className="cv-section-label">// kompetensi utama</div>
             <div className="cv-competency-list">
@@ -110,30 +112,33 @@ export default function Tentang() {
             </div>
           </div>
 
+          {/* ── Pengalaman (formal + digital, merged) ── */}
           <div className="cv-section">
             <div className="cv-section-label">// pengalaman</div>
 
             <div className="cv-entry">
               <div className="cv-entry-header">
-                <span className="cv-entry-role">administrator intern</span>
-                <span className="cv-entry-company">universitas suryakancana</span>
+                <div className="cv-entry-header-left">
+                  <span className="cv-entry-role">administrator intern</span>
+                  <span className="cv-entry-company">universitas suryakancana</span>
+                </div>
+                <span className="cv-entry-period">agu – nov 2017</span>
               </div>
-              <div className="cv-entry-period">agustus 2017 – november 2017</div>
               <ul className="cv-list">
                 <li>mengelola operasional harian perpustakaan, melayani pengunjung secara langsung, serta menginput dan memelihara data koleksi buku ke dalam sistem database universitas</li>
               </ul>
             </div>
-          </div>
 
-          <div className="cv-section">
-            <div className="cv-section-label">// kontribusi digital</div>
+            <div className="cv-group-label">kontribusi digital</div>
 
             <div className="cv-entry">
               <div className="cv-entry-header">
-                <span className="cv-entry-role">blogger</span>
-                <span className="cv-entry-company">blog independen</span>
+                <div className="cv-entry-header-left">
+                  <span className="cv-entry-role">blogger</span>
+                  <span className="cv-entry-company">blog independen</span>
+                </div>
+                <span className="cv-entry-period">2012</span>
               </div>
-              <div className="cv-entry-period">2012</div>
               <ul className="cv-list">
                 <li>mengelola blog pribadi di platform blogspot dan berhasil bermitra dengan google adsense — pencapaian pertama dalam memonetisasi konten digital secara mandiri</li>
               </ul>
@@ -141,10 +146,12 @@ export default function Tentang() {
 
             <div className="cv-entry">
               <div className="cv-entry-header">
-                <span className="cv-entry-role">community manager</span>
-                <span className="cv-entry-company">verso</span>
+                <div className="cv-entry-header-left">
+                  <span className="cv-entry-role">community manager</span>
+                  <span className="cv-entry-company">verso</span>
+                </div>
+                <span className="cv-entry-period">mar 2018 – des 2019</span>
               </div>
-              <div className="cv-entry-period">maret 2018 – desember 2019</div>
               <ul className="cv-list">
                 <li>merancang dan mengelola program keterlibatan komunitas, membangun pengalaman pengguna yang positif, serta menjaga konsistensi komunikasi antara tim proyek dan anggota komunitas</li>
               </ul>
@@ -152,10 +159,12 @@ export default function Tentang() {
 
             <div className="cv-entry">
               <div className="cv-entry-header">
-                <span className="cv-entry-role">brand ambassador</span>
-                <span className="cv-entry-company">injective</span>
+                <div className="cv-entry-header-left">
+                  <span className="cv-entry-role">brand ambassador</span>
+                  <span className="cv-entry-company">injective</span>
+                </div>
+                <span className="cv-entry-period">jan 2024 – mar 2025</span>
               </div>
-              <div className="cv-entry-period">januari 2024 – maret 2025</div>
               <ul className="cv-list">
                 <li>memperkuat citra merek melalui produksi konten tertulis, desain grafis, dan strategi media sosial yang ditargetkan kepada komunitas digital di platform twitter/x</li>
               </ul>
@@ -163,10 +172,12 @@ export default function Tentang() {
 
             <div className="cv-entry">
               <div className="cv-entry-header">
-                <span className="cv-entry-role">brand ambassador</span>
-                <span className="cv-entry-company">nesa</span>
+                <div className="cv-entry-header-left">
+                  <span className="cv-entry-role">brand ambassador</span>
+                  <span className="cv-entry-company">nesa</span>
+                </div>
+                <span className="cv-entry-period">mar 2024 – mei 2025</span>
               </div>
-              <div className="cv-entry-period">maret 2024 – mei 2025</div>
               <ul className="cv-list">
                 <li>membangun kesadaran merek dan mendorong keterlibatan audiens melalui konten yang estetis dan konsisten secara visual — mulai dari copywriting hingga aset grafis</li>
               </ul>
@@ -174,10 +185,12 @@ export default function Tentang() {
 
             <div className="cv-entry">
               <div className="cv-entry-header">
-                <span className="cv-entry-role">content writer</span>
-                <span className="cv-entry-company">mitosis</span>
+                <div className="cv-entry-header-left">
+                  <span className="cv-entry-role">content writer</span>
+                  <span className="cv-entry-company">mitosis</span>
+                </div>
+                <span className="cv-entry-period">jul 2024 – apr 2025</span>
               </div>
-              <div className="cv-entry-period">juli 2024 – april 2025</div>
               <ul className="cv-list">
                 <li>memproduksi konten edukatif dan kreatif untuk mendukung pertumbuhan komunitas serta meningkatkan keterlibatan pengguna di ekosistem proyek</li>
               </ul>
@@ -185,10 +198,12 @@ export default function Tentang() {
 
             <div className="cv-entry">
               <div className="cv-entry-header">
-                <span className="cv-entry-role">content writer</span>
-                <span className="cv-entry-company">story protocol</span>
+                <div className="cv-entry-header-left">
+                  <span className="cv-entry-role">content writer</span>
+                  <span className="cv-entry-company">story protocol</span>
+                </div>
+                <span className="cv-entry-period">jul 2024 – apr 2025</span>
               </div>
-              <div className="cv-entry-period">juli 2024 – april 2025</div>
               <ul className="cv-list">
                 <li>menghasilkan konten informatif dan menarik yang mendukung komunikasi proyek kepada audiens komunitas secara konsisten</li>
               </ul>
@@ -196,10 +211,12 @@ export default function Tentang() {
 
             <div className="cv-entry">
               <div className="cv-entry-header">
-                <span className="cv-entry-role">content writer</span>
-                <span className="cv-entry-company">union</span>
+                <div className="cv-entry-header-left">
+                  <span className="cv-entry-role">content writer</span>
+                  <span className="cv-entry-company">union</span>
+                </div>
+                <span className="cv-entry-period">jul 2024 – apr 2025</span>
               </div>
-              <div className="cv-entry-period">juli 2024 – april 2025</div>
               <ul className="cv-list">
                 <li>berkontribusi aktif dalam ekosistem komunitas melalui produksi konten digital yang memperkuat visibilitas dan relevansi proyek</li>
               </ul>
@@ -207,24 +224,29 @@ export default function Tentang() {
 
             <div className="cv-entry">
               <div className="cv-entry-header">
-                <span className="cv-entry-role">brand ambassador</span>
-                <span className="cv-entry-company">swisstronik</span>
+                <div className="cv-entry-header-left">
+                  <span className="cv-entry-role">brand ambassador</span>
+                  <span className="cv-entry-company">swisstronik</span>
+                </div>
+                <span className="cv-entry-period">sep 2024 – jan 2025</span>
               </div>
-              <div className="cv-entry-period">september 2024 – januari 2025</div>
               <ul className="cv-list">
                 <li>merepresentasikan merek secara daring melalui konten media sosial rutin, copywriting kampanye, dan pengelolaan interaksi dengan komunitas untuk memperluas jangkauan proyek</li>
               </ul>
             </div>
           </div>
 
+          {/* ── Pendidikan ── */}
           <div className="cv-section">
             <div className="cv-section-label">// pendidikan</div>
             <div className="cv-entry">
               <div className="cv-entry-header">
-                <span className="cv-entry-role">teknik komputer &amp; jaringan</span>
-                <span className="cv-entry-company">smk pasundan 1 cianjur</span>
+                <div className="cv-entry-header-left">
+                  <span className="cv-entry-role">teknik komputer &amp; jaringan</span>
+                  <span className="cv-entry-company">smk pasundan 1 cianjur</span>
+                </div>
+                <span className="cv-entry-period">2015 – 2018</span>
               </div>
-              <div className="cv-entry-period">juli 2015 – mei 2018</div>
               <ul className="cv-list">
                 <li>mendalami perancangan, pembangunan, dan pemeliharaan jaringan komputer</li>
                 <li>dasar pemrograman dan sistem operasi sebagai fondasi karier di bidang teknologi dan digital</li>
@@ -232,34 +254,42 @@ export default function Tentang() {
             </div>
           </div>
 
+          {/* ── Proyek ── */}
           <div className="cv-section">
             <div className="cv-section-label">// proyek</div>
 
             <div className="cv-entry">
               <div className="cv-entry-header">
-                <span className="cv-entry-role">zkllian</span>
-                <span className="cv-entry-period" style={{ marginLeft: 0 }}>2024</span>
+                <div className="cv-entry-header-left">
+                  <span className="cv-entry-role">zkllian</span>
+                </div>
+                <span className="cv-entry-period">2024</span>
               </div>
               <p className="cv-about" style={{ marginTop: 2 }}>situs portofolio profesional yang dirancang untuk menampilkan keahlian teknis, proyek pilihan, dan riwayat karier sebagai referensi bagi rekruter maupun klien.</p>
             </div>
 
             <div className="cv-entry">
               <div className="cv-entry-header">
-                <span className="cv-entry-role">jobstreet scraper</span>
-                <span className="cv-entry-period" style={{ marginLeft: 0 }}>2024</span>
+                <div className="cv-entry-header-left">
+                  <span className="cv-entry-role">jobstreet scraper</span>
+                </div>
+                <span className="cv-entry-period">2024</span>
               </div>
               <p className="cv-about" style={{ marginTop: 2 }}>perkakas open source untuk mengotomatisasi pengambilan data lowongan kerja dari platform jobstreet secara terstruktur dan efisien.</p>
             </div>
 
             <div className="cv-entry">
               <div className="cv-entry-header">
-                <span className="cv-entry-role">admob auto impression</span>
-                <span className="cv-entry-period" style={{ marginLeft: 0 }}>2024</span>
+                <div className="cv-entry-header-left">
+                  <span className="cv-entry-role">admob auto impression</span>
+                </div>
+                <span className="cv-entry-period">2024</span>
               </div>
               <p className="cv-about" style={{ marginTop: 2 }}>perkakas open source berbasis otomasi untuk meningkatkan volume tayangan admob, dirancang untuk efisiensi operasional tanpa intervensi manual.</p>
             </div>
           </div>
 
+          {/* ── Keahlian ── */}
           <div className="cv-section">
             <div className="cv-section-label">// keahlian</div>
             <div className="cv-info-grid">
@@ -283,23 +313,44 @@ export default function Tentang() {
             </div>
           </div>
 
+          {/* ── Temukan saya ── */}
           <div className="cv-section cv-links-section">
             <div className="cv-section-label">// temukan saya</div>
             <div className="cv-links">
               <a className="cv-link" href="https://twitter.com/llianified" target="_blank" rel="noreferrer">
-                <span className="cv-link-handle">@llianified</span>
+                <div className="cv-link-left">
+                  <svg className="cv-link-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.736-8.847L1.254 2.25H8.08l4.259 5.63zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                  </svg>
+                  <span className="cv-link-handle">@llianified</span>
+                </div>
                 <span className="cv-link-arrow">↗</span>
               </a>
               <a className="cv-link" href="https://instagram.com/lli.__.an" target="_blank" rel="noreferrer">
-                <span className="cv-link-handle">@lli.__.an</span>
+                <div className="cv-link-left">
+                  <svg className="cv-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+                  </svg>
+                  <span className="cv-link-handle">@lli.__.an</span>
+                </div>
                 <span className="cv-link-arrow">↗</span>
               </a>
               <a className="cv-link" href="https://github.com/zkllian" target="_blank" rel="noreferrer">
-                <span className="cv-link-handle">github.com/zkllian</span>
+                <div className="cv-link-left">
+                  <svg className="cv-link-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+                  </svg>
+                  <span className="cv-link-handle">github.com/zkllian</span>
+                </div>
                 <span className="cv-link-arrow">↗</span>
               </a>
               <a className="cv-link" href="https://zkllian.vercel.app" target="_blank" rel="noreferrer">
-                <span className="cv-link-handle">zkllian.vercel.app</span>
+                <div className="cv-link-left">
+                  <svg className="cv-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/>
+                  </svg>
+                  <span className="cv-link-handle">zkllian.vercel.app</span>
+                </div>
                 <span className="cv-link-arrow">↗</span>
               </a>
             </div>

@@ -749,8 +749,17 @@ textarea:focus { border-color: #444; }
 .cv-entry-header {
   display: flex;
   align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.cv-entry-header-left {
+  display: flex;
+  align-items: baseline;
   gap: 6px;
   flex-wrap: wrap;
+  min-width: 0;
+  flex: 1;
 }
 
 .cv-entry-role {
@@ -770,6 +779,18 @@ textarea:focus { border-color: #444; }
   font-size: 11px;
   font-family: 'Geist Mono', monospace;
   color: var(--text-dim);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.cv-group-label {
+  font-size: 9px;
+  font-family: 'Geist Mono', monospace;
+  color: var(--text-dim);
+  letter-spacing: .08em;
+  padding: 2px 0 0;
+  border-top: 1px solid var(--border);
+  margin-top: 2px;
 }
 
 .cv-list {
@@ -846,9 +867,9 @@ textarea:focus { border-color: #444; }
 .cv-links-section { gap: 12px; }
 
 .cv-competency-list {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 20px;
 }
 
 .cv-competency-item {
@@ -978,6 +999,21 @@ textarea:focus { border-color: #444; }
   transition: border-color 0.15s, background 0.15s;
 }
 .cv-link:hover { background: #161616; border-color: var(--border2); }
+
+.cv-link-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cv-link-icon {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  color: var(--text-dim);
+  transition: color 0.15s;
+}
+.cv-link:hover .cv-link-icon { color: var(--text-muted); }
 
 .cv-link-handle {
   font-size: 13px;
