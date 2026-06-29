@@ -3,7 +3,6 @@ import { Route, Switch, useLocation } from 'wouter';
 import Home from '@/pages/Home';
 import Tentang from '@/pages/Tentang';
 import NavMenu from '@/components/NavMenu';
-import GridBackground from '@/components/GridBackground';
 
 function PageTransition({ children }: { children: React.ReactNode }) {
   const [location] = useLocation();
@@ -26,7 +25,6 @@ function PageTransition({ children }: { children: React.ReactNode }) {
 function App() {
   return (
     <>
-      <GridBackground />
       <NavMenu />
       <PageTransition>
         <Switch>
