@@ -663,7 +663,7 @@ textarea:focus { border-color: #444; }
   /* Tentang page: sidebar + main */
   .cv-wrap {
     display: grid;
-    grid-template-columns: 320px 1fr;
+    grid-template-columns: 2fr 3fr;
     grid-template-rows: auto;
     align-items: start;
     gap: 20px;
