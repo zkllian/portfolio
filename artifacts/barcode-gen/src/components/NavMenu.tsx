@@ -3,18 +3,19 @@ import { useLocation } from 'wouter';
 import { useCredit } from '@/hooks/useCredit';
 
 export default function NavMenu() {
-  const [location] = useLocation();
+  const [location, navigate] = useLocation();
   const { secretClick, dotColor, modal: creditModal } = useCredit();
 
   const isTentang = location === '/tentang';
+
+  /* ── breadcrumb expand/collapse animation ── */
   const [shown, setShown] = useState(isTentang);
   const [phase, setPhase] = useState<'idle' | 'out' | 'in'>('idle');
-  const prevRef = useRef(location);
+  const prevLocRef = useRef(location);
 
   useEffect(() => {
-    if (location === prevRef.current) return;
-    prevRef.current = location;
-
+    if (location === prevLocRef.current) return;
+    prevLocRef.current = location;
     setPhase('out');
     const t1 = setTimeout(() => {
       setShown(location === '/tentang');
@@ -29,9 +30,48 @@ export default function NavMenu() {
     phase === 'in'  ? ' logo-crumbs--in'  : ''
   }`;
 
+  /* ── dropdown menu ── */
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [menuVisible, setMenuVisible] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setMenuVisible(false);
+    setTimeout(() => setMenuOpen(false), 180);
+  }, [location]);
+
+  useEffect(() => {
+    if (!menuOpen) return;
+    function handleOutside(e: MouseEvent) {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) closeMenu();
+    }
+    document.addEventListener('mousedown', handleOutside);
+    return () => document.removeEventListener('mousedown', handleOutside);
+  }, [menuOpen]);
+
+  useEffect(() => {
+    function handler(e: KeyboardEvent) {
+      if (e.key === 'Escape' && menuOpen) closeMenu();
+    }
+    document.addEventListener('keydown', handler);
+    return () => document.removeEventListener('keydown', handler);
+  }, [menuOpen]);
+
+  function openMenu() {
+    setMenuOpen(true);
+    requestAnimationFrame(() => requestAnimationFrame(() => setMenuVisible(true)));
+  }
+  function closeMenu() {
+    setMenuVisible(false);
+    setTimeout(() => setMenuOpen(false), 180);
+  }
+  function toggleMenu() {
+    if (menuOpen) closeMenu(); else openMenu();
+  }
+
   return (
     <>
-      <div className="logo-wrap">
+      <div className="logo-wrap" ref={menuRef}>
         <div className="logo-row">
           <div className="logo-icon-wrap" onClick={secretClick}>
             <div className="logo-icon-ring logo-icon-ring--1"></div>
@@ -39,7 +79,10 @@ export default function NavMenu() {
             <div className="logo-icon" style={{ background: dotColor, transition: 'background 0.2s ease' }}></div>
           </div>
           <div className="logo-label">
-            <span className="logo-root">llian</span>
+            <button className="logo-menu-btn" onClick={toggleMenu}>
+              <span className="logo-root">llian</span>
+              <span className={`logo-menu-arrow${menuOpen ? ' open' : ''}`}>▾</span>
+            </button>
             {shown ? (
               <span className={crumbClass}>
                 <span className="logo-sep"> / </span>
@@ -57,7 +100,30 @@ export default function NavMenu() {
             )}
           </div>
         </div>
+
+        {menuOpen && (
+          <div className={`nav-menu${menuVisible ? ' visible' : ''}`}>
+            <button
+              className={`nav-menu-item${isTentang ? ' nav-menu-item--active' : ''}`}
+              onClick={() => { if (!isTentang) { closeMenu(); navigate('/tentang'); } else closeMenu(); }}
+            >
+              tentang
+            </button>
+            <div className="nav-menu-sub-wrap">
+              <span className="nav-menu-item nav-menu-item--parent">projects</span>
+              <div className="nav-menu-sub">
+                <button
+                  className={`nav-menu-item nav-menu-item--child${!isTentang ? ' nav-menu-item--active' : ''}`}
+                  onClick={() => { if (isTentang) { closeMenu(); navigate('/projects/imei/barcode-gen'); } else closeMenu(); }}
+                >
+                  imei / barcode-gen
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
+
       {creditModal}
     </>
   );
