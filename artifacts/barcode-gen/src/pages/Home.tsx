@@ -578,7 +578,7 @@ export default function Home() {
                 back
               </button>
               <span className="results-count-badge">{resultLabel}</span>
-              <button className="results-reset-btn" onClick={resetAll}>flush()</button>
+              <button className="results-reset-btn" onClick={resetAll}>reset</button>
             </div>
             <div className="results-list">
               {results.map(r => (
@@ -591,8 +591,8 @@ export default function Home() {
                     <img src={r.url} alt={`Barcode ${r.index}`} />
                   </div>
                   <div className="result-actions">
-                    <button className="result-btn" onClick={() => downloadImage(r.url, r.index)}>↓ Download</button>
-                    <button className="result-btn primary-action" onClick={() => shareImage(r.url)}>↗ Share</button>
+                    <button className="result-btn" onClick={() => downloadImage(r.url, r.index)}>↓ download</button>
+                    <button className="result-btn primary-action" onClick={() => shareImage(r.url)}>↗ share</button>
                   </div>
                 </div>
               ))}
