@@ -191,7 +191,7 @@ body {
   position: absolute;
   top: calc(100% + 10px);
   left: 0;
-  transform: translateY(-6px) scale(0.97);
+  transform: translateY(-8px) scale(0.96);
   background: rgba(14,14,14,0.96);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
@@ -205,7 +205,7 @@ body {
     0 2px 8px -2px rgba(0,0,0,0.5),
     0 0 0 0.5px rgba(255,255,255,0.04) inset;
   opacity: 0;
-  transition: opacity 0.18s ease, transform 0.18s ease;
+  transition: opacity 0.22s cubic-bezier(0.16,1,0.3,1), transform 0.22s cubic-bezier(0.16,1,0.3,1);
   pointer-events: none;
 }
 .nav-menu.visible {
@@ -302,6 +302,25 @@ textarea:focus { border-color: #444; }
 .status-progress { flex: 1; }
 
 .status-count { color: var(--text-dim); }
+
+/* ── Page transitions ── */
+.page-wrap {
+  will-change: opacity, transform;
+}
+.page-wrap--enter {
+  animation: pageEnter 0.28s cubic-bezier(0.16,1,0.3,1) both;
+}
+.page-wrap--exit {
+  animation: pageExit 0.16s cubic-bezier(0.4,0,1,1) both;
+}
+@keyframes pageEnter {
+  from { opacity: 0; transform: translateY(10px); filter: blur(3px); }
+  to   { opacity: 1; transform: translateY(0);   filter: blur(0); }
+}
+@keyframes pageExit {
+  from { opacity: 1; transform: translateY(0);    filter: blur(0); }
+  to   { opacity: 0; transform: translateY(-6px); filter: blur(3px); }
+}
 
 @keyframes fadeSlideIn {
   from { opacity: 0; transform: translateY(12px); }
