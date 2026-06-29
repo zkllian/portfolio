@@ -118,7 +118,7 @@ export default function Tentang() {
             <div className="cv-competency-list">
               <div className="cv-competency-item">
                 <span className="cv-competency-num">01</span>
-                <p className="cv-competency-text">peka soal tampilan — langsung nyadar kalau ada spasi nggak pas, warna nggak konsisten, atau layout yang berantakan</p>
+                <p className="cv-competency-text">peka soal tampilan — langsung nyadar kalau spasi nggak pas, warna nggak konsisten, atau layout yang berantakan</p>
               </div>
               <div className="cv-competency-item">
                 <span className="cv-competency-num">02</span>
