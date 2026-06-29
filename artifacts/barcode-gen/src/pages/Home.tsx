@@ -74,26 +74,10 @@ export default function Home() {
   const BC = { eid: { h: 72, w: 700.5 }, imei1: { h: 71, w: 455 }, imei2: { h: 69, w: 455 }, meid: { h: 69.5, w: 380 } };
   const [previewDim, setPreviewDim] = useState('738 × 1600');
 
-  const [creditOpen, setCreditOpen] = useState(false);
-  const [creditVisible, setCreditVisible] = useState(false);
-
   const [toastMsg, setToastMsg] = useState('');
   const [showToastState, setShowToastState] = useState(false);
   const toastTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [inlineError, setInlineError] = useState('');
-
-  const [dotHintVisible, setDotHintVisible] = useState(false);
-  const tapCountRef = useRef(0);
-  const tapResetRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const TAP_COLORS = ['#ffffff', '#7850ff', '#00b96b'];
-  const [dotColor, setDotColor] = useState('#ffffff');
-
-  const [statsOpen, setStatsOpen] = useState(false);
-  const [statsVisible, setStatsVisible] = useState(false);
-  const [statsCount, setStatsCount] = useState<number | null>(null);
-  const [statsLoading, setStatsLoading] = useState(false);
-  const counterTapRef = useRef(0);
-  const counterTapResetRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const COUNTER_KEY = 'imei_total_generated';
   const DATE_KEY    = 'imei_total_generated_date';
@@ -112,7 +96,6 @@ export default function Home() {
     return saved ? parseInt(saved, 10) || 0 : 0;
   });
   const [confirmReset, setConfirmReset] = useState(false);
-  const [dotHintMsg, setDotHintMsg] = useState('');
 
   const inputValRef = useRef('');
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -158,39 +141,6 @@ export default function Home() {
       document.fonts.load("500 32px 'SF Pro Custom'");
     }
   }, []);
-
-  useEffect(() => {
-    const msgs = [
-      'tap 3x',
-    ];
-    let hintTimeout: ReturnType<typeof setTimeout>;
-    let hideTimeout: ReturnType<typeof setTimeout>;
-    function showHint() {
-      setDotHintMsg(msgs[Math.floor(Math.random() * msgs.length)]);
-      setDotHintVisible(true);
-      hideTimeout = setTimeout(() => { setDotHintVisible(false); scheduleNext(); }, 3500);
-    }
-    function scheduleNext() {
-      hintTimeout = setTimeout(showHint, 12000 + Math.random() * 18000);
-    }
-    hintTimeout = setTimeout(showHint, 8000 + Math.random() * 10000);
-    return () => { clearTimeout(hintTimeout); clearTimeout(hideTimeout); };
-  }, []);
-
-  useEffect(() => {
-    const handler = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && creditOpen) {
-        setCreditVisible(false);
-        setTimeout(() => setCreditOpen(false), 300);
-      }
-    };
-    document.addEventListener('keydown', handler);
-    return () => document.removeEventListener('keydown', handler);
-  }, [creditOpen]);
-
-  useEffect(() => {
-    if (creditOpen) spawnParticles();
-  }, [creditOpen]);
 
   useEffect(() => {
     drawPreview(pos);
@@ -366,7 +316,6 @@ export default function Home() {
     nudgeStepRef.current = v;
   }
 
-
   function startNudge(field: string, dir: number) {
     doNudge(field, dir);
     nudgeTimerRef.current = setTimeout(() => {
@@ -443,103 +392,6 @@ export default function Home() {
     ctx.fillText('356730111869006',                  p.imei1_tx, p.imei1_ty);
     ctx.fillText('356687114789203',                  p.imei2_tx, p.imei2_ty);
     ctx.fillText('35673011186900',                   p.meid_tx,  p.meid_ty);
-
-  }
-
-
-  function playPop() {
-    try {
-      // @ts-ignore
-      const ac = new (window.AudioContext || window.webkitAudioContext)();
-      const t = ac.currentTime;
-      const o1 = ac.createOscillator(), g1 = ac.createGain();
-      o1.connect(g1); g1.connect(ac.destination);
-      o1.frequency.setValueAtTime(180, t); o1.frequency.exponentialRampToValueAtTime(60, t + 0.12);
-      g1.gain.setValueAtTime(0.5, t); g1.gain.exponentialRampToValueAtTime(0.001, t + 0.18);
-      o1.start(t); o1.stop(t + 0.18);
-      const o2 = ac.createOscillator(), g2 = ac.createGain();
-      o2.type = 'sine'; o2.connect(g2); g2.connect(ac.destination);
-      o2.frequency.setValueAtTime(900, t + 0.05); o2.frequency.exponentialRampToValueAtTime(1400, t + 0.15);
-      g2.gain.setValueAtTime(0.18, t + 0.05); g2.gain.exponentialRampToValueAtTime(0.001, t + 0.3);
-      o2.start(t + 0.05); o2.stop(t + 0.3);
-    } catch (e) {}
-  }
-
-  function spawnParticles() {
-    const container = document.getElementById('creditParticles');
-    if (!container) return;
-    container.innerHTML = '';
-    const colors = ['#7850ff','#c850fc','#0070f3','#fff','#ff5050','#00b96b'];
-    for (let i = 0; i < 18; i++) {
-      const p = document.createElement('div');
-      p.className = 'credit-particle';
-      const size = Math.random() * 6 + 3;
-      const angle = (Math.PI * 2 * i) / 18 + Math.random() * 0.5;
-      const dist = 60 + Math.random() * 60;
-      const tx = `translate(${Math.cos(angle) * dist}px, ${Math.sin(angle) * dist}px)`;
-      p.style.cssText = `width:${size}px;height:${size}px;background:${colors[i % colors.length]};left:calc(50% - ${size/2}px);top:calc(50% - ${size/2}px);--tx:${tx};animation-delay:${Math.random()*0.15}s;animation-duration:${0.9+Math.random()*0.4}s;`;
-      container.appendChild(p);
-    }
-  }
-
-  function secretClick() {
-    if (tapResetRef.current) clearTimeout(tapResetRef.current);
-    tapCountRef.current += 1;
-    tapResetRef.current = setTimeout(() => { tapCountRef.current = 0; setDotColor('#ffffff'); }, 1500);
-    const nextColor = TAP_COLORS[tapCountRef.current % TAP_COLORS.length];
-    setDotColor(nextColor);
-    if (tapCountRef.current < 3) return;
-    tapCountRef.current = 0;
-    setDotColor('#ffffff');
-    setDotHintVisible(false);
-    if (navigator.vibrate) navigator.vibrate([40, 30, 60]);
-    playPop();
-    spawnParticles();
-    setCreditOpen(true);
-    requestAnimationFrame(() => requestAnimationFrame(() => setCreditVisible(true)));
-  }
-
-  function closeCredit(e: React.MouseEvent) {
-    if (e && e.target !== e.currentTarget) return;
-    setCreditVisible(false);
-    setTimeout(() => setCreditOpen(false), 300);
-  }
-
-  async function fetchStatsAndOpen() {
-    setStatsLoading(true);
-    setStatsCount(null);
-    setStatsOpen(true);
-    requestAnimationFrame(() => requestAnimationFrame(() => setStatsVisible(true)));
-    try {
-      const res = await fetch('/api/stats/today');
-      if (res.ok) {
-        const data = await res.json() as { count: number };
-        setStatsCount(data.count);
-      } else {
-        setStatsCount(-1);
-      }
-    } catch {
-      setStatsCount(-1);
-    } finally {
-      setStatsLoading(false);
-    }
-  }
-
-  function handleCounterTap() {
-    if (counterTapResetRef.current) clearTimeout(counterTapResetRef.current);
-    counterTapRef.current += 1;
-    counterTapResetRef.current = setTimeout(() => { counterTapRef.current = 0; }, 1200);
-    if (counterTapRef.current >= 3) {
-      counterTapRef.current = 0;
-      if (navigator.vibrate) navigator.vibrate([30, 20, 50]);
-      fetchStatsAndOpen();
-    }
-  }
-
-  function closeStats(e: React.MouseEvent) {
-    if (e && e.target !== e.currentTarget) return;
-    setStatsVisible(false);
-    setTimeout(() => setStatsOpen(false), 300);
   }
 
   const nudgeProps = { pos, onSetPos: setPos, onStartNudge: startNudge, onStopNudge: stopNudge };
@@ -548,19 +400,16 @@ export default function Home() {
     <>
       <div className="logo-wrap">
         <div className="logo-row">
-          <div className="logo-icon-wrap" onClick={secretClick}>
-            <div className="logo-icon-ring"></div>
-            <div className="logo-icon" style={{ background: dotColor, transition: 'background 0.2s ease' }}></div>
+          <div className="logo-icon-wrap">
+            <div className="logo-icon-ring logo-icon-ring--1"></div>
+            <div className="logo-icon-ring logo-icon-ring--2"></div>
+            <div className="logo-icon"></div>
           </div>
           <div className="logo-label">
             <span className="logo-name">imei</span>
             <span className="logo-sep"> / </span>
             <span>barcode-gen</span>
           </div>
-        </div>
-        <div className={`logo-hint${dotHintVisible ? ' visible' : ''}`}>
-          <span className="logo-hint-arrow"></span>
-          {dotHintMsg}
         </div>
       </div>
 
@@ -612,7 +461,7 @@ export default function Home() {
                   </div>
                 )}
               </div>
-              <span className="counter-number" onClick={handleCounterTap} style={{ cursor: 'default', userSelect: 'none' }}>{totalImei.toLocaleString()}</span>
+              <span className="counter-number">{totalImei.toLocaleString()}</span>
             </div>
 
             <div className="card pos-card">
@@ -627,7 +476,6 @@ export default function Home() {
                 <NudgeRow label="im0.t"  yField="imei1_ty" {...nudgeProps} color="#3b82f6" />
                 <NudgeRow label="im1.t"  yField="imei2_ty" {...nudgeProps} color="#10b981" />
                 <NudgeRow label="meid.t" yField="meid_ty"  {...nudgeProps} color="#e879f9" />
-
 
                 <div className="preview-wrap">
                   <div className="preview-header">
@@ -678,40 +526,6 @@ export default function Home() {
         )}
 
       </div>
-
-      {statsOpen && (
-        <div className={`credit-overlay open${statsVisible ? ' visible' : ''}`} onClick={closeStats}>
-          <div className="credit-modal" style={{ gap: '10px' }}>
-            <div className="credit-modal-glow"></div>
-            <button className="credit-close" onClick={() => { setStatsVisible(false); setTimeout(() => setStatsOpen(false), 300); }}>✕</button>
-            <div className="credit-tag">// global stats</div>
-            <div className="credit-modal-name" style={{ fontSize: '13px', color: 'var(--text-muted, #888)', marginBottom: '4px' }}>total barcode di-generate hari ini</div>
-            <div className="counter-number" style={{ fontSize: '56px', lineHeight: 1, margin: '8px 0' }}>
-              {statsLoading ? '···' : statsCount === null || statsCount === -1 ? '—' : statsCount.toLocaleString()}
-            </div>
-            <div className="credit-modal-divider"></div>
-            <div className="credit-modal-footer">
-              {statsLoading ? 'loading...' : statsCount === -1 ? 'server tidak tersedia' : 'barcode-gen · all users · WIB'}
-            </div>
-          </div>
-        </div>
-      )}
-
-      {creditOpen && (
-        <div className={`credit-overlay open${creditVisible ? ' visible' : ''}`} onClick={closeCredit}>
-          <div className="credit-modal">
-            <div className="credit-particles" id="creditParticles"></div>
-            <div className="credit-modal-glow"></div>
-            <button className="credit-close" onClick={() => { setCreditVisible(false); setTimeout(() => setCreditOpen(false), 300); }}>✕</button>
-            <div className="credit-tag">// made by</div>
-            <div className="credit-modal-avatar"><img src={`${BASE}avatar.png`} alt="avatar" style={{width:'100%',height:'100%',objectFit:'cover',borderRadius:'50%'}} /></div>
-            <div className="credit-modal-name">agoy ganteng banget</div>
-            <div className="credit-modal-sub">crafted with ✦ by the legend himself</div>
-            <div className="credit-modal-divider"></div>
-            <div className="credit-modal-footer">barcode-gen · imei · v1.0</div>
-          </div>
-        </div>
-      )}
 
       <div className={`toast${showToastState ? ' show' : ''}`}>{toastMsg}</div>
       <canvas ref={canvasRef} style={{ display: 'none' }}></canvas>
