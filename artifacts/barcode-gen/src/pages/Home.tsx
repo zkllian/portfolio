@@ -602,7 +602,7 @@ export default function Home() {
 
             <div className="card counter-card">
               <div className="card-header">
-                <span className="card-title">// total barcode generated</span>
+                <span className="card-title">// barcode hari ini</span>
                 <div className="counter-header-actions">
                   {!confirmReset ? (
                     <button className="counter-reset-btn" onClick={() => setConfirmReset(true)}>reset</button>
