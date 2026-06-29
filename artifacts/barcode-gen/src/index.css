@@ -169,6 +169,14 @@ body {
 
 .logo-root { color: var(--text); }
 
+.logo-back {
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: .02em;
+  cursor: pointer;
+}
+
 .logo-menu-arrow {
   font-size: 10px;
   color: var(--text-dim);

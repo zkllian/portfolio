@@ -18,9 +18,7 @@ export default function Tentang() {
             <div className="logo-icon"></div>
           </div>
           <div className="logo-label">
-            <button className="logo-menu-btn" onClick={() => navigate('/')}>
-              <span className="logo-root">llian</span>
-            </button>
+            <span className="logo-back" onClick={() => navigate('/')}>llian</span>
             <span className="logo-sep"> / </span>
             <span className="logo-crumb">tentang</span>
           </div>
