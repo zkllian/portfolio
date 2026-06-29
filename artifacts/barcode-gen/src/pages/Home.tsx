@@ -283,7 +283,7 @@ export default function Home() {
     setInputVal('');
     setResults([]);
     setView('input');
-    setImeiCount('0x00 sets');
+    setImeiCount('0 sets');
     setInlineError('');
     setOddNotice('');
     window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
