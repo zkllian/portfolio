@@ -938,8 +938,8 @@ textarea:focus { border-color: #444; }
 .spotify-card--bare:hover { background: transparent; border-color: transparent; }
 
 .spotify-art {
-  width: 72px;
-  height: 72px;
+  width: 48px;
+  height: 48px;
   border-radius: var(--radius);
   object-fit: cover;
   flex-shrink: 0;
