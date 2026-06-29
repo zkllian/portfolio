@@ -34,12 +34,18 @@ textarea, input { user-select: text; -webkit-user-select: text; }
   --radius: 8px;
 }
 
+@keyframes grid-scroll {
+  from { background-position: 0 0; }
+  to   { background-position: 0 48px; }
+}
+
 body {
   background-color: var(--bg);
   background-image:
     linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
   background-size: 48px 48px;
+  animation: grid-scroll 12s linear infinite;
   color: var(--text);
   font-family: 'Geist', -apple-system, BlinkMacSystemFont, sans-serif;
   font-size: 14px;
