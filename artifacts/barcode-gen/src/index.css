@@ -678,21 +678,41 @@ textarea:focus { border-color: #444; }
 .cv-meta-dot { color: var(--text-dim); }
 
 .cv-contacts {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5px 8px;
 }
 
-.cv-contact-link {
-  font-size: 12px;
+.cv-contact-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
   font-family: 'Geist Mono', monospace;
   color: var(--text-muted);
   text-decoration: none;
   transition: color 0.15s;
   user-select: text;
   -webkit-user-select: text;
+  min-width: 0;
 }
-.cv-contact-link:hover { color: var(--text); }
+.cv-contact-item:hover { color: var(--text); }
+.cv-contact-item:hover .cv-contact-icon { color: var(--text); }
+
+.cv-contact-icon {
+  width: 12px;
+  height: 12px;
+  flex-shrink: 0;
+  color: var(--text-dim);
+  transition: color 0.15s;
+}
+
+.cv-contact-item span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+}
 
 .cv-section {
   background: var(--surface);
