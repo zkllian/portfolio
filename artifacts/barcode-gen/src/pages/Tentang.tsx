@@ -291,42 +291,33 @@ export default function Tentang() {
               <div className="cv-entry-header">
                 <div className="cv-entry-header-left">
                   <span className="cv-entry-role">llian portfolio</span>
+                  <svg className="cv-entry-link--dead" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ width: 11, height: 11, flexShrink: 0 }}><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
                 </div>
                 <span className="cv-entry-period">2025 – skrg</span>
               </div>
               <p className="cv-about" style={{ marginTop: 2 }}>situs portfolio pribadi yang menampilkan keahlian teknis, riwayat karier, dan proyek pilihan — dibangun dengan react, vite, dan typescript.</p>
-              <span className="cv-entry-link cv-entry-link--dead">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ width: 10, height: 10 }}><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-                belum ada domain
-              </span>
             </div>
 
             <div className="cv-entry">
               <div className="cv-entry-header">
                 <div className="cv-entry-header-left">
                   <span className="cv-entry-role">jobstreet scraper</span>
+                  <svg className="cv-entry-link--dead" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ width: 11, height: 11, flexShrink: 0 }}><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
                 </div>
                 <span className="cv-entry-period">2024</span>
               </div>
               <p className="cv-about" style={{ marginTop: 2 }}>perkakas open source untuk mengotomatisasi pengambilan data lowongan kerja dari platform jobstreet secara terstruktur dan efisien.</p>
-              <span className="cv-entry-link cv-entry-link--dead">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ width: 10, height: 10 }}><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-                belum ada domain
-              </span>
             </div>
 
             <div className="cv-entry">
               <div className="cv-entry-header">
                 <div className="cv-entry-header-left">
                   <span className="cv-entry-role">admob auto impression</span>
+                  <svg className="cv-entry-link--dead" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ width: 11, height: 11, flexShrink: 0 }}><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
                 </div>
                 <span className="cv-entry-period">2024</span>
               </div>
               <p className="cv-about" style={{ marginTop: 2 }}>perkakas open source berbasis otomasi untuk meningkatkan volume tayangan admob, dirancang untuk efisiensi operasional tanpa intervensi manual.</p>
-              <span className="cv-entry-link cv-entry-link--dead">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ width: 10, height: 10 }}><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-                belum ada domain
-              </span>
             </div>
           </div>
 
