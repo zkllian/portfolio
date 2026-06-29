@@ -70,6 +70,7 @@ body {
   width: fit-content;
   max-width: calc(100vw - 120px);
   white-space: nowrap;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.45);
 }
 
 /* consistent spacing token */
