@@ -70,10 +70,10 @@ export default function Tentang() {
               tentang
             </button>
             <div className="nav-menu-sub-wrap">
-              <span className="nav-menu-item nav-menu-item--parent">imei</span>
+              <span className="nav-menu-item nav-menu-item--parent">projects</span>
               <div className="nav-menu-sub">
-                <button className="nav-menu-item nav-menu-item--child" onClick={() => { closeMenu(); navigate('/'); }}>
-                  barcode gen
+                <button className="nav-menu-item nav-menu-item--child" onClick={() => { closeMenu(); navigate('/projects/imei/barcode-gen'); }}>
+                  imei / barcode-gen
                 </button>
               </div>
             </div>

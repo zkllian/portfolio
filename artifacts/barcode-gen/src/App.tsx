@@ -6,6 +6,7 @@ function App() {
   return (
     <Switch>
       <Route path="/" component={Home} />
+      <Route path="/projects/imei/barcode-gen" component={Home} />
       <Route path="/tentang" component={Tentang} />
       <Route component={Home} />
     </Switch>

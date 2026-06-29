@@ -602,6 +602,8 @@ export default function Home() {
               <span className={`logo-menu-arrow${menuOpen ? ' open' : ''}`}>▾</span>
             </button>
             <span className="logo-sep"> / </span>
+            <span className="logo-crumb">projects</span>
+            <span className="logo-sep"> / </span>
             <span className="logo-crumb">imei</span>
             <span className="logo-sep"> / </span>
             <span className="logo-crumb">barcode-gen</span>
@@ -614,10 +616,10 @@ export default function Home() {
               tentang
             </button>
             <div className="nav-menu-sub-wrap">
-              <span className="nav-menu-item nav-menu-item--parent">imei</span>
+              <span className="nav-menu-item nav-menu-item--parent">projects</span>
               <div className="nav-menu-sub">
-                <button className="nav-menu-item nav-menu-item--child" onClick={closeMenu}>
-                  barcode gen
+                <button className="nav-menu-item nav-menu-item--child nav-menu-item--active" onClick={closeMenu}>
+                  imei / barcode-gen
                 </button>
               </div>
             </div>
