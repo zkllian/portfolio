@@ -110,21 +110,6 @@ export default function NavMenu() {
                 <span className="logo-root">llian</span>
                 <span className={`logo-menu-arrow${menuOpen ? ' open' : ''}`}>▾</span>
               </button>
-              {shown ? (
-                <span className={crumbClass}>
-                  <span className="logo-sep"> / </span>
-                  <span className="logo-crumb">tentang</span>
-                </span>
-              ) : (
-                <span className={crumbClass}>
-                  <span className="logo-sep"> / </span>
-                  <span className="logo-crumb">projects</span>
-                  <span className="logo-sep"> / </span>
-                  <span className="logo-crumb">imei</span>
-                  <span className="logo-sep"> / </span>
-                  <span className="logo-crumb">barcode-gen</span>
-                </span>
-              )}
             </div>
           </div>
 
@@ -150,6 +135,22 @@ export default function NavMenu() {
             </div>
           )}
         </div>
+
+        {shown ? (
+          <div className={`breadcrumb-pill ${crumbClass}`}>
+            <span className="logo-sep">/</span>
+            <span className="logo-crumb">tentang</span>
+          </div>
+        ) : (
+          <div className={`breadcrumb-pill ${crumbClass}`}>
+            <span className="logo-sep">/</span>
+            <span className="logo-crumb">projects</span>
+            <span className="logo-sep">/</span>
+            <span className="logo-crumb">imei</span>
+            <span className="logo-sep">/</span>
+            <span className="logo-crumb">barcode-gen</span>
+          </div>
+        )}
       </div>
 
       {creditModal}
