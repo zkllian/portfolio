@@ -123,9 +123,14 @@ export default function Tentang() {
           <div className="cv-section">
             <div className="cv-section-label">// tentang saya</div>
             <p className="cv-about">
-              front-end developer dengan latar belakang teknik komputer &amp; jaringan. berpengalaman dalam
-              pengembangan web, desain ui, dan kontribusi digital di ekosistem web3 sebagai brand ambassador,
-              content writer, dan community manager. terbiasa bekerja mandiri maupun dalam tim.
+              ketertarikan saya terhadap teknologi dimulai dari warnet sekitar 2010 — dari sana saya mulai bereksperimen sendiri,
+              hingga pada 2012 mengelola blog di blogspot dan berhasil bermitra dengan google adsense. perjalanan formal saya
+              berlanjut ke dunia administrasi sebagai admin perpustakaan di universitas suryakancana, lalu berkembang ke
+              pemasaran digital: menjalankan iklan facebook ads, menulis konten, dan mengelola media sosial. saya terus belajar
+              secara mandiri — membangun dan mendeploy website dengan next.js dan vercel, serta membuat bot telegram untuk
+              otomasi pemasaran. saya memiliki kepekaan terhadap tampilan digital: saya tahu bagaimana sebuah desain bisa
+              terlihat rapi, terstruktur, dan elegan. pengalaman saya di komunitas web3 melengkapi kemampuan saya dalam
+              membangun keterlibatan audiens secara online.
             </p>
           </div>
 
@@ -139,9 +144,7 @@ export default function Tentang() {
               </div>
               <div className="cv-entry-period">agustus 2017 – november 2017</div>
               <ul className="cv-list">
-                <li>mengawasi operasional harian perpustakaan dan memastikan alur layanan berjalan efisien untuk ratusan pengunjung per hari</li>
-                <li>membantu pengunjung menemukan referensi yang dibutuhkan dengan cepat, meningkatkan kepuasan layanan secara konsisten</li>
-                <li>melakukan pembaruan dan pengorganisasian koleksi buku secara berkala agar tetap relevan dan mudah diakses</li>
+                <li>mengelola operasional harian perpustakaan, melayani pengunjung secara langsung, serta menginput dan memelihara data koleksi buku ke dalam sistem database universitas</li>
               </ul>
             </div>
           </div>
@@ -156,7 +159,7 @@ export default function Tentang() {
               </div>
               <div className="cv-entry-period">2012</div>
               <ul className="cv-list">
-                <li>membuat dan mengelola blog secara independen dengan monetisasi melalui google adsense</li>
+                <li>mengelola blog pribadi di platform blogspot dan berhasil bermitra dengan google adsense — pencapaian pertama dalam memonetisasi konten digital secara mandiri</li>
               </ul>
             </div>
 
@@ -167,8 +170,7 @@ export default function Tentang() {
               </div>
               <div className="cv-entry-period">maret 2018 – desember 2019</div>
               <ul className="cv-list">
-                <li>moderasi dan pengelolaan komunitas verso sehari-hari</li>
-                <li>memastikan diskusi berjalan kondusif dan anggota mendapat respons yang cepat</li>
+                <li>merancang dan mengelola program keterlibatan komunitas, membangun pengalaman pengguna yang positif, serta menjaga konsistensi komunikasi antara tim proyek dan anggota komunitas</li>
               </ul>
             </div>
 
@@ -179,8 +181,7 @@ export default function Tentang() {
               </div>
               <div className="cv-entry-period">januari 2024 – maret 2025</div>
               <ul className="cv-list">
-                <li>membuat konten seputar ekosistem injective di media sosial</li>
-                <li>aktif di komunitas, membantu menjawab pertanyaan dan mengenalkan proyek ke audiens baru</li>
+                <li>memperkuat citra merek melalui produksi konten tertulis, desain grafis, dan strategi media sosial yang ditargetkan kepada komunitas digital di platform twitter/x</li>
               </ul>
             </div>
 
@@ -191,8 +192,7 @@ export default function Tentang() {
               </div>
               <div className="cv-entry-period">maret 2024 – mei 2025</div>
               <ul className="cv-list">
-                <li>mempromosikan nesa lewat postingan dan diskusi komunitas</li>
-                <li>mengikuti program ambassador dan testnet resmi</li>
+                <li>membangun kesadaran merek dan mendorong keterlibatan audiens melalui konten yang estetis dan konsisten secara visual — mulai dari copywriting hingga aset grafis</li>
               </ul>
             </div>
 
@@ -203,8 +203,7 @@ export default function Tentang() {
               </div>
               <div className="cv-entry-period">juli 2024 – april 2025</div>
               <ul className="cv-list">
-                <li>menulis artikel dan thread tentang cara kerja protokol mitosis</li>
-                <li>menyajikan informasi teknis dengan bahasa yang lebih mudah dicerna</li>
+                <li>memproduksi konten edukatif dan kreatif untuk mendukung pertumbuhan komunitas serta meningkatkan keterlibatan pengguna di ekosistem proyek</li>
               </ul>
             </div>
 
@@ -215,8 +214,7 @@ export default function Tentang() {
               </div>
               <div className="cv-entry-period">juli 2024 – april 2025</div>
               <ul className="cv-list">
-                <li>menulis konten tentang story protocol dan cara kerja registrasi ip on-chain</li>
-                <li>membuat thread edukasi untuk komunitas berbahasa indonesia</li>
+                <li>menghasilkan konten informatif dan menarik yang mendukung komunikasi proyek kepada audiens komunitas secara konsisten</li>
               </ul>
             </div>
 
@@ -227,8 +225,7 @@ export default function Tentang() {
               </div>
               <div className="cv-entry-period">juli 2024 – april 2025</div>
               <ul className="cv-list">
-                <li>menulis konten seputar union dan ekosistem cross-chain-nya</li>
-                <li>membantu audiens memahami cara kerja bridging dan interoperabilitas</li>
+                <li>berkontribusi aktif dalam ekosistem komunitas melalui produksi konten digital yang memperkuat visibilitas dan relevansi proyek</li>
               </ul>
             </div>
 
@@ -239,8 +236,7 @@ export default function Tentang() {
               </div>
               <div className="cv-entry-period">september 2024 – januari 2025</div>
               <ul className="cv-list">
-                <li>membuat konten dan aktif di komunitas swisstronik</li>
-                <li>mengikuti testnet dan kegiatan ambassador sebagai representasi komunitas lokal</li>
+                <li>merepresentasikan merek secara daring melalui konten media sosial rutin, copywriting kampanye, dan pengelolaan interaksi dengan komunitas untuk memperluas jangkauan proyek</li>
               </ul>
             </div>
           </div>
@@ -268,7 +264,7 @@ export default function Tentang() {
                 <span className="cv-entry-role">zkllian</span>
                 <span className="cv-entry-period" style={{ marginLeft: 0 }}>2024</span>
               </div>
-              <p className="cv-about" style={{ marginTop: 2 }}>portofolio profesional dibangun dengan next.js, react, shadcn ui, tailwind, dan magic ui.</p>
+              <p className="cv-about" style={{ marginTop: 2 }}>situs portofolio profesional yang dirancang untuk menampilkan keahlian teknis, proyek pilihan, dan riwayat karier sebagai referensi bagi rekruter maupun klien.</p>
             </div>
 
             <div className="cv-entry">
@@ -276,7 +272,7 @@ export default function Tentang() {
                 <span className="cv-entry-role">jobstreet scraper</span>
                 <span className="cv-entry-period" style={{ marginLeft: 0 }}>2024</span>
               </div>
-              <p className="cv-about" style={{ marginTop: 2 }}>scraper data lowongan kerja dari jobstreet menggunakan python.</p>
+              <p className="cv-about" style={{ marginTop: 2 }}>perkakas open source untuk mengotomatisasi pengambilan data lowongan kerja dari platform jobstreet secara terstruktur dan efisien.</p>
             </div>
 
             <div className="cv-entry">
@@ -284,7 +280,7 @@ export default function Tentang() {
                 <span className="cv-entry-role">admob auto impression</span>
                 <span className="cv-entry-period" style={{ marginLeft: 0 }}>2024</span>
               </div>
-              <p className="cv-about" style={{ marginTop: 2 }}>tools otomasi tayangan admob dibangun dengan kotlin dan java.</p>
+              <p className="cv-about" style={{ marginTop: 2 }}>perkakas open source berbasis otomasi untuk meningkatkan volume tayangan admob, dirancang untuk efisiensi operasional tanpa intervensi manual.</p>
             </div>
           </div>
 
@@ -295,8 +291,9 @@ export default function Tentang() {
                 { key: 'web dev', tags: ['next.js','react','vite','typescript','tailwind css','express.js','drizzle orm','tanstack query','wouter','zod','vercel','telegram bot','ui/web design'] },
                 { key: 'marketing', tags: ['facebook ads','seo dasar','social media management','content planning'] },
                 { key: 'konten', tags: ['community management','content writing','copywriting'] },
-                { key: 'desain', tags: ['adobe photoshop','canva','figma','graphic design'] },
+                { key: 'desain', tags: ['adobe photoshop','canva','figma','graphic design','ui/web design'] },
                 { key: 'administrasi', tags: ['microsoft office','google workspace','data entry'] },
+                { key: 'soft skills', tags: ['komunikasi','kerja tim','problem solving','manajemen waktu'] },
                 { key: 'bahasa', tags: ['indonesia','inggris'] },
                 { key: 'sertifikasi', tags: ['sertifikasi komputer','microsoft office'] },
               ] as { key: string; tags: string[] }[]).map(({ key, tags }) => (
