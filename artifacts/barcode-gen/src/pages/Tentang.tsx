@@ -10,7 +10,7 @@ export default function Tentang() {
 
           {/* ── Hero ── */}
           <div className="cv-hero">
-            <img className="cv-avatar" src="/avatar.png" alt="avatar" />
+            <div className="cv-avatar" role="img" aria-label="avatar" />
             <div className="cv-hero-info">
               <div className="cv-name">yoga aprilliansyan n</div>
               <div className="cv-role">front-end developer</div>
