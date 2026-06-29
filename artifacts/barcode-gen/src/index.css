@@ -836,66 +836,6 @@ textarea:focus { border-color: #444; }
   color: var(--text-dim);
 }
 
-/* ── Theme Toggle Button ── */
-.theme-toggle {
-  width: 38px;
-  height: 38px;
-  padding: 0;
-  background: rgba(18,18,18,0.97);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border: 1px solid var(--border);
-  border-radius: 50%;
-  cursor: pointer;
-  color: var(--text-dim);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: color 0.15s;
-  -webkit-tap-highlight-color: transparent;
-  flex-shrink: 0;
-}
-.theme-toggle:hover { color: var(--text-muted); }
-
-/* ── Light Mode ── */
-[data-theme="light"] {
-  --bg: #f2f2f2;
-  --surface: #ffffff;
-  --surface2: #ebebeb;
-  --border: #e0e0e0;
-  --border2: #cccccc;
-  --text: #0a0a0a;
-  --text-muted: #444;
-  --text-dim: #888;
-  --accent: #0a0a0a;
-  --accent-hover: #222;
-}
-[data-theme="light"] .logo-wrap,
-[data-theme="light"] .theme-toggle {
-  background: rgba(255,255,255,0.97);
-}
-[data-theme="light"] .logo-icon-ring {
-  border-color: rgba(0,0,0,0.22);
-}
-[data-theme="light"] .logo-icon-ring--2 {
-  border-color: rgba(0,0,0,0.1);
-}
-[data-theme="light"] .logo-icon {
-  animation: logo-beat-light 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
-}
-@keyframes logo-beat-light {
-  0%   { transform: scale(1); }
-  14%  { transform: scale(1.22); }
-  28%  { transform: scale(1); }
-  42%  { transform: scale(1.14); }
-  70%  { transform: scale(1); }
-  100% { transform: scale(1); }
-}
-[data-theme="light"] .logo-menu-btn:hover { background: rgba(0,0,0,0.06); }
-[data-theme="light"] .nav-menu {
-  background: #ffffff;
-}
-[data-theme="light"] .nav-menu-item:hover { background: rgba(0,0,0,0.05); }
 
 
 /* ── Scroll Reveal ── */

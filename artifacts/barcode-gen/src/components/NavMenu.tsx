@@ -6,16 +6,6 @@ export default function NavMenu() {
   const [location, navigate] = useLocation();
   const { secretClick, dotColor, modal: creditModal } = useCredit();
 
-  /* ── Theme toggle ── */
-  const [theme, setTheme] = useState<'dark' | 'light'>(() => {
-    return (localStorage.getItem('theme') as 'dark' | 'light') ?? 'dark';
-  });
-  useEffect(() => {
-    document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem('theme', theme);
-  }, [theme]);
-  const toggleTheme = () => setTheme(t => t === 'dark' ? 'light' : 'dark');
-
   const isTentang = location === '/tentang';
 
   /* ── breadcrumb expand/collapse animation ── */
@@ -108,68 +98,57 @@ export default function NavMenu() {
   return (
     <>
       <div className="nav-bar" ref={menuRef}>
-        <button className="theme-toggle" onClick={toggleTheme} aria-label="toggle theme">
-          {theme === 'dark' ? (
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" width="13" height="13">
-              <circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
-            </svg>
-          ) : (
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" width="13" height="13">
-              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-            </svg>
-          )}
-        </button>
         <div className="logo-wrap">
-        <div className="logo-row">
-          <div className="logo-icon-wrap" onClick={secretClick}>
-            <div className="logo-icon-ring logo-icon-ring--1"></div>
-            <div className="logo-icon-ring logo-icon-ring--2"></div>
-            <div className="logo-icon" style={{ background: theme === 'light' && dotColor === '#ffffff' ? '#0a0a0a' : dotColor, transition: 'background 0.2s ease' }}></div>
-          </div>
-          <div className="logo-label">
-            <button className="logo-menu-btn" onClick={toggleMenu}>
-              <span className="logo-root">llian</span>
-              <span className={`logo-menu-arrow${menuOpen ? ' open' : ''}`}>▾</span>
-            </button>
-            {shown ? (
-              <span className={crumbClass}>
-                <span className="logo-sep"> / </span>
-                <span className="logo-crumb">tentang</span>
-              </span>
-            ) : (
-              <span className={crumbClass}>
-                <span className="logo-sep"> / </span>
-                <span className="logo-crumb">projects</span>
-                <span className="logo-sep"> / </span>
-                <span className="logo-crumb">imei</span>
-                <span className="logo-sep"> / </span>
-                <span className="logo-crumb">barcode-gen</span>
-              </span>
-            )}
-          </div>
-        </div>
-
-        {menuOpen && (
-          <div className={`nav-menu${menuVisible ? ' visible' : ''}`}>
-            <button
-              className={`nav-menu-item${isTentang ? ' nav-menu-item--active' : ''}`}
-              onClick={() => { if (!isTentang) { closeMenu(); navigate('/tentang'); } else closeMenu(); }}
-            >
-              tentang
-            </button>
-            <div className="nav-menu-sub-wrap">
-              <span className="nav-menu-item nav-menu-item--parent">projects</span>
-              <div className="nav-menu-sub">
-                <button
-                  className={`nav-menu-item nav-menu-item--child${!isTentang ? ' nav-menu-item--active' : ''}`}
-                  onClick={() => { if (isTentang) { closeMenu(); navigate('/projects/imei/barcode-gen'); } else closeMenu(); }}
-                >
-                  imei / barcode-gen
-                </button>
-              </div>
+          <div className="logo-row">
+            <div className="logo-icon-wrap" onClick={secretClick}>
+              <div className="logo-icon-ring logo-icon-ring--1"></div>
+              <div className="logo-icon-ring logo-icon-ring--2"></div>
+              <div className="logo-icon" style={{ background: dotColor, transition: 'background 0.2s ease' }}></div>
+            </div>
+            <div className="logo-label">
+              <button className="logo-menu-btn" onClick={toggleMenu}>
+                <span className="logo-root">llian</span>
+                <span className={`logo-menu-arrow${menuOpen ? ' open' : ''}`}>▾</span>
+              </button>
+              {shown ? (
+                <span className={crumbClass}>
+                  <span className="logo-sep"> / </span>
+                  <span className="logo-crumb">tentang</span>
+                </span>
+              ) : (
+                <span className={crumbClass}>
+                  <span className="logo-sep"> / </span>
+                  <span className="logo-crumb">projects</span>
+                  <span className="logo-sep"> / </span>
+                  <span className="logo-crumb">imei</span>
+                  <span className="logo-sep"> / </span>
+                  <span className="logo-crumb">barcode-gen</span>
+                </span>
+              )}
             </div>
           </div>
-        )}
+
+          {menuOpen && (
+            <div className={`nav-menu${menuVisible ? ' visible' : ''}`}>
+              <button
+                className={`nav-menu-item${isTentang ? ' nav-menu-item--active' : ''}`}
+                onClick={() => { if (!isTentang) { closeMenu(); navigate('/tentang'); } else closeMenu(); }}
+              >
+                tentang
+              </button>
+              <div className="nav-menu-sub-wrap">
+                <span className="nav-menu-item nav-menu-item--parent">projects</span>
+                <div className="nav-menu-sub">
+                  <button
+                    className={`nav-menu-item nav-menu-item--child${!isTentang ? ' nav-menu-item--active' : ''}`}
+                    onClick={() => { if (isTentang) { closeMenu(); navigate('/projects/imei/barcode-gen'); } else closeMenu(); }}
+                  >
+                    imei / barcode-gen
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
 

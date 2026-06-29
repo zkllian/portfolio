@@ -1,7 +1,5 @@
-'use client';
 import { useEffect, useRef, useState } from 'react';
 import JsBarcode from 'jsbarcode';
-import { useCredit } from '@/hooks/useCredit';
 
 
 function NudgeRow({ label, yField, pos, onSetPos, onStartNudge, onStopNudge, color }: {
@@ -110,8 +108,6 @@ export default function Home() {
     return saved ? parseInt(saved, 10) || 0 : 0;
   });
   const [confirmReset, setConfirmReset] = useState(false);
-
-  const { secretClick, dotColor, modal: creditModal } = useCredit();
 
   type StatsData = { today: number; total: number; mine: number; others: number } | null;
   const [statsOpen, setStatsOpen] = useState(false);
@@ -657,8 +653,6 @@ export default function Home() {
           </div>
         </div>
       )}
-
-      {creditModal}
 
       <div className={`toast${showToastState ? ' show' : ''}`}>{toastMsg}</div>
       <canvas ref={canvasRef} style={{ display: 'none' }}></canvas>
