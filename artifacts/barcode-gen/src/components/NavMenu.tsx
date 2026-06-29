@@ -68,11 +68,36 @@ export default function NavMenu() {
     return () => document.removeEventListener('keydown', handler);
   }, [menuOpen]);
 
+  function playMenuSound(type: 'open' | 'close') {
+    try {
+      const ctx = new AudioContext();
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.type = 'sine';
+      if (type === 'open') {
+        osc.frequency.setValueAtTime(300, ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(520, ctx.currentTime + 0.07);
+      } else {
+        osc.frequency.setValueAtTime(480, ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(260, ctx.currentTime + 0.07);
+      }
+      gain.gain.setValueAtTime(0.1, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.13);
+      osc.start(ctx.currentTime);
+      osc.stop(ctx.currentTime + 0.14);
+      osc.onended = () => ctx.close();
+    } catch { /* AudioContext not supported or blocked */ }
+  }
+
   function openMenu() {
+    playMenuSound('open');
     setMenuOpen(true);
     requestAnimationFrame(() => requestAnimationFrame(() => setMenuVisible(true)));
   }
   function closeMenu() {
+    playMenuSound('close');
     setMenuVisible(false);
     setTimeout(() => setMenuOpen(false), 240);
   }
