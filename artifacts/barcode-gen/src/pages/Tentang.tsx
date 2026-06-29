@@ -57,19 +57,6 @@ export default function Tentang() {
 
             <div className="cv-entry">
               <div className="cv-entry-header">
-                <span className="cv-entry-role">account executive</span>
-                <span className="cv-entry-company">xl smart</span>
-              </div>
-              <div className="cv-entry-period">november 2025 – maret 2026</div>
-              <ul className="cv-list">
-                <li>mengakuisisi dan mengelola mitra bisnis baru di wilayah cianjur untuk memperluas jangkauan layanan xl smart</li>
-                <li>memberikan edukasi produk dan solusi telekomunikasi yang disesuaikan dengan kebutuhan operasional klien</li>
-                <li>menjaga tingkat kepuasan pelanggan melalui komunikasi proaktif dan penanganan kendala teknis maupun administratif</li>
-              </ul>
-            </div>
-
-            <div className="cv-entry">
-              <div className="cv-entry-header">
                 <span className="cv-entry-role">digital marketing</span>
                 <span className="cv-entry-company">zenius store</span>
               </div>
