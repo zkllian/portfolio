@@ -71,7 +71,7 @@ body {
 /* consistent spacing token */
 :root { --page-px: 16px; --page-gap: 20px; }
 
-.logo-row { display: flex; align-items: center; gap: 10px; }
+.logo-row { display: flex; align-items: center; gap: 5px; }
 
 /* ── Animated Logo Circle ── */
 .logo-icon-wrap {
