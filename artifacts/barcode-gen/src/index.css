@@ -141,12 +141,12 @@ body {
 .logo-menu-btn {
   display: inline-flex;
   align-items: center;
-  gap: 3px;
+  gap: 4px;
   background: none;
   border: none;
-  padding: 2px 4px;
-  margin: 0 -4px;
-  border-radius: 5px;
+  padding: 3px 6px;
+  margin: 0 -6px;
+  border-radius: 6px;
   cursor: pointer;
   color: var(--text);
   font-size: 13px;
@@ -163,7 +163,11 @@ body {
   font-size: 10px;
   color: var(--text-dim);
   transition: transform 0.18s ease;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
   line-height: 1;
 }
 .logo-menu-arrow.open { transform: rotate(180deg); }
