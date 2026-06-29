@@ -110,6 +110,10 @@ export default function Home() {
   });
   const [confirmReset, setConfirmReset] = useState(false);
 
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [menuVisible, setMenuVisible] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+
   const [creditOpen, setCreditOpen] = useState(false);
   const [creditVisible, setCreditVisible] = useState(false);
   const tapCountRef = useRef(0);
@@ -184,11 +188,37 @@ export default function Home() {
       if (e.key === 'Escape') {
         if (creditOpen) { setCreditVisible(false); setTimeout(() => setCreditOpen(false), 300); }
         if (statsOpen) closeStats();
+        if (menuOpen) closeMenu();
       }
     };
     document.addEventListener('keydown', handler);
     return () => document.removeEventListener('keydown', handler);
-  }, [creditOpen, statsOpen]);
+  }, [creditOpen, statsOpen, menuOpen]);
+
+  useEffect(() => {
+    if (!menuOpen) return;
+    function handleOutside(e: MouseEvent) {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        closeMenu();
+      }
+    }
+    document.addEventListener('mousedown', handleOutside);
+    return () => document.removeEventListener('mousedown', handleOutside);
+  }, [menuOpen]);
+
+  function openMenu() {
+    setMenuOpen(true);
+    requestAnimationFrame(() => requestAnimationFrame(() => setMenuVisible(true)));
+  }
+
+  function closeMenu() {
+    setMenuVisible(false);
+    setTimeout(() => setMenuOpen(false), 180);
+  }
+
+  function toggleMenu() {
+    if (menuOpen) closeMenu(); else openMenu();
+  }
 
   useEffect(() => {
     if (creditOpen) spawnParticles();
@@ -564,10 +594,31 @@ export default function Home() {
             <div className="logo-icon-ring logo-icon-ring--2"></div>
             <div className="logo-icon" style={{ background: dotColor, transition: 'background 0.2s ease' }}></div>
           </div>
-          <div className="logo-label">
-            <span className="logo-name">imei</span>
+          <div className="logo-label" ref={menuRef}>
+            <button className="logo-menu-btn" onClick={toggleMenu}>
+              <span className="logo-root">llian</span>
+              <span className={`logo-menu-arrow${menuOpen ? ' open' : ''}`}>▾</span>
+            </button>
             <span className="logo-sep"> / </span>
-            <span>barcode-gen</span>
+            <span className="logo-crumb">imei</span>
+            <span className="logo-sep"> / </span>
+            <span className="logo-crumb">barcode-gen</span>
+
+            {menuOpen && (
+              <div className={`nav-menu${menuVisible ? ' visible' : ''}`}>
+                <button className="nav-menu-item" onClick={closeMenu}>
+                  tentang
+                </button>
+                <div className="nav-menu-sub-wrap">
+                  <span className="nav-menu-item nav-menu-item--parent">imei</span>
+                  <div className="nav-menu-sub">
+                    <button className="nav-menu-item nav-menu-item--child" onClick={closeMenu}>
+                      barcode gen
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
