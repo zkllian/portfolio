@@ -1,6 +1,7 @@
 {
-  "framework": null,
+  "framework": "vite",
   "buildCommand": "pnpm --filter @workspace/barcode-gen run build",
+  "outputDirectory": "artifacts/barcode-gen/dist/public",
   "installCommand": "pnpm install --no-frozen-lockfile",
   "rewrites": [
     { "source": "/(.*)", "destination": "/index.html" }
