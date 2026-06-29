@@ -251,7 +251,7 @@ export default function Tentang() {
             <div className="cv-info-grid">
               <div className="cv-info-row">
                 <span className="cv-info-key">web dev</span>
-                <span className="cv-info-val">next.js · react · web development · vercel · telegram bot · ui/web design</span>
+                <span className="cv-info-val">next.js · react · vite · typescript · tailwind css · express.js · drizzle orm · tanstack query · wouter · zod · vercel · telegram bot · ui/web design</span>
               </div>
               <div className="cv-info-row">
                 <span className="cv-info-key">marketing</span>
