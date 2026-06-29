@@ -305,21 +305,21 @@ textarea:focus { border-color: #444; }
 
 /* ── Page transitions ── */
 .page-wrap {
-  will-change: opacity, transform;
+  will-change: opacity;
 }
 .page-wrap--enter {
-  animation: pageEnter 0.28s cubic-bezier(0.16,1,0.3,1) both;
+  animation: pageEnter 0.25s ease both;
 }
 .page-wrap--exit {
-  animation: pageExit 0.16s cubic-bezier(0.4,0,1,1) both;
+  animation: pageExit 0.15s ease both;
 }
 @keyframes pageEnter {
-  from { opacity: 0; transform: translateY(10px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 @keyframes pageExit {
-  from { opacity: 1; transform: translateY(0); }
-  to   { opacity: 0; transform: translateY(-6px); }
+  from { opacity: 1; }
+  to   { opacity: 0; }
 }
 
 @keyframes fadeSlideIn {
