@@ -679,7 +679,7 @@ textarea:focus { border-color: #444; }
 }
 
 .cv-avatar {
-  width: 110px;
+  width: 77px;
   align-self: stretch;
   border-radius: var(--radius);
   flex-shrink: 0;
