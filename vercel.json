@@ -1,6 +1,5 @@
 {
   "buildCommand": "pnpm --filter @workspace/portfolio run build",
-  "outputDirectory": "public",
   "installCommand": "pnpm install",
   "framework": null
 }
