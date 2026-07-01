@@ -4,7 +4,7 @@ A portfolio + barcode generator for IMEI numbers. Indonesian-language UI with a 
 
 ## Run & Operate
 
-- `pnpm --filter @workspace/barcode-gen run dev` — run the frontend (port 21427)
+- `pnpm --filter @workspace/portfolio run dev` — run the frontend (port 21427)
 - `pnpm --filter @workspace/api-server run dev` — run the API server (port 8080)
 - `pnpm run typecheck` — full typecheck across all packages
 - `pnpm run build` — typecheck + build all packages

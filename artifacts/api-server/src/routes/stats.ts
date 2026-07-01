@@ -106,7 +106,7 @@ router.post("/stats/ping", async (req, res) => {
   f.count += amount;
   f.total += amount;
   writeFile(f);
-  res.json({ ok: true, date: today, today: f.count, total: f.total });
+  return res.json({ ok: true, date: today, today: f.count, total: f.total });
 });
 
 router.post("/stats/reset", async (_req, res) => {
@@ -126,7 +126,7 @@ router.post("/stats/reset", async (_req, res) => {
     } catch {}
   }
   writeFile({ date: today, count: 0, total: 0 });
-  res.json({ ok: true });
+  return res.json({ ok: true });
 });
 
 export default router;
