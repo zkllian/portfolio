@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Route, Switch, useLocation } from 'wouter';
 import Home from '@/pages/Home';
 import Tentang from '@/pages/Tentang';
+import NotFound from '@/pages/not-found';
 import NavMenu from '@/components/NavMenu';
 
 function PageTransition({ children }: { children: React.ReactNode }) {
@@ -31,7 +32,7 @@ function App() {
           <Route path="/" component={Home} />
           <Route path="/tentang" component={Tentang} />
           <Route path="/projects/imei/barcode-gen" component={Home} />
-          <Route component={Home} />
+          <Route component={NotFound} />
         </Switch>
       </PageTransition>
     </>

@@ -1,21 +1,37 @@
-import { Card, CardContent } from "@/components/ui/card";
-import { AlertCircle } from "lucide-react";
+import { useLocation } from 'wouter';
 
 export default function NotFound() {
-  return (
-    <div className="min-h-screen w-full flex items-center justify-center bg-gray-50">
-      <Card className="w-full max-w-md mx-4">
-        <CardContent className="pt-6">
-          <div className="flex mb-4 gap-2">
-            <AlertCircle className="h-8 w-8 text-red-500" />
-            <h1 className="text-2xl font-bold text-gray-900">404 Page Not Found</h1>
-          </div>
+  const [, navigate] = useLocation();
+  const base = import.meta.env.BASE_URL ?? '/';
 
-          <p className="mt-4 text-sm text-gray-600">
-            Did you forget to add the page to the router?
-          </p>
-        </CardContent>
-      </Card>
+  return (
+    <div style={{
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+      minHeight: '60vh',
+      gap: '12px',
+      color: 'var(--text-muted)',
+      fontFamily: 'var(--font-mono, "Geist Mono", monospace)',
+    }}>
+      <span style={{ fontSize: '13px', color: 'var(--text-dim)' }}>// 404</span>
+      <span style={{ fontSize: '15px', color: 'var(--text)' }}>halaman tidak ditemukan</span>
+      <button
+        onClick={() => navigate(base)}
+        style={{
+          marginTop: '8px',
+          fontSize: '12px',
+          color: 'var(--blue)',
+          background: 'none',
+          border: 'none',
+          cursor: 'pointer',
+          padding: 0,
+          fontFamily: 'inherit',
+        }}
+      >
+        ← kembali ke beranda
+      </button>
     </div>
   );
 }

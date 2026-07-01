@@ -26,7 +26,7 @@ function NudgeRow({ label, yField, pos, onSetPos, onStartNudge, onStopNudge, col
             onPointerUp={onStopNudge}
             onPointerLeave={onStopNudge}>▲</button>
           <input type="number" value={pos[yField]} readOnly
-            onChange={e => onSetPos(p => ({ ...p, [yField]: parseInt(e.target.value) || 0 }))} />
+            onChange={e => onSetPos(p => ({ ...p, [yField]: parseFloat(e.target.value) || 0 }))} />
           <button className="nb"
             onPointerDown={() => onStartNudge(yField, 1)}
             onPointerUp={onStopNudge}
@@ -305,7 +305,7 @@ export default function Home() {
         return next;
       });
       try {
-        fetch('/api/stats/ping', {
+        fetch(`${BASE}api/stats/ping`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ count: totalSets, userId: userIdRef.current }),
@@ -447,7 +447,7 @@ export default function Home() {
     setStatsOpen(true);
     requestAnimationFrame(() => requestAnimationFrame(() => setStatsVisible(true)));
     try {
-      const res = await fetch(`/api/stats/today?userId=${encodeURIComponent(userIdRef.current)}`);
+      const res = await fetch(`${BASE}api/stats/today?userId=${encodeURIComponent(userIdRef.current)}`);
       if (res.ok) {
         const data = await res.json() as { today: number; total: number; mine: number; others: number };
         setStats(data);
@@ -470,7 +470,7 @@ export default function Home() {
   async function handleGlobalReset() {
     setResetting(true);
     try {
-      await fetch('/api/stats/reset', { method: 'POST' });
+      await fetch(`${BASE}api/stats/reset`, { method: 'POST' });
       setStats({ today: 0, total: 0, mine: 0, others: 0 });
       setConfirmResetGlobal(false);
       showToast('global stats direset');
