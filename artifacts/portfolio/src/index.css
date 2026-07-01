@@ -53,7 +53,6 @@ body {
   padding-top: 72px;
   padding-bottom: 80px;
   line-height: 1.5;
-  text-transform: lowercase;
 }
 
 /* ── Floating nav bar (wrapper) ── */
@@ -992,7 +991,6 @@ textarea:focus { border-color: #444; }
   font-family: 'Geist Mono', monospace;
   color: var(--text-dim);
   letter-spacing: .08em;
-  text-transform: lowercase;
   margin-bottom: 3px;
 }
 

@@ -126,22 +126,22 @@ export default function NavMenu() {
               className={`nav-menu-item${isTentang ? ' nav-menu-item--active' : ''}`}
               onClick={() => { if (!isTentang) { closeMenu(); navigate('/'); } else closeMenu(); }}
             >
-              tentang
+              Tentang
             </button>
             <button
               className={`nav-menu-item${isKontak ? ' nav-menu-item--active' : ''}`}
               onClick={() => { if (!isKontak) { closeMenu(); navigate('/kontak'); } else closeMenu(); }}
             >
-              kontak
+              Kontak
             </button>
             <div className="nav-menu-sub-wrap">
-              <span className="nav-menu-item nav-menu-item--parent">projects</span>
+              <span className="nav-menu-item nav-menu-item--parent">Projects</span>
               <div className="nav-menu-sub">
                 <button
                   className={`nav-menu-item nav-menu-item--child${!isTentang && !isKontak ? ' nav-menu-item--active' : ''}`}
                   onClick={() => { if (isTentang || isKontak) { closeMenu(); navigate('/projects/imei/barcode-gen'); } else closeMenu(); }}
                 >
-                  imei / barcode-gen
+                  IMEI / Barcode Gen
                 </button>
               </div>
             </div>
@@ -151,21 +151,21 @@ export default function NavMenu() {
         {crumb === 'tentang' ? (
           <div className={`breadcrumb-pill ${crumbClass}`}>
             <span className="logo-sep">/</span>
-            <span className="logo-crumb">tentang</span>
+            <span className="logo-crumb">Tentang</span>
           </div>
         ) : crumb === 'kontak' ? (
           <div className={`breadcrumb-pill ${crumbClass}`}>
             <span className="logo-sep">/</span>
-            <span className="logo-crumb">kontak</span>
+            <span className="logo-crumb">Kontak</span>
           </div>
         ) : (
           <div className={`breadcrumb-pill ${crumbClass}`}>
             <span className="logo-sep">/</span>
-            <span className="logo-crumb">projects</span>
+            <span className="logo-crumb">Projects</span>
             <span className="logo-sep">/</span>
-            <span className="logo-crumb">imei</span>
+            <span className="logo-crumb">IMEI</span>
             <span className="logo-sep">/</span>
-            <span className="logo-crumb">barcode-gen</span>
+            <span className="logo-crumb">Barcode Gen</span>
           </div>
         )}
       </div>
