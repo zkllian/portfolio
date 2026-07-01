@@ -937,9 +937,9 @@ textarea:focus { border-color: #444; }
 }
 
 .cv-competency-list {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .cv-competency-item {
