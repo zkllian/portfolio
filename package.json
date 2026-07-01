@@ -12,6 +12,7 @@
   "private": true,
   "packageManager": "pnpm@10.26.1",
   "devDependencies": {
+    "@vercel/node": "^5.8.22",
     "prettier": "^3.8.4",
     "typescript": "~5.9.3"
   }

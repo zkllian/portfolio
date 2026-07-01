@@ -44,6 +44,22 @@ A portfolio + barcode generator for IMEI numbers. Indonesian-language UI with a 
 
 _Populate as you build — explicit user instructions worth remembering across sessions._
 
+## Deploy ke Vercel
+
+File sudah siap. Langkah-langkahnya:
+
+1. Push repo ke GitHub (kalau belum)
+2. Buka [vercel.com](https://vercel.com) → **Add New Project** → import repo
+3. Vercel otomatis baca `vercel.json` — tidak perlu setting manual build/output
+4. Tambahkan env var `DATABASE_URL` di Vercel dashboard (Settings → Environment Variables) kalau mau stats counter persisten
+5. Jalankan `pnpm --filter @workspace/db run push` sekali untuk migrasi schema ke DB produksi
+
+Struktur Vercel:
+- `vercel.json` — build config (Vite → `artifacts/portfolio/dist/public`)
+- `api/stats/today.ts` — serverless function GET `/api/stats/today`
+- `api/stats/ping.ts` — serverless function POST `/api/stats/ping`
+- `api/stats/reset.ts` — serverless function POST `/api/stats/reset`
+
 ## Gotchas
 
 - `DATABASE_URL` is optional; if absent, the API falls back to `stats.json` in the api-server's working directory.
