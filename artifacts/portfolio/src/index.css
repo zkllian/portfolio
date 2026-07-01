@@ -315,7 +315,7 @@ body {
 }
 
 .container { max-width: 480px; margin: 0 auto; padding: 0 var(--page-px); }
-@media (min-width: 768px) { .container { max-width: min(65vw, 900px); } }
+@media (min-width: 768px) { .container { max-width: min(91vw, 1200px); } }
 
 .card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 16px; }
 
