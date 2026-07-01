@@ -5,6 +5,7 @@ import Tentang from '@/pages/Tentang';
 import NotFound from '@/pages/not-found';
 import NavMenu from '@/components/NavMenu';
 import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 
 function PageTransition({ children }: { children: React.ReactNode }) {
   const [location] = useLocation();
@@ -37,6 +38,7 @@ function App() {
         </Switch>
       </PageTransition>
       <Analytics />
+      <SpeedInsights />
     </>
   );
 }
