@@ -758,6 +758,27 @@ textarea:focus { border-color: #444; }
   min-width: 0;
 }
 
+.cv-row-2col-left {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+@media (min-width: 768px) {
+  .cv-row-2col-left {
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+  }
+  .cv-row-2col-left > .cv-section {
+    height: 100%;
+    box-sizing: border-box;
+  }
+}
+.cv-col-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
 .cv-row-2col {
   display: grid;
   grid-template-columns: 1fr;

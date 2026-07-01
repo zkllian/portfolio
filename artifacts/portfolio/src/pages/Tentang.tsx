@@ -119,173 +119,171 @@ export default function Tentang() {
           </div>
           </div>{/* end cv-row-2col */}
 
-          {/* ── Pengalaman ── */}
-          <div className="cv-section reveal">
-            <div className="cv-section-label">
-              <svg className="cv-section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
-              Pengalaman
-            </div>
+          {/* ── Pendidikan + Pengalaman | Kontribusi Digital (2-col desktop) ── */}
+          <div className="cv-row-2col-left">
 
-            <div className="cv-entry">
-              <div className="cv-entry-header">
-                <div className="cv-entry-header-left">
-                  <span className="cv-entry-role">Admin Intern</span>
-                  <span className="cv-entry-company">Universitas Suryakancana</span>
+            {/* kiri: Pendidikan atas, Pengalaman bawah */}
+            <div className="cv-col-stack">
+
+              <div className="cv-section reveal">
+                <div className="cv-section-label">
+                  <svg className="cv-section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                  Pendidikan
                 </div>
-                <span className="cv-entry-period">Agu – Nov 2017</span>
-              </div>
-              <ul className="cv-list">
-                <li>Bantu operasional harian perpustakaan — layani pengunjung langsung, input data koleksi buku ke sistem, dan pastikan catatan tetap akurat dan rapi</li>
-              </ul>
-            </div>
-
-            <div className="cv-entry">
-              <div className="cv-entry-header">
-                <div className="cv-entry-header-left">
-                  <span className="cv-entry-role">Digital Marketing</span>
-                  <span className="cv-entry-company">Zenius Store</span>
+                <div className="cv-entry">
+                  <div className="cv-entry-header">
+                    <div className="cv-entry-header-left">
+                      <span className="cv-entry-role">Teknik Komputer &amp; Jaringan</span>
+                      <span className="cv-entry-company">SMK Pasundan 1 Cianjur</span>
+                    </div>
+                    <span className="cv-entry-period">2015 – 2018</span>
+                  </div>
+                  <ul className="cv-list">
+                    <li>Belajar cara pasang, konfigurasi, dan rawat jaringan komputer dari nol — ini yang pertama kali bikin saya ngerti gimana internet bekerja di balik layar</li>
+                    <li>Dapet dasar pemrograman dan sistem operasi yang jadi modal awal untuk terus belajar hal teknis secara mandiri setelah lulus</li>
+                  </ul>
                 </div>
-                <span className="cv-entry-period">Mar – Sep 2021</span>
               </div>
-              <ul className="cv-list">
-                <li>Layani pelanggan via WhatsApp — mulai bantu pilih produk, proses order, sampai konfirmasi pembayaran</li>
-                <li>Siapkan dan kemas pesanan, koordinasi pengiriman, dan pastiin barang nyampe ke tangan pembeli dengan baik</li>
-              </ul>
-            </div>
-          </div>
 
-          {/* ── Kontribusi Digital ── */}
-          <div className="cv-section reveal">
-            <div className="cv-section-label">
-              <svg className="cv-section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-              Kontribusi Digital
-            </div>
-
-            <div className="cv-entry">
-              <div className="cv-entry-header">
-                <div className="cv-entry-header-left">
-                  <span className="cv-entry-role">Blogger</span>
-                  <span className="cv-entry-company">Blog Independen</span>
+              <div className="cv-section reveal">
+                <div className="cv-section-label">
+                  <svg className="cv-section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+                  Pengalaman
                 </div>
-                <span className="cv-entry-period">2012</span>
-              </div>
-              <ul className="cv-list">
-                <li>Bikin blog pribadi di Blogspot, nulis sendiri, sampai akhirnya diterima Google AdSense — pertama kali saya ngerasain bisa menghasilkan dari internet secara mandiri</li>
-              </ul>
-            </div>
-
-            <div className="cv-entry">
-              <div className="cv-entry-header">
-                <div className="cv-entry-header-left">
-                  <span className="cv-entry-role">Community Manager</span>
-                  <span className="cv-entry-company">Verso</span>
+                <div className="cv-entry">
+                  <div className="cv-entry-header">
+                    <div className="cv-entry-header-left">
+                      <span className="cv-entry-role">Admin Intern</span>
+                      <span className="cv-entry-company">Universitas Suryakancana</span>
+                    </div>
+                    <span className="cv-entry-period">Agu – Nov 2017</span>
+                  </div>
+                  <ul className="cv-list">
+                    <li>Bantu operasional harian perpustakaan — layani pengunjung langsung, input data koleksi buku ke sistem, dan pastikan catatan tetap akurat dan rapi</li>
+                  </ul>
                 </div>
-                <span className="cv-entry-period">Mar 2018 – Des 2019</span>
-              </div>
-              <ul className="cv-list">
-                <li>Urus komunitas proyek — buat program biar anggota aktif, jaga komunikasi antara tim dan member tetap jelas, dan pastiin pengalaman di komunitas terasa menyenangkan</li>
-              </ul>
-            </div>
-
-            <div className="cv-entry">
-              <div className="cv-entry-header">
-                <div className="cv-entry-header-left">
-                  <span className="cv-entry-role">Brand Ambassador</span>
-                  <span className="cv-entry-company">Injective</span>
+                <div className="cv-entry">
+                  <div className="cv-entry-header">
+                    <div className="cv-entry-header-left">
+                      <span className="cv-entry-role">Digital Marketing</span>
+                      <span className="cv-entry-company">Zenius Store</span>
+                    </div>
+                    <span className="cv-entry-period">Mar – Sep 2021</span>
+                  </div>
+                  <ul className="cv-list">
+                    <li>Layani pelanggan via WhatsApp — mulai bantu pilih produk, proses order, sampai konfirmasi pembayaran</li>
+                    <li>Siapkan dan kemas pesanan, koordinasi pengiriman, dan pastiin barang nyampe ke tangan pembeli dengan baik</li>
+                  </ul>
                 </div>
-                <span className="cv-entry-period">Jan 2024 – Mar 2025</span>
               </div>
-              <ul className="cv-list">
-                <li>Promosiin brand di Twitter/X lewat konten tulisan, grafis, dan strategi posting yang disesuaikan sama karakter komunitas digital yang ada di platform itu</li>
-              </ul>
-            </div>
 
-            <div className="cv-entry">
-              <div className="cv-entry-header">
-                <div className="cv-entry-header-left">
-                  <span className="cv-entry-role">Brand Ambassador</span>
-                  <span className="cv-entry-company">Nesa</span>
-                </div>
-                <span className="cv-entry-period">Mar 2024 – Mei 2025</span>
-              </div>
-              <ul className="cv-list">
-                <li>Bangun awareness brand lewat konten yang secara visual konsisten — nulis copy, bikin aset grafis, dan pastiin posting rutin biar audiens terus engaged</li>
-              </ul>
-            </div>
+            </div>{/* end cv-col-stack */}
 
-            <div className="cv-entry">
-              <div className="cv-entry-header">
-                <div className="cv-entry-header-left">
-                  <span className="cv-entry-role">Content Writer</span>
-                  <span className="cv-entry-company">Mitosis</span>
-                </div>
-                <span className="cv-entry-period">Jul 2024 – Apr 2025</span>
+            {/* kanan: Kontribusi Digital */}
+            <div className="cv-section reveal">
+              <div className="cv-section-label">
+                <svg className="cv-section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                Kontribusi Digital
               </div>
-              <ul className="cv-list">
-                <li>Bikin konten edukatif dan cerita seputar proyek yang cukup menarik buat dibaca dan dishare — fokusnya bikin komunitas paham tanpa harus baca whitepaper panjang</li>
-              </ul>
-            </div>
+              <div className="cv-entry">
+                <div className="cv-entry-header">
+                  <div className="cv-entry-header-left">
+                    <span className="cv-entry-role">Blogger</span>
+                    <span className="cv-entry-company">Blog Independen</span>
+                  </div>
+                  <span className="cv-entry-period">2012</span>
+                </div>
+                <ul className="cv-list">
+                  <li>Bikin blog pribadi di Blogspot, nulis sendiri, sampai akhirnya diterima Google AdSense — pertama kali saya ngerasain bisa menghasilkan dari internet secara mandiri</li>
+                </ul>
+              </div>
+              <div className="cv-entry">
+                <div className="cv-entry-header">
+                  <div className="cv-entry-header-left">
+                    <span className="cv-entry-role">Community Manager</span>
+                    <span className="cv-entry-company">Verso</span>
+                  </div>
+                  <span className="cv-entry-period">Mar 2018 – Des 2019</span>
+                </div>
+                <ul className="cv-list">
+                  <li>Urus komunitas proyek — buat program biar anggota aktif, jaga komunikasi antara tim dan member tetap jelas, dan pastiin pengalaman di komunitas terasa menyenangkan</li>
+                </ul>
+              </div>
+              <div className="cv-entry">
+                <div className="cv-entry-header">
+                  <div className="cv-entry-header-left">
+                    <span className="cv-entry-role">Brand Ambassador</span>
+                    <span className="cv-entry-company">Injective</span>
+                  </div>
+                  <span className="cv-entry-period">Jan 2024 – Mar 2025</span>
+                </div>
+                <ul className="cv-list">
+                  <li>Promosiin brand di Twitter/X lewat konten tulisan, grafis, dan strategi posting yang disesuaikan sama karakter komunitas digital yang ada di platform itu</li>
+                </ul>
+              </div>
+              <div className="cv-entry">
+                <div className="cv-entry-header">
+                  <div className="cv-entry-header-left">
+                    <span className="cv-entry-role">Brand Ambassador</span>
+                    <span className="cv-entry-company">Nesa</span>
+                  </div>
+                  <span className="cv-entry-period">Mar 2024 – Mei 2025</span>
+                </div>
+                <ul className="cv-list">
+                  <li>Bangun awareness brand lewat konten yang secara visual konsisten — nulis copy, bikin aset grafis, dan pastiin posting rutin biar audiens terus engaged</li>
+                </ul>
+              </div>
+              <div className="cv-entry">
+                <div className="cv-entry-header">
+                  <div className="cv-entry-header-left">
+                    <span className="cv-entry-role">Content Writer</span>
+                    <span className="cv-entry-company">Mitosis</span>
+                  </div>
+                  <span className="cv-entry-period">Jul 2024 – Apr 2025</span>
+                </div>
+                <ul className="cv-list">
+                  <li>Bikin konten edukatif dan cerita seputar proyek yang cukup menarik buat dibaca dan dishare — fokusnya bikin komunitas paham tanpa harus baca whitepaper panjang</li>
+                </ul>
+              </div>
+              <div className="cv-entry">
+                <div className="cv-entry-header">
+                  <div className="cv-entry-header-left">
+                    <span className="cv-entry-role">Content Writer</span>
+                    <span className="cv-entry-company">Story Protocol</span>
+                  </div>
+                  <span className="cv-entry-period">Jul 2024 – Apr 2025</span>
+                </div>
+                <ul className="cv-list">
+                  <li>Tulis konten yang informatif dan cukup menarik buat orang yang baru kenal proyek — dijaga konsisten supaya audiens nggak kehilangan konteks</li>
+                </ul>
+              </div>
+              <div className="cv-entry">
+                <div className="cv-entry-header">
+                  <div className="cv-entry-header-left">
+                    <span className="cv-entry-role">Content Writer</span>
+                    <span className="cv-entry-company">Union</span>
+                  </div>
+                  <span className="cv-entry-period">Jul 2024 – Apr 2025</span>
+                </div>
+                <ul className="cv-list">
+                  <li>Aktif di ekosistem komunitas — bikin konten digital yang bikin proyek lebih mudah ditemukan dan relevan buat audiensnya</li>
+                </ul>
+              </div>
+              <div className="cv-entry">
+                <div className="cv-entry-header">
+                  <div className="cv-entry-header-left">
+                    <span className="cv-entry-role">Brand Ambassador</span>
+                    <span className="cv-entry-company">Swisstronik</span>
+                  </div>
+                  <span className="cv-entry-period">Sep 2024 – Jan 2025</span>
+                </div>
+                <ul className="cv-list">
+                  <li>Jadi wajah brand di media sosial — posting rutin, nulis copy kampanye, dan balas interaksi komunitas supaya jangkauan proyek makin luas</li>
+                </ul>
+              </div>
+            </div>{/* end Kontribusi Digital */}
 
-            <div className="cv-entry">
-              <div className="cv-entry-header">
-                <div className="cv-entry-header-left">
-                  <span className="cv-entry-role">Content Writer</span>
-                  <span className="cv-entry-company">Story Protocol</span>
-                </div>
-                <span className="cv-entry-period">Jul 2024 – Apr 2025</span>
-              </div>
-              <ul className="cv-list">
-                <li>Tulis konten yang informatif dan cukup menarik buat orang yang baru kenal proyek — dijaga konsisten supaya audiens nggak kehilangan konteks</li>
-              </ul>
-            </div>
-
-            <div className="cv-entry">
-              <div className="cv-entry-header">
-                <div className="cv-entry-header-left">
-                  <span className="cv-entry-role">Content Writer</span>
-                  <span className="cv-entry-company">Union</span>
-                </div>
-                <span className="cv-entry-period">Jul 2024 – Apr 2025</span>
-              </div>
-              <ul className="cv-list">
-                <li>Aktif di ekosistem komunitas — bikin konten digital yang bikin proyek lebih mudah ditemukan dan relevan buat audiensnya</li>
-              </ul>
-            </div>
-
-            <div className="cv-entry">
-              <div className="cv-entry-header">
-                <div className="cv-entry-header-left">
-                  <span className="cv-entry-role">Brand Ambassador</span>
-                  <span className="cv-entry-company">Swisstronik</span>
-                </div>
-                <span className="cv-entry-period">Sep 2024 – Jan 2025</span>
-              </div>
-              <ul className="cv-list">
-                <li>Jadi wajah brand di media sosial — posting rutin, nulis copy kampanye, dan balas interaksi komunitas supaya jangkauan proyek makin luas</li>
-              </ul>
-            </div>
-          </div>
-
-          {/* ── Pendidikan ── */}
-          <div className="cv-section reveal">
-            <div className="cv-section-label">
-              <svg className="cv-section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
-              Pendidikan
-            </div>
-            <div className="cv-entry">
-              <div className="cv-entry-header">
-                <div className="cv-entry-header-left">
-                  <span className="cv-entry-role">Teknik Komputer &amp; Jaringan</span>
-                  <span className="cv-entry-company">SMK Pasundan 1 Cianjur</span>
-                </div>
-                <span className="cv-entry-period">2015 – 2018</span>
-              </div>
-              <ul className="cv-list">
-                <li>Belajar cara pasang, konfigurasi, dan rawat jaringan komputer dari nol — ini yang pertama kali bikin saya ngerti gimana internet bekerja di balik layar</li>
-                <li>Dapet dasar pemrograman dan sistem operasi yang jadi modal awal untuk terus belajar hal teknis secara mandiri setelah lulus</li>
-              </ul>
-            </div>
-          </div>
+          </div>{/* end cv-row-2col-left */}
 
           {/* ── Proyek ── */}
           <div className="cv-section reveal">
