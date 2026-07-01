@@ -758,6 +758,18 @@ textarea:focus { border-color: #444; }
   min-width: 0;
 }
 
+.cv-row-2col {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+@media (min-width: 768px) {
+  .cv-row-2col {
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+  }
+}
+
 .cv-section {
   background: var(--surface);
   border: 1px solid var(--border);

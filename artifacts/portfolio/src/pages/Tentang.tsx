@@ -66,7 +66,8 @@ export default function Tentang() {
             </svg>
           </a>
 
-          {/* ── Tentang saya ── */}
+          {/* ── Tentang saya + Kompetensi utama (2-col on desktop) ── */}
+          <div className="cv-row-2col">
           <div className="cv-section reveal">
             <div className="cv-section-label">
               <svg className="cv-section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
@@ -116,6 +117,7 @@ export default function Tentang() {
               </div>
             </div>
           </div>
+          </div>{/* end cv-row-2col */}
 
           {/* ── Pengalaman (formal + digital, merged) ── */}
           <div className="cv-section reveal">
