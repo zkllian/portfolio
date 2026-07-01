@@ -29,7 +29,7 @@ function App() {
       <NavMenu />
       <PageTransition>
         <Switch>
-          <Route path="/" component={Home} />
+          <Route path="/" component={Tentang} />
           <Route path="/tentang" component={Tentang} />
           <Route path="/projects/imei/barcode-gen" component={Home} />
           <Route component={NotFound} />

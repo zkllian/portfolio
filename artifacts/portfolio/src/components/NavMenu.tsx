@@ -6,7 +6,7 @@ export default function NavMenu() {
   const [location, navigate] = useLocation();
   const { secretClick, dotColor, modal: creditModal } = useCredit();
 
-  const isTentang = location === '/tentang';
+  const isTentang = location === '/' || location === '/tentang';
 
   /* ── breadcrumb expand/collapse animation ── */
   const [shown, setShown] = useState(isTentang);
@@ -19,7 +19,7 @@ export default function NavMenu() {
     const DELAY = 120;
     const t0 = setTimeout(() => setPhase('out'), DELAY);
     const t1 = setTimeout(() => {
-      setShown(location === '/tentang');
+      setShown(location === '/' || location === '/tentang');
       setPhase('in');
     }, DELAY + 180);
     const t2 = setTimeout(() => setPhase('idle'), DELAY + 180 + 420);
@@ -118,7 +118,7 @@ export default function NavMenu() {
           <div className={`nav-menu${menuVisible ? ' visible' : ''}`}>
             <button
               className={`nav-menu-item${isTentang ? ' nav-menu-item--active' : ''}`}
-              onClick={() => { if (!isTentang) { closeMenu(); navigate('/tentang'); } else closeMenu(); }}
+              onClick={() => { if (!isTentang) { closeMenu(); navigate('/'); } else closeMenu(); }}
             >
               tentang
             </button>
