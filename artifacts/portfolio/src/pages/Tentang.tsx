@@ -119,7 +119,7 @@ export default function Tentang() {
           </div>
           </div>{/* end cv-row-2col */}
 
-          {/* ── Pengalaman (formal + digital, merged) ── */}
+          {/* ── Pengalaman ── */}
           <div className="cv-section reveal">
             <div className="cv-section-label">
               <svg className="cv-section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
@@ -152,9 +152,12 @@ export default function Tentang() {
                 <li>Siapkan dan kemas pesanan, koordinasi pengiriman, dan pastiin barang nyampe ke tangan pembeli dengan baik</li>
               </ul>
             </div>
+          </div>
 
-            <div className="cv-group-label" style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
-              <svg style={{ width: 10, height: 10, flexShrink: 0, opacity: 0.7 }} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          {/* ── Kontribusi Digital ── */}
+          <div className="cv-section reveal">
+            <div className="cv-section-label">
+              <svg className="cv-section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
               Kontribusi Digital
             </div>
 

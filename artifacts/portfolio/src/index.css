@@ -766,7 +766,11 @@ textarea:focus { border-color: #444; }
 @media (min-width: 768px) {
   .cv-row-2col {
     grid-template-columns: 1fr 1fr;
-    align-items: start;
+    align-items: stretch;
+  }
+  .cv-row-2col .cv-section {
+    height: 100%;
+    box-sizing: border-box;
   }
 }
 
