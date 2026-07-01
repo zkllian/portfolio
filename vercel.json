@@ -1,5 +1,5 @@
 {
-  "buildCommand": "pnpm --filter @workspace/portfolio run build",
+  "buildCommand": "pnpm --filter @workspace/portfolio run build && mkdir -p .vercel/output/static && cp -r artifacts/portfolio/dist/. .vercel/output/static/ && echo '{\"version\":3}' > .vercel/output/config.json",
   "installCommand": "pnpm install",
   "framework": null
 }
