@@ -35,10 +35,11 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/api", router);
 
-const staticDir = path.resolve(__dirname, "../../barcode-gen/dist/public");
-app.use(express.static(staticDir));
-app.get("*splat", (_req, res) => {
-  res.sendFile(path.join(staticDir, "index.html"));
+const frontendDist = path.resolve(__dirname, "../../barcode-gen/dist/public");
+app.use(express.static(frontendDist));
+
+app.get("/{*splat}", (_req, res) => {
+  res.sendFile(path.join(frontendDist, "index.html"));
 });
 
 export default app;

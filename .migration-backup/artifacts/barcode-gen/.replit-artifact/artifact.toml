@@ -1,6 +1,6 @@
 kind = "web"
 previewPath = "/"
-title = "Barcode Generator"
+title = "barcode-gen"
 version = "1.0.0"
 id = "artifacts/barcode-gen"
 router = "path"
@@ -12,7 +12,7 @@ version = "1.0.0"
 [[services]]
 name = "web"
 paths = [ "/" ]
-localPort = 5000
+localPort = 21427
 
 [services.development]
 run = "pnpm --filter @workspace/barcode-gen run dev"
@@ -27,5 +27,5 @@ from = "/*"
 to = "/index.html"
 
 [services.env]
-PORT = "5000"
+PORT = "21427"
 BASE_PATH = "/"

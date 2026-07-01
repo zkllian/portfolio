@@ -1,7 +1,6 @@
-'use client';
 import { useEffect, useRef, useState } from 'react';
 import JsBarcode from 'jsbarcode';
-import { useCredit } from '@/hooks/useCredit';
+import { FiZap, FiTerminal, FiHash, FiCrosshair, FiEye, FiDownload, FiShare2 } from 'react-icons/fi';
 
 
 function NudgeRow({ label, yField, pos, onSetPos, onStartNudge, onStopNudge, color }: {
@@ -110,8 +109,6 @@ export default function Home() {
     return saved ? parseInt(saved, 10) || 0 : 0;
   });
   const [confirmReset, setConfirmReset] = useState(false);
-
-  const { secretClick, dotColor, modal: creditModal } = useCredit();
 
   type StatsData = { today: number; total: number; mine: number; others: number } | null;
   const [statsOpen, setStatsOpen] = useState(false);
@@ -494,7 +491,7 @@ export default function Home() {
           <div className="view-input">
             <div className="card">
               <div className="card-header">
-                <span className="card-title">// inject</span>
+                <span className="card-title"><FiTerminal size={11} style={{ marginRight: 5, opacity: 0.7 }} />inject</span>
                 <span className="badge">{imeiCount}</span>
               </div>
               <div className="input-wrap">
@@ -512,7 +509,10 @@ export default function Home() {
                 <div className="inline-error">{inlineError}</div>
               )}
               <div className="btn-row">
-                <button className="btn btn-primary" onClick={() => generateBulk()} disabled={isLoading}>execute</button>
+                <button className="btn btn-primary" onClick={() => generateBulk()} disabled={isLoading}>
+                <FiZap size={13} style={{ flexShrink: 0 }} />
+                execute
+              </button>
               </div>
               {isLoading && (
                 <div className="status-bar active">
@@ -525,7 +525,7 @@ export default function Home() {
 
             <div className="card counter-card">
               <div className="card-header">
-                <span className="card-title">// barcode hari ini</span>
+                <span className="card-title"><FiHash size={11} style={{ marginRight: 5, opacity: 0.7 }} />barcode hari ini</span>
                 <div className="counter-header-actions">
                   {!confirmReset ? (
                     <button className="counter-reset-btn" onClick={() => setConfirmReset(true)}>reset</button>
@@ -543,7 +543,7 @@ export default function Home() {
 
             <div className="card pos-card">
                 <div className="card-header">
-                  <span className="card-title">// coords</span>
+                  <span className="card-title"><FiCrosshair size={11} style={{ marginRight: 5, opacity: 0.7 }} />coords</span>
                   <button className="save-default-btn" onClick={() => {
                     try { localStorage.setItem('bc-pos', JSON.stringify(posRef.current)); } catch {}
                     showToast('tersimpan sebagai default');
@@ -556,7 +556,7 @@ export default function Home() {
 
                 <div className="preview-wrap">
                   <div className="preview-header">
-                    <span className="preview-label">// live preview</span>
+                    <span className="preview-label"><FiEye size={11} style={{ marginRight: 5, opacity: 0.7 }} />live preview</span>
                     <span className="preview-dim">{previewDim}</span>
                   </div>
                   <div className="preview-stage">
@@ -590,8 +590,8 @@ export default function Home() {
                     <img src={r.url} alt={`barcode ${r.index}`} />
                   </div>
                   <div className="result-actions">
-                    <button className="result-btn" onClick={() => downloadImage(r.url, r.index)}>↓ unduh</button>
-                    <button className="result-btn primary-action" onClick={() => shareImage(r.url)}>↗ bagikan</button>
+                    <button className="result-btn" onClick={() => downloadImage(r.url, r.index)}><FiDownload size={12} />unduh</button>
+                    <button className="result-btn primary-action" onClick={() => shareImage(r.url)}><FiShare2 size={12} />bagikan</button>
                   </div>
                 </div>
               ))}
@@ -657,8 +657,6 @@ export default function Home() {
           </div>
         </div>
       )}
-
-      {creditModal}
 
       <div className={`toast${showToastState ? ' show' : ''}`}>{toastMsg}</div>
       <canvas ref={canvasRef} style={{ display: 'none' }}></canvas>

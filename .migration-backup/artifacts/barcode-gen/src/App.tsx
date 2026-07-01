@@ -29,8 +29,8 @@ function App() {
       <PageTransition>
         <Switch>
           <Route path="/" component={Home} />
-          <Route path="/projects/imei/barcode-gen" component={Home} />
           <Route path="/tentang" component={Tentang} />
+          <Route path="/projects/imei/barcode-gen" component={Home} />
           <Route component={Home} />
         </Switch>
       </PageTransition>

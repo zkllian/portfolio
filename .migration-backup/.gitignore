@@ -47,9 +47,3 @@ Thumbs.db
 # Replit
 .cache/
 .local/
-.agents/
-.replit
-.replitignore
-replit.md
-.migration-backup/
-artifacts/mockup-sandbox/
