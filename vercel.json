@@ -1,5 +1,5 @@
 {
-  "buildCommand": "pnpm --filter @workspace/portfolio run build && cp -r artifacts/portfolio/dist ./dist",
+  "buildCommand": "pnpm --filter @workspace/portfolio run build",
   "outputDirectory": "dist",
   "installCommand": "pnpm install",
   "framework": null
