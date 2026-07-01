@@ -48,5 +48,8 @@ Thumbs.db
 .cache/
 .local/
 
+# Vercel build output (generated at build time, never commit)
+.vercel/
+
 # Project assets (not for version control)
 attached_assets/
