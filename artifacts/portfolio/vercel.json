@@ -1,6 +1,4 @@
 {
-  "buildCommand": "cd ../.. && pnpm --filter @workspace/portfolio run build",
-  "outputDirectory": "dist",
-  "installCommand": "cd ../.. && pnpm install",
+  "buildCommand": "sh ../../build-vercel.sh",
   "framework": null
 }
