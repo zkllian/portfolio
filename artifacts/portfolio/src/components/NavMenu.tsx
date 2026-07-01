@@ -7,9 +7,15 @@ export default function NavMenu() {
   const { secretClick, dotColor, modal: creditModal } = useCredit();
 
   const isTentang = location === '/' || location === '/tentang';
+  const isKontak = location === '/kontak';
 
   /* ── breadcrumb expand/collapse animation ── */
-  const [shown, setShown] = useState(isTentang);
+  // 'tentang' | 'kontak' | 'projects'
+  type CrumbPage = 'tentang' | 'kontak' | 'projects';
+  const getCrumb = (loc: string): CrumbPage =>
+    loc === '/kontak' ? 'kontak' : (loc === '/' || loc === '/tentang') ? 'tentang' : 'projects';
+
+  const [crumb, setCrumb] = useState<CrumbPage>(getCrumb(location));
   const [phase, setPhase] = useState<'idle' | 'out' | 'in'>('idle');
   const prevLocRef = useRef(location);
 
@@ -19,7 +25,7 @@ export default function NavMenu() {
     const DELAY = 120;
     const t0 = setTimeout(() => setPhase('out'), DELAY);
     const t1 = setTimeout(() => {
-      setShown(location === '/' || location === '/tentang');
+      setCrumb(getCrumb(location));
       setPhase('in');
     }, DELAY + 180);
     const t2 = setTimeout(() => setPhase('idle'), DELAY + 180 + 420);
@@ -122,12 +128,18 @@ export default function NavMenu() {
             >
               tentang
             </button>
+            <button
+              className={`nav-menu-item${isKontak ? ' nav-menu-item--active' : ''}`}
+              onClick={() => { if (!isKontak) { closeMenu(); navigate('/kontak'); } else closeMenu(); }}
+            >
+              kontak
+            </button>
             <div className="nav-menu-sub-wrap">
               <span className="nav-menu-item nav-menu-item--parent">projects</span>
               <div className="nav-menu-sub">
                 <button
-                  className={`nav-menu-item nav-menu-item--child${!isTentang ? ' nav-menu-item--active' : ''}`}
-                  onClick={() => { if (isTentang) { closeMenu(); navigate('/projects/imei/barcode-gen'); } else closeMenu(); }}
+                  className={`nav-menu-item nav-menu-item--child${!isTentang && !isKontak ? ' nav-menu-item--active' : ''}`}
+                  onClick={() => { if (isTentang || isKontak) { closeMenu(); navigate('/projects/imei/barcode-gen'); } else closeMenu(); }}
                 >
                   imei / barcode-gen
                 </button>
@@ -136,10 +148,15 @@ export default function NavMenu() {
           </div>
         )}
 
-        {shown ? (
+        {crumb === 'tentang' ? (
           <div className={`breadcrumb-pill ${crumbClass}`}>
             <span className="logo-sep">/</span>
             <span className="logo-crumb">tentang</span>
+          </div>
+        ) : crumb === 'kontak' ? (
+          <div className={`breadcrumb-pill ${crumbClass}`}>
+            <span className="logo-sep">/</span>
+            <span className="logo-crumb">kontak</span>
           </div>
         ) : (
           <div className={`breadcrumb-pill ${crumbClass}`}>
