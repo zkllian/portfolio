@@ -35,7 +35,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/api", router);
 
-const frontendDist = path.resolve(__dirname, "../../barcode-gen/dist/public");
+const frontendDist = path.resolve(__dirname, "../../portfolio/dist/public");
 app.use(express.static(frontendDist));
 
 app.get("/{*splat}", (_req, res) => {
