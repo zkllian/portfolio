@@ -4,6 +4,7 @@ import Home from '@/pages/Home';
 import Tentang from '@/pages/Tentang';
 import NotFound from '@/pages/not-found';
 import NavMenu from '@/components/NavMenu';
+import { Analytics } from '@vercel/analytics/react';
 
 function PageTransition({ children }: { children: React.ReactNode }) {
   const [location] = useLocation();
@@ -35,6 +36,7 @@ function App() {
           <Route component={NotFound} />
         </Switch>
       </PageTransition>
+      <Analytics />
     </>
   );
 }
