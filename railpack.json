@@ -1,7 +1,0 @@
-{
-  "scripts": {
-    "install": "pnpm install --no-frozen-lockfile",
-    "build": "pnpm --filter @workspace/api-server run build",
-    "start": "node --enable-source-maps ./artifacts/api-server/dist/index.mjs"
-  }
-}
