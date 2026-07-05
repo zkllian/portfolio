@@ -29,6 +29,22 @@ export default function Kontak() {
   return (
     <div className="container">
       <div className="cv-wrap">
+
+        {/* ── Hero ── */}
+        <div className="cv-hero reveal">
+          <div className="cv-avatar" role="img" aria-label="avatar" />
+          <div className="cv-hero-info">
+            <div className="cv-name">Yoga Aprilliansyan N</div>
+            <div className="cv-role">Front-End Developer</div>
+            <div className="cv-meta">
+              <span>26 Tahun</span>
+              <span className="cv-meta-dot">·</span>
+              <span>Cianjur</span>
+            </div>
+          </div>
+        </div>
+
+        {/* ── Kontak ── */}
         <div className="cv-section reveal">
           <div className="cv-section-label">
             <svg className="cv-section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
@@ -63,6 +79,52 @@ export default function Kontak() {
             </a>
           </div>
         </div>
+
+        {/* ── Ketersediaan + Preferensi Kerja (2-col on desktop) ── */}
+        <div className="cv-row-2col">
+          <div className="cv-section reveal">
+            <div className="cv-section-label">
+              <svg className="cv-section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+              </svg>
+              Ketersediaan
+            </div>
+            <div className="cv-availability">
+              <span className="cv-availability-dot" />
+              <span>Terbuka untuk kerja remote &amp; freelance</span>
+            </div>
+            <p className="cv-about">
+              Biasanya balas pesan dalam 1x24 jam. Untuk respon paling cepat, hubungi lewat email atau WhatsApp.
+            </p>
+          </div>
+
+          <div className="cv-section reveal">
+            <div className="cv-section-label">
+              <svg className="cv-section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+              </svg>
+              Preferensi Kerja
+            </div>
+            <div className="cv-info-grid">
+              <div className="cv-info-row">
+                <span className="cv-info-key">Tipe</span>
+                <div className="cv-tags">
+                  <span className="cv-tag">Full-time</span>
+                  <span className="cv-tag">Freelance</span>
+                  <span className="cv-tag">Kontrak</span>
+                </div>
+              </div>
+              <div className="cv-info-row">
+                <span className="cv-info-key">Lokasi</span>
+                <div className="cv-tags">
+                  <span className="cv-tag">Remote</span>
+                  <span className="cv-tag">Cianjur &amp; sekitarnya</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
   );
