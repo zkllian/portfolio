@@ -75,15 +75,11 @@ export default function Tentang() {
             </div>
             <p className="cv-about">
               Saya mulai kenal internet dari warnet di 2010, dan sejak itu nggak pernah berhenti ngoprek hal baru.
-              Di 2012, saya bikin blog sendiri di Blogspot — nulis konten sendiri, urus SEO-nya sendiri, sampai akhirnya
-              keterima Google AdSense dan bisa menghasilkan dari sana. Itu jadi titik awal saya percaya bahwa belajar
-              mandiri pun bisa menghasilkan sesuatu yang nyata, bukan cuma teori.
-              Setelah sempat kerja di perpustakaan kampus dan toko online, saya mulai masuk ke dunia pemasaran digital
-              dan komunitas online — nulis konten, urus media sosial, jalanin Facebook Ads, sampai bikin bot Telegram
-              buat otomasi hal-hal repetitif. Dari situ saya makin tertarik ke sisi teknisnya, dan akhirnya mulai belajar
-              web development secara serius. Sekarang saya bisa bikin dan deploy website sendiri dari nol.
-              Saya tipe orang yang cukup teliti soal tampilan dan detail: kalau ada yang nggak simetris,
-              warnanya nggak konsisten, atau fontnya aneh, saya langsung nyadar — dan biasanya langsung pengen benerin.
+              Setelah sempat kerja di perpustakaan kampus, toko online, dan dunia pemasaran digital — nulis konten,
+              urus media sosial, jalanin Facebook Ads — saya makin tertarik ke sisi teknis dan mulai belajar web
+              development secara serius. Sekarang saya bisa bikin dan deploy website sendiri dari nol.
+              Saya tipe orang yang cukup teliti soal tampilan dan detail: kalau ada yang nggak simetris atau
+              warnanya nggak konsisten, saya langsung nyadar — dan biasanya langsung pengen benerin.
             </p>
           </div>
 
