@@ -19,8 +19,8 @@ textarea, input { user-select: text; -webkit-user-select: text; }
 
 :root {
   --bg: #fff;
-  --surface: #f7f7f7;
-  --surface2: #eee;
+  --surface: #fcfcfc;
+  --surface2: #f3f3f3;
   --border: #e2e2e2;
   --border2: #d4d4d4;
   --text: #171717;
@@ -70,7 +70,7 @@ body {
 /* ── Floating logo pill ── */
 .logo-wrap {
   position: relative;
-  background: rgba(255,255,255,0.65);
+  background: rgba(235,235,235,0.75);
   backdrop-filter: blur(28px) saturate(1.6);
   -webkit-backdrop-filter: blur(28px) saturate(1.6);
   border: 1px solid rgba(0,0,0,0.08);
@@ -85,7 +85,7 @@ body {
 /* ── Breadcrumb pill (sibling to logo-wrap) ── */
 .breadcrumb-pill {
   position: relative;
-  background: rgba(255,255,255,0.65);
+  background: rgba(235,235,235,0.75);
   backdrop-filter: blur(28px) saturate(1.6);
   -webkit-backdrop-filter: blur(28px) saturate(1.6);
   border: 1px solid rgba(0,0,0,0.08);
