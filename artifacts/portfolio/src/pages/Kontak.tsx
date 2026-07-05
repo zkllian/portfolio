@@ -30,20 +30,6 @@ export default function Kontak() {
     <div className="container">
       <div className="cv-wrap">
 
-        {/* ── Hero ── */}
-        <div className="cv-hero reveal">
-          <div className="cv-avatar" role="img" aria-label="avatar" />
-          <div className="cv-hero-info">
-            <div className="cv-name">Yoga Aprilliansyan N</div>
-            <div className="cv-role">Front-End Developer</div>
-            <div className="cv-meta">
-              <span>26 Tahun</span>
-              <span className="cv-meta-dot">·</span>
-              <span>Cianjur</span>
-            </div>
-          </div>
-        </div>
-
         {/* ── Kontak ── */}
         <div className="cv-section reveal">
           <div className="cv-section-label">
