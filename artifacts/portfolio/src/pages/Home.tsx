@@ -491,7 +491,7 @@ export default function Home() {
           <div className="view-input">
             <div className="card">
               <div className="card-header">
-                <span className="card-title"><FiTerminal size={11} style={{ marginRight: 5, opacity: 0.7 }} />inject</span>
+                <span className="card-title"><FiTerminal size={11} style={{ marginRight: 5, opacity: 0.7 }} />Inject</span>
                 <span className="badge">{imeiCount}</span>
               </div>
               <div className="input-wrap">
@@ -525,7 +525,7 @@ export default function Home() {
 
             <div className="card counter-card">
               <div className="card-header">
-                <span className="card-title"><FiHash size={11} style={{ marginRight: 5, opacity: 0.7 }} />barcode hari ini</span>
+                <span className="card-title"><FiHash size={11} style={{ marginRight: 5, opacity: 0.7 }} />Barcode Hari Ini</span>
                 <div className="counter-header-actions">
                   {!confirmReset ? (
                     <button className="counter-reset-btn" onClick={() => setConfirmReset(true)}>reset</button>
@@ -543,7 +543,7 @@ export default function Home() {
 
             <div className="card pos-card">
                 <div className="card-header">
-                  <span className="card-title"><FiCrosshair size={11} style={{ marginRight: 5, opacity: 0.7 }} />coords</span>
+                  <span className="card-title"><FiCrosshair size={11} style={{ marginRight: 5, opacity: 0.7 }} />Coords</span>
                   <button className="save-default-btn" onClick={() => {
                     try { localStorage.setItem('bc-pos', JSON.stringify(posRef.current)); } catch {}
                     showToast('tersimpan sebagai default');
@@ -556,7 +556,7 @@ export default function Home() {
 
                 <div className="preview-wrap">
                   <div className="preview-header">
-                    <span className="preview-label"><FiEye size={11} style={{ marginRight: 5, opacity: 0.7 }} />live preview</span>
+                    <span className="preview-label"><FiEye size={11} style={{ marginRight: 5, opacity: 0.7 }} />Live Preview</span>
                     <span className="preview-dim">{previewDim}</span>
                   </div>
                   <div className="preview-stage">
@@ -611,25 +611,25 @@ export default function Home() {
 
             <div className="stats-grid">
               <div className="stats-cell">
-                <span className="stats-cell-label">hari ini</span>
+                <span className="stats-cell-label">Hari Ini</span>
                 <span className="stats-cell-value">
                   {statsLoading ? <span className="stats-shimmer">···</span> : statsError ? '—' : (stats?.today ?? 0).toLocaleString()}
                 </span>
               </div>
               <div className="stats-cell">
-                <span className="stats-cell-label">total keseluruhan</span>
+                <span className="stats-cell-label">Total Keseluruhan</span>
                 <span className="stats-cell-value">
                   {statsLoading ? <span className="stats-shimmer">···</span> : statsError ? '—' : (stats?.total ?? 0).toLocaleString()}
                 </span>
               </div>
               <div className="stats-cell stats-cell--accent">
-                <span className="stats-cell-label">aku</span>
+                <span className="stats-cell-label">Aku</span>
                 <span className="stats-cell-value">
                   {statsLoading ? <span className="stats-shimmer">···</span> : statsError ? '—' : (stats?.mine ?? 0).toLocaleString()}
                 </span>
               </div>
               <div className="stats-cell">
-                <span className="stats-cell-label">orang lain</span>
+                <span className="stats-cell-label">Orang Lain</span>
                 <span className="stats-cell-value">
                   {statsLoading ? <span className="stats-shimmer">···</span> : statsError ? '—' : (stats?.others ?? 0).toLocaleString()}
                 </span>
