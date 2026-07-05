@@ -863,6 +863,7 @@ textarea:focus { border-color: #444; }
   font-size: 13px;
   color: var(--text-muted);
   line-height: 1.65;
+  text-align: justify;
   user-select: text;
   -webkit-user-select: text;
 }
@@ -947,6 +948,7 @@ textarea:focus { border-color: #444; }
   line-height: 1.6;
   padding-left: 14px;
   position: relative;
+  text-align: justify;
 }
 .cv-list li::before {
   content: '>';
@@ -1019,6 +1021,7 @@ textarea:focus { border-color: #444; }
   font-size: 12px;
   color: var(--text-muted);
   line-height: 1.65;
+  text-align: justify;
 }
 
 .spotify-card {
