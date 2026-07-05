@@ -141,7 +141,7 @@ export default function NavMenu() {
                   className={`nav-menu-item nav-menu-item--child${!isTentang && !isKontak ? ' nav-menu-item--active' : ''}`}
                   onClick={() => { if (isTentang || isKontak) { closeMenu(); navigate('/projects/imei/barcode-gen'); } else closeMenu(); }}
                 >
-                  IMEI / Barcode Gen
+                  IMEI
                 </button>
               </div>
             </div>
@@ -164,8 +164,6 @@ export default function NavMenu() {
             <span className="logo-crumb">Projects</span>
             <span className="logo-sep">/</span>
             <span className="logo-crumb">IMEI</span>
-            <span className="logo-sep">/</span>
-            <span className="logo-crumb">Barcode Gen</span>
           </div>
         )}
       </div>
