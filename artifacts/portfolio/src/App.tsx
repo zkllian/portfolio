@@ -3,6 +3,7 @@ import { Route, Switch, useLocation } from 'wouter';
 import Home from '@/pages/Home';
 import Tentang from '@/pages/Tentang';
 import Kontak from '@/pages/Kontak';
+import Proyek from '@/pages/Proyek';
 import NotFound from '@/pages/not-found';
 import NavMenu from '@/components/NavMenu';
 import { Analytics } from '@vercel/analytics/react';
@@ -35,7 +36,7 @@ function App() {
           <Route path="/" component={Tentang} />
           <Route path="/tentang" component={Tentang} />
           <Route path="/kontak" component={Kontak} />
-          <Route path="/proyek" component={Home} />
+          <Route path="/proyek" component={Proyek} />
           <Route path="/projects/imei/barcode-gen" component={Home} />
           <Route component={NotFound} />
         </Switch>
