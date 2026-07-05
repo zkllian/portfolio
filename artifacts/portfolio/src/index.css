@@ -82,6 +82,7 @@ body {
   width: fit-content;
   max-width: calc(100vw - 120px);
   white-space: nowrap;
+  box-shadow: 0 4px 6px -3px rgba(0,0,0,0.18);
 }
 
 /* ── Breadcrumb pill (sibling to logo-wrap) ── */
@@ -102,6 +103,7 @@ body {
   font-weight: 600;
   font-family: 'Space Grotesk', 'Geist', -apple-system, BlinkMacSystemFont, sans-serif;
   letter-spacing: .02em;
+  box-shadow: 0 4px 6px -3px rgba(0,0,0,0.18);
 }
 
 /* consistent spacing token */
@@ -230,7 +232,7 @@ body {
   padding: 5px;
   z-index: 200;
   opacity: 0;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.10), inset 0 1px 0 rgba(255,255,255,0.6);
+  box-shadow: 0 4px 6px -3px rgba(0,0,0,0.18);
   transition: opacity 0.22s cubic-bezier(0.16,1,0.3,1), transform 0.22s cubic-bezier(0.16,1,0.3,1);
   pointer-events: none;
 }
