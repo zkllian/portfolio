@@ -65,12 +65,12 @@ export function useCredit() {
   function secretClick() {
     if (tapResetRef.current) clearTimeout(tapResetRef.current);
     tapCountRef.current += 1;
-    tapResetRef.current = setTimeout(() => { tapCountRef.current = 0; setDotColor('#ffffff'); }, 1500);
+    tapResetRef.current = setTimeout(() => { tapCountRef.current = 0; setDotColor('#000000'); }, 1500);
     const nextColor = TAP_COLORS[tapCountRef.current % TAP_COLORS.length];
     setDotColor(nextColor);
     if (tapCountRef.current < 3) return;
     tapCountRef.current = 0;
-    setDotColor('#ffffff');
+    setDotColor('#000000');
     if (navigator.vibrate) navigator.vibrate([40, 30, 60]);
     playPop();
     setCreditOpen(true);
