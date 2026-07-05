@@ -6,7 +6,7 @@ export function useCredit() {
   const BASE = import.meta.env.BASE_URL;
   const [creditOpen, setCreditOpen] = useState(false);
   const [creditVisible, setCreditVisible] = useState(false);
-  const [dotColor, setDotColor] = useState('#ffffff');
+  const [dotColor, setDotColor] = useState('#000000');
   const tapCountRef = useRef(0);
   const tapResetRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
