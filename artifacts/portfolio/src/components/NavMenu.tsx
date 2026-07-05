@@ -8,12 +8,13 @@ export default function NavMenu() {
 
   const isTentang = location === '/' || location === '/tentang';
   const isKontak = location === '/kontak';
+  const isProyek = location === '/proyek';
 
   /* ── breadcrumb expand/collapse animation ── */
-  // 'tentang' | 'kontak' | 'projects'
-  type CrumbPage = 'tentang' | 'kontak' | 'projects';
+  // 'tentang' | 'kontak' | 'proyek'
+  type CrumbPage = 'tentang' | 'kontak' | 'proyek';
   const getCrumb = (loc: string): CrumbPage =>
-    loc === '/kontak' ? 'kontak' : (loc === '/' || loc === '/tentang') ? 'tentang' : 'projects';
+    loc === '/kontak' ? 'kontak' : (loc === '/' || loc === '/tentang') ? 'tentang' : 'proyek';
 
   const [crumb, setCrumb] = useState<CrumbPage>(getCrumb(location));
   const [phase, setPhase] = useState<'idle' | 'out' | 'in'>('idle');
@@ -134,17 +135,12 @@ export default function NavMenu() {
             >
               Kontak
             </button>
-            <div className="nav-menu-sub-wrap">
-              <span className="nav-menu-item nav-menu-item--parent">Projects</span>
-              <div className="nav-menu-sub">
-                <button
-                  className={`nav-menu-item nav-menu-item--child${!isTentang && !isKontak ? ' nav-menu-item--active' : ''}`}
-                  onClick={() => { if (isTentang || isKontak) { closeMenu(); navigate('/projects/imei/barcode-gen'); } else closeMenu(); }}
-                >
-                  IMEI
-                </button>
-              </div>
-            </div>
+            <button
+              className={`nav-menu-item${isProyek ? ' nav-menu-item--active' : ''}`}
+              onClick={() => { if (!isProyek) { closeMenu(); navigate('/proyek'); } else closeMenu(); }}
+            >
+              Proyek
+            </button>
           </div>
         )}
 
@@ -161,9 +157,7 @@ export default function NavMenu() {
         ) : (
           <div className={`breadcrumb-pill ${crumbClass}`}>
             <span className="logo-sep">/</span>
-            <span className="logo-crumb">Projects</span>
-            <span className="logo-sep">/</span>
-            <span className="logo-crumb">IMEI</span>
+            <span className="logo-crumb">Proyek</span>
           </div>
         )}
       </div>

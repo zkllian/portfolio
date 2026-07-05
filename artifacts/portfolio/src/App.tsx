@@ -35,6 +35,7 @@ function App() {
           <Route path="/" component={Tentang} />
           <Route path="/tentang" component={Tentang} />
           <Route path="/kontak" component={Kontak} />
+          <Route path="/proyek" component={Home} />
           <Route path="/projects/imei/barcode-gen" component={Home} />
           <Route component={NotFound} />
         </Switch>
