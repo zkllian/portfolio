@@ -92,27 +92,27 @@ export default function Tentang() {
             <div className="cv-competency-list">
               <div className="cv-competency-item">
                 <span className="cv-competency-num">01</span>
-                <p className="cv-competency-text">Peka soal tampilan — langsung nyadar kalau spasi nggak pas, warna nggak konsisten, atau layout yang berantakan</p>
+                <p className="cv-competency-text">Peka soal tampilan — langsung nyadar kalau ada yang nggak simetris atau berantakan</p>
               </div>
               <div className="cv-competency-item">
                 <span className="cv-competency-num">02</span>
-                <p className="cv-competency-text">Teliti dan nggak setengah-setengah — selalu periksa ulang sebelum kirim, termasuk hal kecil sekalipun</p>
+                <p className="cv-competency-text">Teliti dan nggak setengah-setengah — selalu periksa ulang sebelum kirim</p>
               </div>
               <div className="cv-competency-item">
                 <span className="cv-competency-num">03</span>
-                <p className="cv-competency-text">Ngerti pemasaran digital secara praktikal — pernah jalanin Facebook Ads, nulis konten, dan optimasi SEO</p>
+                <p className="cv-competency-text">Ngerti pemasaran digital secara praktikal — Facebook Ads, konten, dan SEO</p>
               </div>
               <div className="cv-competency-item">
                 <span className="cv-competency-num">04</span>
-                <p className="cv-competency-text">Bisa bikin dan deploy website sendiri — dari setup sampai live, termasuk bot Telegram untuk otomasi</p>
+                <p className="cv-competency-text">Bisa bikin dan deploy website sendiri — dari setup sampai live</p>
               </div>
               <div className="cv-competency-item">
                 <span className="cv-competency-num">05</span>
-                <p className="cv-competency-text">Terbiasa kelola data secara rapi dan terstruktur — pengalaman langsung di lingkungan kerja formal</p>
+                <p className="cv-competency-text">Terbiasa kelola data secara rapi di lingkungan kerja formal</p>
               </div>
               <div className="cv-competency-item">
                 <span className="cv-competency-num">06</span>
-                <p className="cv-competency-text">Komunikasi langsung dan ringkas — nggak suka berputar-putar, baik ke tim maupun ke audiens</p>
+                <p className="cv-competency-text">Komunikasi langsung dan ringkas — nggak suka berputar-putar</p>
               </div>
             </div>
           </div>
