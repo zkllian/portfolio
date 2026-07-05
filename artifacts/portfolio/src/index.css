@@ -24,8 +24,8 @@ textarea, input { user-select: text; -webkit-user-select: text; }
   --border: #e2e2e2;
   --border2: #d4d4d4;
   --text: #171717;
-  --text-muted: #666;
-  --text-dim: #999;
+  --text-muted: #555;
+  --text-dim: #808080;
   --accent: #111;
   --accent-hover: #333;
   --blue: #0070f3;
@@ -80,7 +80,6 @@ body {
   width: fit-content;
   max-width: calc(100vw - 120px);
   white-space: nowrap;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.6);
 }
 
 /* ── Breadcrumb pill (sibling to logo-wrap) ── */
@@ -101,7 +100,6 @@ body {
   font-weight: 600;
   font-family: 'Instrument Sans', 'Geist', -apple-system, BlinkMacSystemFont, sans-serif;
   letter-spacing: .02em;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.6);
 }
 
 /* consistent spacing token */
