@@ -70,7 +70,7 @@ body {
 /* ── Floating logo pill ── */
 .logo-wrap {
   position: relative;
-  background: rgba(235,235,235,0.55);
+  background: rgba(252,252,252,0.85);
   backdrop-filter: blur(28px) saturate(1.6);
   -webkit-backdrop-filter: blur(28px) saturate(1.6);
   border: 1px solid rgba(0,0,0,0.08);
@@ -86,7 +86,7 @@ body {
 /* ── Breadcrumb pill (sibling to logo-wrap) ── */
 .breadcrumb-pill {
   position: relative;
-  background: rgba(235,235,235,0.55);
+  background: rgba(252,252,252,0.85);
   backdrop-filter: blur(28px) saturate(1.6);
   -webkit-backdrop-filter: blur(28px) saturate(1.6);
   border: 1px solid rgba(0,0,0,0.08);
@@ -220,7 +220,7 @@ body {
   top: calc(100% + 10px);
   left: 0;
   transform: translateY(-8px) scale(0.96);
-  background: rgba(255,255,255,0.6);
+  background: rgba(252,252,252,0.9);
   backdrop-filter: blur(28px) saturate(1.6);
   -webkit-backdrop-filter: blur(28px) saturate(1.6);
   border: 1px solid rgba(0,0,0,0.08);
