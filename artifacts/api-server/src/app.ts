@@ -33,6 +33,11 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.use((_req, res, next) => {
+  res.setHeader("X-Robots-Tag", "noindex, nofollow, noarchive, nosnippet, noimageindex");
+  next();
+});
+
 app.use("/api", router);
 
 const frontendDist = path.resolve(__dirname, "../../portfolio/dist");
