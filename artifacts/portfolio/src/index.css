@@ -676,6 +676,7 @@ textarea:focus { border-color: #444; }
   display: flex;
   align-items: flex-start;
   gap: 18px;
+  box-shadow: 0 2px 3px -2px rgba(0,0,0,0.10);
 }
 
 .cv-avatar {
@@ -1036,6 +1037,7 @@ textarea:focus { border-color: #444; }
   border: 1px solid var(--border);
   border-radius: 8px;
   text-decoration: none;
+  box-shadow: 0 2px 3px -2px rgba(0,0,0,0.10);
 }
 .spotify-card:hover { background: var(--surface); }
 
