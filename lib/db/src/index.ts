@@ -7,7 +7,13 @@ const { Pool } = pg;
 export * from "./schema";
 
 export function createDb() {
-  if (!process.env.DATABASE_URL) return null;
-  const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+  const url = process.env.DATABASE_URL;
+  if (!url) return null;
+
+  const needsSsl = url.includes("neon.tech") && !/sslmode=/.test(url);
+  const pool = new Pool({
+    connectionString: url,
+    ssl: needsSsl ? { rejectUnauthorized: false } : undefined,
+  });
   return drizzle(pool, { schema });
 }
