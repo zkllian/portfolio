@@ -445,6 +445,7 @@ export default function Home() {
     setConfirmResetGlobal(false);
     setStatsLoading(true);
     setStatsOpen(true);
+    document.body.classList.add('nav-hidden');
     requestAnimationFrame(() => requestAnimationFrame(() => setStatsVisible(true)));
     try {
       const res = await fetch(`${BASE}api/stats/today?userId=${encodeURIComponent(userIdRef.current)}`);
@@ -464,6 +465,7 @@ export default function Home() {
   function closeStats() {
     setStatsVisible(false);
     setConfirmResetGlobal(false);
+    document.body.classList.remove('nav-hidden');
     setTimeout(() => setStatsOpen(false), 300);
   }
 
