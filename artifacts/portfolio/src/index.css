@@ -1028,6 +1028,24 @@ textarea:focus { border-color: #444; }
   text-align: justify;
 }
 
+.cv-widget-row {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+@media (min-width: 768px) {
+  .cv-widget-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: stretch;
+  }
+  .cv-widget-row .spotify-card,
+  .cv-widget-row .clock-card {
+    height: 100%;
+  }
+}
+
 .spotify-card {
   display: flex;
   align-items: center;
