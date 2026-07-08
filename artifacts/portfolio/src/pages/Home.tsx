@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { Link } from 'wouter';
 import JsBarcode from 'jsbarcode';
-import { FiZap, FiTerminal, FiEye, FiDownload, FiShare2, FiEdit2 } from 'react-icons/fi';
+import { FiZap, FiTerminal, FiEye, FiDownload, FiShare2, FiEdit2, FiBarChart2, FiMove } from 'react-icons/fi';
 import { content } from '@/content';
 
 const h = content.home;
@@ -569,9 +569,11 @@ export default function Home() {
               </div>
               <div className="tool-row">
                 <button className="tool-btn" onClick={openCounter}>
+                  <FiBarChart2 size={12} style={{ flexShrink: 0 }} />
                   {h.barcodeCardTitle}
                 </button>
                 <button className="tool-btn" onClick={openCoords}>
+                  <FiMove size={12} style={{ flexShrink: 0 }} />
                   {h.coordsTitle}
                 </button>
               </div>
