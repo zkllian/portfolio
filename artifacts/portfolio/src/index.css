@@ -23,19 +23,6 @@ textarea, input, [contenteditable] { user-select: text; -webkit-user-select: tex
   --font-serif: 'Instrument Serif', 'Georgia', ui-serif, serif;
 }
 
-[data-theme="dark"] {
-  --bg: #0a0a0a;
-  --surface: #111111;
-  --surface2: #1a1a1a;
-  --border: #262626;
-  --border2: #404040;
-  --text: #fafafa;
-  --text-muted: #a3a3a3;
-  --text-dim: #525252;
-  --accent: #fafafa;
-  --accent-hover: #e5e5e5;
-  --grid-line: rgba(255,255,255,0.04);
-}
 
 /* ── Body + Grid Background ── */
 html { scroll-behavior: smooth; }
@@ -470,27 +457,6 @@ body::before {
 .p-footer-stats { margin-top: 28px !important; }
 .p-footer-loc { font-size: 14px; margin-top: 4px !important; }
 
-.p-theme-btn {
-  position: absolute;
-  top: 28px;
-  right: 0;
-  background: none;
-  border: 1px solid var(--border);
-  border-radius: 50%;
-  width: 32px;
-  height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  color: var(--text-dim);
-  transition: color 0.15s, border-color 0.15s, background 0.15s;
-}
-.p-theme-btn:hover {
-  color: var(--text);
-  border-color: var(--border2);
-  background: var(--surface2);
-}
 
 /* ── Page Transition ── */
 .page-wrap--enter { animation: pageEnter 0.2s ease both; }
