@@ -475,7 +475,7 @@ body::before {
 .container { max-width: 540px; margin: 0 auto; padding: 24px; }
 @media (min-width: 768px) { .container { max-width: min(91vw, 1200px); } }
 
-.home-link { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-family: var(--font-sans); color: var(--text-dim); text-decoration: none; margin-bottom: 16px; transition: color .15s; }
+.home-link { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-family: var(--font-sans); color: var(--text-dim); text-decoration: none; margin-bottom: 4px; transition: color .15s; }
 .home-link:hover { color: var(--text); }
 
 .card { padding: 20px 0; margin-bottom: 16px; }
