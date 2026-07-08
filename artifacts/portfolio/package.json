@@ -78,6 +78,7 @@
     "@types/jsbarcode": "^3.11.4",
     "@vercel/analytics": "^2.0.1",
     "@vercel/speed-insights": "^2.0.0",
+    "geist": "^1.7.2",
     "jsbarcode": "^3.12.3"
   }
 }

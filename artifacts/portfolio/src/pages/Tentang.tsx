@@ -1,347 +1,264 @@
 import { useEffect, useState } from 'react';
 
-function useJakartaClock() {
+function useBandungClock() {
   const [now, setNow] = useState(new Date());
   useEffect(() => {
     const id = setInterval(() => setNow(new Date()), 1000);
     return () => clearInterval(id);
   }, []);
-  const time = now.toLocaleTimeString('id-ID', {
+  return now.toLocaleTimeString('id-ID', {
     timeZone: 'Asia/Jakarta',
     hour: '2-digit',
     minute: '2-digit',
-    second: '2-digit',
     hour12: false,
   });
-  return time;
+}
+
+function useVisitorCount() {
+  const [count, setCount] = useState<number | null>(null);
+  useEffect(() => {
+    fetch('/api/stats/today')
+      .then(r => r.json())
+      .then(d => setCount(d.count ?? d.today ?? d.barcodes ?? null))
+      .catch(() => {});
+  }, []);
+  return count;
 }
 
 export default function Tentang() {
-  const jakartaTime = useJakartaClock();
+  const time = useBandungClock();
+  const visitors = useVisitorCount();
+  const [dark, setDark] = useState(false);
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+  }, [dark]);
+
   useEffect(() => { window.scrollTo(0, 0); }, []);
 
-
-  // Scroll reveal
-  useEffect(() => {
-    const els = document.querySelectorAll<HTMLElement>('.reveal');
-    const observer = new IntersectionObserver(
-      (entries) => entries.forEach((e) => {
-        if (e.isIntersecting) { e.target.classList.add('reveal-in'); observer.unobserve(e.target); }
-      }),
-      { threshold: 0.06 }
-    );
-    els.forEach((el) => observer.observe(el));
-    return () => observer.disconnect();
-  }, []);
-
-  // Magnetic hover handlers
-  const onMagnet = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    const el = e.currentTarget;
-    const r = el.getBoundingClientRect();
-    const x = ((e.clientX - r.left) / r.width  - 0.5) * 9;
-    const y = ((e.clientY - r.top)  / r.height - 0.5) * 6;
-    el.style.transform = `translate(${x}px,${y}px)`;
-  };
-  const offMagnet = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.currentTarget.style.transform = '';
-  };
-
   return (
-    <>
-      <div className="container">
-        {/* ── Hero (outside the outer box) ── */}
-        <div className="cv-hero reveal">
-          <div className="cv-avatar" role="img" aria-label="avatar" />
-          <div className="cv-hero-info">
-            <div className="cv-name">Yoga Aprilliansyah N</div>
-            <div className="cv-role">Front-End Developer</div>
-            <div className="cv-meta">
-              <span>26 Tahun</span>
-              <span className="cv-meta-dot">·</span>
-              <span>Bandung</span>
-            </div>
+    <div className="p-wrap">
+
+      {/* ── Profile ── */}
+      <div className="p-profile">
+        <div className="p-avatar" role="img" aria-label="Yoga Aprilliansyah N" />
+        <div>
+          <div className="p-name">
+            Yoga Aprilliansyah N
+            <svg className="p-check" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+              <polyline points="22 4 12 14.01 9 11.01" />
+            </svg>
           </div>
-        </div>
-
-        <div className="cv-outer-box">
-        <div className="cv-wrap">
-
-          {/* ── Spotify & Jam (2-col on desktop) ── */}
-          <div className="cv-widget-row">
-            <a
-              className="spotify-card reveal"
-              href="https://open.spotify.com/track/38u55vfPVcVYoqcbuQzpyu?si=I-YjAcsxQaO9cGh6AAL_hA"
-              target="_blank"
-              rel="noreferrer"
-            >
-              <img className="spotify-art" src="/spotify-like-i-do.png" alt="like i do" />
-              <div className="spotify-info">
-                <div className="spotify-label">Recently Played</div>
-                <div className="spotify-track">Like I Do</div>
-                <div className="spotify-artist">Andy Arysh</div>
-              </div>
-              <svg className="spotify-logo" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.516 17.297a.748.748 0 01-1.03.25c-2.819-1.723-6.365-2.112-10.542-1.157a.748.748 0 01-.353-1.452c4.573-1.045 8.492-.594 11.675 1.338.354.216.466.68.25 1.021zm1.472-3.276a.936.936 0 01-1.288.308c-3.226-1.983-8.145-2.557-11.967-1.399a.937.937 0 01-.577-1.787c4.363-1.323 9.786-.682 13.525 1.59.44.27.578.845.307 1.288zm.126-3.41c-3.868-2.297-10.243-2.508-13.933-1.388a1.122 1.122 0 01-.651-2.146c4.243-1.287 11.29-1.038 15.738 1.607a1.122 1.122 0 01-1.154 1.927z"/>
-              </svg>
-            </a>
-
-            {/* ── Jam & lokasi realtime ── */}
-            <div className="clock-card reveal">
-              <div className="clock-icon-wrap">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                  <circle cx="12" cy="12" r="9" />
-                  <path d="M12 7v5l3 2" />
-                </svg>
-              </div>
-              <div className="clock-info">
-                <div className="clock-label">Waktu Sekarang</div>
-                <div className="clock-time">{jakartaTime}<span className="clock-time-tz">WIB</span></div>
-                <div className="clock-location"><span className="clock-status-dot"></span>Bandung, Indonesia</div>
-              </div>
-            </div>
-          </div>{/* end cv-widget-row */}
-
-          {/* ── Tentang saya + Kompetensi utama (2-col on desktop) ── */}
-          <div className="cv-row-2col">
-          <div className="cv-section reveal">
-            <div className="cv-section-label">
-              <svg className="cv-section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
-              Tentang Saya
-            </div>
-            <p className="cv-about">
-              Saya mulai kenal internet dari warnet di 2010, dan sejak itu nggak pernah berhenti ngoprek hal baru.
-              Setelah sempat kerja di perpustakaan kampus, toko online, dan dunia pemasaran digital — nulis konten,
-              urus media sosial, jalanin Facebook Ads — saya makin tertarik ke sisi teknis dan mulai belajar web
-              development secara serius. Sekarang saya bisa bikin dan deploy website sendiri dari nol.
-              Saya tipe orang yang cukup teliti soal tampilan dan detail: kalau ada yang nggak simetris atau
-              warnanya nggak konsisten, saya langsung nyadar — dan biasanya langsung pengen benerin.
-            </p>
-          </div>
-
-          {/* ── Kompetensi utama ── */}
-          <div className="cv-section reveal">
-            <div className="cv-section-label">
-              <svg className="cv-section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-              Kompetensi Utama
-            </div>
-            <div className="cv-competency-list">
-              <div className="cv-competency-item">
-                <span className="cv-competency-num">01</span>
-                <p className="cv-competency-text">Peka soal tampilan — langsung nyadar kalau ada yang nggak simetris atau berantakan</p>
-              </div>
-              <div className="cv-competency-item">
-                <span className="cv-competency-num">02</span>
-                <p className="cv-competency-text">Teliti dan nggak setengah-setengah — selalu periksa ulang sebelum kirim</p>
-              </div>
-              <div className="cv-competency-item">
-                <span className="cv-competency-num">03</span>
-                <p className="cv-competency-text">Ngerti pemasaran digital secara praktikal — Facebook Ads, konten, dan SEO</p>
-              </div>
-              <div className="cv-competency-item">
-                <span className="cv-competency-num">04</span>
-                <p className="cv-competency-text">Bisa bikin dan deploy website sendiri — dari setup sampai live</p>
-              </div>
-              <div className="cv-competency-item">
-                <span className="cv-competency-num">05</span>
-                <p className="cv-competency-text">Terbiasa kelola data secara rapi di lingkungan kerja formal</p>
-              </div>
-              <div className="cv-competency-item">
-                <span className="cv-competency-num">06</span>
-                <p className="cv-competency-text">Komunikasi langsung dan ringkas — nggak suka berputar-putar</p>
-              </div>
-            </div>
-          </div>
-          </div>{/* end cv-row-2col */}
-
-          {/* ── Pendidikan ── */}
-          <div className="cv-section reveal">
-            <div className="cv-section-label">
-              <svg className="cv-section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
-              Pendidikan
-            </div>
-            <div className="cv-entry">
-              <div className="cv-entry-header">
-                <div className="cv-entry-header-left">
-                  <span className="cv-entry-role">Teknik Komputer &amp; Jaringan</span>
-                  <span className="cv-entry-company">SMK Pasundan 1 Bandung</span>
-                </div>
-                <span className="cv-entry-period">2015 – 2018</span>
-              </div>
-              <ul className="cv-list">
-                <li>Belajar cara pasang, konfigurasi, dan rawat jaringan komputer dari nol — ini yang pertama kali bikin saya ngerti gimana internet bekerja di balik layar</li>
-                <li>Dapet dasar pemrograman dan sistem operasi yang jadi modal awal untuk terus belajar hal teknis secara mandiri setelah lulus</li>
-              </ul>
-            </div>
-          </div>
-
-          {/* ── Pengalaman ── */}
-          <div className="cv-section reveal">
-            <div className="cv-section-label">
-              <svg className="cv-section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
-              Pengalaman
-            </div>
-            <div className="cv-entry">
-              <div className="cv-entry-header">
-                <div className="cv-entry-header-left">
-                  <span className="cv-entry-role">Admin Intern</span>
-                  <span className="cv-entry-company">Universitas Suryakancana</span>
-                </div>
-                <span className="cv-entry-period">Agu – Nov 2017</span>
-              </div>
-              <ul className="cv-list">
-                <li>Bantu operasional harian perpustakaan — layani pengunjung langsung, input data koleksi buku ke sistem, dan pastikan catatan tetap akurat dan rapi</li>
-              </ul>
-            </div>
-            <div className="cv-entry">
-              <div className="cv-entry-header">
-                <div className="cv-entry-header-left">
-                  <span className="cv-entry-role">Digital Marketing</span>
-                  <span className="cv-entry-company">Zenius Store</span>
-                </div>
-                <span className="cv-entry-period">Mar – Sep 2021</span>
-              </div>
-              <ul className="cv-list">
-                <li>Layani pelanggan via WhatsApp — mulai bantu pilih produk, proses order, sampai konfirmasi pembayaran</li>
-                <li>Siapkan dan kemas pesanan, koordinasi pengiriman, dan pastiin barang nyampe ke tangan pembeli dengan baik</li>
-              </ul>
-            </div>
-          </div>
-
-          {/* ── Kontribusi Digital ── */}
-          <div className="cv-section reveal">
-            <div className="cv-section-label">
-              <svg className="cv-section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-              Kontribusi Digital
-            </div>
-            <div className="cv-entry">
-              <div className="cv-entry-header">
-                <div className="cv-entry-header-left">
-                  <span className="cv-entry-role">Blogger</span>
-                  <span className="cv-entry-company">Blog Independen</span>
-                </div>
-                <span className="cv-entry-period">2012</span>
-              </div>
-              <ul className="cv-list">
-                <li>Bikin blog pribadi di Blogspot, nulis sendiri, sampai akhirnya diterima Google AdSense — pertama kali saya ngerasain bisa menghasilkan dari internet secara mandiri</li>
-              </ul>
-            </div>
-            <div className="cv-entry">
-              <div className="cv-entry-header">
-                <div className="cv-entry-header-left">
-                  <span className="cv-entry-role">Community Manager</span>
-                  <span className="cv-entry-company">Verso</span>
-                </div>
-                <span className="cv-entry-period">Mar 2018 – Des 2019</span>
-              </div>
-              <ul className="cv-list">
-                <li>Urus komunitas proyek — buat program biar anggota aktif, jaga komunikasi antara tim dan member tetap jelas, dan pastiin pengalaman di komunitas terasa menyenangkan</li>
-              </ul>
-            </div>
-            <div className="cv-entry">
-              <div className="cv-entry-header">
-                <div className="cv-entry-header-left">
-                  <span className="cv-entry-role">Brand Ambassador</span>
-                  <span className="cv-entry-company">Injective</span>
-                </div>
-                <span className="cv-entry-period">Jan 2024 – Mar 2025</span>
-              </div>
-              <ul className="cv-list">
-                <li>Promosiin brand di Twitter/X lewat konten tulisan, grafis, dan strategi posting yang disesuaikan sama karakter komunitas digital yang ada di platform itu</li>
-              </ul>
-            </div>
-            <div className="cv-entry">
-              <div className="cv-entry-header">
-                <div className="cv-entry-header-left">
-                  <span className="cv-entry-role">Brand Ambassador</span>
-                  <span className="cv-entry-company">Nesa</span>
-                </div>
-                <span className="cv-entry-period">Mar 2024 – Mei 2025</span>
-              </div>
-              <ul className="cv-list">
-                <li>Bangun awareness brand lewat konten yang secara visual konsisten — nulis copy, bikin aset grafis, dan pastiin posting rutin biar audiens terus engaged</li>
-              </ul>
-            </div>
-            <div className="cv-entry">
-              <div className="cv-entry-header">
-                <div className="cv-entry-header-left">
-                  <span className="cv-entry-role">Content Writer</span>
-                  <span className="cv-entry-company">Mitosis</span>
-                </div>
-                <span className="cv-entry-period">Jul 2024 – Apr 2025</span>
-              </div>
-              <ul className="cv-list">
-                <li>Bikin konten edukatif dan cerita seputar proyek yang cukup menarik buat dibaca dan dishare — fokusnya bikin komunitas paham tanpa harus baca whitepaper panjang</li>
-              </ul>
-            </div>
-            <div className="cv-entry">
-              <div className="cv-entry-header">
-                <div className="cv-entry-header-left">
-                  <span className="cv-entry-role">Content Writer</span>
-                  <span className="cv-entry-company">Story Protocol</span>
-                </div>
-                <span className="cv-entry-period">Jul 2024 – Apr 2025</span>
-              </div>
-              <ul className="cv-list">
-                <li>Tulis konten yang informatif dan cukup menarik buat orang yang baru kenal proyek — dijaga konsisten supaya audiens nggak kehilangan konteks</li>
-              </ul>
-            </div>
-            <div className="cv-entry">
-              <div className="cv-entry-header">
-                <div className="cv-entry-header-left">
-                  <span className="cv-entry-role">Content Writer</span>
-                  <span className="cv-entry-company">Union</span>
-                </div>
-                <span className="cv-entry-period">Jul 2024 – Apr 2025</span>
-              </div>
-              <ul className="cv-list">
-                <li>Aktif di ekosistem komunitas — bikin konten digital yang bikin proyek lebih mudah ditemukan dan relevan buat audiensnya</li>
-              </ul>
-            </div>
-            <div className="cv-entry">
-              <div className="cv-entry-header">
-                <div className="cv-entry-header-left">
-                  <span className="cv-entry-role">Brand Ambassador</span>
-                  <span className="cv-entry-company">Swisstronik</span>
-                </div>
-                <span className="cv-entry-period">Sep 2024 – Jan 2025</span>
-              </div>
-              <ul className="cv-list">
-                <li>Jadi wajah brand di media sosial — posting rutin, nulis copy kampanye, dan balas interaksi komunitas supaya jangkauan proyek makin luas</li>
-              </ul>
-            </div>
-          </div>
-
-          {/* ── Keahlian ── */}
-          <div className="cv-section reveal">
-            <div className="cv-section-label">
-              <svg className="cv-section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
-              Keahlian
-            </div>
-            <div className="cv-info-grid">
-              {([
-                { key: 'Web Dev', tags: ['Next.js','React','Vite','TypeScript','Tailwind CSS','Express.js','Drizzle ORM','TanStack Query','Wouter','Zod','Vercel','Telegram Bot','UI/Web Design'] },
-                { key: 'Marketing', tags: ['Facebook Ads','SEO Dasar','Social Media Management','Content Planning'] },
-                { key: 'Konten', tags: ['Community Management','Content Writing','Copywriting'] },
-                { key: 'Desain', tags: ['Adobe Photoshop','Canva','Figma','Graphic Design','UI/Web Design'] },
-                { key: 'Administrasi', tags: ['Microsoft Office','Google Workspace','Data Entry'] },
-                { key: 'Soft Skills', tags: ['Komunikasi','Kerja Tim','Problem Solving','Manajemen Waktu'] },
-                { key: 'Bahasa', tags: ['Indonesia','Inggris'] },
-                { key: 'Sertifikasi', tags: ['Sertifikasi Komputer','Microsoft Office'] },
-              ] as { key: string; tags: string[] }[]).map(({ key, tags }) => (
-                <div key={key} className="cv-info-row">
-                  <span className="cv-info-key">{key}</span>
-                  <div className="cv-tags">
-                    {tags.map(t => <span key={t} className="cv-tag">{t}</span>)}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-
-        </div>
+          <div className="p-role">Front-End Developer</div>
         </div>
       </div>
-    </>
+
+      {/* ── Bio ── */}
+      <p className="p-bio">
+        Saya seorang <span className="p-bio-em">Front-End Developer</span> berbasis di Bandung, Indonesia —
+        membangun website dengan tampilan rapi dan kode yang scalable.
+      </p>
+      <p className="p-bio">
+        Hubungi saya via{' '}
+        <a href="mailto:yogaaprilliansyahn@gmail.com">email</a>
+        {' '}|{' '}
+        lihat kode saya di{' '}
+        <a href="https://github.com/lliandev" target="_blank" rel="noreferrer">GitHub</a>.
+      </p>
+      <p className="p-bio p-bio--last">
+        Temukan saya di{' '}
+        <a href="https://linkedin.com/in/yoga-aprilliansyah" target="_blank" rel="noreferrer">LinkedIn</a>,{' '}
+        <a href="https://x.com/lliandev" target="_blank" rel="noreferrer">Twitter / X</a>.
+      </p>
+
+      {/* ── Pengalaman ── */}
+      <div className="p-section">
+        <h2 className="p-section-title"><span className="hash"># </span>pengalaman</h2>
+        <p className="p-section-sub">Tempat saya kirim hal nyata.</p>
+
+        <div className="p-entry">
+          <div className="p-entry-icon">I</div>
+          <div className="p-entry-body">
+            <div className="p-entry-top">
+              <span className="p-entry-co">imei.org</span>
+              <span className="p-entry-date">feb 2023 – skrg</span>
+            </div>
+            <div className="p-entry-role">Web Front-End Developer</div>
+            <div className="p-entry-via">via PT Imigrasi Digital</div>
+          </div>
+        </div>
+
+        <div className="p-entry">
+          <div className="p-entry-icon">F</div>
+          <div className="p-entry-body">
+            <div className="p-entry-top">
+              <span className="p-entry-co">Freelance</span>
+              <span className="p-entry-date">2020 – 2022</span>
+            </div>
+            <div className="p-entry-role">UI/UX Designer & Web Developer</div>
+          </div>
+        </div>
+      </div>
+
+      {/* ── Proyek ── */}
+      <div className="p-section">
+        <h2 className="p-section-title"><span className="hash"># </span>proyek</h2>
+        <p className="p-section-sub">Yang sudah dan sedang saya bangun.</p>
+
+        <div className="p-project">
+          <div className="p-project-name">
+            llian portfolio{' '}
+            <span className="p-badge">
+              <span className="p-badge-dot"></span>live
+            </span>
+          </div>
+          <p className="p-project-desc">
+            Situs portfolio ini — dibangun sendiri dengan React, Vite, dan TypeScript dari nol sampai live.
+          </p>
+          <div className="p-project-links">
+            <a href="/" className="p-link">↗ kunjungi</a>
+          </div>
+        </div>
+
+        <div className="p-project">
+          <div className="p-project-name">
+            barcode-gen{' '}
+            <span className="p-badge">
+              <span className="p-badge-dot"></span>live
+            </span>
+          </div>
+          <p className="p-project-desc">
+            Generator barcode IMEI massal untuk keperluan kerja — layout adjustable, download langsung.
+          </p>
+          <div className="p-project-links">
+            <a href="/projects/imei/barcode-gen" className="p-link">↗ buka</a>
+          </div>
+        </div>
+
+        <div className="p-project">
+          <div className="p-project-name">Jobstreet Scraper</div>
+          <p className="p-project-desc">
+            Tool open source untuk scraping data lowongan kerja dari Jobstreet — dibuat karena capek cari loker satu-satu.
+          </p>
+          <div className="p-project-links">
+            <span className="p-link p-link--muted">github</span>
+          </div>
+        </div>
+
+        <div className="p-project">
+          <div className="p-project-name">AdMob Auto Impression</div>
+          <p className="p-project-desc">
+            Otomasi open source untuk menaikkan volume tayangan AdMob di background tanpa intervensi manual.
+          </p>
+          <div className="p-project-links">
+            <span className="p-link p-link--muted">github</span>
+          </div>
+        </div>
+      </div>
+
+      {/* ── Gabung Sebagai ── */}
+      <div className="p-section">
+        <h2 className="p-section-title"><span className="hash"># </span>gabung sebagai</h2>
+        <p className="p-section-sub">Saya bisa bergabung di tim sebagai :</p>
+
+        <div className="p-role-card">
+          <div className="p-role-icon">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>
+            </svg>
+          </div>
+          <span className="p-role-name">Front-End Developer</span>
+        </div>
+
+        <div className="p-role-card">
+          <div className="p-role-icon">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+              <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
+            </svg>
+          </div>
+          <span className="p-role-name">UI / UX Designer</span>
+        </div>
+      </div>
+
+      {/* ── Ask AI ── */}
+      <div className="p-section">
+        <p className="p-section-title--sm">
+          <span className="hash"># </span>tanya mengapa saya bisa bermanfaat di platform manapun
+        </p>
+        <div className="p-ai-row">
+          {/* ChatGPT */}
+          <a
+            href="https://chatgpt.com/?q=Siapa+Yoga+Aprilliansyah+N+Front-End+Developer+Bandung"
+            target="_blank" rel="noreferrer"
+            className="p-ai-btn" title="ChatGPT"
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M22.282 9.821a5.985 5.985 0 0 0-.516-4.91 6.046 6.046 0 0 0-6.51-2.9A6.065 6.065 0 0 0 4.981 4.18a5.985 5.985 0 0 0-3.998 2.9 6.046 6.046 0 0 0 .743 7.097 5.98 5.98 0 0 0 .51 4.911 6.051 6.051 0 0 0 6.515 2.9A5.985 5.985 0 0 0 13.26 24a6.056 6.056 0 0 0 5.772-4.206 5.99 5.99 0 0 0 3.997-2.9 6.056 6.056 0 0 0-.747-7.073zM13.26 22.43a4.476 4.476 0 0 1-2.876-1.04l.141-.081 4.779-2.758a.795.795 0 0 0 .392-.681v-6.737l2.02 1.168a.071.071 0 0 1 .038.052v5.583a4.504 4.504 0 0 1-4.494 4.494zM3.6 18.304a4.47 4.47 0 0 1-.535-3.014l.142.085 4.783 2.759a.771.771 0 0 0 .78 0l5.843-3.369v2.332a.08.08 0 0 1-.033.062L9.74 19.95a4.5 4.5 0 0 1-6.14-1.646zM2.34 7.896a4.485 4.485 0 0 1 2.366-1.973V11.6a.766.766 0 0 0 .388.676l5.815 3.355-2.02 1.168a.076.076 0 0 1-.071 0l-4.83-2.786A4.504 4.504 0 0 1 2.34 7.872zm16.597 3.855l-5.833-3.387L15.119 7.2a.076.076 0 0 1 .071 0l4.83 2.791a4.494 4.494 0 0 1-.676 8.105v-5.678a.79.79 0 0 0-.407-.667zm2.01-3.023l-.141-.085-4.774-2.782a.776.776 0 0 0-.785 0L9.409 9.23V6.897a.066.066 0 0 1 .028-.061l4.83-2.787a4.5 4.5 0 0 1 6.68 4.66zm-12.64 4.135l-2.02-1.164a.08.08 0 0 1-.038-.057V6.075a4.5 4.5 0 0 1 7.375-3.453l-.142.08L8.704 5.46a.795.795 0 0 0-.393.681zm1.097-2.365l2.602-1.5 2.607 1.5v2.999l-2.597 1.5-2.607-1.5z"/>
+            </svg>
+          </a>
+          {/* Claude */}
+          <a
+            href="https://claude.ai/new?q=Siapa+Yoga+Aprilliansyah+N+Front-End+Developer"
+            target="_blank" rel="noreferrer"
+            className="p-ai-btn" title="Claude"
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M4.709 15.955l4.72-2.647.08-.13-.08-.132-4.72-2.646-.708 1.229 3.245 1.549-3.245 1.549.708 1.228zm14.584-7.91l-4.72 2.646-.08.132.08.13 4.72 2.647.707-1.228-3.245-1.549 3.245-1.549-.707-1.229zM7.364 19.095l2.648-4.72-.13-.08H9.75l-2.647-4.72-1.228.707 1.548 3.245-3.245-1.548-.707 1.228 4.72 2.647.13-.08v.13l-1.957 3.483 1.228.708zm9.272-14.19L14.988 9.625l.13.08v.13l2.647 4.72 1.228-.707-1.548-3.245 3.245 1.548.707-1.228-4.72-2.647-.13.08v-.13l1.957-3.484-1.228-.707zM4.181 9.18L9.625 11.827l.13-.08V11.62l2.647-4.72-1.228-.708-1.549 3.245L8.077 6.19l-1.228.707 2.647 4.72.08.13H9.45l-3.483-1.957-.785 1.39zm15.638 5.64l-5.444-2.647-.13.08v.126l-2.647 4.72 1.228.708 1.549-3.245 1.548 3.245 1.228-.707-2.647-4.72-.08-.13h.126l3.483 1.957.786-1.389zm-9.182 4.74l.707-1.228-3.245-1.548 3.245-1.549-.707-1.228-4.72 2.646-.08.131.08.131 4.72 2.647zm2.726-14.12l-.707 1.228 3.245 1.549-3.245 1.548.707 1.229 4.72-2.647.08-.131-.08-.13-4.72-2.647z"/>
+            </svg>
+          </a>
+          {/* Perplexity */}
+          <a
+            href="https://www.perplexity.ai/search?q=Yoga+Aprilliansyah+N+Front-End+Developer+Bandung"
+            target="_blank" rel="noreferrer"
+            className="p-ai-btn" title="Perplexity"
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M22.704 7.168H13.85V2.976L8.073 8.752v3.4H1.296v1.696h6.777v3.4l5.777 5.776v-4.192h8.854v-1.696H13.85v-4.92h8.854V7.168zm-10.55 9.864l-3.585-3.585v-2.295h3.585v5.88zm0-7.576H8.569V7.16l3.585-3.584v5.88z"/>
+            </svg>
+          </a>
+          {/* Gemini */}
+          <a
+            href="https://gemini.google.com/app?q=Siapa+Yoga+Aprilliansyah+N+Front-End+Developer"
+            target="_blank" rel="noreferrer"
+            className="p-ai-btn" title="Gemini"
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 24A14.304 14.304 0 0 0 0 12 14.304 14.304 0 0 0 12 0a14.305 14.305 0 0 0 12 12 14.305 14.305 0 0 0-12 12"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      {/* ── Footer ── */}
+      <footer className="p-footer">
+        <p>Designed &amp; Developed by <strong>Yoga</strong></p>
+        <p>© 2025 All rights reserved.</p>
+        <p className="p-footer-stats">
+          Visitors <strong>#{visitors !== null ? visitors.toLocaleString() : '—'}</strong>
+        </p>
+        <p className="p-footer-loc">Bandung, Indonesia {time} WIB</p>
+        <button
+          className="p-theme-btn"
+          onClick={() => setDark(d => !d)}
+          aria-label="Toggle theme"
+        >
+          {dark ? (
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="12" cy="12" r="5"/>
+              <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+              <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+            </svg>
+          ) : (
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+            </svg>
+          )}
+        </button>
+      </footer>
+
+    </div>
   );
 }
