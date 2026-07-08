@@ -27,11 +27,11 @@ outputType = "webview"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "PORT=8080 pnpm --filter @workspace/api-server run dev & PORT=5000 pnpm --filter @workspace/portfolio run dev"
-waitForPort = 5000
+args = "PORT=8080 pnpm --filter @workspace/api-server run dev & PORT=21427 pnpm --filter @workspace/portfolio run dev"
+waitForPort = 21427
 
 [[ports]]
-localPort = 5000
+localPort = 21427
 externalPort = 80
 
 [[ports]]
@@ -41,10 +41,6 @@ externalPort = 8080
 [[ports]]
 localPort = 8081
 externalPort = 8081
-
-[[ports]]
-localPort = 21427
-externalPort = 3000
 
 [deployment]
 deploymentTarget = "autoscale"
