@@ -26,7 +26,7 @@ export const content = {
   /* ── Bio ─────────────────────────────────────────────────────── */
   bio: {
     line1LinkLabel: 'Front-End Developer',
-    line1Suffix:    'berbasis di Cianjur, Indonesia — membangun website dengan tampilan rapi dan kode yang scalable.',
+    line1Suffix:    'berusia 26 tahun berasal di Cianjur, Indonesia.',
     line2Prefix:    'Hubungi saya via',
     line2Or:        'atau',
     line2EmailLabel:'email',
