@@ -41,7 +41,9 @@ router.get("/stats/today", async (req, res) => {
         const [userRow] = await db
           .select()
           .from(userDailyStatsTable)
-          .where(eq(userDailyStatsTable.userId, userId));
+          .where(
+            sql`${userDailyStatsTable.userId} = ${userId} AND ${userDailyStatsTable.date} = ${today}`
+          );
         mine = userRow?.count ?? 0;
       }
 
@@ -64,7 +66,8 @@ router.get("/stats/today", async (req, res) => {
 router.post("/stats/ping", async (req, res) => {
   const today = getWIBDateStr();
   const body = req.body as { count?: number; userId?: string };
-  const amount = Number(body?.count) || 1;
+  const raw = Number(body?.count);
+  const amount = Number.isFinite(raw) && raw >= 1 ? Math.min(Math.floor(raw), 1000) : 1;
   const userId = String(body?.userId ?? "").trim().slice(0, 64);
 
   if (db) {
@@ -109,7 +112,10 @@ router.post("/stats/ping", async (req, res) => {
   return res.json({ ok: true, date: today, today: f.count, total: f.total });
 });
 
-router.post("/stats/reset", async (_req, res) => {
+router.post("/stats/reset", async (req, res) => {
+  const secret = process.env.SESSION_SECRET;
+  const provided = (req.headers["x-reset-secret"] as string | undefined) ?? "";
+  if (!secret || provided !== secret) return res.status(403).json({ error: "forbidden" });
   const today = getWIBDateStr();
   if (db) {
     try {

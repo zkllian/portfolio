@@ -7,6 +7,10 @@ const db = createDb();
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== "POST") return res.status(405).json({ error: "method not allowed" });
 
+  const secret = process.env.SESSION_SECRET;
+  const provided = (req.headers["x-reset-secret"] as string | undefined) ?? "";
+  if (!secret || provided !== secret) return res.status(403).json({ error: "forbidden" });
+
   if (db) {
     try {
       await db.delete(dailyStatsTable);

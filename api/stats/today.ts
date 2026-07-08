@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { createDb, dailyStatsTable, allTimeStatsTable, userDailyStatsTable } from "@workspace/db";
-import { eq } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
 
 function getWIBDateStr() {
   return new Date().toLocaleDateString("sv-SE", { timeZone: "Asia/Jakarta" });
@@ -24,7 +24,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const [userRow] = await db
           .select()
           .from(userDailyStatsTable)
-          .where(eq(userDailyStatsTable.userId, userId));
+          .where(
+            sql`${userDailyStatsTable.userId} = ${userId} AND ${userDailyStatsTable.date} = ${today}`
+          );
         mine = userRow?.count ?? 0;
       }
 

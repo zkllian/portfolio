@@ -13,7 +13,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   const today = getWIBDateStr();
   const body = req.body as { count?: number; userId?: string };
-  const amount = Number(body?.count) || 1;
+  const raw = Number(body?.count);
+  const amount = Number.isFinite(raw) && raw >= 1 ? Math.min(Math.floor(raw), 1000) : 1;
   const userId = String(body?.userId ?? "").trim().slice(0, 64);
 
   if (db) {
