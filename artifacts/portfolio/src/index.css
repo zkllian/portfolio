@@ -79,6 +79,24 @@ body::before {
   margin-bottom: 28px;
 }
 
+.lang-toggle {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  color: var(--text-dim);
+  padding: 0;
+  line-height: 1;
+}
+.lang-toggle:hover { color: var(--text-muted); }
+.lang-active { color: var(--text); font-weight: 500; }
+.lang-sep { color: var(--border2); }
+
 .p-avatar {
   width: 52px;
   height: 52px;

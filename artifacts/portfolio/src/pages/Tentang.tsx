@@ -7,8 +7,7 @@ import {
 } from 'react-icons/si';
 import { content } from '@/content';
 
-const { profile, bio, links, tech, tentang } = content;
-const f = tentang.footer;
+const { profile, bio, bioEN, links, tech, tentang, tentangEN } = content;
 
 /* ─────────── Inline SVG Icons ─────────── */
 
@@ -120,6 +119,11 @@ const TECH_ICONS: Record<string, React.ReactNode> = {
 export default function Tentang() {
   const time = useCianjurClock();
   const visitors = useVisitorCount();
+  const [lang, setLang] = useState<'id' | 'en'>('id');
+  const isEN = lang === 'en';
+  const t = isEN ? tentangEN : tentang;
+  const b = isEN ? bioEN : { ...bio, line1Prefix: 'Saya seorang' };
+  const f = t.footer;
 
   return (
     <div className="p-wrap page-wrap--enter">
@@ -134,32 +138,41 @@ export default function Tentang() {
           </div>
           <div className="p-role">{profile.role}</div>
         </div>
+        <button
+          className="lang-toggle"
+          onClick={() => setLang(l => l === 'id' ? 'en' : 'id')}
+          aria-label="Toggle language"
+        >
+          <span className={lang === 'id' ? 'lang-active' : ''}>ID</span>
+          <span className="lang-sep">|</span>
+          <span className={lang === 'en' ? 'lang-active' : ''}>EN</span>
+        </button>
       </div>
 
       {/* ── Bio ── */}
       <p className="p-bio">
-        Saya seorang{' '}
-        <a href={links.github} target="_blank" rel="noreferrer" className="p-sketch-link">{bio.line1LinkLabel}</a>
-        {' '}{bio.line1Suffix}
+        {b.line1Prefix}{' '}
+        <a href={links.github} target="_blank" rel="noreferrer" className="p-sketch-link">{b.line1LinkLabel}</a>
+        {' '}{b.line1Suffix}
       </p>
       <p className="p-bio">
-        {bio.line2Prefix}{' '}
+        {b.line2Prefix}{' '}
         <a href={links.whatsapp} target="_blank" rel="noreferrer">
           <IcoWhatsApp />WhatsApp
         </a>
-        {' '}{bio.line2Or}{' '}
+        {' '}{b.line2Or}{' '}
         <a href={`mailto:${links.email}`}>
-          <IcoEmail />{bio.line2EmailLabel}
+          <IcoEmail />{b.line2EmailLabel}
         </a>
-        {' '}{bio.line2GitPrefix}{' '}
+        {' '}{b.line2GitPrefix}{' '}
         <a href={links.github} target="_blank" rel="noreferrer">
-          <IcoGitHub />{bio.line2GitLabel}
+          <IcoGitHub />{b.line2GitLabel}
         </a>.
       </p>
       <p className="p-bio p-bio--last">
-        {bio.line3Prefix}{' '}
+        {b.line3Prefix}{' '}
         <a href={links.twitter} target="_blank" rel="noreferrer">
-          <IcoX />{bio.line3TwitterLabel}
+          <IcoX />{b.line3TwitterLabel}
         </a>.
       </p>
 
@@ -180,12 +193,12 @@ export default function Tentang() {
         );
       })()}
 
-      {/* ── Pengalaman ── */}
+      {/* ── Pengalaman / Experience ── */}
       <div className="p-section">
-        <h2 className="p-section-title"><span className="hash"># </span>{tentang.pengalaman.title}</h2>
-        <p className="p-section-sub">{tentang.pengalaman.sub}</p>
+        <h2 className="p-section-title"><span className="hash"># </span>{t.pengalaman.title}</h2>
+        <p className="p-section-sub">{t.pengalaman.sub}</p>
         <div className="p-entries-grid">
-          {tentang.pengalaman.entries.map(e => (
+          {t.pengalaman.entries.map(e => (
             <div className="p-entry-row" key={e.co}>
               <div className="p-entry-left">
                 <span className="p-entry-co">{e.co}</span>
@@ -199,10 +212,10 @@ export default function Tentang() {
 
       {/* ── Kontribusi Digital ── */}
       <div className="p-section">
-        <h2 className="p-section-title"><span className="hash"># </span>{tentang.kontribusiDigital.title}</h2>
-        <p className="p-section-sub">{tentang.kontribusiDigital.sub}</p>
+        <h2 className="p-section-title"><span className="hash"># </span>{t.kontribusiDigital.title}</h2>
+        <p className="p-section-sub">{t.kontribusiDigital.sub}</p>
         <div className="p-entries-grid">
-          {tentang.kontribusiDigital.entries.map(e => (
+          {t.kontribusiDigital.entries.map(e => (
             <div className="p-entry-row" key={e.co}>
               <div className="p-entry-left">
                 <span className="p-entry-co">{e.co}</span>
@@ -214,12 +227,12 @@ export default function Tentang() {
         </div>
       </div>
 
-      {/* ── Pendidikan ── */}
+      {/* ── Pendidikan / Education ── */}
       <div className="p-section">
-        <h2 className="p-section-title"><span className="hash"># </span>{tentang.pendidikan.title}</h2>
-        <p className="p-section-sub">{tentang.pendidikan.sub}</p>
+        <h2 className="p-section-title"><span className="hash"># </span>{t.pendidikan.title}</h2>
+        <p className="p-section-sub">{t.pendidikan.sub}</p>
         <div className="p-entries-grid">
-          {tentang.pendidikan.entries.map(e => (
+          {t.pendidikan.entries.map(e => (
             <div className="p-entry-row" key={e.co}>
               <div className="p-entry-left">
                 <span className="p-entry-co">{e.co}</span>
@@ -231,13 +244,13 @@ export default function Tentang() {
         </div>
       </div>
 
-      {/* ── Proyek ── */}
+      {/* ── Proyek / Projects ── */}
       <div className="p-section">
-        <h2 className="p-section-title"><span className="hash"># </span>{tentang.proyek.title}</h2>
-        <p className="p-section-sub">{tentang.proyek.sub}</p>
+        <h2 className="p-section-title"><span className="hash"># </span>{t.proyek.title}</h2>
+        <p className="p-section-sub">{t.proyek.sub}</p>
 
         <div className="p-projects-grid">
-          {tentang.proyek.items.map(item => (
+          {t.proyek.items.map(item => (
             <div className="p-project" key={item.name}>
               <div className="p-project-name">
                 {item.name}
