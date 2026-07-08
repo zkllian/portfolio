@@ -225,7 +225,7 @@ export default function Home() {
     const sets = Math.floor(lines.length / 2);
     setImeiCount(`${sets} sets`);
     if (lines.length > 0 && lines.length % 2 !== 0) {
-      showToast(`// imei ${lines[lines.length - 1]} tidak diproses — butuh pasangan`);
+      showToast(`imei ${lines[lines.length - 1]} tidak diproses — butuh pasangan`);
     }
   }
 
