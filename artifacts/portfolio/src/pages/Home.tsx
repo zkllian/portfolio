@@ -64,7 +64,6 @@ export default function Home() {
   const [view, setView] = useState('input');
   const [results, setResults] = useState<{ url: string; index: number }[]>([]);
   const [resultLabel, setResultLabel] = useState('0 output');
-  const [oddNotice, setOddNotice] = useState('');
 
   const DEFAULT_POS: Record<string, number> = {
     eid_x: 19,     eid_y: 454,
@@ -94,7 +93,6 @@ export default function Home() {
   const [toastMsg, setToastMsg] = useState('');
   const [showToastState, setShowToastState] = useState(false);
   const toastTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const [inlineError, setInlineError] = useState('');
 
   const COUNTER_KEY = 'imei_total_generated';
   const DATE_KEY    = 'imei_total_generated_date';
@@ -225,9 +223,7 @@ export default function Home() {
     const sets = Math.floor(lines.length / 2);
     setImeiCount(`${sets} sets`);
     if (lines.length > 0 && lines.length % 2 !== 0) {
-      setOddNotice(`// imei ${lines[lines.length - 1]} tidak diproses — butuh pasangan`);
-    } else {
-      setOddNotice('');
+      showToast(`// imei ${lines[lines.length - 1]} tidak diproses — butuh pasangan`);
     }
   }
 
@@ -237,8 +233,6 @@ export default function Home() {
     setResults([]);
     setView('input');
     setImeiCount('0 sets');
-    setInlineError('');
-    setOddNotice('');
     window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
   }
 
@@ -248,30 +242,29 @@ export default function Home() {
   }
 
   async function generateBulk() {
-    setInlineError('');
     try {
       const lines = inputValRef.current.split('\n').map((v: string) => v.trim()).filter(Boolean);
       if (lines.length < 2) {
-        setInlineError('// err: min 1 set — imei[0] + imei[1] required (15 digits each)');
+        showToast('// err: min 1 set — imei[0] + imei[1] required (15 digits each)');
         return;
       }
 
       const totalSets = Math.floor(lines.length / 2);
       for (let i = 0; i < totalSets; i++) {
         const im1 = lines[i * 2], im2 = lines[i * 2 + 1];
-        if (im1.length !== 15) { setInlineError(`// err set[${i}]: imei[0] expects 15 digits, got ${im1.length}`); return; }
-        if (im2.length !== 15) { setInlineError(`// err set[${i}]: imei[1] expects 15 digits, got ${im2.length}`); return; }
+        if (im1.length !== 15) { showToast(`// err set[${i}]: imei[0] expects 15 digits, got ${im1.length}`); return; }
+        if (im2.length !== 15) { showToast(`// err set[${i}]: imei[1] expects 15 digits, got ${im2.length}`); return; }
       }
 
       const img = baseImageRef.current;
-      if (!img) { setInlineError('// err: template not ready — retry'); return; }
+      if (!img) { showToast('// err: template not ready — retry'); return; }
       if (!img.complete || !img.naturalWidth) {
         await new Promise<void>((resolve, reject) => {
           img.onload = () => resolve();
           img.onerror = () => reject(new Error('gagal load template'));
         });
       }
-      if (!img.naturalWidth) { setInlineError('// err: template image load failed'); return; }
+      if (!img.naturalWidth) { showToast('// err: template image load failed'); return; }
 
       if (document.fonts?.load) {
         await Promise.allSettled([
@@ -281,11 +274,11 @@ export default function Home() {
       }
 
       const cvs = canvasRef.current;
-      if (!cvs) { setInlineError('// err: canvas context null'); return; }
+      if (!cvs) { showToast('// err: canvas context null'); return; }
       cvs.width = img.naturalWidth;
       cvs.height = img.naturalHeight;
       const ctx = cvs.getContext('2d');
-      if (!ctx) { setInlineError('// err: ctx2d unavailable'); return; }
+      if (!ctx) { showToast('// err: ctx2d unavailable'); return; }
 
       const newResults: { url: string; index: number }[] = [];
       setIsLoading(true);
@@ -339,7 +332,7 @@ export default function Home() {
       window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
     } catch (err: unknown) {
       setIsLoading(false);
-      setInlineError('// err: ' + ((err instanceof Error) ? err.message : String(err)));
+      showToast('// err: ' + ((err instanceof Error) ? err.message : String(err)));
     }
   }
 
@@ -556,12 +549,6 @@ export default function Home() {
                 />
               </div>
 
-              {oddNotice && (
-                <div className="inline-error">{oddNotice}</div>
-              )}
-              {inlineError && (
-                <div className="inline-error">{inlineError}</div>
-              )}
               <div className="btn-row">
                 <button className="btn btn-primary" onClick={() => generateBulk()} disabled={isLoading}>
                   <FiZap size={13} style={{ flexShrink: 0 }} />
