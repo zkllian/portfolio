@@ -184,51 +184,51 @@ export default function Tentang() {
       <div className="p-section">
         <h2 className="p-section-title"><span className="hash"># </span>{tentang.pengalaman.title}</h2>
         <p className="p-section-sub">{tentang.pengalaman.sub}</p>
-        {tentang.pengalaman.entries.map(e => (
-          <div className="p-entry" key={e.co}>
-            <div className="p-entry-body">
-              <div className="p-entry-top">
+        <div className="p-entries-grid">
+          {tentang.pengalaman.entries.map(e => (
+            <div className="p-entry-row" key={e.co}>
+              <div className="p-entry-left">
                 <span className="p-entry-co">{e.co}</span>
-                <span className="p-entry-date">{e.date}</span>
+                <span className="p-entry-role">{e.role}</span>
               </div>
-              <div className="p-entry-role">{e.role}</div>
+              <span className="p-entry-date">{e.date}</span>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
 
       {/* ── Kontribusi Digital ── */}
       <div className="p-section">
         <h2 className="p-section-title"><span className="hash"># </span>{tentang.kontribusiDigital.title}</h2>
         <p className="p-section-sub">{tentang.kontribusiDigital.sub}</p>
-        {tentang.kontribusiDigital.entries.map(e => (
-          <div className="p-entry" key={e.co}>
-            <div className="p-entry-body">
-              <div className="p-entry-top">
+        <div className="p-entries-grid">
+          {tentang.kontribusiDigital.entries.map(e => (
+            <div className="p-entry-row" key={e.co}>
+              <div className="p-entry-left">
                 <span className="p-entry-co">{e.co}</span>
-                <span className="p-entry-date">{e.date}</span>
+                <span className="p-entry-role">{e.role}</span>
               </div>
-              <div className="p-entry-role">{e.role}</div>
+              <span className="p-entry-date">{e.date}</span>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
 
       {/* ── Pendidikan ── */}
       <div className="p-section">
         <h2 className="p-section-title"><span className="hash"># </span>{tentang.pendidikan.title}</h2>
         <p className="p-section-sub">{tentang.pendidikan.sub}</p>
-        {tentang.pendidikan.entries.map(e => (
-          <div className="p-entry" key={e.co}>
-            <div className="p-entry-body">
-              <div className="p-entry-top">
+        <div className="p-entries-grid">
+          {tentang.pendidikan.entries.map(e => (
+            <div className="p-entry-row" key={e.co}>
+              <div className="p-entry-left">
                 <span className="p-entry-co">{e.co}</span>
-                <span className="p-entry-date">{e.date}</span>
+                <span className="p-entry-role">{e.role}</span>
               </div>
-              <div className="p-entry-role">{e.role}</div>
+              <span className="p-entry-date">{e.date}</span>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
 
       {/* ── Proyek ── */}
