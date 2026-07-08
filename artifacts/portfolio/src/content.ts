@@ -143,8 +143,8 @@ export const content = {
   /* ── Halaman Home (barcode generator) ────────────────────────── */
   home: {
     injectTitle:         'Inject',
-    barcodeCardTitle:    'Barcode Hari Ini',
-    coordsTitle:         'Coords',
+    barcodeCardTitle:    'Total Barcode Hari Ini',
+    coordsTitle:         'Posisi',
     saveBtn:             'Save',
     executeBtn:          'Execute',
     resetBtn:            'Reset',
