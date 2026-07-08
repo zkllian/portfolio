@@ -111,7 +111,22 @@ body {
   border-radius: 8px;
   pointer-events: none;
   z-index: 0;
-  will-change: left, width;
+  will-change: left, width, transform;
+  transform-origin: center center;
+}
+
+/* inflate → travel → land */
+@keyframes indicator-float {
+  0%   { transform: scale(1); }
+  28%  { transform: scaleX(1.06) scaleY(1.28); }
+  46%  { transform: scaleX(1.07) scaleY(1.24); }
+  78%  { transform: scaleX(1.02) scaleY(1.06); }
+  90%  { transform: scaleX(0.98) scaleY(0.92); }
+  100% { transform: scale(1); }
+}
+
+.nav-pill-indicator--float {
+  animation: indicator-float 1.1s cubic-bezier(0.16,1,0.3,1) both;
 }
 
 .nav-pill-link {

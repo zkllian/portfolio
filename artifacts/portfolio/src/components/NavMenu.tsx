@@ -18,8 +18,8 @@ export default function NavMenu() {
 
   const [indicator, setIndicator] = useState({ left: 0, width: 0 });
   const [ready, setReady]         = useState(false);
+  const [floatKey, setFloatKey]   = useState(0); // increments to restart float anim
 
-  /* measure the active button and update indicator position */
   function measure(idx: number) {
     const btn    = btnRefs.current[idx];
     const parent = linksRef.current;
@@ -29,7 +29,6 @@ export default function NavMenu() {
     setIndicator({ left: bRect.left - pRect.left, width: bRect.width });
   }
 
-  /* initial paint — no animation */
   useEffect(() => {
     if (activeIdx < 0) return;
     measure(activeIdx);
@@ -37,16 +36,15 @@ export default function NavMenu() {
     return () => clearTimeout(t);
   }, []);
 
-  /* on every route change — animate */
   useEffect(() => {
-    if (activeIdx < 0) return;
+    if (!ready || activeIdx < 0) return;
+    setFloatKey(k => k + 1); // restart float animation
     measure(activeIdx);
-  }, [activeIdx]);
+  }, [activeIdx]);             // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>
       <div className="nav-pill">
-        {/* ── Left: logo dot + name ── */}
         <div className="nav-pill-left">
           <div className="logo-icon-wrap" onClick={secretClick}>
             <div className="logo-icon-ring logo-icon-ring--1"></div>
@@ -59,14 +57,13 @@ export default function NavMenu() {
           <span className="nav-pill-name">llian</span>
         </div>
 
-        {/* ── Right: page links with sliding indicator ── */}
         <div className="nav-pill-links" ref={linksRef}>
-          {/* floating indicator */}
           <div
-            className="nav-pill-indicator"
+            key={floatKey}                         /* re-mount → restart animation */
+            className={`nav-pill-indicator${ready && floatKey > 0 ? ' nav-pill-indicator--float' : ''}`}
             style={{
-              left:       indicator.left,
-              width:      indicator.width,
+              left:  indicator.left,
+              width: indicator.width,
               transition: ready
                 ? 'left 0.42s cubic-bezier(0.34,1.56,0.64,1) 0.5s, width 0.38s cubic-bezier(0.34,1.56,0.64,1) 0.5s'
                 : 'none',
