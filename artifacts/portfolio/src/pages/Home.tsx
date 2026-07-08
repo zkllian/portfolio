@@ -583,7 +583,7 @@ export default function Home() {
 
         {view === 'results' && (
           <div className={`view-results${leaving ? ' view-leaving' : ''}`}>
-            <button className="home-link" onClick={goBack}>← {h.backBtn}</button>
+            <button className="home-link" onClick={goBack}>← kembali</button>
             <div className="results-topbar">
               <span className="results-count-badge">{resultLabel}</span>
               <button className="results-reset-btn" onClick={resetAll}>{h.resetBtn}</button>
