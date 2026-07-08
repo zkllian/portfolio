@@ -165,7 +165,7 @@ export const content = {
     toastShareUnsupported: 'Browser tidak mendukung share',
     toastShareFailed:    'Gagal share',
     stats: {
-      title:              '// global stats',
+      title:              'global stats',
       todayLabel:         'Hari Ini',
       totalLabel:         'Total Keseluruhan',
       mineLabel:          'Aku',
