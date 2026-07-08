@@ -120,7 +120,6 @@ body {
   -webkit-tap-highlight-color: transparent;
   transition: background 0.2s ease, transform 0.15s ease;
 }
-.nav-dropdown-trigger:hover { background: var(--accent-hover); }
 .nav-dropdown-trigger:active { transform: scale(0.97); }
 
 .nav-dropdown-chevron {
