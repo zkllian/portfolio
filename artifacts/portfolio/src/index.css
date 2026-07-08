@@ -463,8 +463,8 @@ body::before {
 /* ── Page Transition ── */
 .page-wrap--enter { animation: pageEnter 0.7s cubic-bezier(0.16, 1, 0.3, 1) both; }
 @keyframes pageEnter {
-  from { opacity: 0; filter: blur(16px); transform: translateY(10px); }
-  to   { opacity: 1; filter: blur(0px);  transform: translateY(0);    }
+  from { opacity: 0; filter: blur(16px); }
+  to   { opacity: 1; filter: blur(0px);  }
 }
 @keyframes fadeSlideIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 

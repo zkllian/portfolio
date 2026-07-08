@@ -5,8 +5,6 @@ const k = content.kontak;
 const l = content.links;
 
 export default function Kontak() {
-  useEffect(() => { window.scrollTo(0, 0); }, []);
-
   useEffect(() => {
     const els = document.querySelectorAll<HTMLElement>('.reveal');
     const observer = new IntersectionObserver(

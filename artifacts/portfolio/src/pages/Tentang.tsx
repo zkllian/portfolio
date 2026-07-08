@@ -120,7 +120,6 @@ const TECH_ICONS: Record<string, React.ReactNode> = {
 export default function Tentang() {
   const time = useCianjurClock();
   const visitors = useVisitorCount();
-  useEffect(() => { window.scrollTo(0, 0); }, []);
 
   return (
     <div className="p-wrap page-wrap--enter">

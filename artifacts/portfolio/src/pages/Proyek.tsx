@@ -4,8 +4,6 @@ import { content } from '@/content';
 const p = content.proyek;
 
 export default function Proyek() {
-  useEffect(() => { window.scrollTo(0, 0); }, []);
-
   useEffect(() => {
     const els = document.querySelectorAll<HTMLElement>('.reveal');
     const observer = new IntersectionObserver(

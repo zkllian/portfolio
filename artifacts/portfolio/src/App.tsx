@@ -14,6 +14,7 @@ function PageTransition({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (location === prevRef.current) return;
     prevRef.current = location;
+    window.scrollTo(0, 0);
     setAnimKey(k => k + 1);
   }, [location]);
 

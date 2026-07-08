@@ -56,8 +56,6 @@ function genUserId() {
 }
 
 export default function Home() {
-  useEffect(() => { window.scrollTo(0, 0); }, []);
-
   const [inputVal, setInputVal] = useState('');
   const [imeiCount, setImeiCount] = useState('0 sets');
   const [isLoading, setIsLoading] = useState(false);
