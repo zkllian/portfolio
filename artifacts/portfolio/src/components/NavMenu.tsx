@@ -68,7 +68,7 @@ export default function NavMenu() {
               left:       indicator.left,
               width:      indicator.width,
               transition: ready
-                ? 'left 0.42s cubic-bezier(0.34,1.56,0.64,1) 0.08s, width 0.38s cubic-bezier(0.34,1.56,0.64,1) 0.08s'
+                ? 'left 0.42s cubic-bezier(0.34,1.56,0.64,1) 0.5s, width 0.38s cubic-bezier(0.34,1.56,0.64,1) 0.5s'
                 : 'none',
             }}
           />
