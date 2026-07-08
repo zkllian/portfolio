@@ -231,6 +231,7 @@ body::before {
   color: var(--text-dim);
   white-space: nowrap;
   flex-shrink: 0;
+  text-transform: capitalize;
 }
 
 .p-entry-role {
