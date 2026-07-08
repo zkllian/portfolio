@@ -627,7 +627,7 @@ textarea:focus { border-color: #555; }
 .counter-modal { max-width: 280px !important; }
 .counter-modal-body { padding: 16px 18px 8px; text-align: center; display: flex; flex-direction: column; gap: 6px; align-items: center; }
 .coords-modal { max-width: 380px !important; }
-.coords-modal-body { padding: 16px 18px 4px; }
+.coords-modal-body { padding: 0 18px 4px; }
 
 .pos-row { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border); }
 .pos-row:last-child { border-bottom: none; }
