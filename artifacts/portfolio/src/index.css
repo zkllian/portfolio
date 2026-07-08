@@ -485,7 +485,7 @@ body::before {
 }
 
 .card { padding: 20px 0; margin-bottom: 16px; }
-.card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+.card-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 16px; }
 .card-title-group { display: flex; align-items: center; gap: 12px; }
 .card-title-icon { display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 10px; background: var(--surface2); border: 1px solid var(--border); color: var(--text-dim); flex-shrink: 0; align-self: center; }
 .card-title-text { display: flex; flex-direction: column; gap: 2px; justify-content: center; }
