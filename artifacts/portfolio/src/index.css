@@ -475,8 +475,14 @@ body::before {
 .container { max-width: 540px; margin: 0 auto; padding: 24px; }
 @media (min-width: 768px) { .container { max-width: min(91vw, 1200px); } }
 
-.home-link { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-family: var(--font-sans); color: var(--text-dim); text-decoration: none; margin-bottom: 4px; transition: color .15s; }
+.home-link { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-family: var(--font-sans); color: var(--text-dim); text-decoration: none; margin-bottom: 4px; transition: color .15s; background: none; border: none; padding: 0; cursor: pointer; }
 .home-link:hover { color: var(--text); }
+
+.view-leaving { animation: pageLeave .26s cubic-bezier(0.4, 0, 1, 1) both; }
+@keyframes pageLeave {
+  from { opacity: 1; filter: blur(0px); }
+  to   { opacity: 0; filter: blur(12px); }
+}
 
 .card { padding: 20px 0; margin-bottom: 16px; }
 .card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }

@@ -65,6 +65,7 @@ export default function Home() {
   const [view, setView] = useState('input');
   const [results, setResults] = useState<{ url: string; index: number }[]>([]);
   const [resultLabel, setResultLabel] = useState('0 output');
+  const [leaving, setLeaving] = useState(false);
 
   const DEFAULT_POS: Record<string, number> = {
     eid_x: 19,     eid_y: 454,
@@ -238,8 +239,12 @@ export default function Home() {
   }
 
   function goBack() {
-    setView('input');
-    window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
+    setLeaving(true);
+    setTimeout(() => {
+      setView('input');
+      setLeaving(false);
+      window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
+    }, 260);
   }
 
   async function generateBulk() {
@@ -577,14 +582,9 @@ export default function Home() {
         )}
 
         {view === 'results' && (
-          <div className="view-results">
+          <div className={`view-results${leaving ? ' view-leaving' : ''}`}>
+            <button className="home-link" onClick={goBack}>← {h.backBtn}</button>
             <div className="results-topbar">
-              <button className="results-back-btn" onClick={goBack}>
-                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M8.5 2.5L4 7L8.5 11.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-                {h.backBtn}
-              </button>
               <span className="results-count-badge">{resultLabel}</span>
               <button className="results-reset-btn" onClick={resetAll}>{h.resetBtn}</button>
             </div>
