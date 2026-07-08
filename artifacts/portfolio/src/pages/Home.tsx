@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import JsBarcode from 'jsbarcode';
 import { FiZap, FiTerminal, FiHash, FiCrosshair, FiEye, FiDownload, FiShare2, FiActivity } from 'react-icons/fi';
 import { content } from '@/content';
@@ -612,7 +613,7 @@ export default function Home() {
 
       </div>
 
-      {statsOpen && (
+      {statsOpen && createPortal(
         <div className={`stats-overlay open${statsVisible ? ' visible' : ''}`} onClick={e => { if (e.target === e.currentTarget) closeStats(); }}>
           <div className="stats-modal">
             <div className="stats-modal-header">
@@ -667,9 +668,9 @@ export default function Home() {
             </div>
           </div>
         </div>
-      )}
+      , document.body)}
 
-      {counterOpen && (
+      {counterOpen && createPortal(
         <div className={`stats-overlay open${counterVisible ? ' visible' : ''}`} onClick={e => { if (e.target === e.currentTarget) closeCounter(); }}>
           <div className="stats-modal counter-modal">
             <div className="stats-modal-header">
@@ -693,9 +694,9 @@ export default function Home() {
             </div>
           </div>
         </div>
-      )}
+      , document.body)}
 
-      {coordsOpen && (
+      {coordsOpen && createPortal(
         <div className={`stats-overlay open${coordsVisible ? ' visible' : ''}`} onClick={e => { if (e.target === e.currentTarget) closeCoords(); }}>
           <div className="stats-modal coords-modal">
             <div className="stats-modal-header">
@@ -726,7 +727,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-      )}
+      , document.body)}
 
       <div className={`toast${showToastState ? ' show' : ''}`}>{toastMsg}</div>
       <canvas ref={canvasRef} style={{ display: 'none' }}></canvas>
