@@ -186,7 +186,6 @@ export default function Tentang() {
         <p className="p-section-sub">Tempat saya kirim hal nyata.</p>
 
         <div className="p-entry">
-          <div className="p-entry-icon">U</div>
           <div className="p-entry-body">
             <div className="p-entry-top">
               <span className="p-entry-co">Universitas Suryakancana</span>
@@ -197,7 +196,6 @@ export default function Tentang() {
         </div>
 
         <div className="p-entry">
-          <div className="p-entry-icon">Z</div>
           <div className="p-entry-body">
             <div className="p-entry-top">
               <span className="p-entry-co">Zenius Store</span>
@@ -214,17 +212,16 @@ export default function Tentang() {
         <p className="p-section-sub">Hal yang saya bangun di komunitas dan media.</p>
 
         {[
-          { i: 'B', co: 'Blog Independen',date: '2012',                role: 'Blogger · Google AdSense' },
-          { i: 'V', co: 'Verso',          date: 'mar 2018 – des 2019', role: 'Community Manager' },
-          { i: 'I', co: 'Injective',      date: 'jan 2024 – mar 2025', role: 'Brand Ambassador' },
-          { i: 'N', co: 'Nesa',           date: 'mar 2024 – mei 2025', role: 'Brand Ambassador' },
-          { i: 'S', co: 'Story Protocol', date: 'jul 2024 – apr 2025', role: 'Content Writer' },
-          { i: 'U', co: 'Union',          date: 'jul 2024 – apr 2025', role: 'Content Writer' },
-          { i: 'M', co: 'Mitosis',        date: 'jul 2024 – apr 2025', role: 'Content Writer' },
-          { i: 'S', co: 'Swisstronik',    date: 'sep 2024 – jan 2025', role: 'Brand Ambassador' },
+          { co: 'Blog Independen',date: '2012',                role: 'Blogger · Google AdSense' },
+          { co: 'Verso',          date: 'mar 2018 – des 2019', role: 'Community Manager' },
+          { co: 'Injective',      date: 'jan 2024 – mar 2025', role: 'Brand Ambassador' },
+          { co: 'Nesa',           date: 'mar 2024 – mei 2025', role: 'Brand Ambassador' },
+          { co: 'Story Protocol', date: 'jul 2024 – apr 2025', role: 'Content Writer' },
+          { co: 'Union',          date: 'jul 2024 – apr 2025', role: 'Content Writer' },
+          { co: 'Mitosis',        date: 'jul 2024 – apr 2025', role: 'Content Writer' },
+          { co: 'Swisstronik',    date: 'sep 2024 – jan 2025', role: 'Brand Ambassador' },
         ].map(e => (
           <div className="p-entry" key={e.co}>
-            <div className="p-entry-icon">{e.i}</div>
             <div className="p-entry-body">
               <div className="p-entry-top">
                 <span className="p-entry-co">{e.co}</span>
@@ -242,7 +239,6 @@ export default function Tentang() {
         <p className="p-section-sub">Dari mana saya mulai.</p>
 
         <div className="p-entry">
-          <div className="p-entry-icon">S</div>
           <div className="p-entry-body">
             <div className="p-entry-top">
               <span className="p-entry-co">SMK Pasundan 1 Cianjur</span>

@@ -213,23 +213,6 @@ body::before {
 
 .p-entry:last-child { margin-bottom: 0; }
 
-.p-entry-icon {
-  width: 36px;
-  height: 36px;
-  border-radius: 8px;
-  background: var(--surface2);
-  border: 1px solid var(--border);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  font-family: var(--font-sans);
-  font-size: 12px;
-  font-weight: 400;
-  color: var(--text-dim);
-  margin-top: 2px;
-}
-
 .p-entry-body { flex: 1; min-width: 0; }
 
 .p-entry-top {
