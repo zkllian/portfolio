@@ -10,10 +10,10 @@ import {
 /** Verified badge (MdVerified) — next to name */
 const IcoVerified = () => (
   <svg fill="currentColor" stroke="currentColor" strokeWidth="0" viewBox="0 0 24 24"
-    width="16" height="16" style={{ color: '#3b82f6', flexShrink: 0 }}
+    width="16" height="16" style={{ color: '#000', flexShrink: 0 }}
     xmlns="http://www.w3.org/2000/svg">
     <path fill="none" d="M0 0h24v24H0z" />
-    <path d="m23 12-2.44-2.79.34-3.69-3.61-.82-1.89-3.2L12 2.96 8.6 1.5 6.71 4.69 3.1 5.5l.34 3.7L1 12l2.44 2.79-.34 3.7 3.61.82L8.6 22.5l3.4-1.47 3.4 1.46 1.89-3.19 3.61-.82-.34-3.69L23 12zm-12.91 2.73-2.17-2.17-1.41 1.41 3.58 3.58 7.42-7.42-1.4-1.41-6.02 6.01z" />
+    <path fillRule="evenodd" d="m23 12-2.44-2.79.34-3.69-3.61-.82-1.89-3.2L12 2.96 8.6 1.5 6.71 4.69 3.1 5.5l.34 3.7L1 12l2.44 2.79-.34 3.7 3.61.82L8.6 22.5l3.4-1.47 3.4 1.46 1.89-3.19 3.61-.82-.34-3.69L23 12zm-12.91 2.73-2.17-2.17-1.41 1.41 3.58 3.58 7.42-7.42-1.4-1.41-6.02 6.01z" />
   </svg>
 );
 
