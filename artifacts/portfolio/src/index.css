@@ -315,6 +315,29 @@ body {
 
 [data-theme="dark"] .p-role-name { text-decoration-color: rgba(255,255,255,0.18); }
 
+/* ── Skills ── */
+.p-skills { display: flex; flex-direction: column; gap: 14px; }
+
+.p-skills-group { display: flex; flex-direction: column; gap: 6px; }
+
+.p-skills-label {
+  font-size: 11px;
+  color: var(--text-dim);
+  letter-spacing: 0.03em;
+}
+
+.p-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+
+.p-tag {
+  font-size: 13px;
+  color: var(--text-muted);
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 3px 10px;
+  white-space: nowrap;
+}
+
 /* ── AI row ── */
 .p-ai-row { display: flex; gap: 8px; }
 
