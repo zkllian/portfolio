@@ -49,22 +49,22 @@ export default function Tentang() {
   return (
     <>
       <div className="container">
-        <div className="cv-outer-box">
-        <div className="cv-wrap">
-
-          {/* ── Hero ── */}
-          <div className="cv-hero reveal">
-            <div className="cv-avatar" role="img" aria-label="avatar" />
-            <div className="cv-hero-info">
-              <div className="cv-name">Yoga Aprilliansyah N</div>
-              <div className="cv-role">Front-End Developer</div>
-              <div className="cv-meta">
-                <span>26 Tahun</span>
-                <span className="cv-meta-dot">·</span>
-                <span>Bandung</span>
-              </div>
+        {/* ── Hero (outside the outer box) ── */}
+        <div className="cv-hero reveal">
+          <div className="cv-avatar" role="img" aria-label="avatar" />
+          <div className="cv-hero-info">
+            <div className="cv-name">Yoga Aprilliansyah N</div>
+            <div className="cv-role">Front-End Developer</div>
+            <div className="cv-meta">
+              <span>26 Tahun</span>
+              <span className="cv-meta-dot">·</span>
+              <span>Bandung</span>
             </div>
           </div>
+        </div>
+
+        <div className="cv-outer-box">
+        <div className="cv-wrap">
 
           {/* ── Spotify & Jam (2-col on desktop) ── */}
           <div className="cv-widget-row">
