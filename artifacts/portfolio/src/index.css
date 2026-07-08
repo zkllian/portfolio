@@ -66,7 +66,7 @@ body {
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  background: rgba(252,252,252,0.77);
+  background: rgba(252,252,252,0.50);
   backdrop-filter: blur(28px) saturate(1.8);
   -webkit-backdrop-filter: blur(28px) saturate(1.8);
   border: 1px solid var(--border);
