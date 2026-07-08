@@ -132,9 +132,7 @@ body {
 .nav-dropdown-trigger--open .nav-dropdown-chevron { transform: rotate(180deg); }
 
 .nav-dropdown-menu {
-  position: absolute;
-  top: calc(100% + 8px);
-  right: 0;
+  position: fixed;
   min-width: 148px;
   background: rgba(252,252,252,0.75);
   backdrop-filter: blur(56px) saturate(1.8);

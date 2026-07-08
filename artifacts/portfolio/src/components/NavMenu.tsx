@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { useLocation } from 'wouter';
 import { useCredit } from '@/hooks/useCredit';
 
@@ -16,11 +17,17 @@ export default function NavMenu() {
   const [open, setOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
+  const [menuPos, setMenuPos] = useState({ top: 0, right: 0 });
 
   useEffect(() => {
     if (!open) return;
     const onDocClick = (e: MouseEvent) => {
-      if (rootRef.current && !rootRef.current.contains(e.target as Node)) setOpen(false);
+      const target = e.target as Node;
+      if (
+        rootRef.current && !rootRef.current.contains(target) &&
+        menuRef.current && !menuRef.current.contains(target)
+      ) setOpen(false);
     };
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
@@ -38,6 +45,24 @@ export default function NavMenu() {
 
   // close on route change
   useEffect(() => { setOpen(false); }, [location]);
+
+  // position the portaled menu relative to the trigger button
+  useLayoutEffect(() => {
+    if (!open) return;
+    const update = () => {
+      const btn = triggerRef.current;
+      if (!btn) return;
+      const r = btn.getBoundingClientRect();
+      setMenuPos({ top: r.bottom + 8, right: window.innerWidth - r.right });
+    };
+    update();
+    window.addEventListener('resize', update);
+    window.addEventListener('scroll', update, true);
+    return () => {
+      window.removeEventListener('resize', update);
+      window.removeEventListener('scroll', update, true);
+    };
+  }, [open]);
 
   return (
     <>
@@ -78,32 +103,36 @@ export default function NavMenu() {
             </svg>
           </button>
 
-          <div
-            id="nav-dropdown-menu"
-            className={`nav-dropdown-menu${open ? ' nav-dropdown-menu--open' : ''}`}
-            aria-hidden={!open}
-            // @ts-expect-error -- `inert` is a valid HTML attribute not yet in React's JSX types
-            inert={open ? undefined : true}
-          >
-            {PAGES.map(({ label, path, match }) => {
-              const isActive = match(location);
-              return (
-                <button
-                  key={path}
-                  tabIndex={open ? 0 : -1}
-                  className={`nav-dropdown-item${isActive ? ' nav-dropdown-item--active' : ''}`}
-                  onClick={() => { if (!isActive) navigate(path); setOpen(false); }}
-                >
-                  {label}
-                  {isActive && (
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="nav-dropdown-check">
-                      <polyline points="20 6 9 17 4 12" />
-                    </svg>
-                  )}
-                </button>
-              );
-            })}
-          </div>
+          {createPortal(
+            <div
+              id="nav-dropdown-menu"
+              ref={menuRef}
+              className={`nav-dropdown-menu${open ? ' nav-dropdown-menu--open' : ''}`}
+              style={{ top: menuPos.top, right: menuPos.right }}
+              aria-hidden={!open}
+              inert={open ? undefined : true}
+            >
+              {PAGES.map(({ label, path, match }) => {
+                const isActive = match(location);
+                return (
+                  <button
+                    key={path}
+                    tabIndex={open ? 0 : -1}
+                    className={`nav-dropdown-item${isActive ? ' nav-dropdown-item--active' : ''}`}
+                    onClick={() => { if (!isActive) navigate(path); setOpen(false); }}
+                  >
+                    {label}
+                    {isActive && (
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="nav-dropdown-check">
+                        <polyline points="20 6 9 17 4 12" />
+                      </svg>
+                    )}
+                  </button>
+                );
+              })}
+            </div>,
+            document.body
+          )}
         </div>
       </div>
 
