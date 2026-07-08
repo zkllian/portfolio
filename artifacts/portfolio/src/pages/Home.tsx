@@ -568,6 +568,14 @@ export default function Home() {
                   {h.executeBtn}
                 </button>
               </div>
+              <div className="tool-row">
+                <button className="tool-btn" onClick={openCounter}>
+                  {h.barcodeCardTitle}
+                </button>
+                <button className="tool-btn" onClick={openCoords}>
+                  {h.coordsTitle}
+                </button>
+              </div>
               {isLoading && (
                 <div className="status-bar active">
                   <div className="spinner"></div>
@@ -575,15 +583,6 @@ export default function Home() {
                   <span className="status-count">{loadingCount}</span>
                 </div>
               )}
-            </div>
-
-            <div className="tool-row">
-              <button className="tool-btn" onClick={openCounter}>
-                {h.barcodeCardTitle}
-              </button>
-              <button className="tool-btn" onClick={openCoords}>
-                {h.coordsTitle}
-              </button>
             </div>
           </div>
         )}
