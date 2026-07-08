@@ -60,7 +60,7 @@ export default function Tentang() {
               <div className="cv-meta">
                 <span>26 Tahun</span>
                 <span className="cv-meta-dot">·</span>
-                <span>Cianjur</span>
+                <span>Bandung</span>
               </div>
             </div>
           </div>
@@ -95,7 +95,7 @@ export default function Tentang() {
               <div className="clock-info">
                 <div className="clock-label">Waktu Sekarang</div>
                 <div className="clock-time">{jakartaTime}<span className="clock-time-tz">WIB</span></div>
-                <div className="clock-location"><span className="clock-status-dot"></span>Cianjur, Indonesia</div>
+                <div className="clock-location"><span className="clock-status-dot"></span>Bandung, Indonesia</div>
               </div>
             </div>
           </div>{/* end cv-widget-row */}
@@ -162,7 +162,7 @@ export default function Tentang() {
               <div className="cv-entry-header">
                 <div className="cv-entry-header-left">
                   <span className="cv-entry-role">Teknik Komputer &amp; Jaringan</span>
-                  <span className="cv-entry-company">SMK Pasundan 1 Cianjur</span>
+                  <span className="cv-entry-company">SMK Pasundan 1 Bandung</span>
                 </div>
                 <span className="cv-entry-period">2015 – 2018</span>
               </div>
