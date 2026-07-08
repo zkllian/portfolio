@@ -17,6 +17,7 @@ export default function Proyek() {
 
   return (
     <div className="container">
+      <div className="cv-outer-box">
       <div className="cv-wrap">
 
         {/* ── Proyek ── */}
@@ -60,6 +61,7 @@ export default function Proyek() {
           </div>
         </div>
 
+      </div>
       </div>
     </div>
   );

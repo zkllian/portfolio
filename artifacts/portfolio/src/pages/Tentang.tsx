@@ -49,6 +49,7 @@ export default function Tentang() {
   return (
     <>
       <div className="container">
+        <div className="cv-outer-box">
         <div className="cv-wrap">
 
           {/* ── Hero ── */}
@@ -338,6 +339,7 @@ export default function Tentang() {
           </div>
 
 
+        </div>
         </div>
       </div>
     </>

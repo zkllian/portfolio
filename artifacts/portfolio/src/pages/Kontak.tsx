@@ -28,6 +28,7 @@ export default function Kontak() {
 
   return (
     <div className="container">
+      <div className="cv-outer-box">
       <div className="cv-wrap">
 
         {/* ── Kontak ── */}
@@ -111,6 +112,7 @@ export default function Kontak() {
           </div>
         </div>
 
+      </div>
       </div>
     </div>
   );
