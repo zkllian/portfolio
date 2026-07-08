@@ -323,39 +323,6 @@ export default function Tentang() {
         </div>
       </div>
 
-      {/* ── Gabung Sebagai ── */}
-      <div className="p-section">
-        <h2 className="p-section-title"><span className="hash"># </span>gabung sebagai</h2>
-        <p className="p-section-sub">Terbuka untuk kerja remote &amp; freelance.</p>
-
-        <div className="p-role-card">
-          <div className="p-role-icon">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-              <polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>
-            </svg>
-          </div>
-          <span className="p-role-name">Front-End Developer</span>
-        </div>
-
-        <div className="p-role-card">
-          <div className="p-role-icon">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-              <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
-            </svg>
-          </div>
-          <span className="p-role-name">UI / UX Designer</span>
-        </div>
-
-        <div className="p-role-card">
-          <div className="p-role-icon">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
-            </svg>
-          </div>
-          <span className="p-role-name">Content Writer</span>
-        </div>
-      </div>
-
       {/* ── Footer ── */}
       <footer className="p-footer">
         <p>Designed &amp; Developed by <strong>Yoga</strong></p>
