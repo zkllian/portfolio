@@ -543,18 +543,15 @@ export default function Home() {
         {view === 'input' && (
           <div className="view-input">
             <Link href="/" className="home-link">← home</Link>
-            <div className="page-hero">
-              <div className="page-hero-icon">
-                <FiEdit2 size={15} />
-              </div>
-              <div className="page-hero-text">
-                <span className="page-hero-title">{h.pageTitle}</span>
-                <span className="page-hero-sub">{h.pageSub}</span>
-              </div>
-            </div>
             <div className="card">
               <div className="card-header">
-                <span className="card-title"><FiTerminal size={11} style={{ marginRight: 5, opacity: 0.7 }} />{h.injectTitle}</span>
+                <div className="card-title-group">
+                  <div className="card-title-icon"><FiEdit2 size={15} /></div>
+                  <div className="card-title-text">
+                    <span className="card-title">{h.pageTitle}</span>
+                    <span className="card-title-sub">{h.pageSub}</span>
+                  </div>
+                </div>
                 <span className="badge" onClick={handleBadgeTap} style={{ cursor: 'default', userSelect: 'none' }}>{imeiCount}</span>
               </div>
               <div className="input-wrap">
