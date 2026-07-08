@@ -1,6 +1,6 @@
-# barcode-gen
+# portfolio
 
-A portfolio + barcode generator for IMEI numbers. Indonesian-language UI with a dark/light theme toggle, animated floating nav, and a per-day stats counter backed by Postgres (with file-based fallback).
+A portfolio + barcode generator for IMEI numbers. Indonesian-language UI with a light theme, animated floating nav, and a per-day stats counter backed by Postgres (with file-based fallback).
 
 ## Run & Operate
 
@@ -31,8 +31,9 @@ A portfolio + barcode generator for IMEI numbers. Indonesian-language UI with a 
 - `lib/db/src/index.ts` exports `createDb()` which returns `null` if `DATABASE_URL` is unset (instead of throwing). Stats routes gracefully fall back to a local `stats.json` file.
 - Stats API lives at `/api/stats/today` (GET), `/api/stats/ping` (POST), `/api/stats/reset` (POST).
 - Routing is handled by wouter; pages are `Home` and `Tentang` (About).
-- CSS is fully custom (no Tailwind); dark/light themes use `data-theme` on `<html>`.
+- CSS is fully custom (no Tailwind); single light theme only.
 - Barcode generation uses JsBarcode rendering to a Canvas element.
+- Modal overlays (stats, counter, coords) use `createPortal` to `document.body` to avoid being clipped by the `filter: blur()` page-entry animation on `.page-wrap--enter`.
 
 ## Product
 
@@ -65,7 +66,3 @@ Struktur Vercel:
 - `DATABASE_URL` is optional; if absent, the API falls back to `stats.json` in the api-server's working directory.
 - Fonts are served from `/public/` (SF Pro OTF files). Google Fonts (Geist) are loaded via CDN in `index.html`.
 - Run `pnpm --filter @workspace/db run push` after any schema changes to sync the DB.
-
-## Pointers
-
-- See the `pnpm-workspace` skill for workspace structure, TypeScript setup, and package details

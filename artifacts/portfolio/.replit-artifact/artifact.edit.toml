@@ -2,7 +2,7 @@ kind = "web"
 previewPath = "/"
 title = "portfolio"
 version = "1.0.0"
-id = "artifacts/barcode-gen"
+id = "artifacts/portfolio"
 router = "path"
 
 [[integratedSkills]]
