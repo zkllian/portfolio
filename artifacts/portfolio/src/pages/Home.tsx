@@ -1,6 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
 import JsBarcode from 'jsbarcode';
 import { FiZap, FiTerminal, FiHash, FiCrosshair, FiEye, FiDownload, FiShare2 } from 'react-icons/fi';
+import { content } from '@/content';
+
+const h = content.home;
+const s = content.home.stats;
 
 
 function NudgeRow({ label, yField, pos, onSetPos, onStartNudge, onStopNudge, color }: {
@@ -55,7 +59,6 @@ export default function Home() {
   const [inputVal, setInputVal] = useState('');
   const [imeiCount, setImeiCount] = useState('0 sets');
   const [isLoading, setIsLoading] = useState(false);
-  const loadingText = 'Compiling barcode...';
   const [loadingCount, setLoadingCount] = useState('');
   const [view, setView] = useState('input');
   const [results, setResults] = useState<{ url: string; index: number }[]>([]);
@@ -323,7 +326,7 @@ export default function Home() {
     setTotalImei(0);
     localStorage.setItem(COUNTER_KEY, '0');
     setConfirmReset(false);
-    showToast('Counter direset');
+    showToast(h.toastCounterReset);
   }
 
   function downloadImage(dataUrl: string, index: number) {
@@ -334,7 +337,7 @@ export default function Home() {
   }
 
   async function shareImage(dataUrl: string) {
-    if (!navigator.share) { showToast('Browser tidak mendukung share'); return; }
+    if (!navigator.share) { showToast(h.toastShareUnsupported); return; }
     try {
       const res = await fetch(dataUrl);
       const blob = await res.blob();
@@ -345,7 +348,7 @@ export default function Home() {
       }
     } catch (e: unknown) {
       if (e instanceof Error && e.name !== 'AbortError') {
-        showToast('Gagal share');
+        showToast(h.toastShareFailed);
       }
     }
   }
@@ -475,9 +478,9 @@ export default function Home() {
       await fetch(`${BASE}api/stats/reset`, { method: 'POST' });
       setStats({ today: 0, total: 0, mine: 0, others: 0 });
       setConfirmResetGlobal(false);
-      showToast('Global stats direset');
+      showToast(s.toastResetSuccess);
     } catch {
-      showToast('Gagal reset');
+      showToast(s.toastResetFailed);
     } finally {
       setResetting(false);
     }
@@ -493,7 +496,7 @@ export default function Home() {
           <div className="view-input">
             <div className="card">
               <div className="card-header">
-                <span className="card-title"><FiTerminal size={11} style={{ marginRight: 5, opacity: 0.7 }} />Inject</span>
+                <span className="card-title"><FiTerminal size={11} style={{ marginRight: 5, opacity: 0.7 }} />{h.injectTitle}</span>
                 <span className="badge">{imeiCount}</span>
               </div>
               <div className="input-wrap">
@@ -512,14 +515,14 @@ export default function Home() {
               )}
               <div className="btn-row">
                 <button className="btn btn-primary" onClick={() => generateBulk()} disabled={isLoading}>
-                <FiZap size={13} style={{ flexShrink: 0 }} />
-                Execute
-              </button>
+                  <FiZap size={13} style={{ flexShrink: 0 }} />
+                  {h.executeBtn}
+                </button>
               </div>
               {isLoading && (
                 <div className="status-bar active">
                   <div className="spinner"></div>
-                  <span className="status-progress">{loadingText}</span>
+                  <span className="status-progress">{h.loadingText}</span>
                   <span className="status-count">{loadingCount}</span>
                 </div>
               )}
@@ -527,15 +530,15 @@ export default function Home() {
 
             <div className="card counter-card">
               <div className="card-header">
-                <span className="card-title"><FiHash size={11} style={{ marginRight: 5, opacity: 0.7 }} />Barcode Hari Ini</span>
+                <span className="card-title"><FiHash size={11} style={{ marginRight: 5, opacity: 0.7 }} />{h.barcodeCardTitle}</span>
                 <div className="counter-header-actions">
                   {!confirmReset ? (
-                    <button className="counter-reset-btn" onClick={() => setConfirmReset(true)}>Reset</button>
+                    <button className="counter-reset-btn" onClick={() => setConfirmReset(true)}>{h.resetBtn}</button>
                   ) : (
                     <div className="counter-confirm">
-                      <span className="counter-confirm-text">Yakin?</span>
-                      <button className="counter-confirm-yes" onClick={resetCounter}>Ya</button>
-                      <button className="counter-confirm-no" onClick={() => setConfirmReset(false)}>Batal</button>
+                      <span className="counter-confirm-text">{h.confirmResetPrompt}</span>
+                      <button className="counter-confirm-yes" onClick={resetCounter}>{h.confirmYes}</button>
+                      <button className="counter-confirm-no" onClick={() => setConfirmReset(false)}>{h.confirmNo}</button>
                     </div>
                   )}
                 </div>
@@ -544,27 +547,27 @@ export default function Home() {
             </div>
 
             <div className="card pos-card">
-                <div className="card-header">
-                  <span className="card-title"><FiCrosshair size={11} style={{ marginRight: 5, opacity: 0.7 }} />Coords</span>
-                  <button className="save-default-btn" onClick={() => {
-                    try { localStorage.setItem('bc-pos', JSON.stringify(posRef.current)); } catch {}
-                    showToast('Tersimpan sebagai default');
-                  }}>Save</button>
-                </div>
-                <NudgeRow label="eid.t"  yField="eid_ty"   {...nudgeProps} color="#f59e0b" />
-                <NudgeRow label="im0.t"  yField="imei1_ty" {...nudgeProps} color="#3b82f6" />
-                <NudgeRow label="im1.t"  yField="imei2_ty" {...nudgeProps} color="#10b981" />
-                <NudgeRow label="meid.t" yField="meid_ty"  {...nudgeProps} color="#e879f9" />
+              <div className="card-header">
+                <span className="card-title"><FiCrosshair size={11} style={{ marginRight: 5, opacity: 0.7 }} />{h.coordsTitle}</span>
+                <button className="save-default-btn" onClick={() => {
+                  try { localStorage.setItem('bc-pos', JSON.stringify(posRef.current)); } catch {}
+                  showToast(h.toastSaved);
+                }}>{h.saveBtn}</button>
+              </div>
+              <NudgeRow label="eid.t"  yField="eid_ty"   {...nudgeProps} color="#f59e0b" />
+              <NudgeRow label="im0.t"  yField="imei1_ty" {...nudgeProps} color="#3b82f6" />
+              <NudgeRow label="im1.t"  yField="imei2_ty" {...nudgeProps} color="#10b981" />
+              <NudgeRow label="meid.t" yField="meid_ty"  {...nudgeProps} color="#e879f9" />
 
-                <div className="preview-wrap">
-                  <div className="preview-header">
-                    <span className="preview-label"><FiEye size={11} style={{ marginRight: 5, opacity: 0.7 }} />Live Preview</span>
-                    <span className="preview-dim">{previewDim}</span>
-                  </div>
-                  <div className="preview-stage">
-                    <canvas ref={previewCanvasRef} id="previewCanvas" />
-                  </div>
+              <div className="preview-wrap">
+                <div className="preview-header">
+                  <span className="preview-label"><FiEye size={11} style={{ marginRight: 5, opacity: 0.7 }} />{h.livePreviewLabel}</span>
+                  <span className="preview-dim">{previewDim}</span>
                 </div>
+                <div className="preview-stage">
+                  <canvas ref={previewCanvasRef} id="previewCanvas" />
+                </div>
+              </div>
             </div>
           </div>
         )}
@@ -576,24 +579,24 @@ export default function Home() {
                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M8.5 2.5L4 7L8.5 11.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
-                Kembali
+                {h.backBtn}
               </button>
               <span className="results-count-badge">{resultLabel}</span>
-              <button className="results-reset-btn" onClick={resetAll}>Reset</button>
+              <button className="results-reset-btn" onClick={resetAll}>{h.resetBtn}</button>
             </div>
             <div className="results-list">
               {results.map(r => (
                 <div key={r.index} className="result-card" style={{ animationDelay: `${(r.index - 1) * 60}ms` }}>
                   <div className="result-header">
                     <span className="result-name">barcode-{String(r.index).padStart(2, '0')}.png</span>
-                    <span className="result-status"><div className="dot-ready"></div>Siap</span>
+                    <span className="result-status"><div className="dot-ready"></div>{h.statusReady}</span>
                   </div>
                   <div className="result-img-wrap">
                     <img src={r.url} alt={`barcode ${r.index}`} />
                   </div>
                   <div className="result-actions">
-                    <button className="result-btn" onClick={() => downloadImage(r.url, r.index)}><FiDownload size={12} />Unduh</button>
-                    <button className="result-btn primary-action" onClick={() => shareImage(r.url)}><FiShare2 size={12} />Bagikan</button>
+                    <button className="result-btn" onClick={() => downloadImage(r.url, r.index)}><FiDownload size={12} />{h.downloadLabel}</button>
+                    <button className="result-btn primary-action" onClick={() => shareImage(r.url)}><FiShare2 size={12} />{h.shareLabel}</button>
                   </div>
                 </div>
               ))}
@@ -607,31 +610,31 @@ export default function Home() {
         <div className={`stats-overlay open${statsVisible ? ' visible' : ''}`} onClick={e => { if (e.target === e.currentTarget) closeStats(); }}>
           <div className="stats-modal">
             <div className="stats-modal-header">
-              <span className="stats-modal-title">// global stats</span>
+              <span className="stats-modal-title">{s.title}</span>
               <button className="stats-close-btn" onClick={closeStats}>✕</button>
             </div>
 
             <div className="stats-grid">
               <div className="stats-cell">
-                <span className="stats-cell-label">Hari Ini</span>
+                <span className="stats-cell-label">{s.todayLabel}</span>
                 <span className="stats-cell-value">
                   {statsLoading ? <span className="stats-shimmer">···</span> : statsError ? '—' : (stats?.today ?? 0).toLocaleString()}
                 </span>
               </div>
               <div className="stats-cell">
-                <span className="stats-cell-label">Total Keseluruhan</span>
+                <span className="stats-cell-label">{s.totalLabel}</span>
                 <span className="stats-cell-value">
                   {statsLoading ? <span className="stats-shimmer">···</span> : statsError ? '—' : (stats?.total ?? 0).toLocaleString()}
                 </span>
               </div>
               <div className="stats-cell stats-cell--accent">
-                <span className="stats-cell-label">Aku</span>
+                <span className="stats-cell-label">{s.mineLabel}</span>
                 <span className="stats-cell-value">
                   {statsLoading ? <span className="stats-shimmer">···</span> : statsError ? '—' : (stats?.mine ?? 0).toLocaleString()}
                 </span>
               </div>
               <div className="stats-cell">
-                <span className="stats-cell-label">Orang Lain</span>
+                <span className="stats-cell-label">{s.othersLabel}</span>
                 <span className="stats-cell-value">
                   {statsLoading ? <span className="stats-shimmer">···</span> : statsError ? '—' : (stats?.others ?? 0).toLocaleString()}
                 </span>
@@ -639,22 +642,22 @@ export default function Home() {
             </div>
 
             {statsError && (
-              <div className="stats-error-note">Server tidak tersedia</div>
+              <div className="stats-error-note">{s.serverUnavailable}</div>
             )}
 
             <div className="stats-modal-footer">
               {!confirmResetGlobal ? (
-                <button className="stats-reset-btn" onClick={() => setConfirmResetGlobal(true)}>Reset Global</button>
+                <button className="stats-reset-btn" onClick={() => setConfirmResetGlobal(true)}>{s.resetGlobalBtn}</button>
               ) : (
                 <div className="stats-reset-confirm">
-                  <span className="stats-reset-confirm-text">Reset semua data?</span>
+                  <span className="stats-reset-confirm-text">{s.resetConfirmPrompt}</span>
                   <button className="stats-reset-yes" onClick={handleGlobalReset} disabled={resetting}>
-                    {resetting ? '···' : 'Ya'}
+                    {resetting ? '···' : s.resetYes}
                   </button>
-                  <button className="stats-reset-no" onClick={() => setConfirmResetGlobal(false)}>Batal</button>
+                  <button className="stats-reset-no" onClick={() => setConfirmResetGlobal(false)}>{s.resetNo}</button>
                 </div>
               )}
-              <span className="stats-note">barcode-gen · semua pengguna · WIB</span>
+              <span className="stats-note">{s.footerNote}</span>
             </div>
           </div>
         </div>

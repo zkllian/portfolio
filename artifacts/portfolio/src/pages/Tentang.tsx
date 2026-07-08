@@ -4,10 +4,13 @@ import {
   SiNodedotjs, SiExpress, SiPostgresql, SiFigma, SiVercel,
   SiGithub, SiCanva, SiDrizzle,
 } from 'react-icons/si';
+import { content } from '@/content';
 
-/* ─────────── Inline SVG Icons — exact paths from nikhilwho.in ─────────── */
+const { profile, bio, links, tech, tentang } = content;
+const f = tentang.footer;
 
-/** Verified badge (MdVerified) — next to name */
+/* ─────────── Inline SVG Icons ─────────── */
+
 const IcoVerified = () => (
   <svg fill="currentColor" stroke="currentColor" strokeWidth="0" viewBox="0 0 24 24"
     width="16" height="16" style={{ color: '#000', flexShrink: 0 }}
@@ -17,7 +20,6 @@ const IcoVerified = () => (
   </svg>
 );
 
-/** Envelope / email */
 const IcoEmail = ({ size = 13 }: { size?: number }) => (
   <svg stroke="currentColor" fill="currentColor" strokeWidth="0"
     viewBox="0 0 512 512" className="p-ico" height={size} width={size}
@@ -26,7 +28,6 @@ const IcoEmail = ({ size = 13 }: { size?: number }) => (
   </svg>
 );
 
-/** WhatsApp */
 const IcoWhatsApp = ({ size = 13 }: { size?: number }) => (
   <svg stroke="currentColor" fill="currentColor" strokeWidth="0"
     viewBox="0 0 24 24" className="p-ico" height={size} width={size}
@@ -35,7 +36,6 @@ const IcoWhatsApp = ({ size = 13 }: { size?: number }) => (
   </svg>
 );
 
-/** GitHub Octocat */
 const IcoGitHub = ({ size = 13 }: { size?: number }) => (
   <svg stroke="currentColor" fill="currentColor" strokeWidth="0"
     viewBox="0 0 496 512" className="p-ico" height={size} width={size}
@@ -44,7 +44,6 @@ const IcoGitHub = ({ size = 13 }: { size?: number }) => (
   </svg>
 );
 
-/** Twitter / X */
 const IcoX = ({ size = 13 }: { size?: number }) => (
   <svg stroke="currentColor" fill="currentColor" strokeWidth="0"
     viewBox="0 0 512 512" className="p-ico" height={size} width={size}
@@ -53,7 +52,6 @@ const IcoX = ({ size = 13 }: { size?: number }) => (
   </svg>
 );
 
-/** LinkedIn */
 const IcoLinkedIn = ({ size = 13 }: { size?: number }) => (
   <svg stroke="currentColor" fill="currentColor" strokeWidth="0"
     viewBox="0 0 448 512" className="p-ico" height={size} width={size}
@@ -62,7 +60,6 @@ const IcoLinkedIn = ({ size = 13 }: { size?: number }) => (
   </svg>
 );
 
-/** Arrow up-right diagonal — for project links */
 const IcoArrow = ({ size = 12 }: { size?: number }) => (
   <svg stroke="currentColor" fill="currentColor" strokeWidth="0"
     viewBox="0 0 24 24" height={size} width={size}
@@ -99,6 +96,24 @@ function useVisitorCount() {
   return count;
 }
 
+/* ─────────── Tech icon map ─────────── */
+
+const TECH_ICONS: Record<string, React.ReactNode> = {
+  'React':        <SiReact />,
+  'TypeScript':   <SiTypescript />,
+  'Next.js':      <SiNextdotjs />,
+  'Vite':         <SiVite />,
+  'Tailwind CSS': <SiTailwindcss />,
+  'Node.js':      <SiNodedotjs />,
+  'Express.js':   <SiExpress />,
+  'Drizzle ORM':  <SiDrizzle />,
+  'PostgreSQL':   <SiPostgresql />,
+  'Vercel':       <SiVercel />,
+  'Figma':        <SiFigma />,
+  'GitHub':       <SiGithub />,
+  'Canva':        <SiCanva />,
+};
+
 /* ─────────── Component ─────────── */
 
 export default function Tentang() {
@@ -111,64 +126,49 @@ export default function Tentang() {
 
       {/* ── Profile ── */}
       <div className="p-profile">
-        <div className="p-avatar" role="img" aria-label="Yoga Aprilliansyah N" />
+        <div className="p-avatar" role="img" aria-label={profile.ariaLabel} />
         <div>
           <div className="p-name">
-            Yoga Aprilliansyah N
+            {profile.name}
             <IcoVerified />
           </div>
-          <div className="p-role">Front-End Developer</div>
+          <div className="p-role">{profile.role}</div>
         </div>
       </div>
 
       {/* ── Bio ── */}
       <p className="p-bio">
         Saya seorang{' '}
-        <a href="https://github.com/zkllian" target="_blank" rel="noreferrer" className="p-sketch-link">Front-End Developer</a>
-        {' '}berbasis di Cianjur, Indonesia — membangun website dengan tampilan rapi dan kode yang scalable.
+        <a href={links.github} target="_blank" rel="noreferrer" className="p-sketch-link">{bio.line1LinkLabel}</a>
+        {' '}{bio.line1Suffix}
       </p>
-<p className="p-bio">
-        Hubungi saya via{' '}
-        <a href="https://wa.me/6285199273883" target="_blank" rel="noreferrer">
+      <p className="p-bio">
+        {bio.line2Prefix}{' '}
+        <a href={links.whatsapp} target="_blank" rel="noreferrer">
           <IcoWhatsApp />WhatsApp
         </a>
-        {' '}atau{' '}
-        <a href="mailto:llianified@gmail.com">
-          <IcoEmail />email
+        {' '}{bio.line2Or}{' '}
+        <a href={`mailto:${links.email}`}>
+          <IcoEmail />{bio.line2EmailLabel}
         </a>
-        {' '}| lihat kode saya di{' '}
-        <a href="https://github.com/zkllian" target="_blank" rel="noreferrer">
-          <IcoGitHub />GitHub
+        {' '}{bio.line2GitPrefix}{' '}
+        <a href={links.github} target="_blank" rel="noreferrer">
+          <IcoGitHub />{bio.line2GitLabel}
         </a>.
       </p>
       <p className="p-bio p-bio--last">
-        Temukan saya di{' '}
-        <a href="https://x.com/llianified" target="_blank" rel="noreferrer">
-          <IcoX />Twitter / X
+        {bio.line3Prefix}{' '}
+        <a href={links.twitter} target="_blank" rel="noreferrer">
+          <IcoX />{bio.line3TwitterLabel}
         </a>.
       </p>
 
       {/* ── Tech Marquee ── */}
       {(() => {
-        const items: { icon: React.ReactNode; label: string }[] = [
-          { icon: <SiReact />,           label: 'React' },
-          { icon: <SiTypescript />,      label: 'TypeScript' },
-          { icon: <SiNextdotjs />,       label: 'Next.js' },
-          { icon: <SiVite />,            label: 'Vite' },
-          { icon: <SiTailwindcss />,     label: 'Tailwind CSS' },
-          { icon: <SiNodedotjs />,       label: 'Node.js' },
-          { icon: <SiExpress />,         label: 'Express.js' },
-          { icon: <SiDrizzle />,         label: 'Drizzle ORM' },
-          { icon: <SiPostgresql />,      label: 'PostgreSQL' },
-          { icon: <SiVercel />,          label: 'Vercel' },
-          { icon: <SiFigma />,           label: 'Figma' },
-          { icon: <SiGithub />,          label: 'GitHub' },
-          { icon: <SiCanva />,           label: 'Canva' },
-        ];
-        const row = items.map((it, i) => (
+        const row = tech.map((label, i) => (
           <span className="mq-pill" key={i}>
-            <span className="mq-ico">{it.icon}</span>
-            {it.label}
+            <span className="mq-ico">{TECH_ICONS[label]}</span>
+            {label}
           </span>
         ));
         return (
@@ -182,45 +182,26 @@ export default function Tentang() {
 
       {/* ── Pengalaman ── */}
       <div className="p-section">
-        <h2 className="p-section-title"><span className="hash"># </span>pengalaman</h2>
-        <p className="p-section-sub">Tempat saya kirim hal nyata.</p>
-
-        <div className="p-entry">
-          <div className="p-entry-body">
-            <div className="p-entry-top">
-              <span className="p-entry-co">Universitas Suryakancana</span>
-              <span className="p-entry-date">agu – nov 2017</span>
+        <h2 className="p-section-title"><span className="hash"># </span>{tentang.pengalaman.title}</h2>
+        <p className="p-section-sub">{tentang.pengalaman.sub}</p>
+        {tentang.pengalaman.entries.map(e => (
+          <div className="p-entry" key={e.co}>
+            <div className="p-entry-body">
+              <div className="p-entry-top">
+                <span className="p-entry-co">{e.co}</span>
+                <span className="p-entry-date">{e.date}</span>
+              </div>
+              <div className="p-entry-role">{e.role}</div>
             </div>
-            <div className="p-entry-role">Admin Intern</div>
           </div>
-        </div>
-
-        <div className="p-entry">
-          <div className="p-entry-body">
-            <div className="p-entry-top">
-              <span className="p-entry-co">Zenius Store</span>
-              <span className="p-entry-date">mar – sep 2021</span>
-            </div>
-            <div className="p-entry-role">Digital Marketing</div>
-          </div>
-        </div>
+        ))}
       </div>
 
       {/* ── Kontribusi Digital ── */}
       <div className="p-section">
-        <h2 className="p-section-title"><span className="hash"># </span>kontribusi digital</h2>
-        <p className="p-section-sub">Hal yang saya bangun di komunitas dan media.</p>
-
-        {[
-          { co: 'Blog Independen',date: '2012',                role: 'Blogger · Google AdSense' },
-          { co: 'Verso',          date: 'mar 2018 – des 2019', role: 'Community Manager' },
-          { co: 'Injective',      date: 'jan 2024 – mar 2025', role: 'Brand Ambassador' },
-          { co: 'Nesa',           date: 'mar 2024 – mei 2025', role: 'Brand Ambassador' },
-          { co: 'Story Protocol', date: 'jul 2024 – apr 2025', role: 'Content Writer' },
-          { co: 'Union',          date: 'jul 2024 – apr 2025', role: 'Content Writer' },
-          { co: 'Mitosis',        date: 'jul 2024 – apr 2025', role: 'Content Writer' },
-          { co: 'Swisstronik',    date: 'sep 2024 – jan 2025', role: 'Brand Ambassador' },
-        ].map(e => (
+        <h2 className="p-section-title"><span className="hash"># </span>{tentang.kontribusiDigital.title}</h2>
+        <p className="p-section-sub">{tentang.kontribusiDigital.sub}</p>
+        {tentang.kontribusiDigital.entries.map(e => (
           <div className="p-entry" key={e.co}>
             <div className="p-entry-body">
               <div className="p-entry-top">
@@ -235,92 +216,62 @@ export default function Tentang() {
 
       {/* ── Pendidikan ── */}
       <div className="p-section">
-        <h2 className="p-section-title"><span className="hash"># </span>pendidikan</h2>
-        <p className="p-section-sub">Dari mana saya mulai.</p>
-
-        <div className="p-entry">
-          <div className="p-entry-body">
-            <div className="p-entry-top">
-              <span className="p-entry-co">SMK Pasundan 1 Cianjur</span>
-              <span className="p-entry-date">2015 – 2018</span>
+        <h2 className="p-section-title"><span className="hash"># </span>{tentang.pendidikan.title}</h2>
+        <p className="p-section-sub">{tentang.pendidikan.sub}</p>
+        {tentang.pendidikan.entries.map(e => (
+          <div className="p-entry" key={e.co}>
+            <div className="p-entry-body">
+              <div className="p-entry-top">
+                <span className="p-entry-co">{e.co}</span>
+                <span className="p-entry-date">{e.date}</span>
+              </div>
+              <div className="p-entry-role">{e.role}</div>
             </div>
-            <div className="p-entry-role">Teknik Komputer &amp; Jaringan</div>
           </div>
-        </div>
+        ))}
       </div>
 
-      {/* ── Proyek — 2-column grid ── */}
+      {/* ── Proyek ── */}
       <div className="p-section">
-        <h2 className="p-section-title"><span className="hash"># </span>proyek</h2>
-        <p className="p-section-sub">Yang sudah dan sedang saya bangun.</p>
+        <h2 className="p-section-title"><span className="hash"># </span>{tentang.proyek.title}</h2>
+        <p className="p-section-sub">{tentang.proyek.sub}</p>
 
         <div className="p-projects-grid">
-
-          <div className="p-project">
-            <div className="p-project-name">
-              portfolio
-              <span className="p-badge"><span className="p-badge-dot" />live</span>
+          {tentang.proyek.items.map(item => (
+            <div className="p-project" key={item.name}>
+              <div className="p-project-name">
+                {item.name}
+                {item.badge && (
+                  <span className="p-badge"><span className="p-badge-dot" />{item.badge}</span>
+                )}
+              </div>
+              <p className="p-project-desc">{item.desc}</p>
+              <div className="p-project-links">
+                <a
+                  href={item.linkHref}
+                  className="p-link"
+                  {...(item.external ? { target: '_blank', rel: 'noreferrer' } : {})}
+                >
+                  {item.linkIcon === 'github'
+                    ? <IcoGitHub size={12} />
+                    : <IcoArrow />
+                  }
+                  {item.linkLabel}
+                </a>
+              </div>
             </div>
-            <p className="p-project-desc">
-              Situs portfolio pribadi ini — dibangun sendiri pakai React, Vite, dan TypeScript dari nol sampai online.
-            </p>
-            <div className="p-project-links">
-              <a href="https://llian.vercel.app" target="_blank" rel="noreferrer" className="p-link">
-                <IcoArrow />kunjungi
-              </a>
-            </div>
-          </div>
-
-          <div className="p-project">
-            <div className="p-project-name">
-              barcode-gen
-              <span className="p-badge"><span className="p-badge-dot" />live</span>
-            </div>
-            <p className="p-project-desc">
-              Generator barcode massal — layout adjustable, export langsung.
-            </p>
-            <div className="p-project-links">
-              <a href="/projects/imei/barcode-gen" className="p-link">
-                <IcoArrow />buka
-              </a>
-            </div>
-          </div>
-
-          <div className="p-project">
-            <div className="p-project-name">jobstreet-scraper</div>
-            <p className="p-project-desc">
-              Tool open source buat scraping data lowongan dari Jobstreet — otomatis sekaligus.
-            </p>
-            <div className="p-project-links">
-              <a href="https://github.com/zkllian" target="_blank" rel="noreferrer" className="p-link">
-                <IcoGitHub size={12} />github
-              </a>
-            </div>
-          </div>
-
-          <div className="p-project">
-            <div className="p-project-name">admob-auto-impression</div>
-            <p className="p-project-desc">
-              Tool open source berbasis otomasi untuk naikin volume tayangan AdMob tanpa intervensi manual.
-            </p>
-            <div className="p-project-links">
-              <a href="https://github.com/zkllian" target="_blank" rel="noreferrer" className="p-link">
-                <IcoGitHub size={12} />github
-              </a>
-            </div>
-          </div>
-
+          ))}
         </div>
       </div>
 
       {/* ── Footer ── */}
       <footer className="p-footer">
-        <p>Designed &amp; Developed by <strong>Yoga</strong></p>
-        <p>© 2026 All rights reserved.</p>
+        <p>{f.creditPrefix} <strong>{f.creditName}</strong></p>
+        <p>{f.copyright}</p>
         <p className="p-footer-stats">
-          Visitors <strong>#{visitors !== null ? visitors.toLocaleString() : '—'}</strong>
+          {f.visitorsLabel} <strong>#{visitors !== null ? visitors.toLocaleString() : '—'}</strong>
         </p>
-        <p className="p-footer-loc">Cianjur, Indonesia {time}</p>
+        <p className="p-footer-loc">{f.location} {time}</p>
       </footer>
 
     </div>

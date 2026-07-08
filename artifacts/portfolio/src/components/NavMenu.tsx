@@ -2,11 +2,12 @@ import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useLocation } from 'wouter';
 import { useCredit } from '@/hooks/useCredit';
+import { content } from '@/content';
 
 const PAGES = [
-  { label: 'Tentang', path: '/tentang', match: (l: string) => l === '/' || l === '/tentang' },
-  { label: 'Kontak',  path: '/kontak',  match: (l: string) => l === '/kontak'  },
-  { label: 'Proyek',  path: '/proyek',  match: (l: string) => l === '/proyek'  },
+  { ...content.nav.pages[0], match: (l: string) => l === '/' || l === '/tentang' },
+  { ...content.nav.pages[1], match: (l: string) => l === '/kontak'  },
+  { ...content.nav.pages[2], match: (l: string) => l === '/proyek'  },
 ];
 
 export default function NavMenu() {
@@ -76,7 +77,7 @@ export default function NavMenu() {
               style={{ background: dotColor, transition: 'background 0.2s ease' }}
             />
           </div>
-          <span className="nav-pill-name">llian</span>
+          <span className="nav-pill-name">{content.nav.brand}</span>
         </div>
 
         <div className="nav-dropdown" ref={rootRef}>
