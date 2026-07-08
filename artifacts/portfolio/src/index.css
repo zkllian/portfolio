@@ -74,7 +74,7 @@ body {
   border-radius: 14px;
   padding: 7px 7px 7px 14px;
   white-space: nowrap;
-  box-shadow: 0 4px 24px -4px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.06);
+  box-shadow: none;
   font-family: 'Plus Jakarta Sans', sans-serif;
   width: calc(100vw - 32px);
   max-width: 480px;
@@ -253,7 +253,7 @@ body {
   padding: 5px;
   z-index: 200;
   opacity: 0;
-  box-shadow: 0 2px 3px -2px rgba(0,0,0,0.10);
+  box-shadow: none;
   transition: opacity 0.22s cubic-bezier(0.16,1,0.3,1), transform 0.22s cubic-bezier(0.16,1,0.3,1);
   pointer-events: none;
   font-family: 'Plus Jakarta Sans', sans-serif;
@@ -340,7 +340,7 @@ body {
 .container { max-width: 480px; margin: 0 auto; padding: 0 var(--page-px); }
 @media (min-width: 768px) { .container { max-width: min(91vw, 1200px); } }
 
-.card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 16px; box-shadow: 0 2px 3px -2px rgba(0,0,0,0.10); }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 16px; }
 
 .card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; padding-bottom: 14px; border-bottom: 1px solid var(--border); }
 .save-default-btn { padding: 3px 12px; font-size: 10px; font-family: 'Geist Mono', monospace; background: transparent; border: 1px solid var(--border2); border-radius: var(--radius); color: var(--text-dim); cursor: pointer; transition: background .12s, color .12s, border-color .12s; }
@@ -470,7 +470,7 @@ textarea:focus { border-color: #444; }
   align-items: start;
 }
 
-.result-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; transition: border-color .15s; animation: fadeSlideIn .35s ease-out both; box-shadow: 0 2px 3px -2px rgba(0,0,0,0.10); }
+.result-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; transition: border-color .15s; animation: fadeSlideIn .35s ease-out both; }
 
 .result-card:hover { border-color: var(--border2); }
 
@@ -700,7 +700,7 @@ textarea:focus { border-color: #444; }
   display: flex;
   align-items: flex-start;
   gap: 18px;
-  box-shadow: 0 2px 3px -2px rgba(0,0,0,0.10);
+  box-shadow: none;
 }
 
 .cv-avatar {
@@ -713,7 +713,7 @@ textarea:focus { border-color: #444; }
   background-size: cover;
   background-position: top center;
   background-repeat: no-repeat;
-  box-shadow: 0 2px 3px -2px rgba(0,0,0,0.10);
+  box-shadow: none;
 }
 
 .cv-hero-info {
@@ -832,7 +832,7 @@ textarea:focus { border-color: #444; }
   display: flex;
   flex-direction: column;
   gap: 14px;
-  box-shadow: 0 2px 3px -2px rgba(0,0,0,0.10);
+  box-shadow: none;
 }
 
 .cv-availability {
@@ -849,7 +849,7 @@ textarea:focus { border-color: #444; }
   height: 8px;
   border-radius: 50%;
   background: #3ecf6a;
-  box-shadow: 0 0 0 3px rgba(62, 207, 106, 0.18);
+  box-shadow: none;
   flex-shrink: 0;
   animation: pulseDot 2s ease-in-out infinite;
 }
@@ -1087,7 +1087,7 @@ textarea:focus { border-color: #444; }
   border: 1px solid var(--border);
   border-radius: 8px;
   text-decoration: none;
-  box-shadow: 0 2px 3px -2px rgba(0,0,0,0.10);
+  box-shadow: none;
 }
 .spotify-card:hover { background: var(--surface); }
 
@@ -1142,7 +1142,7 @@ textarea:focus { border-color: #444; }
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 8px;
-  box-shadow: 0 2px 3px -2px rgba(0,0,0,0.10);
+  box-shadow: none;
 }
 
 .clock-icon-wrap {
