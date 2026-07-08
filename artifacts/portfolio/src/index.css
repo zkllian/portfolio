@@ -747,7 +747,7 @@ textarea:focus { border-color: #444; }
 }
 
 .cv-name {
-  font-size: 60px;
+  font-size: 40px;
   font-weight: 800;
   font-family: 'Plus Jakarta Sans', sans-serif;
   color: var(--text);
