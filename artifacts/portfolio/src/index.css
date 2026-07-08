@@ -349,24 +349,44 @@ body::before {
 
 .p-link--muted { opacity: 0.35; cursor: default; pointer-events: none; }
 
-/* ── Skills ── */
-.p-skills { display: flex; flex-direction: column; gap: 16px; }
-.p-skills-group { display: flex; flex-direction: column; gap: 7px; }
-.p-skills-label {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  color: var(--text-dim);
-  letter-spacing: 0.03em;
+/* ── Tech Marquee ── */
+@keyframes mq-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
 }
-.p-tags { display: flex; flex-wrap: wrap; gap: 6px; }
-.p-tag {
+.mq-wrap {
+  overflow: hidden;
+  margin-bottom: 40px;
+  /* fade edges */
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+}
+.mq-track {
+  display: flex;
+  gap: 8px;
+  width: max-content;
+  animation: mq-scroll 28s linear infinite;
+}
+.mq-track:hover { animation-play-state: paused; }
+.mq-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 14px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
   font-family: var(--font-sans);
   font-size: 13px;
   color: var(--text-muted);
-  background: var(--surface2);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 3px 10px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.mq-ico {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  color: var(--text-dim);
 }
 
 /* ── Join-as role cards ── */

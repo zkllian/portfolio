@@ -1,4 +1,9 @@
 import { useEffect, useState } from 'react';
+import {
+  SiReact, SiTypescript, SiNextdotjs, SiVite, SiTailwindcss,
+  SiNodedotjs, SiExpress, SiPostgresql, SiFigma, SiVercel,
+  SiGithub, SiCanva, SiDrizzle,
+} from 'react-icons/si';
 
 /* ─────────── Inline SVG Icons — exact paths from nikhilwho.in ─────────── */
 
@@ -149,6 +154,38 @@ export default function Tentang() {
         </a>.
       </p>
 
+      {/* ── Tech Marquee ── */}
+      {(() => {
+        const items: { icon: React.ReactNode; label: string }[] = [
+          { icon: <SiReact />,           label: 'React' },
+          { icon: <SiTypescript />,      label: 'TypeScript' },
+          { icon: <SiNextdotjs />,       label: 'Next.js' },
+          { icon: <SiVite />,            label: 'Vite' },
+          { icon: <SiTailwindcss />,     label: 'Tailwind CSS' },
+          { icon: <SiNodedotjs />,       label: 'Node.js' },
+          { icon: <SiExpress />,         label: 'Express.js' },
+          { icon: <SiDrizzle />,         label: 'Drizzle ORM' },
+          { icon: <SiPostgresql />,      label: 'PostgreSQL' },
+          { icon: <SiVercel />,          label: 'Vercel' },
+          { icon: <SiFigma />,           label: 'Figma' },
+          { icon: <SiGithub />,          label: 'GitHub' },
+          { icon: <SiCanva />,           label: 'Canva' },
+        ];
+        const row = items.map((it, i) => (
+          <span className="mq-pill" key={i}>
+            <span className="mq-ico">{it.icon}</span>
+            {it.label}
+          </span>
+        ));
+        return (
+          <div className="mq-wrap">
+            <div className="mq-track">
+              {row}{row}
+            </div>
+          </div>
+        );
+      })()}
+
       {/* ── Pengalaman ── */}
       <div className="p-section">
         <h2 className="p-section-title"><span className="hash"># </span>pengalaman</h2>
@@ -283,30 +320,6 @@ export default function Tentang() {
             </div>
           </div>
 
-        </div>
-      </div>
-
-      {/* ── Keahlian ── */}
-      <div className="p-section">
-        <h2 className="p-section-title"><span className="hash"># </span>keahlian</h2>
-        <p className="p-section-sub">Stack dan tools yang saya pakai.</p>
-
-        <div className="p-skills">
-          {[
-            { label: 'Web Dev', tags: ['Next.js','React','Vite','TypeScript','Tailwind CSS','Express.js','Drizzle ORM','TanStack Query','Wouter','Zod','Vercel','Telegram Bot','UI/Web Design'] },
-            { label: 'Marketing', tags: ['Facebook Ads','SEO Dasar','Social Media Management','Content Planning'] },
-            { label: 'Konten', tags: ['Community Management','Content Writing','Copywriting'] },
-            { label: 'Desain', tags: ['Adobe Photoshop','Canva','Figma','Graphic Design'] },
-            { label: 'Soft Skills', tags: ['Komunikasi','Kerja Tim','Problem Solving','Manajemen Waktu'] },
-            { label: 'Bahasa', tags: ['Indonesia','Inggris'] },
-          ].map(g => (
-            <div className="p-skills-group" key={g.label}>
-              <span className="p-skills-label">{g.label}</span>
-              <div className="p-tags">
-                {g.tags.map(t => <span key={t} className="p-tag">{t}</span>)}
-              </div>
-            </div>
-          ))}
         </div>
       </div>
 
