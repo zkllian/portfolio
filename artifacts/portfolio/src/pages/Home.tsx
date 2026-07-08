@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import JsBarcode from 'jsbarcode';
-import { FiZap, FiTerminal, FiHash, FiCrosshair, FiEye, FiDownload, FiShare2, FiActivity } from 'react-icons/fi';
+import { FiZap, FiTerminal, FiEye, FiDownload, FiShare2 } from 'react-icons/fi';
 import { content } from '@/content';
 
 const h = content.home;
@@ -580,14 +580,14 @@ export default function Home() {
 
             <div className="tool-row">
               <button className="tool-btn" onClick={openCounter}>
-                <FiHash size={12} />{h.barcodeCardTitle}
+                {h.barcodeCardTitle}
               </button>
               <button className="tool-btn" onClick={openCoords}>
-                <FiCrosshair size={12} />{h.coordsTitle}
+                {h.coordsTitle}
               </button>
               {statsUnlocked && (
                 <button className="tool-btn" onClick={openStats}>
-                  <FiActivity size={12} />{s.title}
+                  {s.title}
                 </button>
               )}
             </div>
