@@ -277,7 +277,7 @@ export default function Tentang() {
               <span className="p-badge"><span className="p-badge-dot" />live</span>
             </div>
             <p className="p-project-desc">
-              Generator barcode IMEI massal — layout adjustable, export langsung, untuk keperluan kerja di imei.org.
+              Generator barcode massal — layout adjustable, export langsung.
             </p>
             <div className="p-project-links">
               <a href="/projects/imei/barcode-gen" className="p-link">
