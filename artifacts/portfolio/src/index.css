@@ -859,7 +859,7 @@ textarea:focus { border-color: #444; }
   display: flex;
   flex-direction: column;
   gap: 14px;
-  box-shadow: none;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
 }
 
 .cv-availability {
@@ -1114,7 +1114,7 @@ textarea:focus { border-color: #444; }
   border: 1px solid var(--border);
   border-radius: 8px;
   text-decoration: none;
-  box-shadow: none;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
 }
 .spotify-card:hover { background: var(--surface); }
 
@@ -1169,7 +1169,7 @@ textarea:focus { border-color: #444; }
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 8px;
-  box-shadow: none;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
 }
 
 .clock-icon-wrap {
