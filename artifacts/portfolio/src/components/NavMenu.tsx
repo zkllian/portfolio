@@ -12,33 +12,32 @@ export default function NavMenu() {
   const [location, navigate] = useLocation();
   const { secretClick, dotColor, modal: creditModal } = useCredit();
 
-  const activeIdx = PAGES.findIndex(p => p.match(location));
-  const btnRefs   = useRef<(HTMLButtonElement | null)[]>([]);
-  const linksRef  = useRef<HTMLDivElement>(null);
-
-  const [indicator, setIndicator] = useState({ left: 0, width: 0 });
-  const [ready, setReady]         = useState(false);
-
-  function measure(idx: number) {
-    const btn    = btnRefs.current[idx];
-    const parent = linksRef.current;
-    if (!btn || !parent) return;
-    const bRect = btn.getBoundingClientRect();
-    const pRect = parent.getBoundingClientRect();
-    setIndicator({ left: bRect.left - pRect.left, width: bRect.width });
-  }
+  const active = PAGES.find(p => p.match(location)) ?? PAGES[0];
+  const [open, setOpen] = useState(false);
+  const rootRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
-    if (activeIdx < 0) return;
-    measure(activeIdx);
-    const t = setTimeout(() => setReady(true), 32);
-    return () => clearTimeout(t);
-  }, []);
+    if (!open) return;
+    const onDocClick = (e: MouseEvent) => {
+      if (rootRef.current && !rootRef.current.contains(e.target as Node)) setOpen(false);
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setOpen(false);
+        triggerRef.current?.focus();
+      }
+    };
+    document.addEventListener('mousedown', onDocClick);
+    document.addEventListener('keydown', onKey);
+    return () => {
+      document.removeEventListener('mousedown', onDocClick);
+      document.removeEventListener('keydown', onKey);
+    };
+  }, [open]);
 
-  useEffect(() => {
-    if (activeIdx < 0) return;
-    measure(activeIdx);
-  }, [activeIdx]);
+  // close on route change
+  useEffect(() => { setOpen(false); }, [location]);
 
   return (
     <>
@@ -55,31 +54,56 @@ export default function NavMenu() {
           <span className="nav-pill-name">llian</span>
         </div>
 
-        <div className="nav-pill-links" ref={linksRef}>
-          <div
-            className="nav-pill-indicator"
-            style={{
-              left:  indicator.left,
-              width: indicator.width,
-              transition: ready
-                ? 'left 0.42s cubic-bezier(0.34,1.56,0.64,1) 0.25s, width 0.38s cubic-bezier(0.34,1.56,0.64,1) 0.25s'
-                : 'none',
-            }}
-          />
+        <div className="nav-dropdown" ref={rootRef}>
+          <button
+            id="nav-dropdown-trigger"
+            ref={triggerRef}
+            className={`nav-dropdown-trigger${open ? ' nav-dropdown-trigger--open' : ''}`}
+            onClick={() => setOpen(o => !o)}
+            aria-haspopup="true"
+            aria-expanded={open}
+            aria-controls="nav-dropdown-menu"
+          >
+            <span>{active.label}</span>
+            <svg
+              className="nav-dropdown-chevron"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <polyline points="6 9 12 15 18 9" />
+            </svg>
+          </button>
 
-          {PAGES.map(({ label, path, match }, i) => {
-            const active = match(location);
-            return (
-              <button
-                key={path}
-                ref={el => { btnRefs.current[i] = el; }}
-                className={`nav-pill-link${active ? ' nav-pill-link--active' : ''}`}
-                onClick={() => { if (!active) navigate(path); }}
-              >
-                {label}
-              </button>
-            );
-          })}
+          <div
+            id="nav-dropdown-menu"
+            className={`nav-dropdown-menu${open ? ' nav-dropdown-menu--open' : ''}`}
+            aria-hidden={!open}
+            // @ts-expect-error -- `inert` is a valid HTML attribute not yet in React's JSX types
+            inert={open ? undefined : true}
+          >
+            {PAGES.map(({ label, path, match }) => {
+              const isActive = match(location);
+              return (
+                <button
+                  key={path}
+                  tabIndex={open ? 0 : -1}
+                  className={`nav-dropdown-item${isActive ? ' nav-dropdown-item--active' : ''}`}
+                  onClick={() => { if (!isActive) navigate(path); setOpen(false); }}
+                >
+                  {label}
+                  {isActive && (
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="nav-dropdown-check">
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                  )}
+                </button>
+              );
+            })}
+          </div>
         </div>
       </div>
 
