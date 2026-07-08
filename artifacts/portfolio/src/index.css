@@ -98,7 +98,7 @@ body {
   align-items: center;
   gap: 4px;
   white-space: nowrap;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 900;
   font-family: 'Plus Jakarta Sans', sans-serif;
   letter-spacing: .01em;
@@ -188,7 +188,7 @@ body {
   border-radius: 6px;
   cursor: pointer;
   color: var(--text);
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 900;
   font-family: inherit;
   letter-spacing: .02em;
