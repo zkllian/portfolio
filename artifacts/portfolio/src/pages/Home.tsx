@@ -126,7 +126,6 @@ export default function Home() {
   const [statsError, setStatsError] = useState(false);
   const [confirmResetGlobal, setConfirmResetGlobal] = useState(false);
   const [resetting, setResetting] = useState(false);
-  const [statsUnlocked, setStatsUnlocked] = useState(false);
   const badgeTapRef = useRef(0);
   const badgeTapResetRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -136,7 +135,7 @@ export default function Home() {
     badgeTapResetRef.current = setTimeout(() => { badgeTapRef.current = 0; }, 1500);
     if (badgeTapRef.current >= 5) {
       badgeTapRef.current = 0;
-      setStatsUnlocked(true);
+      openStats();
     }
   }
 
@@ -585,11 +584,6 @@ export default function Home() {
               <button className="tool-btn" onClick={openCoords}>
                 {h.coordsTitle}
               </button>
-              {statsUnlocked && (
-                <button className="tool-btn" onClick={openStats}>
-                  {s.title}
-                </button>
-              )}
             </div>
           </div>
         )}
