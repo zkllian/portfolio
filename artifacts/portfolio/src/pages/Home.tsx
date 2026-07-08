@@ -552,7 +552,7 @@ export default function Home() {
                 <textarea
                   value={inputVal}
                   onChange={handleInput}
-                  placeholder={`35824xxx1x42018\n35824xxx1x42019\n86723xxx5x14031\n86723xxx5x14032\n49052xxx2x45610\n49052xxx2x45611\n35209xxx8x65478\n35209xxx8x65479\n01445xxx4x21090\n01445xxx4x21091`}
+                  placeholder={`00000xxxxx00000\n00000xxxxx00000\n00000xxxxx00000\n00000xxxxx00000\n00000xxxxx00000\n00000xxxxx00000`}
                 />
               </div>
 
