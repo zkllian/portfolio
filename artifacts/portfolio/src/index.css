@@ -855,7 +855,7 @@ textarea:focus { border-color: #444; }
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 16px;
+  padding: 18px 18px 16px;
   display: flex;
   flex-direction: column;
   gap: 14px;
@@ -1109,7 +1109,7 @@ textarea:focus { border-color: #444; }
   display: flex;
   align-items: center;
   gap: 18px;
-  padding: 16px;
+  padding: 14px 18px;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 8px;
@@ -1165,7 +1165,7 @@ textarea:focus { border-color: #444; }
   display: flex;
   align-items: center;
   gap: 18px;
-  padding: 16px;
+  padding: 14px 18px;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 8px;
