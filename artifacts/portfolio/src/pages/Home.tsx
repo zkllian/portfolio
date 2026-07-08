@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import JsBarcode from 'jsbarcode';
-import { FiZap, FiTerminal, FiHash, FiCrosshair, FiEye, FiDownload, FiShare2 } from 'react-icons/fi';
+import { FiZap, FiTerminal, FiHash, FiCrosshair, FiEye, FiDownload, FiShare2, FiActivity } from 'react-icons/fi';
 import { content } from '@/content';
 
 const h = content.home;
@@ -113,6 +113,7 @@ export default function Home() {
   });
   const [confirmReset, setConfirmReset] = useState(false);
   const [coordsOpen, setCoordsOpen] = useState(false);
+  const [coordsVisible, setCoordsVisible] = useState(false);
 
   type StatsData = { today: number; total: number; mine: number; others: number } | null;
   const [statsOpen, setStatsOpen] = useState(false);
@@ -178,11 +179,14 @@ export default function Home() {
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && statsOpen) closeStats();
+      if (e.key === 'Escape') {
+        if (statsOpen) closeStats();
+        if (coordsOpen) closeCoords();
+      }
     };
     document.addEventListener('keydown', handler);
     return () => document.removeEventListener('keydown', handler);
-  }, [statsOpen]);
+  }, [statsOpen, coordsOpen]);
 
   function randomDigits(len: number) {
     return Array.from({ length: len }, () => Math.floor(Math.random() * 10)).join('');
@@ -473,6 +477,21 @@ export default function Home() {
     setTimeout(() => setStatsOpen(false), 300);
   }
 
+  function openCoords() {
+    setCoordsOpen(true);
+    document.body.classList.add('nav-hidden');
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      setCoordsVisible(true);
+      drawPreview(posRef.current);
+    }));
+  }
+
+  function closeCoords() {
+    setCoordsVisible(false);
+    document.body.classList.remove('nav-hidden');
+    setTimeout(() => setCoordsOpen(false), 300);
+  }
+
   async function handleGlobalReset() {
     setResetting(true);
     try {
@@ -547,40 +566,13 @@ export default function Home() {
               <span className="counter-number" onClick={handleCounterTap} style={{ cursor: 'default', userSelect: 'none' }}>{totalImei.toLocaleString()}</span>
             </div>
 
-            <div className="card pos-card">
-              <div className="card-header pos-card-header" onClick={() => setCoordsOpen(o => !o)} style={{ cursor: 'pointer', marginBottom: 0, borderBottom: coordsOpen ? undefined : 'none' }}>
-                <span className="card-title"><FiCrosshair size={11} style={{ marginRight: 5, opacity: 0.7 }} />{h.coordsTitle}</span>
-                <div className="pos-card-header-right">
-                  {coordsOpen && (
-                    <button className="save-default-btn" onClick={e => {
-                      e.stopPropagation();
-                      try { localStorage.setItem('bc-pos', JSON.stringify(posRef.current)); } catch {}
-                      showToast(h.toastSaved);
-                    }}>{h.saveBtn}</button>
-                  )}
-                  <svg className={`pos-chevron${coordsOpen ? ' pos-chevron--open' : ''}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <polyline points="6 9 12 15 18 9" />
-                  </svg>
-                </div>
-              </div>
-              <div className={`pos-body${coordsOpen ? ' pos-body--open' : ''}`}>
-                <div className="pos-body-inner">
-                  <NudgeRow label="eid.t"  yField="eid_ty"   {...nudgeProps} color="#f59e0b" />
-                  <NudgeRow label="im0.t"  yField="imei1_ty" {...nudgeProps} color="#3b82f6" />
-                  <NudgeRow label="im1.t"  yField="imei2_ty" {...nudgeProps} color="#10b981" />
-                  <NudgeRow label="meid.t" yField="meid_ty"  {...nudgeProps} color="#e879f9" />
-
-                  <div className="preview-wrap">
-                    <div className="preview-header">
-                      <span className="preview-label"><FiEye size={11} style={{ marginRight: 5, opacity: 0.7 }} />{h.livePreviewLabel}</span>
-                      <span className="preview-dim">{previewDim}</span>
-                    </div>
-                    <div className="preview-stage">
-                      <canvas ref={previewCanvasRef} id="previewCanvas" />
-                    </div>
-                  </div>
-                </div>
-              </div>
+            <div className="tool-row">
+              <button className="tool-btn" onClick={openCoords}>
+                <FiCrosshair size={12} />{h.coordsTitle}
+              </button>
+              <button className="tool-btn" onClick={openStats}>
+                <FiActivity size={12} />{s.title}
+              </button>
             </div>
           </div>
         )}
@@ -671,6 +663,39 @@ export default function Home() {
                 </div>
               )}
               <span className="stats-note">{s.footerNote}</span>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {coordsOpen && (
+        <div className={`stats-overlay open${coordsVisible ? ' visible' : ''}`} onClick={e => { if (e.target === e.currentTarget) closeCoords(); }}>
+          <div className="stats-modal coords-modal">
+            <div className="stats-modal-header">
+              <span className="stats-modal-title"><FiCrosshair size={12} style={{ marginRight: 6, opacity: 0.6 }} />{h.coordsTitle}</span>
+              <button className="stats-close-btn" onClick={closeCoords}>✕</button>
+            </div>
+            <div className="coords-modal-body">
+              <NudgeRow label="eid.t"  yField="eid_ty"   {...nudgeProps} color="#f59e0b" />
+              <NudgeRow label="im0.t"  yField="imei1_ty" {...nudgeProps} color="#3b82f6" />
+              <NudgeRow label="im1.t"  yField="imei2_ty" {...nudgeProps} color="#10b981" />
+              <NudgeRow label="meid.t" yField="meid_ty"  {...nudgeProps} color="#e879f9" />
+              <div className="preview-wrap">
+                <div className="preview-header">
+                  <span className="preview-label"><FiEye size={11} style={{ marginRight: 5, opacity: 0.7 }} />{h.livePreviewLabel}</span>
+                  <span className="preview-dim">{previewDim}</span>
+                </div>
+                <div className="preview-stage">
+                  <canvas ref={previewCanvasRef} id="previewCanvas" />
+                </div>
+              </div>
+            </div>
+            <div className="stats-modal-footer">
+              <button className="save-default-btn" onClick={() => {
+                try { localStorage.setItem('bc-pos', JSON.stringify(posRef.current)); } catch {}
+                showToast(h.toastSaved);
+              }}>{h.saveBtn}</button>
+              <span className="stats-note">esc to close</span>
             </div>
           </div>
         </div>
