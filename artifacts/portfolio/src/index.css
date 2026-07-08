@@ -2,6 +2,10 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 textarea, input, [contenteditable] { user-select: text; -webkit-user-select: text; }
 
+/* ── Text selection ── */
+::selection { background: #000; color: #fff; }
+::-moz-selection { background: #000; color: #fff; }
+
 /* ── Variables ── */
 :root {
   --bg: #ffffff;
