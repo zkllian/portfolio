@@ -142,6 +142,8 @@ export const content = {
 
   /* ── Halaman Home (barcode generator) ────────────────────────── */
   home: {
+    pageTitle:           'barcode-gen',
+    pageSub:             'Generator barcode massal.',
     injectTitle:         'Inject',
     barcodeCardTitle:    'Total Barcode',
     barcodeTodayLabel:   'Hari Ini',

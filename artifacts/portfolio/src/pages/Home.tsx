@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { Link } from 'wouter';
 import JsBarcode from 'jsbarcode';
-import { FiZap, FiTerminal, FiEye, FiDownload, FiShare2 } from 'react-icons/fi';
+import { FiZap, FiTerminal, FiEye, FiDownload, FiShare2, FiEdit2 } from 'react-icons/fi';
 import { content } from '@/content';
 
 const h = content.home;
@@ -543,6 +543,15 @@ export default function Home() {
         {view === 'input' && (
           <div className="view-input">
             <Link href="/" className="home-link">← home</Link>
+            <div className="page-hero">
+              <div className="page-hero-icon">
+                <FiEdit2 size={15} />
+              </div>
+              <div className="page-hero-text">
+                <span className="page-hero-title">{h.pageTitle}</span>
+                <span className="page-hero-sub">{h.pageSub}</span>
+              </div>
+            </div>
             <div className="card">
               <div className="card-header">
                 <span className="card-title"><FiTerminal size={11} style={{ marginRight: 5, opacity: 0.7 }} />{h.injectTitle}</span>
