@@ -251,26 +251,26 @@ export default function Home() {
     try {
       const lines = inputValRef.current.split('\n').map((v: string) => v.trim()).filter(Boolean);
       if (lines.length < 2) {
-        showToast('// err: min 1 set — imei[0] + imei[1] required (15 digits each)');
+        showToast('min 1 set — imei[0] + imei[1] required (15 digits each)');
         return;
       }
 
       const totalSets = Math.floor(lines.length / 2);
       for (let i = 0; i < totalSets; i++) {
         const im1 = lines[i * 2], im2 = lines[i * 2 + 1];
-        if (im1.length !== 15) { showToast(`// err set[${i}]: imei[0] expects 15 digits, got ${im1.length}`); return; }
-        if (im2.length !== 15) { showToast(`// err set[${i}]: imei[1] expects 15 digits, got ${im2.length}`); return; }
+        if (im1.length !== 15) { showToast(`set[${i}]: imei[0] expects 15 digits, got ${im1.length}`); return; }
+        if (im2.length !== 15) { showToast(`set[${i}]: imei[1] expects 15 digits, got ${im2.length}`); return; }
       }
 
       const img = baseImageRef.current;
-      if (!img) { showToast('// err: template not ready — retry'); return; }
+      if (!img) { showToast('template not ready — retry'); return; }
       if (!img.complete || !img.naturalWidth) {
         await new Promise<void>((resolve, reject) => {
           img.onload = () => resolve();
           img.onerror = () => reject(new Error('gagal load template'));
         });
       }
-      if (!img.naturalWidth) { showToast('// err: template image load failed'); return; }
+      if (!img.naturalWidth) { showToast('template image load failed'); return; }
 
       if (document.fonts?.load) {
         await Promise.allSettled([
@@ -280,11 +280,11 @@ export default function Home() {
       }
 
       const cvs = canvasRef.current;
-      if (!cvs) { showToast('// err: canvas context null'); return; }
+      if (!cvs) { showToast('canvas context null'); return; }
       cvs.width = img.naturalWidth;
       cvs.height = img.naturalHeight;
       const ctx = cvs.getContext('2d');
-      if (!ctx) { showToast('// err: ctx2d unavailable'); return; }
+      if (!ctx) { showToast('ctx2d unavailable'); return; }
 
       const newResults: { url: string; index: number }[] = [];
       setIsLoading(true);
@@ -338,7 +338,7 @@ export default function Home() {
       window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
     } catch (err: unknown) {
       setIsLoading(false);
-      showToast('// err: ' + ((err instanceof Error) ? err.message : String(err)));
+      showToast((err instanceof Error) ? err.message : String(err));
     }
   }
 
