@@ -18,7 +18,6 @@ export default function NavMenu() {
 
   const [indicator, setIndicator] = useState({ left: 0, width: 0 });
   const [ready, setReady]         = useState(false);
-  const [floatKey, setFloatKey]   = useState(0); // increments to restart float anim
 
   function measure(idx: number) {
     const btn    = btnRefs.current[idx];
@@ -37,10 +36,9 @@ export default function NavMenu() {
   }, []);
 
   useEffect(() => {
-    if (!ready || activeIdx < 0) return;
-    setFloatKey(k => k + 1); // restart float animation
+    if (activeIdx < 0) return;
     measure(activeIdx);
-  }, [activeIdx]);             // eslint-disable-line react-hooks/exhaustive-deps
+  }, [activeIdx]);
 
   return (
     <>
@@ -59,13 +57,12 @@ export default function NavMenu() {
 
         <div className="nav-pill-links" ref={linksRef}>
           <div
-            key={floatKey}                         /* re-mount → restart animation */
-            className={`nav-pill-indicator${ready && floatKey > 0 ? ' nav-pill-indicator--float' : ''}`}
+            className="nav-pill-indicator"
             style={{
               left:  indicator.left,
               width: indicator.width,
               transition: ready
-                ? 'left 0.42s cubic-bezier(0.34,1.56,0.64,1) 0.5s, width 0.38s cubic-bezier(0.34,1.56,0.64,1) 0.5s'
+                ? 'left 0.42s cubic-bezier(0.34,1.56,0.64,1) 0.25s, width 0.38s cubic-bezier(0.34,1.56,0.64,1) 0.25s'
                 : 'none',
             }}
           />
