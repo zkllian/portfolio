@@ -97,12 +97,26 @@ body {
 }
 
 .nav-pill-links {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 2px;
 }
 
+.nav-pill-indicator {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  background: var(--accent);
+  border-radius: 8px;
+  pointer-events: none;
+  z-index: 0;
+  will-change: left, width;
+}
+
 .nav-pill-link {
+  position: relative;
+  z-index: 1;
   background: none;
   border: none;
   padding: 7px 14px;
@@ -112,20 +126,19 @@ body {
   font-family: 'Plus Jakarta Sans', sans-serif;
   color: var(--text-muted);
   cursor: pointer;
-  transition: background 0.15s, color 0.15s;
+  transition: color 0.2s;
   letter-spacing: 0;
   outline: none;
   white-space: nowrap;
   -webkit-tap-highlight-color: transparent;
 }
-.nav-pill-link:hover { background: rgba(0,0,0,0.055); color: var(--text); }
+.nav-pill-link:hover { color: var(--text); }
 
 .nav-pill-link--active {
-  background: var(--accent);
   color: #fff;
   cursor: default;
 }
-.nav-pill-link--active:hover { background: var(--accent); color: #fff; }
+.nav-pill-link--active:hover { color: #fff; }
 
 /* consistent spacing token */
 :root { --page-px: 16px; --page-gap: 20px; }
