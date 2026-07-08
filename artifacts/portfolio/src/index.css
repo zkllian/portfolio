@@ -181,11 +181,8 @@ body {
 .nav-dropdown-item:hover { background: var(--surface2); color: var(--text); }
 
 .nav-dropdown-item--active {
-  color: var(--text);
   cursor: default;
-  background: var(--surface2);
 }
-.nav-dropdown-item--active:hover { background: var(--surface2); }
 
 .nav-dropdown-check {
   width: 13px;
