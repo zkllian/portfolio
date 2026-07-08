@@ -725,7 +725,6 @@ export default function Home() {
                 try { localStorage.setItem('bc-pos', JSON.stringify(posRef.current)); } catch {}
                 showToast(h.toastSaved);
               }}>{h.saveBtn}</button>
-              <span className="stats-note">esc to close</span>
             </div>
           </div>
         </div>
