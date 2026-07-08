@@ -126,6 +126,19 @@ export default function Home() {
   const [statsError, setStatsError] = useState(false);
   const [confirmResetGlobal, setConfirmResetGlobal] = useState(false);
   const [resetting, setResetting] = useState(false);
+  const [statsUnlocked, setStatsUnlocked] = useState(false);
+  const badgeTapRef = useRef(0);
+  const badgeTapResetRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  function handleBadgeTap() {
+    if (badgeTapResetRef.current) clearTimeout(badgeTapResetRef.current);
+    badgeTapRef.current += 1;
+    badgeTapResetRef.current = setTimeout(() => { badgeTapRef.current = 0; }, 1500);
+    if (badgeTapRef.current >= 5) {
+      badgeTapRef.current = 0;
+      setStatsUnlocked(true);
+    }
+  }
 
   const counterTapRef = useRef(0);
   const counterTapResetRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -534,7 +547,7 @@ export default function Home() {
             <div className="card">
               <div className="card-header">
                 <span className="card-title"><FiTerminal size={11} style={{ marginRight: 5, opacity: 0.7 }} />{h.injectTitle}</span>
-                <span className="badge">{imeiCount}</span>
+                <span className="badge" onClick={handleBadgeTap} style={{ cursor: 'default', userSelect: 'none' }}>{imeiCount}</span>
               </div>
               <div className="input-wrap">
                 <textarea
@@ -572,9 +585,11 @@ export default function Home() {
               <button className="tool-btn" onClick={openCoords}>
                 <FiCrosshair size={12} />{h.coordsTitle}
               </button>
-              <button className="tool-btn" onClick={openStats}>
-                <FiActivity size={12} />{s.title}
-              </button>
+              {statsUnlocked && (
+                <button className="tool-btn" onClick={openStats}>
+                  <FiActivity size={12} />{s.title}
+                </button>
+              )}
             </div>
           </div>
         )}
