@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'wouter';
 import {
   SiReact, SiTypescript, SiNextdotjs, SiVite, SiTailwindcss,
   SiNodedotjs, SiExpress, SiPostgresql, SiFigma, SiVercel,
@@ -247,17 +248,17 @@ export default function Tentang() {
               </div>
               <p className="p-project-desc">{item.desc}</p>
               <div className="p-project-links">
-                <a
-                  href={item.linkHref}
-                  className="p-link"
-                  {...(item.external ? { target: '_blank', rel: 'noreferrer' } : {})}
-                >
-                  {item.linkIcon === 'github'
-                    ? <IcoGitHub size={12} />
-                    : <IcoArrow />
-                  }
-                  {item.linkLabel}
-                </a>
+                {item.external ? (
+                  <a href={item.linkHref} className="p-link" target="_blank" rel="noreferrer">
+                    {item.linkIcon === 'github' ? <IcoGitHub size={12} /> : <IcoArrow />}
+                    {item.linkLabel}
+                  </a>
+                ) : (
+                  <Link href={item.linkHref} className="p-link">
+                    {item.linkIcon === 'github' ? <IcoGitHub size={12} /> : <IcoArrow />}
+                    {item.linkLabel}
+                  </Link>
+                )}
               </div>
             </div>
           ))}
