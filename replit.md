@@ -21,10 +21,10 @@ A portfolio + barcode generator for IMEI numbers. Indonesian-language UI with a 
 
 ## Where things live
 
-- `artifacts/barcode-gen/` — React+Vite frontend
+- `artifacts/portfolio/` — React+Vite frontend
 - `artifacts/api-server/` — Express API (stats routes at `/api/stats/`)
 - `lib/db/` — Drizzle ORM, schema in `lib/db/src/schema/stats.ts`
-- `artifacts/barcode-gen/public/` — SF Pro fonts, avatar, template image, favicon
+- `artifacts/portfolio/public/` — SF Pro fonts, avatar, template image, favicon
 
 ## Architecture decisions
 
