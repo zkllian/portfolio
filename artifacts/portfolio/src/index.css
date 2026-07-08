@@ -456,7 +456,7 @@ body::before {
 /* ── Footer ── */
 .p-footer {
   margin-top: 48px;
-  text-align: center;
+  text-align: left;
   font-family: var(--font-sans);
   font-size: 14px;
   color: var(--text-muted);
