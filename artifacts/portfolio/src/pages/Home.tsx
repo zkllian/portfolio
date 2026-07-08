@@ -112,6 +112,8 @@ export default function Home() {
     return saved ? parseInt(saved, 10) || 0 : 0;
   });
   const [confirmReset, setConfirmReset] = useState(false);
+  const [counterOpen, setCounterOpen] = useState(false);
+  const [counterVisible, setCounterVisible] = useState(false);
   const [coordsOpen, setCoordsOpen] = useState(false);
   const [coordsVisible, setCoordsVisible] = useState(false);
 
@@ -182,11 +184,12 @@ export default function Home() {
       if (e.key === 'Escape') {
         if (statsOpen) closeStats();
         if (coordsOpen) closeCoords();
+        if (counterOpen) closeCounter();
       }
     };
     document.addEventListener('keydown', handler);
     return () => document.removeEventListener('keydown', handler);
-  }, [statsOpen, coordsOpen]);
+  }, [statsOpen, coordsOpen, counterOpen]);
 
   function randomDigits(len: number) {
     return Array.from({ length: len }, () => Math.floor(Math.random() * 10)).join('');
@@ -477,6 +480,19 @@ export default function Home() {
     setTimeout(() => setStatsOpen(false), 300);
   }
 
+  function openCounter() {
+    setCounterOpen(true);
+    document.body.classList.add('nav-hidden');
+    requestAnimationFrame(() => requestAnimationFrame(() => setCounterVisible(true)));
+  }
+
+  function closeCounter() {
+    setCounterVisible(false);
+    setConfirmReset(false);
+    document.body.classList.remove('nav-hidden');
+    setTimeout(() => setCounterOpen(false), 300);
+  }
+
   function openCoords() {
     setCoordsOpen(true);
     document.body.classList.add('nav-hidden');
@@ -548,25 +564,10 @@ export default function Home() {
               )}
             </div>
 
-            <div className="card counter-card">
-              <div className="card-header">
-                <span className="card-title"><FiHash size={11} style={{ marginRight: 5, opacity: 0.7 }} />{h.barcodeCardTitle}</span>
-                <div className="counter-header-actions">
-                  {!confirmReset ? (
-                    <button className="counter-reset-btn" onClick={() => setConfirmReset(true)}>{h.resetBtn}</button>
-                  ) : (
-                    <div className="counter-confirm">
-                      <span className="counter-confirm-text">{h.confirmResetPrompt}</span>
-                      <button className="counter-confirm-yes" onClick={resetCounter}>{h.confirmYes}</button>
-                      <button className="counter-confirm-no" onClick={() => setConfirmReset(false)}>{h.confirmNo}</button>
-                    </div>
-                  )}
-                </div>
-              </div>
-              <span className="counter-number" onClick={handleCounterTap} style={{ cursor: 'default', userSelect: 'none' }}>{totalImei.toLocaleString()}</span>
-            </div>
-
             <div className="tool-row">
+              <button className="tool-btn" onClick={openCounter}>
+                <FiHash size={12} />{h.barcodeCardTitle}
+              </button>
               <button className="tool-btn" onClick={openCoords}>
                 <FiCrosshair size={12} />{h.coordsTitle}
               </button>
@@ -663,6 +664,32 @@ export default function Home() {
                 </div>
               )}
               <span className="stats-note">{s.footerNote}</span>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {counterOpen && (
+        <div className={`stats-overlay open${counterVisible ? ' visible' : ''}`} onClick={e => { if (e.target === e.currentTarget) closeCounter(); }}>
+          <div className="stats-modal counter-modal">
+            <div className="stats-modal-header">
+              <span className="stats-modal-title"><FiHash size={12} style={{ marginRight: 6, opacity: 0.6 }} />{h.barcodeCardTitle}</span>
+              <button className="stats-close-btn" onClick={closeCounter}>✕</button>
+            </div>
+            <div className="counter-modal-body">
+              <span className="counter-number" onClick={handleCounterTap} style={{ cursor: 'default', userSelect: 'none' }}>{totalImei.toLocaleString()}</span>
+            </div>
+            <div className="stats-modal-footer">
+              {!confirmReset ? (
+                <button className="stats-reset-btn" onClick={() => setConfirmReset(true)}>{h.resetBtn}</button>
+              ) : (
+                <div className="stats-reset-confirm">
+                  <span className="stats-reset-confirm-text">{h.confirmResetPrompt}</span>
+                  <button className="stats-reset-yes" onClick={resetCounter}>{h.confirmYes}</button>
+                  <button className="stats-reset-no" onClick={() => setConfirmReset(false)}>{h.confirmNo}</button>
+                </div>
+              )}
+              <span className="stats-note">esc to close</span>
             </div>
           </div>
         </div>
