@@ -706,9 +706,9 @@ textarea:focus { border-color: #444; }
 }
 
 .cv-hero {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
+  background: none;
+  border: none;
+  border-radius: 0;
   padding: 32px 24px 28px;
   display: flex;
   flex-direction: column;
