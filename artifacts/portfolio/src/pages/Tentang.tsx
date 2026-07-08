@@ -258,7 +258,7 @@ export default function Tentang() {
 
           <div className="p-project">
             <div className="p-project-name">
-              Llian Portfolio
+              portfolio
               <span className="p-badge"><span className="p-badge-dot" />live</span>
             </div>
             <p className="p-project-desc">
@@ -287,7 +287,7 @@ export default function Tentang() {
           </div>
 
           <div className="p-project">
-            <div className="p-project-name">Jobstreet Scraper</div>
+            <div className="p-project-name">jobstreet-scraper</div>
             <p className="p-project-desc">
               Tool open source buat scraping data lowongan dari Jobstreet — otomatis sekaligus.
             </p>
@@ -299,7 +299,7 @@ export default function Tentang() {
           </div>
 
           <div className="p-project">
-            <div className="p-project-name">AdMob Auto Impression</div>
+            <div className="p-project-name">admob-auto-impression</div>
             <p className="p-project-desc">
               Tool open source berbasis otomasi untuk naikin volume tayangan AdMob tanpa intervensi manual.
             </p>
