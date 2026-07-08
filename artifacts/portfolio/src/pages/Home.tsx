@@ -685,6 +685,7 @@ export default function Home() {
               <button className="stats-close-btn" onClick={closeCounter}>✕</button>
             </div>
             <div className="counter-modal-body">
+              <span className="stats-cell-label">{h.barcodeTodayLabel}</span>
               <span className="counter-number" onClick={handleCounterTap} style={{ cursor: 'default', userSelect: 'none' }}>{totalImei.toLocaleString()}</span>
             </div>
             <div className="stats-modal-footer">
