@@ -178,11 +178,14 @@ body {
   transition: background 0.15s ease, color 0.15s ease;
   -webkit-tap-highlight-color: transparent;
 }
-.nav-dropdown-item:hover { background: var(--surface2); color: var(--text); }
+@media (hover: hover) {
+  .nav-dropdown-item:hover { background: var(--surface2); color: var(--text); }
+}
 
 .nav-dropdown-item--active {
   cursor: default;
 }
+.nav-dropdown-item--active:active { background: none; }
 
 .nav-dropdown-check {
   width: 13px;
