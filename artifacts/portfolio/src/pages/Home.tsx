@@ -617,7 +617,6 @@ export default function Home() {
         <div className={`stats-overlay open${statsVisible ? ' visible' : ''}`} onClick={e => { if (e.target === e.currentTarget) closeStats(); }}>
           <div className="stats-modal">
             <div className="stats-modal-header">
-              <span className="stats-modal-title">{s.title}</span>
               <button className="stats-close-btn" onClick={closeStats}>✕</button>
             </div>
 
@@ -674,7 +673,6 @@ export default function Home() {
         <div className={`stats-overlay open${counterVisible ? ' visible' : ''}`} onClick={e => { if (e.target === e.currentTarget) closeCounter(); }}>
           <div className="stats-modal counter-modal">
             <div className="stats-modal-header">
-              <span className="stats-modal-title"><FiHash size={12} style={{ marginRight: 6, opacity: 0.6 }} />{h.barcodeCardTitle}</span>
               <button className="stats-close-btn" onClick={closeCounter}>✕</button>
             </div>
             <div className="counter-modal-body">
@@ -700,7 +698,6 @@ export default function Home() {
         <div className={`stats-overlay open${coordsVisible ? ' visible' : ''}`} onClick={e => { if (e.target === e.currentTarget) closeCoords(); }}>
           <div className="stats-modal coords-modal">
             <div className="stats-modal-header">
-              <span className="stats-modal-title"><FiCrosshair size={12} style={{ marginRight: 6, opacity: 0.6 }} />{h.coordsTitle}</span>
               <button className="stats-close-btn" onClick={closeCoords}>✕</button>
             </div>
             <div className="coords-modal-body">
