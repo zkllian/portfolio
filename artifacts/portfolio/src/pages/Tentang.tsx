@@ -124,7 +124,7 @@ export default function Tentang() {
       {/* ── Bio ── */}
       <p className="p-bio">
         Saya seorang{' '}
-        <a href="https://github.com/zkllian" target="_blank" rel="noreferrer">Front-End Developer</a>
+        <a href="https://github.com/zkllian" target="_blank" rel="noreferrer" className="p-sketch-link">Front-End Developer</a>
         {' '}berbasis di Cianjur, Indonesia — membangun website dengan tampilan rapi dan kode yang scalable.
       </p>
 <p className="p-bio">
