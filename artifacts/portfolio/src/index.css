@@ -55,8 +55,8 @@ body {
   line-height: 1.5;
 }
 
-/* ── Floating nav bar (wrapper) ── */
-.nav-bar {
+/* ── Single floating nav pill ── */
+.nav-pill {
   position: fixed;
   top: 16px;
   left: 50%;
@@ -64,46 +64,66 @@ body {
   z-index: 100;
   display: flex;
   align-items: center;
-  gap: 8px;
-}
-
-/* ── Floating logo pill ── */
-.logo-wrap {
-  position: relative;
-  background: rgba(252,252,252,0.85);
-  backdrop-filter: blur(28px) saturate(1.6);
-  -webkit-backdrop-filter: blur(28px) saturate(1.6);
+  justify-content: space-between;
+  gap: 12px;
+  background: rgba(250,250,250,0.72);
+  backdrop-filter: blur(28px) saturate(1.8);
+  -webkit-backdrop-filter: blur(28px) saturate(1.8);
   border: 1px solid rgba(0,0,0,0.08);
-  border-top-color: rgba(0,0,0,0.10);
+  border-top-color: rgba(255,255,255,0.9);
   border-radius: 999px;
-  padding: 6px 14px 6px 8px;
-  width: fit-content;
-  max-width: calc(100vw - 120px);
+  padding: 7px 7px 7px 14px;
   white-space: nowrap;
-  box-shadow: 0 2px 3px -2px rgba(0,0,0,0.10);
+  box-shadow: 0 4px 24px -4px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.06);
   font-family: 'Plus Jakarta Sans', sans-serif;
+  min-width: 320px;
+  max-width: calc(100vw - 32px);
 }
 
-/* ── Breadcrumb pill (sibling to logo-wrap) ── */
-.breadcrumb-pill {
-  position: relative;
-  background: rgba(252,252,252,0.85);
-  backdrop-filter: blur(28px) saturate(1.6);
-  -webkit-backdrop-filter: blur(28px) saturate(1.6);
-  border: 1px solid rgba(0,0,0,0.08);
-  border-top-color: rgba(0,0,0,0.10);
-  border-radius: 999px;
-  padding: 9px 14px;
+.nav-pill-left {
   display: flex;
   align-items: center;
-  gap: 4px;
-  white-space: nowrap;
+  gap: 9px;
+  flex-shrink: 0;
+}
+
+.nav-pill-name {
   font-size: 15px;
   font-weight: 900;
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  letter-spacing: .01em;
-  box-shadow: 0 2px 3px -2px rgba(0,0,0,0.10);
+  color: var(--text);
+  letter-spacing: -.01em;
 }
+
+.nav-pill-links {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.nav-pill-link {
+  background: none;
+  border: none;
+  padding: 7px 14px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+  letter-spacing: 0;
+  outline: none;
+  white-space: nowrap;
+  -webkit-tap-highlight-color: transparent;
+}
+.nav-pill-link:hover { background: rgba(0,0,0,0.055); color: var(--text); }
+
+.nav-pill-link--active {
+  background: var(--accent);
+  color: #fff;
+  cursor: default;
+}
+.nav-pill-link--active:hover { background: var(--accent); color: #fff; }
 
 /* consistent spacing token */
 :root { --page-px: 16px; --page-gap: 20px; }
