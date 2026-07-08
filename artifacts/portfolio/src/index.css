@@ -68,7 +68,7 @@ body::before {
 .p-wrap {
   max-width: 540px;
   margin: 0 auto;
-  padding: 24px 24px 80px;
+  padding: 24px;
 }
 
 /* ── Profile header ── */
@@ -449,15 +449,11 @@ body::before {
 
 /* ── Footer ── */
 .p-footer {
-  margin-top: 56px;
-  padding-top: 28px;
-  border-top: 1px solid var(--border);
+  margin-top: 48px;
   text-align: center;
   font-family: var(--font-sans);
   font-size: 14px;
   color: var(--text-muted);
-  position: relative;
-  padding-bottom: 16px;
 }
 .p-footer p + p { margin-top: 4px; }
 .p-footer-stats { margin-top: 28px !important; }
