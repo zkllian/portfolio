@@ -603,7 +603,7 @@ textarea:focus { border-color: var(--border2); }
 .results-reset-btn:hover { background: #fff0f0; color: #d1242f; border-color: #ffc9c9; }
 
 .results-scroll {
-  max-height: 640px; overflow-y: auto;
+  max-height: min(640px, 50vh, 50dvh); overflow-y: auto;
   scrollbar-width: none;
   -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 4%, black 96%, transparent 100%);
   mask-image: linear-gradient(to bottom, transparent 0%, black 4%, black 96%, transparent 100%);
@@ -703,7 +703,7 @@ textarea:focus { border-color: var(--border2); }
 .history-list { margin-top: 10px; display: flex; flex-direction: column; }
 .history-label { margin-bottom: 10px; flex-shrink: 0; }
 .history-scroll {
-  display: flex; flex-direction: column; gap: 8px; max-height: 340px; overflow-y: auto;
+  display: flex; flex-direction: column; gap: 8px; max-height: min(340px, 32vh, 32dvh); overflow-y: auto;
   scrollbar-width: none;
   -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 4%, black 96%, transparent 100%);
   mask-image: linear-gradient(to bottom, transparent 0%, black 4%, black 96%, transparent 100%);
