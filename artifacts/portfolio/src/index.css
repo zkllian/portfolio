@@ -523,10 +523,10 @@ body::before {
 /* ── Footer ── */
 .p-footer {
   margin-top: 48px;
-  text-align: left;
+  text-align: center;
   font-family: var(--font-sans);
   font-size: 14px;
-  color: var(--text-muted);
+  color: #000;
 }
 .p-footer p + p { margin-top: 4px; }
 .p-footer-stats { margin-top: 28px !important; }
