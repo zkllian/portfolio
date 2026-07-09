@@ -579,28 +579,12 @@ export default function Home() {
               </div>
               <div className="btn-row">
                 <button className="tool-btn tool-btn--dark" onClick={() => generateBulk()} disabled={isLoading}>
-                  <FiZap size={13} style={{ flexShrink: 0 }} />
-                  {h.executeBtn}
+                  {isLoading
+                    ? <><span className="btn-spinner" />{loadingCount}</>
+                    : <><FiZap size={13} style={{ flexShrink: 0 }} />{h.executeBtn}</>}
                 </button>
               </div>
             </div>
-            {isLoading && (
-              <div className="results-list skel-list">
-                {Array.from({ length: pendingCount }, (_, i) => (
-                  <div key={i} className="result-card">
-                    <div className="result-header">
-                      <span className="result-name">barcode-{String(i + 1).padStart(2, '0')}.png</span>
-                      <span className="result-status skel-status">generating…</span>
-                    </div>
-                    <div className="result-img-wrap">
-                      <div className="barcode-skeleton">
-                        <div className="barcode-scan" style={{ animationDelay: `${i * 0.18}s` }} />
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
           </div>
         )}
 
