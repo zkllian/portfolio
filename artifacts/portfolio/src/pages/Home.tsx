@@ -223,11 +223,18 @@ export default function Home() {
       const payload = new Blob([JSON.stringify({ userId })], { type: 'application/json' });
       navigator.sendBeacon?.('/api/stats/leave', payload);
     }
+    function handleVisibility() {
+      if (document.visibilityState === 'hidden') sendLeave();
+    }
     document.addEventListener('pagehide', sendLeave);
+    document.addEventListener('visibilitychange', handleVisibility);
+    window.addEventListener('beforeunload', sendLeave);
 
     return () => {
       clearInterval(heartbeat);
       document.removeEventListener('pagehide', sendLeave);
+      document.removeEventListener('visibilitychange', handleVisibility);
+      window.removeEventListener('beforeunload', sendLeave);
     };
   }, []);
 
