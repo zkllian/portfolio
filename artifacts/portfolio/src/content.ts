@@ -31,14 +31,14 @@ export const content = {
     line1LinkLabel: 'Front-End Developer',
     line1Suffix:    'berusia 26 tahun berasal dari Bandung, Indonesia.',
     line2Prefix:    'Hubungi saya lewat',
+    line2IgLabel:   'Instagram',
+    line2Comma:     ',',
     line2Or:        'atau',
     line2EmailLabel:'email',
     line2GitPrefix: '| lihat semua proyek saya di',
     line2GitLabel:  'GitHub',
     line3Prefix:    'Saya juga aktif di',
     line3TwitterLabel: 'Twitter / X',
-    line4Prefix:    'Temukan saya di',
-    line4IgHandle:  '@llianified',
   },
 
   /* ── URL & kontak ─────────────────────────────────────────────── */

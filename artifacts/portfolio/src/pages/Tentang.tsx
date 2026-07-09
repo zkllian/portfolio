@@ -187,6 +187,9 @@ export default function Tentang() {
       </p>
       <p className="p-bio">
         {b.line2Prefix}{' '}
+        <a href={links.instagram} target="_blank" rel="noreferrer">
+          <IcoInstagram />{b.line2IgLabel}
+        </a>{b.line2Comma}{' '}
         <a href={links.whatsapp} target="_blank" rel="noreferrer">
           <IcoWhatsApp />WhatsApp
         </a>
@@ -203,12 +206,6 @@ export default function Tentang() {
         {b.line3Prefix}{' '}
         <a href={links.twitter} target="_blank" rel="noreferrer">
           <IcoX />{b.line3TwitterLabel}
-        </a>.
-      </p>
-      <p className="p-bio">
-        {b.line4Prefix}{' '}
-        <a href={links.instagram} target="_blank" rel="noreferrer">
-          <IcoInstagram />{b.line4IgHandle}
         </a>.
       </p>
       <p className="p-bio p-bio--last">
