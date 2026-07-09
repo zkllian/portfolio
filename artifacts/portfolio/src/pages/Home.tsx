@@ -551,7 +551,7 @@ export default function Home() {
             <Link href="/" className="home-link">← home</Link>
             <div className="card-header">
               <div className="card-title-group">
-                <div className="card-title-icon" onClick={openStats} style={{ cursor: 'pointer' }}><FiAlignJustify size={14} /></div>
+                <div className="card-title-icon" onClick={handleBadgeTap} style={{ cursor: 'pointer' }}><FiAlignJustify size={14} /></div>
                 <div className="card-title-text">
                   <span className="card-title">{h.pageTitle}</span>
                 </div>
