@@ -153,17 +153,6 @@ export default function Tentang() {
   return (
     <div className="p-wrap page-wrap--enter">
 
-      {/* ── Lang toggle — fixed top-right ── */}
-      <button
-        className="lang-toggle"
-        onClick={toggleLang}
-        aria-label="Toggle language"
-      >
-        <span className={lang === 'id' ? 'lang-active' : ''}>ID</span>
-        <span className="lang-sep">|</span>
-        <span className={lang === 'en' ? 'lang-active' : ''}>EN</span>
-      </button>
-
       {/* ── Profile ── */}
       <div className="p-profile">
         <div className="p-avatar" role="img" aria-label={profile.ariaLabel} />
@@ -174,6 +163,15 @@ export default function Tentang() {
           </div>
           <div className="p-role">{profile.role}</div>
         </div>
+        <button
+          className="lang-toggle"
+          onClick={toggleLang}
+          aria-label="Toggle language"
+        >
+          <span className={lang === 'id' ? 'lang-active' : ''}>ID</span>
+          <span className="lang-sep">|</span>
+          <span className={lang === 'en' ? 'lang-active' : ''}>EN</span>
+        </button>
       </div>
 
       {/* ── Translatable content ── */}

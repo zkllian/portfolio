@@ -80,10 +80,7 @@ body::before {
 }
 
 .lang-toggle {
-  position: fixed;
-  top: 20px;
-  right: 24px;
-  z-index: 100;
+  margin-left: auto;
   display: flex;
   align-items: center;
   gap: 5px;
