@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { Link } from 'wouter';
 import JsBarcode from 'jsbarcode';
-import { FiZap, FiEye, FiDownload, FiShare2, FiAlignJustify, FiBarChart2, FiMove } from 'react-icons/fi';
+import { FiZap, FiEye, FiDownload, FiShare2, FiAlignJustify, FiBarChart2, FiMove, FiClock } from 'react-icons/fi';
 import { content } from '@/content';
 
 const h = content.home;
@@ -603,7 +603,7 @@ export default function Home() {
             </div>
             {history.length > 0 && (
               <div className="history-list">
-                <span className="history-label">riwayat ({history.length}/{HISTORY_LIMIT})</span>
+                <span className="card-title history-label"><FiClock size={16} style={{ flexShrink: 0 }} />riwayat ({history.length}/{HISTORY_LIMIT})</span>
                 <div className="history-scroll">
                   {history.map((h2, i) => (
                     <div key={i} className="history-item">
