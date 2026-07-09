@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { Link } from 'wouter';
 import JsBarcode from 'jsbarcode';
-import { FiZap, FiTerminal, FiEye, FiDownload, FiShare2, FiEdit2, FiBarChart2, FiMove } from 'react-icons/fi';
+import { FiZap, FiTerminal, FiEye, FiDownload, FiShare2, FiAlignJustify, FiBarChart2, FiMove } from 'react-icons/fi';
 import { content } from '@/content';
 
 const h = content.home;
@@ -551,10 +551,9 @@ export default function Home() {
             <Link href="/" className="home-link">← home</Link>
             <div className="card-header">
               <div className="card-title-group">
-                <div className="card-title-icon"><FiEdit2 size={18} /></div>
+                <div className="card-title-icon"><FiAlignJustify size={14} /></div>
                 <div className="card-title-text">
                   <span className="card-title">{h.pageTitle}</span>
-                  <span className="card-title-sub">{h.pageSub}</span>
                 </div>
               </div>
               <span className="badge" onClick={handleBadgeTap} style={{ cursor: 'default', userSelect: 'none' }}>{imeiCount}</span>
