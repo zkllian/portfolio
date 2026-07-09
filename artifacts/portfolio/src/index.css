@@ -134,12 +134,31 @@ body::before {
   letter-spacing: -0.01em;
 }
 
+@keyframes roleEnter {
+  from { transform: translateY(8px); filter: blur(5px); opacity: 0; }
+  to   { transform: translateY(0);   filter: blur(0);   opacity: 1; }
+}
+@keyframes roleExit {
+  from { transform: translateY(0);   filter: blur(0);   opacity: 1; }
+  to   { transform: translateY(-8px); filter: blur(5px); opacity: 0; }
+}
+
+.p-role-wrap {
+  overflow: hidden;
+  height: 20px;
+  margin-top: 4px;
+}
+
 .p-role {
   font-family: var(--font-sans);
   font-size: 14px;
   color: var(--text-dim);
-  margin-top: 4px;
   letter-spacing: 0;
+  line-height: 20px;
+  animation: roleEnter 0.28s ease forwards;
+}
+.p-role--exit {
+  animation: roleExit 0.28s ease forwards;
 }
 
 .p-cv-link {

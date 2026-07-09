@@ -130,11 +130,33 @@ const TECH_ICONS: Record<string, React.ReactNode> = {
   'Canva':        <SiCanva />,
 };
 
+/* ─────────── Role cycler ─────────── */
+
+function useRoleCycle(roles: { label: string; duration: number }[]) {
+  const [idx, setIdx] = useState(0);
+  const [exiting, setExiting] = useState(false);
+
+  useEffect(() => {
+    const stay = setTimeout(() => {
+      setExiting(true);
+      const exit = setTimeout(() => {
+        setIdx(i => (i + 1) % roles.length);
+        setExiting(false);
+      }, 280);
+      return () => clearTimeout(exit);
+    }, roles[idx].duration);
+    return () => clearTimeout(stay);
+  }, [idx]);
+
+  return { label: roles[idx].label, key: idx, exiting };
+}
+
 /* ─────────── Component ─────────── */
 
 export default function Tentang() {
   const time = useCianjurClock();
   const visitors = useVisitorCount();
+  const role = useRoleCycle(profile.roles);
   const [lang, setLang] = useState<'id' | 'en'>('id');
   const [switching, setSwitching] = useState(false);
   const isEN = lang === 'en';
@@ -161,7 +183,11 @@ export default function Tentang() {
             {profile.name}
             <IcoVerified />
           </div>
-          <div className="p-role">{profile.role}</div>
+          <div className="p-role-wrap">
+            <div key={role.key} className={`p-role${role.exiting ? ' p-role--exit' : ''}`}>
+              {role.label}
+            </div>
+          </div>
         </div>
         <button
           className="lang-toggle"
