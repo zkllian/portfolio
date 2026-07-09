@@ -120,7 +120,7 @@ export default function Home() {
   const [coordsOpen, setCoordsOpen] = useState(false);
   const [coordsVisible, setCoordsVisible] = useState(false);
 
-  type StatsData = { today: number; total: number; mine: number; others: number } | null;
+  type StatsData = { today: number; total: number; mine: number; others: number; online: number } | null;
   const [statsOpen, setStatsOpen] = useState(false);
   const [statsVisible, setStatsVisible] = useState(false);
   const [stats, setStats] = useState<StatsData>(null);
@@ -653,6 +653,15 @@ export default function Home() {
                 <span className="stats-cell-label">{s.othersLabel}</span>
                 <span className="stats-cell-value">
                   {statsLoading ? <span className="stats-shimmer">···</span> : statsError ? '—' : (stats?.others ?? 0).toLocaleString()}
+                </span>
+              </div>
+              <div className="stats-cell stats-cell--full">
+                <span className="stats-cell-label" style={{ display: 'flex', alignItems: 'center' }}>
+                  <span className="stats-online-dot" />
+                  {s.onlineLabel}
+                </span>
+                <span className="stats-cell-value" style={{ color: 'var(--green)' }}>
+                  {statsLoading ? <span className="stats-shimmer">···</span> : statsError ? '—' : (stats?.online ?? 0).toLocaleString()}
                 </span>
               </div>
             </div>

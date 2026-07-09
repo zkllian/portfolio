@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { createDb, dailyStatsTable, allTimeStatsTable, userDailyStatsTable } from "@workspace/db";
+import { createDb, dailyStatsTable, allTimeStatsTable, userDailyStatsTable, userPresenceTable } from "@workspace/db";
 import { eq, sql } from "drizzle-orm";
 
 function getWIBDateStr() {
@@ -42,6 +42,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           .onConflictDoUpdate({
             target: [userDailyStatsTable.userId, userDailyStatsTable.date],
             set: { count: sql`${userDailyStatsTable.count} + ${amount}` },
+          });
+        await db
+          .insert(userPresenceTable)
+          .values({ userId, lastSeen: Date.now() })
+          .onConflictDoUpdate({
+            target: userPresenceTable.userId,
+            set: { lastSeen: Date.now() },
           });
       }
 

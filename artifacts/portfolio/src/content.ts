@@ -280,6 +280,7 @@ export const content = {
       totalLabel:         'Total Keseluruhan',
       mineLabel:          'Saya',
       othersLabel:        'Orang Lain',
+      onlineLabel:        'Online Sekarang',
       serverUnavailable:  'Server tidak tersedia',
       resetGlobalBtn:     'Reset Global',
       resetConfirmPrompt: 'Reset semua data?',

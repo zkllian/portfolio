@@ -1,8 +1,8 @@
 import { Router, type IRouter } from "express";
 import fs from "fs";
 import path from "path";
-import { createDb, dailyStatsTable, allTimeStatsTable, userDailyStatsTable } from "@workspace/db";
-import { eq, sql } from "drizzle-orm";
+import { createDb, dailyStatsTable, allTimeStatsTable, userDailyStatsTable, userPresenceTable } from "@workspace/db";
+import { eq, sql, gt } from "drizzle-orm";
 
 const STATS_FILE = path.resolve(process.cwd(), "stats.json");
 const db = createDb();
@@ -47,6 +47,8 @@ router.get("/stats/today", async (req, res) => {
         mine = userRow?.count ?? 0;
       }
 
+      const FIVE_MIN = 5 * 60 * 1000;
+      const [onlineRow] = await db.select({ count: sql<number>`count(*)::int` }).from(userPresenceTable).where(gt(userPresenceTable.lastSeen, Date.now() - FIVE_MIN));
       const todayCount = dayRow?.count ?? 0;
       return res.json({
         date: today,
@@ -54,13 +56,14 @@ router.get("/stats/today", async (req, res) => {
         total: totalRow?.value ?? 0,
         mine,
         others: Math.max(0, todayCount - mine),
+        online: onlineRow?.count ?? 0,
       });
     } catch {}
   }
 
   const f = readFile();
   const todayCount = f.date === today ? f.count : 0;
-  return res.json({ date: today, today: todayCount, total: f.total, mine: 0, others: todayCount });
+  return res.json({ date: today, today: todayCount, total: f.total, mine: 0, others: todayCount, online: 0 });
 });
 
 router.post("/stats/ping", async (req, res) => {
@@ -95,6 +98,13 @@ router.post("/stats/ping", async (req, res) => {
           .onConflictDoUpdate({
             target: [userDailyStatsTable.userId, userDailyStatsTable.date],
             set: { count: sql`${userDailyStatsTable.count} + ${amount}` },
+          });
+        await db
+          .insert(userPresenceTable)
+          .values({ userId, lastSeen: Date.now() })
+          .onConflictDoUpdate({
+            target: userPresenceTable.userId,
+            set: { lastSeen: Date.now() },
           });
       }
 

@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { createDb, dailyStatsTable, allTimeStatsTable, userDailyStatsTable } from "@workspace/db";
-import { eq, sql } from "drizzle-orm";
+import { createDb, dailyStatsTable, allTimeStatsTable, userDailyStatsTable, userPresenceTable } from "@workspace/db";
+import { eq, sql, gt } from "drizzle-orm";
 
 function getWIBDateStr() {
   return new Date().toLocaleDateString("sv-SE", { timeZone: "Asia/Jakarta" });
@@ -30,6 +30,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         mine = userRow?.count ?? 0;
       }
 
+      const FIVE_MIN = 5 * 60 * 1000;
+      const [onlineRow] = await db.select({ count: sql<number>`count(*)::int` }).from(userPresenceTable).where(gt(userPresenceTable.lastSeen, Date.now() - FIVE_MIN));
       const todayCount = dayRow?.count ?? 0;
       return res.json({
         date: today,
@@ -37,6 +39,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         total: totalRow?.value ?? 0,
         mine,
         others: Math.max(0, todayCount - mine),
+        online: onlineRow?.count ?? 0,
       });
     } catch (e) {
       console.error("db error", e);
@@ -44,5 +47,5 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   // No DB — return zeros gracefully
-  return res.json({ date: today, today: 0, total: 0, mine: 0, others: 0 });
+  return res.json({ date: today, today: 0, total: 0, mine: 0, others: 0, online: 0 });
 }
