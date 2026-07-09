@@ -251,19 +251,6 @@ export default function Home() {
     }
   }
 
-  function resetAll() {
-    setResetAnimating(true);
-    setTimeout(() => {
-      inputValRef.current = '';
-      setInputVal('');
-      setResults([]);
-      setView('input');
-      setImeiCount('0 sets');
-      setResetAnimating(false);
-      window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
-    }, 260);
-  }
-
   function goBack() {
     setLeaving(true);
     setTimeout(() => {
@@ -378,6 +365,13 @@ export default function Home() {
       setIsLoading(false);
       showToast((err instanceof Error) ? err.message : String(err));
     }
+  }
+
+  function resetCounter() {
+    setTotalImei(0);
+    localStorage.setItem(COUNTER_KEY, '0');
+    setConfirmReset(false);
+    showToast(h.toastCounterReset);
   }
 
   function downloadImage(dataUrl: string, index: number) {
@@ -636,7 +630,6 @@ export default function Home() {
             <button className="home-link" onClick={goBack}>← kembali</button>
             <div className="results-topbar">
               <span className="results-count-badge">{resultLabel}</span>
-              <button className="results-reset-btn" onClick={resetAll}>{h.resetBtn}</button>
             </div>
             <div className="results-list">
               {results.map(r => (
@@ -731,6 +724,15 @@ export default function Home() {
               <span className="counter-number" onClick={handleCounterTap} style={{ cursor: 'default', userSelect: 'none' }}>{totalImei.toLocaleString()}</span>
             </div>
             <div className="stats-esc-row">
+              {!confirmReset ? (
+                <button className="stats-reset-btn" onClick={() => setConfirmReset(true)}>{h.resetBtn}</button>
+              ) : (
+                <div className="stats-reset-confirm">
+                  <span className="stats-reset-confirm-text">{h.confirmResetPrompt}</span>
+                  <button className="stats-reset-yes" onClick={resetCounter}>{h.confirmYes}</button>
+                  <button className="stats-reset-no" onClick={() => setConfirmReset(false)}>{h.confirmNo}</button>
+                </div>
+              )}
               <span className="stats-esc-text">esc to close</span>
             </div>
           </div>
