@@ -567,7 +567,7 @@ body.bg-warm::before { opacity: 0.3; }
   to   { opacity: 0; filter: blur(12px); }
 }
 
-.card { padding: 20px; margin-bottom: 12px; background: var(--surface); border-radius: 12px; }
+.card { padding: 20px; margin-bottom: 12px; background: var(--surface); border-radius: 12px; border: 1px solid var(--border); }
 .card-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 12px; }
 .card-title-group { display: flex; align-items: center; gap: 12px; }
 .card-title-icon { display: flex; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: 8px; background: var(--surface2); border: 1px solid var(--border); color: var(--text-dim); flex-shrink: 0; align-self: center; }
