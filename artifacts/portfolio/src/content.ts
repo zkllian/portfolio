@@ -12,10 +12,10 @@ export const content = {
     ariaLabel: 'Yoga Aprilliansyah N',
     cvHref:    '/cv.pdf',
     roles: [
-      { label: 'Front-End Developer', duration: 5000 },
-      { label: 'Community Manager',   duration: 5000 },
-      { label: 'Digital Marketer',    duration: 5000 },
-      { label: 'Content Writer',      duration: 5000 },
+      { label: 'Front-End Developer', duration: 3000 },
+      { label: 'Community Manager',   duration: 3000 },
+      { label: 'Digital Marketer',    duration: 3000 },
+      { label: 'Content Writer',      duration: 3000 },
     ],
   },
 
@@ -68,7 +68,6 @@ export const content = {
       title: 'kontribusi digital',
       sub:   'Hal yang saya bangun di komunitas Blockchain/Web3.',
       entries: [
-        { co: 'Zyonation', date: '2012',                role: 'Blogger • Google AdSense Publisher' },
         { co: 'Verso',           date: 'mar 2018 – des 2019', role: 'Community Manager'        },
         { co: 'Injective',       date: 'jan 2024 – mar 2025', role: 'Brand Ambassador'         },
         { co: 'Nesa',            date: 'mar 2024 – mei 2025', role: 'Brand Ambassador'         },
@@ -171,7 +170,6 @@ export const content = {
       title: 'digital contributions',
       sub:   'Things I built in communities and media.',
       entries: [
-        { co: 'Zyonation', date: '2012',                role: 'Blogger · Google AdSense Publisher' },
         { co: 'Verso',            date: 'mar 2018 – dec 2019', role: 'Community Manager'        },
         { co: 'Injective',        date: 'jan 2024 – mar 2025', role: 'Brand Ambassador'         },
         { co: 'Nesa',             date: 'mar 2024 – may 2025', role: 'Brand Ambassador'         },
