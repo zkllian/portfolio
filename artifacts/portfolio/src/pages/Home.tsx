@@ -505,7 +505,7 @@ export default function Home() {
         showToast(h.toastShareUnsupported);
         return;
       }
-      await navigator.share({ files: [file], title: filename, text: filename });
+      await navigator.share({ files: [file] });
     } catch (e: unknown) {
       if (e instanceof Error && e.name !== 'AbortError') {
         showToast(h.toastShareFailed);
