@@ -564,9 +564,7 @@ export default function Home() {
                   onChange={handleInput}
                   placeholder={`00000xxxxx00000\n00000xxxxx00000\n00000xxxxx00000\n00000xxxxx00000\n00000xxxxx00000\n00000xxxxx00000`}
                 />
-              </div>
-              <div className="input-badge-row">
-                <span className="badge" onClick={handleBadgeTap} style={{ cursor: 'default', userSelect: 'none' }}>{imeiCount}</span>
+                <span className="badge input-badge" onClick={handleBadgeTap} style={{ cursor: 'default', userSelect: 'none' }}>{imeiCount}</span>
               </div>
 
               <div className="btn-row">
