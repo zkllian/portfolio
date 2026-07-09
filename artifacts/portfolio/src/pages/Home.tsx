@@ -644,18 +644,18 @@ export default function Home() {
                 </span>
               </div>
               <div className="stats-cell">
-                <span className="stats-cell-label">{s.othersLabel}</span>
-                <span className="stats-cell-value">
-                  {statsLoading ? <span className="stats-shimmer">···</span> : statsError ? '—' : (stats?.others ?? 0).toLocaleString()}
-                </span>
-              </div>
-              <div className="stats-cell stats-cell--full">
                 <span className="stats-cell-label" style={{ display: 'flex', alignItems: 'center' }}>
                   <span className="stats-online-dot" />
                   {s.onlineLabel}
                 </span>
                 <span className="stats-cell-value" style={{ color: 'var(--green)' }}>
                   {statsLoading ? <span className="stats-shimmer">···</span> : statsError ? '—' : (stats?.online ?? 0).toLocaleString()}
+                </span>
+              </div>
+              <div className="stats-cell">
+                <span className="stats-cell-label">{s.othersLabel}</span>
+                <span className="stats-cell-value">
+                  {statsLoading ? <span className="stats-shimmer">···</span> : statsError ? '—' : (stats?.others ?? 0).toLocaleString()}
                 </span>
               </div>
             </div>
