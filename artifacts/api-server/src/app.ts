@@ -9,6 +9,7 @@ import { logger } from "./lib/logger";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const app: Express = express();
+app.set("etag", false);
 
 app.use(
   pinoHttp({
@@ -38,6 +39,10 @@ app.use((_req, res, next) => {
   next();
 });
 
+app.use("/api", (_req, res, next) => {
+  res.setHeader("Cache-Control", "no-store, must-revalidate");
+  next();
+});
 app.use("/api", router);
 
 const frontendDist = path.resolve(__dirname, "../../portfolio/dist");

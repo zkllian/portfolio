@@ -11,6 +11,7 @@ function makePool() {
 const pool = makePool();
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
+  res.setHeader("Cache-Control", "no-store, must-revalidate");
   if (req.method !== "POST") return res.status(405).json({ error: "method not allowed" });
 
   const body = req.body as { userId?: string };

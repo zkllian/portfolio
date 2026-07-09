@@ -587,7 +587,7 @@ export default function Home() {
     document.body.classList.add('nav-hidden');
     requestAnimationFrame(() => requestAnimationFrame(() => setStatsVisible(true)));
     try {
-      const res = await fetch(`/api/stats/today?userId=${encodeURIComponent(userIdRef.current)}`);
+      const res = await fetch(`/api/stats/today?userId=${encodeURIComponent(userIdRef.current)}`, { cache: 'no-store' });
       if (res.ok) {
         const data = await res.json() as { today: number; total: number; mine: number; others: number; online: number };
         setStats(data);
@@ -605,7 +605,7 @@ export default function Home() {
     if (!statsOpen) return;
     const id = setInterval(() => {
       if (document.visibilityState !== 'visible') return;
-      fetch(`/api/stats/today?userId=${encodeURIComponent(userIdRef.current)}`)
+      fetch(`/api/stats/today?userId=${encodeURIComponent(userIdRef.current)}`, { cache: 'no-store' })
         .then(res => (res.ok ? res.json() : Promise.reject()))
         .then(data => { setStats(data); setStatsError(false); })
         .catch(() => {});
