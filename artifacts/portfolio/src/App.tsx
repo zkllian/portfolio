@@ -1,12 +1,10 @@
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Route, Switch, useLocation } from 'wouter';
 import Home from '@/pages/Home';
 import Tentang from '@/pages/Tentang';
 import NotFound from '@/pages/not-found';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/react';
-
-const WARM_ROUTES = new Set(['/projects/imei/barcode-gen']);
 
 function PageTransition({ children }: { children: React.ReactNode }) {
   const [location] = useLocation();
@@ -29,14 +27,6 @@ function PageTransition({ children }: { children: React.ReactNode }) {
 
 function App() {
   const [location] = useLocation();
-
-  useLayoutEffect(() => {
-    if (WARM_ROUTES.has(location)) {
-      document.body.classList.add('bg-warm');
-    } else {
-      document.body.classList.remove('bg-warm');
-    }
-  }, [location]);
 
   return (
     <>
