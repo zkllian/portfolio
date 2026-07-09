@@ -546,7 +546,7 @@ export default function Home() {
             <div className="card">
               <div className="card-header">
                 <div className="card-title-group">
-                  <div className="card-title-icon"><FiEdit2 size={15} /></div>
+                  <div className="card-title-icon"><FiEdit2 size={18} /></div>
                   <div className="card-title-text">
                     <span className="card-title">{h.pageTitle}</span>
                     <span className="card-title-sub">{h.pageSub}</span>
