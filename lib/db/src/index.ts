@@ -5,6 +5,7 @@ import * as schema from "./schema";
 const { Pool } = pg;
 
 export * from "./schema";
+export * from "drizzle-orm";
 
 export function createDb() {
   const url = process.env.RAILWAY_DATABASE_URL;

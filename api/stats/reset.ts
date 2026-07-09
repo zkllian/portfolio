@@ -1,6 +1,5 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { createDb, dailyStatsTable, allTimeStatsTable, userDailyStatsTable } from "@workspace/db";
-import { sql } from "drizzle-orm";
+import { createDb, dailyStatsTable, allTimeStatsTable, userDailyStatsTable, sql } from "@workspace/db";
 
 const db = createDb();
 
