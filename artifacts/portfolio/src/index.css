@@ -695,7 +695,13 @@ textarea:focus { border-color: var(--border2); }
 
 .history-list { margin-top: 10px; display: flex; flex-direction: column; }
 .history-label { margin-bottom: 10px; flex-shrink: 0; }
-.history-scroll { display: flex; flex-direction: column; gap: 8px; max-height: 480px; overflow-y: auto; }
+.history-scroll {
+  display: flex; flex-direction: column; gap: 8px; max-height: 480px; overflow-y: auto;
+  scrollbar-width: none;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 4%, black 96%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, black 4%, black 96%, transparent 100%);
+}
+.history-scroll::-webkit-scrollbar { display: none; }
 .history-item { display: flex; align-items: center; gap: 10px; width: 100%; padding: 9px 12px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; text-align: left; }
 .history-sets { font-size: 11px; font-family: var(--font-sans); color: var(--text-muted); background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; padding: 2px 7px; flex-shrink: 0; }
 .history-preview { flex: 1; font-size: 11px; font-family: var(--font-mono); color: var(--text-dim); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
