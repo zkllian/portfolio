@@ -605,11 +605,11 @@ export default function Home() {
               <div className="history-list">
                 <span className="history-label">riwayat ({history.length}/{HISTORY_LIMIT})</span>
                 {history.map((h2, i) => (
-                  <button key={i} className="history-item" onClick={() => { const v = `${h2.imei1}\n${h2.imei2}`; setInputVal(v); inputValRef.current = v; }}>
+                  <div key={i} className="history-item">
                     <span className="history-sets">#{history.length - i}</span>
                     <span className="history-preview">{h2.imei1} · {h2.imei2}</span>
                     <span className="history-time">{new Date(h2.ts).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })}</span>
-                  </button>
+                  </div>
                 ))}
               </div>
             )}
