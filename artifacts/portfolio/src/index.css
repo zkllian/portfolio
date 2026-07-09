@@ -638,7 +638,7 @@ textarea:focus { border-color: var(--border2); }
 }
 .results-scroll::-webkit-scrollbar { display: none; }
 .results-list { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; align-items: start; }
-.result-card { background: var(--surface2); border: 1px solid var(--border2); border-radius: 10px; overflow: hidden; transition: border-color .15s; animation: fadeSlideIn .35s ease-out both; }
+.result-card { background: var(--surface2); border: 1px solid var(--border2); border-radius: 10px; overflow: hidden; transition: border-color .15s; animation: fadeSlideIn .35s ease-out both; box-shadow: 0 1px 4px rgba(0,0,0,.06); }
 .result-card:hover { border-color: #b8b8b8; }
 .result-header { display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; border-bottom: 1px solid var(--border2); background: var(--surface2); gap: 6px; }
 .result-name { font-size: 10px; font-weight: 400; font-family: var(--font-sans); color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
