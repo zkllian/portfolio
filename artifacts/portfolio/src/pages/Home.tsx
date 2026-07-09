@@ -568,7 +568,7 @@ export default function Home() {
               </div>
 
               <div className="btn-row">
-                <button className="btn btn-primary" onClick={() => generateBulk()} disabled={isLoading}>
+                <button className="btn btn-primary btn--black" onClick={() => generateBulk()} disabled={isLoading}>
                   <FiZap size={13} style={{ flexShrink: 0 }} />
                   {h.executeBtn}
                 </button>
@@ -578,7 +578,7 @@ export default function Home() {
                   <FiBarChart2 size={12} style={{ flexShrink: 0 }} />
                   {h.barcodeCardTitle}
                 </button>
-                <button className="tool-btn" onClick={openCoords}>
+                <button className="tool-btn tool-btn--orange" onClick={openCoords}>
                   <FiMove size={12} style={{ flexShrink: 0 }} />
                   {h.coordsTitle}
                 </button>

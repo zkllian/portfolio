@@ -690,6 +690,11 @@ textarea:focus { border-color: var(--border2); }
 .tool-btn:hover { background: var(--surface); border-color: var(--border2); color: var(--text); }
 .tool-btn--accent { background: #f6f3ff; border-color: #e0d9ff; color: #7850ff; }
 .tool-btn--accent:hover { background: #ede8ff; border-color: #c9baff; color: #6c3ce0; }
+.tool-btn--orange { background: #fff7ed; border-color: #fed7aa; color: #ea580c; }
+.tool-btn--orange:hover { background: #ffedd5; border-color: #fdba74; color: #c2410c; }
+.btn--black { background: #0a0a0a; border-color: #0a0a0a; color: #fff; }
+.btn--black:hover { background: #262626; border-color: #262626; color: #fff; }
+.btn--black:disabled { opacity: .4; }
 
 .counter-modal { max-width: 280px !important; }
 .counter-modal-body { padding: 16px 18px 8px; text-align: center; display: flex; flex-direction: column; gap: 6px; align-items: center; }
