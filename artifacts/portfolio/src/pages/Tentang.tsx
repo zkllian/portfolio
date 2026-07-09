@@ -137,6 +137,9 @@ export default function Tentang() {
             <IcoVerified />
           </div>
           <div className="p-role">{profile.role}</div>
+          <a href={profile.cvHref} target="_blank" rel="noreferrer" className="p-cv-link">
+            {profile.cvLabel}
+          </a>
         </div>
         <button
           className="lang-toggle"

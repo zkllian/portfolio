@@ -21,6 +21,8 @@ export const content = {
     name:      'Yoga Aprilliansyah N',
     role:      'Front-End Developer',
     ariaLabel: 'Yoga Aprilliansyah N',
+    cvLabel:   'Lihat CV saya disini',
+    cvHref:    '/cv.pdf',
   },
 
   /* ── Bio ─────────────────────────────────────────────────────── */
