@@ -693,7 +693,7 @@ textarea:focus { border-color: var(--border2); }
 
 .btn-spinner { width: 12px; height: 12px; border: 1.5px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; animation: spin .6s linear infinite; flex-shrink: 0; }
 
-.history-list { margin-top: 10px; display: flex; flex-direction: column; gap: 1px; }
+.history-list { margin-top: 10px; display: flex; flex-direction: column; gap: 1px; max-height: 320px; overflow-y: auto; }
 .history-label { font-size: 10px; font-family: var(--font-sans); color: var(--text-dim); opacity: .6; padding: 0 2px; margin-bottom: 4px; display: block; }
 .history-item { display: flex; align-items: center; gap: 10px; width: 100%; padding: 9px 12px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; cursor: pointer; text-align: left; transition: background .15s, border-color .15s; }
 .history-item:hover { background: var(--surface2); border-color: var(--border2); }

@@ -100,8 +100,9 @@ export default function Home() {
 
   const COUNTER_KEY = 'imei_total_generated';
   const DATE_KEY    = 'imei_total_generated_date';
-  const HISTORY_KEY = 'bc-history';
-  type HistoryEntry = { input: string; sets: number; ts: number };
+  const HISTORY_KEY = 'bc-history-imei';
+  const HISTORY_LIMIT = 50;
+  type HistoryEntry = { imei1: string; imei2: string; ts: number };
   const [history, setHistory] = useState<HistoryEntry[]>(() => {
     try { return JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]'); } catch { return []; }
   });
@@ -334,8 +335,12 @@ export default function Home() {
       setResults(newResults);
       setResultLabel(`${totalSets} output`);
       setHistory(prev => {
-        const entry: HistoryEntry = { input: inputValRef.current, sets: totalSets, ts: Date.now() };
-        const next = [entry, ...prev.filter(h => h.input !== entry.input)].slice(0, 5);
+        const now = Date.now();
+        const newEntries: HistoryEntry[] = [];
+        for (let i = 0; i < totalSets; i++) {
+          newEntries.push({ imei1: lines[i * 2], imei2: lines[i * 2 + 1], ts: now + i });
+        }
+        const next = [...newEntries.reverse(), ...prev].slice(0, HISTORY_LIMIT);
         try { localStorage.setItem(HISTORY_KEY, JSON.stringify(next)); } catch {}
         return next;
       });
@@ -598,11 +603,11 @@ export default function Home() {
             </div>
             {history.length > 0 && (
               <div className="history-list">
-                <span className="history-label">riwayat</span>
+                <span className="history-label">riwayat ({history.length}/{HISTORY_LIMIT})</span>
                 {history.map((h2, i) => (
-                  <button key={i} className="history-item" onClick={() => { setInputVal(h2.input); inputValRef.current = h2.input; }}>
-                    <span className="history-sets">{h2.sets} set</span>
-                    <span className="history-preview">{h2.input.split('\n')[0]?.trim()}</span>
+                  <button key={i} className="history-item" onClick={() => { const v = `${h2.imei1}\n${h2.imei2}`; setInputVal(v); inputValRef.current = v; }}>
+                    <span className="history-sets">#{history.length - i}</span>
+                    <span className="history-preview">{h2.imei1} · {h2.imei2}</span>
                     <span className="history-time">{new Date(h2.ts).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })}</span>
                   </button>
                 ))}
