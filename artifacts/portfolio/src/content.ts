@@ -20,8 +20,6 @@ export const content = {
   profile: {
     name:      'Yoga Aprilliansyah N',
     ariaLabel: 'Yoga Aprilliansyah N',
-    cvPrefix:  'Lihat CV saya',
-    cvLabel:   'disini',
     cvHref:    '/cv.pdf',
     roles: [
       { label: 'Front-End Developer', duration: 5000 },

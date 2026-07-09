@@ -573,8 +573,6 @@ body.bg-warm::before { opacity: 0.3; }
 .card-title-icon { display: flex; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: 8px; background: var(--surface2); border: 1px solid var(--border); color: var(--text-dim); flex-shrink: 0; align-self: center; }
 .card-title-text { display: flex; flex-direction: column; gap: 2px; justify-content: center; }
 .card-title-sub { font-size: 13px; font-family: var(--font-sans); color: var(--text-dim); line-height: 1.4; }
-.save-default-btn { padding: 3px 12px; font-size: 11px; font-family: var(--font-sans); background: transparent; border: 1px solid var(--border2); border-radius: 10px; color: var(--text-dim); cursor: pointer; transition: background .12s, color .12s; }
-.save-default-btn:active { background: var(--surface2); color: var(--text); }
 .card-title { display: flex; align-items: center; gap: 5px; font-size: 22px; font-family: var(--font-serif); font-weight: 400; color: var(--text-muted); letter-spacing: -0.02em; }
 .badge { font-size: 11px; font-family: var(--font-sans); color: var(--text-dim); background: var(--surface2); border: 1px solid var(--border); padding: 2px 8px; border-radius: 15px; }
 .card-header .badge { align-self: flex-end; }
@@ -586,10 +584,6 @@ textarea::placeholder { color: var(--text-dim); }
 textarea:focus { border-color: var(--border2); }
 
 .btn-row { display: flex; gap: 8px; margin-top: 12px; }
-.btn { flex: 1; display: flex; align-items: center; justify-content: center; gap: 6px; padding: 9px 12px; font-size: 12px; font-weight: 500; font-family: var(--font-sans); border-radius: 10px; border: 1px solid transparent; cursor: pointer; transition: background .15s, opacity .15s; user-select: none; }
-.btn-primary { background: var(--bg); color: var(--text-muted); border: 1px solid var(--border); }
-.btn-primary:hover { background: var(--surface); border-color: var(--border2); color: var(--text); }
-.btn-primary:disabled { opacity: .4; cursor: not-allowed; }
 
 .status-bar { display: none; align-items: center; gap: 8px; padding: 10px 12px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; margin-top: 12px; font-size: 12px; font-family: var(--font-sans); color: var(--text-muted); }
 .status-bar.active { display: flex; }
@@ -697,10 +691,6 @@ textarea:focus { border-color: var(--border2); }
 .tool-btn--accent:hover { background: #ede8ff; border-color: #c9baff; color: #6c3ce0; }
 .tool-btn--orange { background: #fff7ed; border-color: #fed7aa; color: #ea580c; }
 .tool-btn--orange:hover { background: #ffedd5; border-color: #fdba74; color: #c2410c; }
-.btn--black { background: #0a0a0a; border-color: #0a0a0a; color: #fff; }
-.btn--black:hover { background: #262626; border-color: #262626; color: #fff; }
-.btn--black:disabled { opacity: .4; }
-
 .counter-modal { max-width: 280px !important; }
 .counter-modal-body { padding: 16px 18px 10px; text-align: center; display: flex; flex-direction: column; gap: 6px; align-items: center; }
 .coords-modal { max-width: 380px !important; }
