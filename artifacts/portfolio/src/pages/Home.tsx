@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { Link } from 'wouter';
 import JsBarcode from 'jsbarcode';
@@ -58,7 +58,7 @@ function genUserId() {
 }
 
 export default function Home() {
-  useEffect(() => {
+  useLayoutEffect(() => {
     document.body.classList.add('bg-warm');
     return () => document.body.classList.remove('bg-warm');
   }, []);
