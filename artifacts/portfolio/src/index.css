@@ -68,7 +68,7 @@ body::before {
 .p-wrap {
   max-width: 540px;
   margin: 0 auto;
-  padding: 24px;
+  padding: 36px 24px;
 }
 
 /* ── Profile header ── */
