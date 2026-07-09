@@ -6,14 +6,6 @@
 
 export const content = {
 
-  /* ── Navigasi ─────────────────────────────────────────────────── */
-  nav: {
-    brand: 'llian',
-    pages: [
-      { label: 'Tentang', path: '/tentang' },
-    ],
-  },
-
   /* ── Profil ───────────────────────────────────────────────────── */
   profile: {
     name:      'Yoga Aprilliansyah N',
