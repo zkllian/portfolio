@@ -732,7 +732,7 @@ export default function Home() {
         </div>
       , document.body)}
 
-      <div className={`toast${showToastState ? ' show' : ''}`}>{toastMsg}</div>
+      <div className={`toast${showToastState ? ' show' : ''}`}><span className="toast-prefix">// err :</span> {toastMsg}</div>
       <canvas ref={canvasRef} style={{ display: 'none' }}></canvas>
     </>
   );
