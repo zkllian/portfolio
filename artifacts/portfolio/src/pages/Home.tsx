@@ -556,6 +556,14 @@ export default function Home() {
                   <span className="card-title">{h.pageTitle}</span>
                 </div>
               </div>
+              <div className="card-header-actions">
+                <button className="icon-btn" onClick={openCounter} title={h.barcodeCardTitle}>
+                  <FiBarChart2 size={14} />
+                </button>
+                <button className="icon-btn" onClick={openCoords} title={h.coordsTitle}>
+                  <FiMove size={14} />
+                </button>
+              </div>
             </div>
             <div className="card">
               <div className="input-wrap">
@@ -571,16 +579,6 @@ export default function Home() {
                 <button className="tool-btn tool-btn--dark" onClick={() => generateBulk()} disabled={isLoading}>
                   <FiZap size={13} style={{ flexShrink: 0 }} />
                   {h.executeBtn}
-                </button>
-              </div>
-              <div className="tool-row">
-                <button className="tool-btn tool-btn--accent" onClick={openCounter}>
-                  <FiBarChart2 size={12} style={{ flexShrink: 0 }} />
-                  {h.barcodeCardTitle}
-                </button>
-                <button className="tool-btn tool-btn--orange" onClick={openCoords}>
-                  <FiMove size={12} style={{ flexShrink: 0 }} />
-                  {h.coordsTitle}
                 </button>
               </div>
               {isLoading && (
