@@ -8,7 +8,7 @@ export * from "./schema";
 export * from "drizzle-orm";
 
 export function createDb() {
-  const url = process.env.RAILWAY_DATABASE_URL;
+  const url = process.env.RAILWAY_DATABASE_URL ?? process.env.DATABASE_URL;
   if (!url) return null;
 
   const needsSsl = (url.includes("neon.tech") || url.includes("railway")) && !/sslmode=/.test(url);

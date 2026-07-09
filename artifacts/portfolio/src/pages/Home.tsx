@@ -122,7 +122,7 @@ export default function Home() {
       return raw.map((entry, i) => (typeof entry.seq === 'number' ? entry : { ...entry, seq: n - i }));
     } catch { return []; }
   });
-  const [showHistorySection, setShowHistorySection] = useState(() => (isNewDay ? false : Number(localStorage.getItem(COUNTER_KEY) || '0') > 0));
+  const [showHistorySection, setShowHistorySection] = useState(() => history.length > 0);
   const [clearingHistory, setClearingHistory] = useState(false);
   const [collapsingHistory, setCollapsingHistory] = useState(false);
   const [historyBoxHeight, setHistoryBoxHeight] = useState<number | null>(null);
