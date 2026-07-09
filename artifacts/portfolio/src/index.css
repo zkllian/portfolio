@@ -580,7 +580,7 @@ body.bg-warm::before { opacity: 0.3; }
 .card-header .badge { align-self: flex-end; }
 
 .input-wrap { position: relative; border-radius: 10px; }
-.input-badge { position: absolute; bottom: 12px; right: 10px; z-index: 1; pointer-events: none; }
+.input-badge { position: absolute; bottom: 14px; right: 10px; z-index: 1; pointer-events: none; }
 textarea { width: 100%; height: 160px; padding: 12px; font-size: 13px; font-family: var(--font-sans); color: var(--text); background: var(--surface); border: 1px solid var(--border); border-radius: 10px; resize: none; outline: none; line-height: 1.7; transition: border-color .15s; caret-color: var(--accent); }
 textarea::placeholder { color: var(--text-dim); }
 textarea:focus { border-color: var(--border2); }
