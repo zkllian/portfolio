@@ -551,7 +551,7 @@ export default function Home() {
             <Link href="/" className="home-link">← home</Link>
             <div className="card-header">
               <div className="card-title-group">
-                <div className="card-title-icon"><FiAlignJustify size={14} /></div>
+                <div className="card-title-icon" onClick={openStats} style={{ cursor: 'pointer' }}><FiAlignJustify size={14} /></div>
                 <div className="card-title-text">
                   <span className="card-title">{h.pageTitle}</span>
                 </div>
@@ -564,7 +564,7 @@ export default function Home() {
                   onChange={handleInput}
                   placeholder={`00000xxxxx00000\n00000xxxxx00000\n00000xxxxx00000\n00000xxxxx00000\n00000xxxxx00000\n00000xxxxx00000`}
                 />
-                <span className="badge input-badge" onClick={handleBadgeTap} style={{ cursor: 'default', userSelect: 'none' }}>{imeiCount}</span>
+                <span className="badge input-badge" style={{ userSelect: 'none' }}>{imeiCount}</span>
               </div>
 
               <div className="btn-row">
