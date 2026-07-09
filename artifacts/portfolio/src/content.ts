@@ -82,7 +82,7 @@ export const content = {
       title: 'pendidikan',
       sub:   'Dari mana saya mulai.',
       entries: [
-        { co: 'SMK Pasundan 1 Cianjur', date: '2015 – 2018', role: 'Teknik Komputer & Jaringan' },
+        { co: 'SMK Pasundan 1 Cianjur', date: 'juli 2015 – mei 2018', role: 'Teknik Komputer & Jaringan' },
       ],
     },
 
@@ -185,7 +185,7 @@ export const content = {
       title: 'education',
       sub:   'Where I started.',
       entries: [
-        { co: 'SMK Pasundan 1 Cianjur', date: '2015 – 2018', role: 'Computer & Network Engineering' },
+        { co: 'SMK Pasundan 1 Cianjur', date: 'july 2015 – may 2018', role: 'Computer & Network Engineering' },
       ],
     },
 
