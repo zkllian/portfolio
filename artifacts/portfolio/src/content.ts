@@ -42,6 +42,8 @@ export const content = {
     line2EmailLabel:  'Email',
     line2GitPrefix:   '| lihat semua proyek saya di',
     line2GitLabel:    'GitHub',
+    cvPrefix:         'Lihat CV saya',
+    cvLabel:          'disini',
   },
 
   /* ── URL & kontak ─────────────────────────────────────────────── */
@@ -151,16 +153,18 @@ export const content = {
 
   /* ── Bio (EN) ────────────────────────────────────────────────── */
   bioEN: {
-    line1Prefix:    "I'm a",
-    line1LinkLabel: 'Front-End Developer',
-    line1Suffix:    '26 years old, based in Cianjur, Indonesia.',
-    line2Prefix:    'Reach me via',
-    line2Or:        'or',
-    line2EmailLabel:'email',
-    line2GitPrefix: '| see my code on',
-    line2GitLabel:  'GitHub',
-    line3Prefix:    'Find me on',
-    line3TwitterLabel: 'Twitter / X',
+    line1Prefix:      "I'm a",
+    line1LinkLabel:   'Front-End Developer',
+    line1Suffix:      '26 years old, based in Bandung, Indonesia.',
+    line2Prefix:      'Reach me via',
+    line2IgLabel:     'Instagram',
+    line2TwitterLabel:'Twitter / X',
+    line2Or:          'or',
+    line2EmailLabel:  'Email',
+    line2GitPrefix:   '| see all my projects on',
+    line2GitLabel:    'GitHub',
+    cvPrefix:         'View my CV',
+    cvLabel:          'here',
   },
 
   /* ── Halaman Tentang (EN) ─────────────────────────────────────── */

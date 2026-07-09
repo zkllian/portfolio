@@ -232,9 +232,9 @@ export default function Tentang() {
         </a>.
       </p>
       <p className="p-bio p-bio--last">
-        {profile.cvPrefix}{' '}
+        {b.cvPrefix}{' '}
         <a href={profile.cvHref} target="_blank" rel="noreferrer">
-          <IcoPdf />{profile.cvLabel}
+          <IcoPdf />{b.cvLabel}
         </a>.
       </p>
 
