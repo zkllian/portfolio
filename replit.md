@@ -9,7 +9,7 @@ A portfolio + barcode generator for IMEI numbers. Indonesian-language UI with a 
 - `pnpm run typecheck` — full typecheck across all packages
 - `pnpm run build` — typecheck + build all packages
 - `pnpm --filter @workspace/db run push` — push DB schema changes (dev only)
-- Required env: `DATABASE_URL` — Postgres connection string (optional; falls back to file-based stats)
+- Required env: `RAILWAY_DATABASE_URL` — Railway Postgres connection string (optional; falls back to file-based stats)
 
 ## Stack
 
@@ -28,7 +28,7 @@ A portfolio + barcode generator for IMEI numbers. Indonesian-language UI with a 
 
 ## Architecture decisions
 
-- `lib/db/src/index.ts` exports `createDb()` which returns `null` if `DATABASE_URL` is unset (instead of throwing). Stats routes gracefully fall back to a local `stats.json` file.
+- `lib/db/src/index.ts` exports `createDb()` which returns `null` if `RAILWAY_DATABASE_URL` is unset (instead of throwing). Stats routes gracefully fall back to a local `stats.json` file.
 - Stats API lives at `/api/stats/today` (GET), `/api/stats/ping` (POST), `/api/stats/reset` (POST).
 - Routing is handled by wouter; pages are `Home` and `Tentang` (About).
 - CSS is fully custom (no Tailwind); single light theme only.
@@ -52,7 +52,7 @@ File sudah siap. Langkah-langkahnya:
 1. Push repo ke GitHub (kalau belum)
 2. Buka [vercel.com](https://vercel.com) → **Add New Project** → import repo
 3. Vercel otomatis baca `vercel.json` — tidak perlu setting manual build/output
-4. Tambahkan env var `DATABASE_URL` di Vercel dashboard (Settings → Environment Variables) kalau mau stats counter persisten
+4. Tambahkan env var `RAILWAY_DATABASE_URL` (connection string dari Railway Postgres) di Vercel dashboard (Settings → Environment Variables) kalau mau stats counter persisten
 5. Jalankan `pnpm --filter @workspace/db run push` sekali untuk migrasi schema ke DB produksi
 
 Struktur Vercel:
@@ -63,6 +63,6 @@ Struktur Vercel:
 
 ## Gotchas
 
-- `DATABASE_URL` is optional; if absent, the API falls back to `stats.json` in the api-server's working directory.
+- `RAILWAY_DATABASE_URL` is optional; if absent, the API falls back to `stats.json` in the api-server's working directory.
 - Fonts are served from `/public/` (SF Pro OTF files). Google Fonts (Geist) are loaded via CDN in `index.html`.
 - Run `pnpm --filter @workspace/db run push` after any schema changes to sync the DB.
