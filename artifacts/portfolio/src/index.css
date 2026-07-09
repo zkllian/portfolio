@@ -729,7 +729,7 @@ textarea:focus { border-color: var(--border2); }
 
 .btn-spinner { width: 12px; height: 12px; border: 1.5px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; animation: spin .6s linear infinite; flex-shrink: 0; }
 
-.history-list { margin-top: 10px; display: flex; flex-direction: column; }
+.history-list { margin-top: 20px; display: flex; flex-direction: column; }
 .history-label { margin-bottom: 10px; flex-shrink: 0; }
 .history-empty-inner { display: flex; align-items: center; justify-content: center; height: 50px; padding: 20px 12px; text-align: center; font-size: 12px; font-family: var(--font-sans); color: var(--text-dim); animation: fadeSlideIn .3s ease-out both; }
 .history-box { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
