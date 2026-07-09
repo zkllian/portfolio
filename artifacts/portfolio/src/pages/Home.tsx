@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { Link } from 'wouter';
 import JsBarcode from 'jsbarcode';
-import { FiZap, FiEye, FiDownload, FiShare2, FiAlignJustify, FiBarChart2, FiMove, FiClock } from 'react-icons/fi';
+import { FiZap, FiEye, FiDownload, FiShare2, FiAlignJustify, FiBarChart2, FiMove, FiClock, FiTrash2 } from 'react-icons/fi';
 import { content } from '@/content';
 
 const h = content.home;
@@ -374,6 +374,11 @@ export default function Home() {
     showToast(h.toastCounterReset);
   }
 
+  function clearHistory() {
+    setHistory([]);
+    try { localStorage.setItem(HISTORY_KEY, '[]'); } catch {}
+  }
+
   function downloadImage(dataUrl: string, index: number) {
     const a = document.createElement('a');
     a.href = dataUrl;
@@ -605,10 +610,17 @@ export default function Home() {
             </div>
             {history.length > 0 && (
               <div className="history-list">
-                <div className="card-title-group history-label">
-                  <div className="card-title-icon"><FiClock size={14} /></div>
-                  <div className="card-title-text">
-                    <span className="card-title">riwayat</span>
+                <div className="card-header history-label">
+                  <div className="card-title-group">
+                    <div className="card-title-icon"><FiClock size={14} /></div>
+                    <div className="card-title-text">
+                      <span className="card-title">riwayat</span>
+                    </div>
+                  </div>
+                  <div className="card-header-actions">
+                    <button className="icon-btn" onClick={clearHistory} title="hapus riwayat">
+                      <FiTrash2 size={14} />
+                    </button>
                   </div>
                 </div>
                 <div className="history-scroll">
