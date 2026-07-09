@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Route, Switch, useLocation } from 'wouter';
 import Home from '@/pages/Home';
 import Tentang from '@/pages/Tentang';
-import NotFound from '@/pages/not-found';
+import NotFound from '@/pages/NotFound';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/react';
 

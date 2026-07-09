@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { Link } from 'wouter';
 import JsBarcode from 'jsbarcode';
-import { FiZap, FiTerminal, FiEye, FiDownload, FiShare2, FiAlignJustify, FiBarChart2, FiMove } from 'react-icons/fi';
+import { FiZap, FiEye, FiDownload, FiShare2, FiAlignJustify, FiBarChart2, FiMove } from 'react-icons/fi';
 import { content } from '@/content';
 
 const h = content.home;
@@ -31,8 +31,7 @@ function NudgeRow({ label, yField, pos, onSetPos, onStartNudge, onStopNudge, col
             onPointerDown={() => onStartNudge(yField, -1)}
             onPointerUp={onStopNudge}
             onPointerLeave={onStopNudge}>▲</button>
-          <input type="number" value={pos[yField]} readOnly
-            onChange={e => onSetPos(p => ({ ...p, [yField]: parseFloat(e.target.value) || 0 }))} />
+          <input type="number" value={pos[yField]} readOnly onChange={() => {}} />
           <button className="nb"
             onPointerDown={() => onStartNudge(yField, 1)}
             onPointerUp={onStopNudge}
@@ -53,7 +52,8 @@ function genUserId() {
     }
     return id;
   } catch {
-    return 'anon';
+    // localStorage blocked — use ephemeral ID so stats stay per-session
+    return crypto.randomUUID();
   }
 }
 
