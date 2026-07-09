@@ -678,6 +678,7 @@ export default function Home() {
               )}
               <span className="stats-note">{s.footerNote}</span>
             </div>
+            <div className="stats-esc-row">esc to close</div>
           </div>
         </div>
       , document.body)}

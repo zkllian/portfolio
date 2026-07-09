@@ -683,6 +683,7 @@ textarea:focus { border-color: var(--border2); }
 .stats-reset-no { background: transparent; border: 1px solid var(--border2); border-radius: var(--radius); color: var(--text-dim); font-size: 11px; font-family: var(--font-sans); padding: 4px 10px; cursor: pointer; }
 .stats-reset-no:hover { background: var(--surface2); }
 .stats-note { font-size: 10px; font-family: var(--font-sans); color: var(--text-dim); opacity: .45; margin-left: auto; white-space: nowrap; }
+.stats-esc-row { border-top: 1px solid #e5e5e5; padding: 8px 18px; font-size: 10px; font-family: var(--font-mono); color: var(--text-dim); opacity: .5; text-align: center; }
 
 .tool-row { display: flex; gap: 8px; margin-top: 10px; }
 .tool-btn { flex: 1; display: flex; align-items: center; justify-content: center; gap: 6px; padding: 9px 12px; font-size: 12px; font-weight: 500; font-family: var(--font-sans); color: var(--text-muted); background: var(--bg); border: 1px solid var(--border); border-radius: 10px; cursor: pointer; transition: background .15s, border-color .15s, color .15s; }
