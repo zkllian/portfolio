@@ -58,6 +58,11 @@ function genUserId() {
 }
 
 export default function Home() {
+  useEffect(() => {
+    document.body.classList.add('bg-warm');
+    return () => document.body.classList.remove('bg-warm');
+  }, []);
+
   const [inputVal, setInputVal] = useState('');
   const [imeiCount, setImeiCount] = useState('0 sets');
   const [isLoading, setIsLoading] = useState(false);

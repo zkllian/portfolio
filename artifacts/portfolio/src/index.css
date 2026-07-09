@@ -545,7 +545,11 @@ body::before {
    BARCODE GEN UTILITY STYLES
    ══════════════════════════════════════════════════ */
 
-.container { max-width: 540px; margin: 0 auto; padding: 24px; background: #eae7e2; min-height: 100dvh; }
+/* ── Warm page override (barcode-gen only) ── */
+body.bg-warm { background-color: #e2ddd8; }
+body.bg-warm::before { opacity: 0.4; }
+
+.container { max-width: 540px; margin: 0 auto; padding: 24px; }
 
 .home-link { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-family: var(--font-sans); color: var(--text-dim); text-decoration: none; margin-bottom: 4px; transition: color .15s; background: none; border: none; padding: 0; cursor: pointer; }
 .home-link:hover { color: var(--text); }
