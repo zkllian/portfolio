@@ -577,7 +577,7 @@ body.bg-warm {
 }
 body.bg-warm::before { opacity: 0.3; }
 
-.container { max-width: 640px; margin: 0 auto; padding: 24px; min-height: 100dvh; }
+.container { max-width: 768px; margin: 0 auto; padding: 24px; min-height: 100dvh; }
 
 .home-link { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-family: var(--font-sans); color: var(--text-dim); text-decoration: none; margin-bottom: 20px; transition: color .15s; background: none; border: none; padding: 0; cursor: pointer; }
 .home-link:hover { color: var(--text); }
