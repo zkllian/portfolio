@@ -703,8 +703,8 @@ export default function Home() {
                   <button className="stats-reset-no" onClick={() => setConfirmReset(false)}>{h.confirmNo}</button>
                 </div>
               )}
-              <span className="stats-note">esc to close</span>
             </div>
+            <div className="stats-esc-row">esc to close</div>
           </div>
         </div>
       , document.body)}
