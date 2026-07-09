@@ -26,8 +26,6 @@ function PageTransition({ children }: { children: React.ReactNode }) {
 }
 
 function App() {
-  const [location] = useLocation();
-
   return (
     <>
       <PageTransition>

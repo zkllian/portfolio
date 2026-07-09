@@ -9,11 +9,10 @@ const h = content.home;
 const s = content.home.stats;
 
 
-function NudgeRow({ label, yField, pos, onSetPos, onStartNudge, onStopNudge, color }: {
+function NudgeRow({ label, yField, pos, onStartNudge, onStopNudge, color }: {
   label: string;
   yField: string;
   pos: Record<string, number>;
-  onSetPos: (fn: (p: Record<string, number>) => Record<string, number>) => void;
   onStartNudge: (field: string, dir: number) => void;
   onStopNudge: () => void;
   color?: string;
@@ -31,7 +30,7 @@ function NudgeRow({ label, yField, pos, onSetPos, onStartNudge, onStopNudge, col
             onPointerDown={() => onStartNudge(yField, -1)}
             onPointerUp={onStopNudge}
             onPointerLeave={onStopNudge}>▲</button>
-          <input type="number" value={pos[yField]} readOnly onChange={() => {}} />
+          <input type="number" value={pos[yField]} readOnly />
           <button className="nb"
             onPointerDown={() => onStartNudge(yField, 1)}
             onPointerUp={onStopNudge}
@@ -529,7 +528,8 @@ export default function Home() {
   async function handleGlobalReset() {
     setStatsResetting(true);
     try {
-      await fetch(`/api/stats/reset`, { method: 'POST' });
+      const res = await fetch(`/api/stats/reset`, { method: 'POST' });
+      if (!res.ok) throw new Error(`reset failed: ${res.status}`);
       setStats({ today: 0, total: 0, mine: 0, others: 0, online: 0 });
       setConfirmResetGlobal(false);
       showToast(s.toastResetSuccess);
