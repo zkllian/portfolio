@@ -691,7 +691,8 @@ textarea:focus { border-color: var(--border2); }
 .stats-close-btn:hover { color: var(--text); background: var(--surface2); }
 .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: #e5e5e5; border-bottom: 1px solid #e5e5e5; }
 .stats-cell--full { grid-column: 1 / -1; }
-.stats-online-dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--green); margin-right: 6px; flex-shrink: 0; vertical-align: middle; animation: online-pulse 2s ease-in-out infinite; }
+.stats-online-inline { display: inline-flex; align-items: center; }
+.stats-online-dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--green); margin-right: 6px; flex-shrink: 0; animation: online-pulse 2s ease-in-out infinite; }
 @keyframes online-pulse { 0%,100% { opacity: 1; } 50% { opacity: .4; } }
 .stats-cell { background: #fff; padding: 18px 18px 10px; display: flex; flex-direction: column; gap: 8px; }
 .stats-cell--accent { background: #f6f3ff; }
