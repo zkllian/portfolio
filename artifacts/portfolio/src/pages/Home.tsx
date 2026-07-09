@@ -124,9 +124,12 @@ export default function Home() {
   });
   const [showHistorySection, setShowHistorySection] = useState(() => history.length > 0);
   const [clearingHistory, setClearingHistory] = useState(false);
+  const [itemsExiting, setItemsExiting] = useState(false);
   const [collapsingHistory, setCollapsingHistory] = useState(false);
   const [historyBoxHeight, setHistoryBoxHeight] = useState<number | null>(null);
   const historyBoxRef = useRef<HTMLDivElement>(null);
+  const historyScrollRef = useRef<HTMLDivElement>(null);
+  const [historyScrollable, setHistoryScrollable] = useState(false);
   const [totalImei, setTotalImei] = useState<number>(() => {
     const today = getWIBDateStr();
     if (isNewDay) {
@@ -249,6 +252,12 @@ export default function Home() {
   useEffect(() => {
     drawPreview(pos);
   }, [pos]);
+
+  useEffect(() => {
+    const el = historyScrollRef.current;
+    if (!el) { setHistoryScrollable(false); return; }
+    setHistoryScrollable(el.scrollHeight > el.clientHeight + 1);
+  }, [history, showHistorySection]);
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
@@ -414,6 +423,7 @@ export default function Home() {
   function clearHistory() {
     if (clearingHistory || collapsingHistory || history.length === 0) return;
     setClearingHistory(true);
+    setItemsExiting(true);
     const n = history.length;
     const staggerMs = 35;
     const itemDurationMs = 260;
@@ -424,12 +434,13 @@ export default function Home() {
       if (historyBoxRef.current) {
         setHistoryBoxHeight(historyBoxRef.current.getBoundingClientRect().height);
       }
-      setClearingHistory(false);
       requestAnimationFrame(() => setCollapsingHistory(true));
     }, itemsDoneMs + collapseDelayMs);
     setTimeout(() => {
       setHistory([]);
       try { localStorage.setItem(HISTORY_KEY, '[]'); } catch {}
+      setClearingHistory(false);
+      setItemsExiting(false);
       setCollapsingHistory(false);
       setHistoryBoxHeight(null);
     }, itemsDoneMs + collapseDelayMs + collapseDurationMs);
@@ -685,12 +696,12 @@ export default function Home() {
                     ref={historyBoxRef}
                     style={historyBoxHeight !== null ? { height: collapsingHistory ? 60 : historyBoxHeight } : undefined}
                   >
-                    <div className="history-scroll">
+                    <div className={`history-scroll${historyScrollable ? ' history-scroll--scrollable' : ''}`} ref={historyScrollRef}>
                       {history.map((h2, i) => (
                         <div
                           key={i}
-                          className={`history-item${clearingHistory ? ' history-item--exit' : ''}`}
-                          style={clearingHistory ? { animationDelay: `${Math.min(i, 12) * 35}ms` } : undefined}
+                          className={`history-item${itemsExiting ? ' history-item--exit' : ''}`}
+                          style={itemsExiting ? { animationDelay: `${Math.min(i, 12) * 35}ms` } : undefined}
                         >
                           <span className="history-sets">#{h2.seq}</span>
                           <span className="history-preview">{h2.imei1} · {h2.imei2}</span>
