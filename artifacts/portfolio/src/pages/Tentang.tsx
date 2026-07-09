@@ -45,6 +45,7 @@ function genVisitorId() {
 
 function useVisitorCount() {
   const [count, setCount] = useState<number | null>(null);
+  const [online, setOnline] = useState<number | null>(null);
   useEffect(() => {
     const userId = genVisitorId();
     fetch('/api/stats/visit', {
@@ -69,9 +70,9 @@ function useVisitorCount() {
     const REALTIME_MS = 1000;
     const realtime = setInterval(() => {
       if (document.visibilityState !== 'visible') return;
-      fetch('/api/stats/today')
+      fetch(`/api/stats/today?userId=${encodeURIComponent(userId)}`, { cache: 'no-store' })
         .then(r => r.json())
-        .then(d => setCount(d.visitorsTotal ?? null))
+        .then(d => { setCount(d.visitorsTotal ?? null); setOnline(d.online ?? null); })
         .catch(() => {});
     }, REALTIME_MS);
 
@@ -87,7 +88,7 @@ function useVisitorCount() {
       document.removeEventListener('pagehide', sendLeave);
     };
   }, []);
-  return count;
+  return { count, online };
 }
 
 function useIncreaseFlash(value: number | null) {
@@ -150,8 +151,9 @@ function useRoleCycle(roles: { label: string; duration: number }[]) {
 
 export default function Tentang() {
   const time = useCianjurClock();
-  const visitors = useVisitorCount();
+  const { count: visitors, online } = useVisitorCount();
   const visitorsFlash = useIncreaseFlash(visitors);
+  const onlineFlash = useIncreaseFlash(online);
   const role = useRoleCycle(profile.roles);
   const [lang, setLang] = useState<'id' | 'en'>('id');
   const [switching, setSwitching] = useState(false);
@@ -344,6 +346,7 @@ export default function Tentang() {
         <div className="p-footer-right">
           <p className="p-footer-stats">
             {f.visitorsLabel} <strong className={visitorsFlash ? 'stat-flash' : undefined}>#{visitors !== null ? (1000 + visitors).toLocaleString() : '—'}</strong>
+            {' | '}{f.onlineLabel} <strong className={onlineFlash ? 'stat-flash' : undefined}>#{online !== null ? online.toLocaleString() : '—'}</strong>
           </p>
           <p className="p-footer-loc">{f.location} {time}</p>
         </div>

@@ -168,7 +168,6 @@ export default function Home() {
   const [stats, setStats] = useState<StatsData>(null);
   const todayFlash = useIncreaseFlash(stats?.today);
   const totalFlash = useIncreaseFlash(stats?.total);
-  const onlineFlash = useIncreaseFlash(stats?.online);
   const othersFlash = useIncreaseFlash(stats?.others);
   const counterFlash = useIncreaseFlash(totalImei);
   const [statsLoading, setStatsLoading] = useState(false);
@@ -795,15 +794,6 @@ export default function Home() {
                 <span className="stats-cell-label">{s.totalLabel}</span>
                 <span className={`stats-cell-value${totalFlash ? ' stat-flash' : ''}`}>
                   {statsLoading ? <span className="stats-shimmer">···</span> : statsError ? '—' : (stats?.total ?? 0).toLocaleString()}
-                </span>
-              </div>
-              <div className="stats-cell">
-                <span className="stats-cell-label" style={{ display: 'flex', alignItems: 'center' }}>
-                  <span className="stats-online-dot" />
-                  {s.onlineLabel}
-                </span>
-                <span className={`stats-cell-value${onlineFlash ? ' stat-flash' : ''}`} style={{ color: 'var(--green)' }}>
-                  {statsLoading ? <span className="stats-shimmer">···</span> : statsError ? '—' : (stats?.online ?? 0).toLocaleString()}
                 </span>
               </div>
               <div className="stats-cell">
