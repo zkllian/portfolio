@@ -133,7 +133,7 @@ export const content = {
       creditPrefix: 'Designed & Developed by',
       creditName:   'Yoga',
       copyright:    '© 2026 All rights reserved.',
-      visitorsLabel: 'Pengunjung',
+      visitorsLabel: 'Visitor',
       onlineLabel:  'Online',
       location:      'Cianjur, Indonesia',
     },
