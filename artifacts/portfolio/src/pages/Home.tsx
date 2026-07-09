@@ -730,7 +730,7 @@ export default function Home() {
                   <div
                     className={`history-box${collapsingHistory ? ' history-box--collapsing' : ''}`}
                     ref={historyBoxRef}
-                    style={historyBoxHeight !== null ? { height: collapsingHistory ? 'min(340px, 32vh, 32dvh)' : historyBoxHeight } : undefined}
+                    style={historyBoxHeight !== null ? { height: collapsingHistory ? 50 : historyBoxHeight } : undefined}
                   >
                     <div className={`history-scroll${historyScrollable ? ' history-scroll--scrollable' : ''}`} ref={historyScrollRef}>
                       {history.map((h2, i) => (
