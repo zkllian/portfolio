@@ -102,17 +102,25 @@ export default function Home() {
   const DATE_KEY    = 'imei_total_generated_date';
   const HISTORY_KEY = 'bc-history-imei';
   const HISTORY_LIMIT = 50;
-  type HistoryEntry = { imei1: string; imei2: string; ts: number };
-  const [history, setHistory] = useState<HistoryEntry[]>(() => {
-    try { return JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]'); } catch { return []; }
-  });
+  type HistoryEntry = { imei1: string; imei2: string; ts: number; seq: number };
   function getWIBDateStr() {
     return new Date().toLocaleDateString('sv-SE', { timeZone: 'Asia/Jakarta' });
   }
-  const [totalImei, setTotalImei] = useState<number>(() => {
-    const today   = getWIBDateStr();
+  const isNewDay = (() => {
+    const today = getWIBDateStr();
     const savedDate = localStorage.getItem(DATE_KEY);
-    if (savedDate !== today) {
+    return savedDate !== today;
+  })();
+  const [history, setHistory] = useState<HistoryEntry[]>(() => {
+    if (isNewDay) {
+      try { localStorage.setItem(HISTORY_KEY, '[]'); } catch {}
+      return [];
+    }
+    try { return JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]'); } catch { return []; }
+  });
+  const [totalImei, setTotalImei] = useState<number>(() => {
+    const today = getWIBDateStr();
+    if (isNewDay) {
       localStorage.setItem(COUNTER_KEY, '0');
       localStorage.setItem(DATE_KEY, today);
       return 0;
@@ -170,7 +178,9 @@ export default function Home() {
       const msUntilMidnight = midnight.getTime() - wibNow.getTime();
       return setTimeout(() => {
         setTotalImei(0);
+        setHistory([]);
         localStorage.setItem(COUNTER_KEY, '0');
+        localStorage.setItem(HISTORY_KEY, '[]');
         localStorage.setItem(DATE_KEY, getWIBDateStr());
         scheduleReset();
       }, msUntilMidnight);
@@ -334,11 +344,12 @@ export default function Home() {
       setIsLoading(false);
       setResults(newResults);
       setResultLabel(`${totalSets} output`);
+      const baseSeq = totalImei;
       setHistory(prev => {
         const now = Date.now();
         const newEntries: HistoryEntry[] = [];
         for (let i = 0; i < totalSets; i++) {
-          newEntries.push({ imei1: lines[i * 2], imei2: lines[i * 2 + 1], ts: now + i });
+          newEntries.push({ imei1: lines[i * 2], imei2: lines[i * 2 + 1], ts: now + i, seq: baseSeq + i + 1 });
         }
         const next = [...newEntries.reverse(), ...prev].slice(0, HISTORY_LIMIT);
         try { localStorage.setItem(HISTORY_KEY, JSON.stringify(next)); } catch {}
@@ -612,7 +623,7 @@ export default function Home() {
                 <div className="history-scroll">
                   {history.map((h2, i) => (
                     <div key={i} className="history-item">
-                      <span className="history-sets">#{history.length - i}</span>
+                      <span className="history-sets">#{h2.seq}</span>
                       <span className="history-preview">{h2.imei1} · {h2.imei2}</span>
                       <span className="history-time">{new Date(h2.ts).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })}</span>
                     </div>
