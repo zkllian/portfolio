@@ -186,8 +186,8 @@ export default function Tentang() {
         onClick={toggleLang}
         aria-label="Toggle language"
       >
+        <span className={`lang-pill${isEN ? ' lang-pill--en' : ''}`} />
         <span className={lang === 'id' ? 'lang-active' : ''}>ID</span>
-        <span className="lang-sep">|</span>
         <span className={lang === 'en' ? 'lang-active' : ''}>EN</span>
       </button>
 
