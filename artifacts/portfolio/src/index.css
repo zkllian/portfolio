@@ -547,12 +547,12 @@ body::before {
 
 /* ── Warm page override (barcode-gen only) ── */
 body.bg-warm {
-  --bg: #e2ddd8;
-  --surface: #ebe7e2;
-  --surface2: #dedad5;
-  --border: #cdc8c2;
-  --border2: #bdb8b2;
-  background-color: #e2ddd8;
+  --bg: #dedad5;
+  --surface: #e3dfdb;
+  --surface2: #d5d1cc;
+  --border: #cac5bf;
+  --border2: #b8b3ad;
+  background-color: #dedad5;
 }
 body.bg-warm::before { opacity: 0.3; }
 
