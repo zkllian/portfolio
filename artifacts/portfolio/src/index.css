@@ -621,7 +621,7 @@ textarea:focus { border-color: var(--border2); }
 .result-btn.primary-action { color: #0070f3; }
 .result-btn.primary-action:hover { color: #3b9eff; }
 
-.credit-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.1); backdrop-filter: blur(12px); z-index: 1000; align-items: center; justify-content: center; opacity: 0; transition: opacity .3s; }
+.credit-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.1); backdrop-filter: blur(4px); z-index: 1000; align-items: center; justify-content: center; opacity: 0; transition: opacity .3s; }
 .credit-overlay.open { display: flex; }
 .credit-overlay.visible { opacity: 1; }
 .credit-modal { position: relative; background: #fff; border: 1px solid #e2e2e2; border-radius: 10px; padding: 36px 32px 28px; max-width: 300px; width: 90%; text-align: center; overflow: hidden; transform: scale(.85) translateY(20px); transition: transform .35s cubic-bezier(.34,1.56,.64,1), opacity .3s; opacity: 0; }
@@ -650,7 +650,7 @@ textarea:focus { border-color: var(--border2); }
 .counter-confirm-no { background: transparent; border: 1px solid var(--border2); border-radius: 10px; color: var(--text-dim); font-size: 11px; font-family: var(--font-sans); padding: 5px 10px; cursor: pointer; }
 .counter-confirm-no:hover { background: var(--surface2); }
 
-.stats-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.1); backdrop-filter: blur(12px); z-index: 1000; align-items: center; justify-content: center; opacity: 0; transition: opacity .25s; }
+.stats-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.1); backdrop-filter: blur(4px); z-index: 1000; align-items: center; justify-content: center; opacity: 0; transition: opacity .25s; }
 .stats-overlay.open { display: flex; }
 .stats-overlay.visible { opacity: 1; }
 .stats-modal { position: relative; background: #fff; border: 1px solid #e5e5e5; border-radius: 10px; padding: 0; max-width: 320px; width: 92%; overflow: hidden; transform: scale(.88) translateY(16px); transition: transform .32s cubic-bezier(.34,1.45,.64,1), opacity .25s; opacity: 0; }
