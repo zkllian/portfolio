@@ -136,13 +136,33 @@ export default function Tentang() {
   const time = useCianjurClock();
   const visitors = useVisitorCount();
   const [lang, setLang] = useState<'id' | 'en'>('id');
+  const [switching, setSwitching] = useState(false);
   const isEN = lang === 'en';
   const t = isEN ? tentangEN : tentang;
   const b = isEN ? bioEN : { ...bio, line1Prefix: 'Saya seorang' };
   const f = t.footer;
 
+  function toggleLang() {
+    setSwitching(true);
+    setTimeout(() => {
+      setLang(l => l === 'id' ? 'en' : 'id');
+      setSwitching(false);
+    }, 150);
+  }
+
   return (
     <div className="p-wrap page-wrap--enter">
+
+      {/* ── Lang toggle — fixed top-right ── */}
+      <button
+        className="lang-toggle"
+        onClick={toggleLang}
+        aria-label="Toggle language"
+      >
+        <span className={lang === 'id' ? 'lang-active' : ''}>ID</span>
+        <span className="lang-sep">|</span>
+        <span className={lang === 'en' ? 'lang-active' : ''}>EN</span>
+      </button>
 
       {/* ── Profile ── */}
       <div className="p-profile">
@@ -154,16 +174,10 @@ export default function Tentang() {
           </div>
           <div className="p-role">{profile.role}</div>
         </div>
-        <button
-          className="lang-toggle"
-          onClick={() => setLang(l => l === 'id' ? 'en' : 'id')}
-          aria-label="Toggle language"
-        >
-          <span className={lang === 'id' ? 'lang-active' : ''}>ID</span>
-          <span className="lang-sep">|</span>
-          <span className={lang === 'en' ? 'lang-active' : ''}>EN</span>
-        </button>
       </div>
+
+      {/* ── Translatable content ── */}
+      <div className={`lang-content${switching ? ' lang-content--blur' : ''}`}>
 
       {/* ── Bio ── */}
       <p className="p-bio">
@@ -315,6 +329,7 @@ export default function Tentang() {
         <p className="p-footer-loc">{f.location} {time}</p>
       </footer>
 
+      </div>{/* end lang-content */}
     </div>
   );
 }
