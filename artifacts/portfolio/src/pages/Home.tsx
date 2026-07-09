@@ -600,11 +600,7 @@ export default function Home() {
               <div className="history-list">
                 <span className="history-label">riwayat</span>
                 {history.map((h2, i) => (
-                  <button key={i} className="history-item" onClick={() => {
-                    setInputVal(h2.input);
-                    inputValRef.current = h2.input;
-                    generateBulk();
-                  }}>
+                  <button key={i} className="history-item" onClick={() => { setInputVal(h2.input); inputValRef.current = h2.input; }}>
                     <span className="history-sets">{h2.sets} set</span>
                     <span className="history-preview">{h2.input.split('\n')[0]?.trim()}</span>
                     <span className="history-time">{new Date(h2.ts).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })}</span>
