@@ -101,7 +101,7 @@ export default function Home() {
   const COUNTER_KEY = 'imei_total_generated';
   const DATE_KEY    = 'imei_total_generated_date';
   const HISTORY_KEY = 'bc-history';
-  type HistoryEntry = { input: string; sets: number; ts: number; results?: { url: string; index: number }[] };
+  type HistoryEntry = { input: string; sets: number; ts: number };
   const [history, setHistory] = useState<HistoryEntry[]>(() => {
     try { return JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]'); } catch { return []; }
   });
@@ -334,9 +334,9 @@ export default function Home() {
       setResults(newResults);
       setResultLabel(`${totalSets} output`);
       setHistory(prev => {
-        const entry: HistoryEntry = { input: inputValRef.current, sets: totalSets, ts: Date.now(), results: newResults };
+        const entry: HistoryEntry = { input: inputValRef.current, sets: totalSets, ts: Date.now() };
         const next = [entry, ...prev.filter(h => h.input !== entry.input)].slice(0, 5);
-        try { localStorage.setItem(HISTORY_KEY, JSON.stringify(next.map(({ results: _, ...rest }) => rest))); } catch {}
+        try { localStorage.setItem(HISTORY_KEY, JSON.stringify(next)); } catch {}
         return next;
       });
       setTotalImei(prev => {
@@ -601,15 +601,9 @@ export default function Home() {
                 <span className="history-label">riwayat</span>
                 {history.map((h2, i) => (
                   <button key={i} className="history-item" onClick={() => {
-                    if (h2.results) {
-                      setResults(h2.results);
-                      setResultLabel(`${h2.sets} output`);
-                      setView('results');
-                      window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
-                    } else {
-                      setInputVal(h2.input);
-                      inputValRef.current = h2.input;
-                    }
+                    setInputVal(h2.input);
+                    inputValRef.current = h2.input;
+                    generateBulk();
                   }}>
                     <span className="history-sets">{h2.sets} set</span>
                     <span className="history-preview">{h2.input.split('\n')[0]?.trim()}</span>
