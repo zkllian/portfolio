@@ -380,13 +380,6 @@ export default function Home() {
     }
   }
 
-  function resetCounter() {
-    setTotalImei(0);
-    localStorage.setItem(COUNTER_KEY, '0');
-    setConfirmReset(false);
-    showToast(h.toastCounterReset);
-  }
-
   function downloadImage(dataUrl: string, index: number) {
     const a = document.createElement('a');
     a.href = dataUrl;
@@ -738,15 +731,6 @@ export default function Home() {
               <span className="counter-number" onClick={handleCounterTap} style={{ cursor: 'default', userSelect: 'none' }}>{totalImei.toLocaleString()}</span>
             </div>
             <div className="stats-esc-row">
-              {!confirmReset ? (
-                <button className="stats-reset-btn" onClick={() => setConfirmReset(true)}>{h.resetBtn}</button>
-              ) : (
-                <div className="stats-reset-confirm">
-                  <span className="stats-reset-confirm-text">{h.confirmResetPrompt}</span>
-                  <button className="stats-reset-yes" onClick={resetCounter}>{h.confirmYes}</button>
-                  <button className="stats-reset-no" onClick={() => setConfirmReset(false)}>{h.confirmNo}</button>
-                </div>
-              )}
               <span className="stats-esc-text">esc to close</span>
             </div>
           </div>
