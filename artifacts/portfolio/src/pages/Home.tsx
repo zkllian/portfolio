@@ -61,6 +61,7 @@ export default function Home() {
   const [inputVal, setInputVal] = useState('');
   const [imeiCount, setImeiCount] = useState('0 sets');
   const [isLoading, setIsLoading] = useState(false);
+  const [pendingCount, setPendingCount] = useState(0);
   const [loadingCount, setLoadingCount] = useState('');
   const [view, setView] = useState('input');
   const [results, setResults] = useState<{ url: string; index: number }[]>([]);
@@ -292,6 +293,7 @@ export default function Home() {
       if (!ctx) { showToast('ctx2d unavailable'); return; }
 
       const newResults: { url: string; index: number }[] = [];
+      setPendingCount(totalSets);
       setIsLoading(true);
 
       for (let i = 0; i < totalSets; i++) {
@@ -542,17 +544,6 @@ export default function Home() {
 
   const nudgeProps = { pos, onSetPos: setPos, onStartNudge: startNudge, onStopNudge: stopNudge };
 
-  function addRipple(e: React.MouseEvent<HTMLButtonElement>) {
-    const btn = e.currentTarget;
-    const circle = document.createElement('span');
-    const d = Math.max(btn.clientWidth, btn.clientHeight);
-    const r = btn.getBoundingClientRect();
-    circle.style.cssText = `width:${d}px;height:${d}px;left:${e.clientX - r.left - d / 2}px;top:${e.clientY - r.top - d / 2}px`;
-    circle.className = 'ripple';
-    btn.querySelector('.ripple')?.remove();
-    btn.appendChild(circle);
-    setTimeout(() => circle.remove(), 700);
-  }
 
   return (
     <>
@@ -586,21 +577,30 @@ export default function Home() {
                 />
                 <span className="badge input-badge" style={{ userSelect: 'none' }}>{imeiCount}</span>
               </div>
-
               <div className="btn-row">
-                <button className="tool-btn tool-btn--dark" onClick={(e) => { addRipple(e); generateBulk(); }} disabled={isLoading}>
+                <button className="tool-btn tool-btn--dark" onClick={() => generateBulk()} disabled={isLoading}>
                   <FiZap size={13} style={{ flexShrink: 0 }} />
                   {h.executeBtn}
                 </button>
               </div>
-              {isLoading && (
-                <div className="status-bar active">
-                  <div className="spinner"></div>
-                  <span className="status-progress">{h.loadingText}</span>
-                  <span className="status-count">{loadingCount}</span>
-                </div>
-              )}
             </div>
+            {isLoading && (
+              <div className="results-list skel-list">
+                {Array.from({ length: pendingCount }, (_, i) => (
+                  <div key={i} className="result-card">
+                    <div className="result-header">
+                      <span className="result-name">barcode-{String(i + 1).padStart(2, '0')}.png</span>
+                      <span className="result-status skel-status">generating…</span>
+                    </div>
+                    <div className="result-img-wrap">
+                      <div className="barcode-skeleton">
+                        <div className="barcode-scan" style={{ animationDelay: `${i * 0.18}s` }} />
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         )}
 
