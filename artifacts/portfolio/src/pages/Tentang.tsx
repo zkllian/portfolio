@@ -137,9 +137,6 @@ export default function Tentang() {
             <IcoVerified />
           </div>
           <div className="p-role">{profile.role}</div>
-          <a href={profile.cvHref} target="_blank" rel="noreferrer" className="p-cv-link">
-            {profile.cvLabel}
-          </a>
         </div>
         <button
           className="lang-toggle"
@@ -172,11 +169,16 @@ export default function Tentang() {
           <IcoGitHub />{b.line2GitLabel}
         </a>.
       </p>
-      <p className="p-bio p-bio--last">
+      <p className="p-bio">
         {b.line3Prefix}{' '}
         <a href={links.twitter} target="_blank" rel="noreferrer">
           <IcoX />{b.line3TwitterLabel}
         </a>.
+      </p>
+      <p className="p-bio p-bio--last">
+        <a href={profile.cvHref} target="_blank" rel="noreferrer" className="p-cv-link">
+          {profile.cvLabel}
+        </a>
       </p>
 
       {/* ── Tech Marquee ── */}
