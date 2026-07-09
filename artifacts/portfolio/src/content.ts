@@ -13,9 +13,9 @@ export const content = {
     cvHref:    '/cv.pdf',
     roles: [
       { label: 'Front-End Developer', duration: 5000 },
-      { label: 'Community Manager',   duration: 3000 },
-      { label: 'Digital Marketer',    duration: 3000 },
-      { label: 'Content Writer',      duration: 3000 },
+      { label: 'Community Manager',   duration: 5000 },
+      { label: 'Digital Marketer',    duration: 5000 },
+      { label: 'Content Writer',      duration: 5000 },
     ],
   },
 
@@ -23,7 +23,7 @@ export const content = {
   bio: {
     line1LinkLabel: 'Front-End Developer',
     line1Suffix:    'berusia 26 tahun berasal dari Bandung, Indonesia.',
-    line2Prefix:      'Hubungi saya lewat',
+    line2Prefix:      'Hubungi saya via',
     line2IgLabel:     'Instagram',
     line2TwitterLabel:'Twitter / X',
     line2Or:          'atau',
@@ -59,16 +59,16 @@ export const content = {
       title: 'pengalaman',
       sub:   'Tempat saya kirim hal nyata.',
       entries: [
-        { co: 'Universitas Suryakancana', date: 'agu – nov 2017', role: 'Admin Intern'      },
+        { co: 'Universitas Suryakancana', date: 'agu – nov 2017', role: 'Admin Magang'      },
         { co: 'Zenius Store',             date: 'mar – sep 2021', role: 'Digital Marketing' },
       ],
     },
 
     kontribusiDigital: {
       title: 'kontribusi digital',
-      sub:   'Hal yang saya bangun di komunitas dan media.',
+      sub:   'Hal yang saya bangun di komunitas Blockchain/Web3.',
       entries: [
-        { co: 'Blog Independen', date: '2012',                role: 'Blogger · Google AdSense' },
+        { co: 'Zyonation', date: '2012',                role: 'Blogger • Google AdSense Publisher' },
         { co: 'Verso',           date: 'mar 2018 – des 2019', role: 'Community Manager'        },
         { co: 'Injective',       date: 'jan 2024 – mar 2025', role: 'Brand Ambassador'         },
         { co: 'Nesa',            date: 'mar 2024 – mei 2025', role: 'Brand Ambassador'         },
@@ -89,13 +89,13 @@ export const content = {
 
     proyek: {
       title: 'proyek',
-      sub:   'Yang sudah dan sedang saya bangun.',
+      sub:   'Yang sudah saya bangun dan sedang saya kerjakan.',
       items: [
         {
           name:       'portfolio',
           badge:      'live' as string | null,
-          desc:       'Situs portfolio pribadi ini — dibangun sendiri pakai React, Vite, dan TypeScript dari nol sampai online.',
-          linkLabel:  'kunjungi',
+          desc:       'Situs portfolio pribadi ini yang dibangun sendiri memakai React, Vite, dan TypeScript.',
+          linkLabel:  'buka',
           linkHref:   'https://llian.vercel.app',
           linkIcon:   'arrow' as 'arrow' | 'github',
           external:   true,
@@ -103,7 +103,7 @@ export const content = {
         {
           name:       'barcode-gen',
           badge:      'live' as string | null,
-          desc:       'Generator barcode massal — layout adjustable, export langsung.',
+          desc:       'Generator barcode massal layout adjustable, batch export.',
           linkLabel:  'buka',
           linkHref:   '/projects/imei/barcode-gen',
           linkIcon:   'arrow' as 'arrow' | 'github',
@@ -112,7 +112,7 @@ export const content = {
         {
           name:       'jobstreet-scraper',
           badge:      null,
-          desc:       'Tool open source buat scraping data lowongan dari Jobstreet — otomatis sekaligus.',
+          desc:       'Tool open source buat scraping data lowongan dari Jobstreet.',
           linkLabel:  'github',
           linkHref:   'https://github.com/zkllian',
           linkIcon:   'github' as 'arrow' | 'github',
@@ -121,7 +121,7 @@ export const content = {
         {
           name:       'admob-auto-impression',
           badge:      null,
-          desc:       'Tool open source berbasis otomasi untuk naikin volume tayangan AdMob tanpa intervensi manual.',
+          desc:       'Tool open source berbasis otomasi untuk menaikan volume tayangan AdMob tanpa intervensi manual.',
           linkLabel:  'github',
           linkHref:   'https://github.com/zkllian',
           linkIcon:   'github' as 'arrow' | 'github',
@@ -134,7 +134,7 @@ export const content = {
       creditPrefix: 'Designed & Developed by',
       creditName:   'Yoga',
       copyright:    '© 2026 All rights reserved.',
-      visitorsLabel: 'Visitors',
+      visitorsLabel: 'Pengunjung',
       location:      'Cianjur, Indonesia',
     },
   },
@@ -171,7 +171,7 @@ export const content = {
       title: 'digital contributions',
       sub:   'Things I built in communities and media.',
       entries: [
-        { co: 'Independent Blog', date: '2012',                role: 'Blogger · Google AdSense' },
+        { co: 'Zyonation', date: '2012',                role: 'Blogger · Google AdSense Publisher' },
         { co: 'Verso',            date: 'mar 2018 – dec 2019', role: 'Community Manager'        },
         { co: 'Injective',        date: 'jan 2024 – mar 2025', role: 'Brand Ambassador'         },
         { co: 'Nesa',             date: 'mar 2024 – may 2025', role: 'Brand Ambassador'         },
@@ -192,12 +192,12 @@ export const content = {
 
     proyek: {
       title: 'projects',
-      sub:   "What I've built and am building.",
+      sub:   "What I've built and am building right now.",
       items: [
         {
           name:       'portfolio',
           badge:      'live' as string | null,
-          desc:       'This personal portfolio site — built from scratch using React, Vite, and TypeScript, all the way to production.',
+          desc:       'This personal portfolio site built from scratch using React, Vite, and TypeScript, all the way to production.',
           linkLabel:  'visit',
           linkHref:   'https://llian.vercel.app',
           linkIcon:   'arrow' as 'arrow' | 'github',
@@ -206,7 +206,7 @@ export const content = {
         {
           name:       'barcode-gen',
           badge:      'live' as string | null,
-          desc:       'Bulk barcode generator — adjustable layout, direct export.',
+          desc:       'Bulk barcode generator with adjustable layout, direct export.',
           linkLabel:  'open',
           linkHref:   '/projects/imei/barcode-gen',
           linkIcon:   'arrow' as 'arrow' | 'github',
