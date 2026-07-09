@@ -116,7 +116,11 @@ export default function Home() {
       try { localStorage.setItem(HISTORY_KEY, '[]'); } catch {}
       return [];
     }
-    try { return JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]'); } catch { return []; }
+    try {
+      const raw: HistoryEntry[] = JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]');
+      const n = raw.length;
+      return raw.map((entry, i) => (typeof entry.seq === 'number' ? entry : { ...entry, seq: n - i }));
+    } catch { return []; }
   });
   const [totalImei, setTotalImei] = useState<number>(() => {
     const today = getWIBDateStr();
