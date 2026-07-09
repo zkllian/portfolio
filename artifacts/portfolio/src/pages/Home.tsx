@@ -142,10 +142,10 @@ export default function Home() {
   const [clearingHistory, setClearingHistory] = useState(false);
   const [itemsExiting, setItemsExiting] = useState(false);
   const [collapsingHistory, setCollapsingHistory] = useState(false);
-  // Must match .history-empty-inner's rendered height (50 + 20*2 padding) plus
-  // .history-box's 1px*2 border, so the collapse lands exactly where the empty
-  // placeholder sits with no extra jump.
-  const EMPTY_HISTORY_HEIGHT = 92;
+  // Must match .history-empty-inner's rendered height (50px, box-sizing: border-box
+  // so padding is already included) plus .history-box's 1px*2 border, so the
+  // collapse lands exactly where the empty placeholder sits with no extra jump.
+  const EMPTY_HISTORY_HEIGHT = 52;
   const [historyBoxHeight, setHistoryBoxHeight] = useState<number | null>(null);
   const historyBoxRef = useRef<HTMLDivElement>(null);
   const historyScrollRef = useRef<HTMLDivElement>(null);
@@ -458,20 +458,33 @@ export default function Home() {
     const itemsDoneMs = Math.min(n - 1, 12) * staggerMs + itemDurationMs;
     const collapseDelayMs = 150;
     const collapseDurationMs = 320;
+    const reopenDurationMs = collapseDurationMs; // same CSS transition duration as the shrink phase
+    // Two-phase height animation so it always moves the same direction regardless
+    // of how many items were in the list (a 1-item box can be shorter than the
+    // empty placeholder, which made a single-phase "shrink to placeholder height"
+    // animation grow instead of shrink and look like a jump/pop):
+    // 1) shrink current height -> 0, 2) swap content to the empty placeholder and
+    // grow 0 -> placeholder height.
     setTimeout(() => {
       if (historyBoxRef.current) {
         setHistoryBoxHeight(historyBoxRef.current.getBoundingClientRect().height);
       }
-      requestAnimationFrame(() => setCollapsingHistory(true));
+      requestAnimationFrame(() => {
+        setCollapsingHistory(true);
+        setHistoryBoxHeight(0);
+      });
     }, itemsDoneMs + collapseDelayMs);
     setTimeout(() => {
       setHistory([]);
       try { localStorage.setItem(HISTORY_KEY, '[]'); } catch {}
+      setHistoryBoxHeight(EMPTY_HISTORY_HEIGHT);
+    }, itemsDoneMs + collapseDelayMs + collapseDurationMs);
+    setTimeout(() => {
       setClearingHistory(false);
       setItemsExiting(false);
       setCollapsingHistory(false);
       setHistoryBoxHeight(null);
-    }, itemsDoneMs + collapseDelayMs + collapseDurationMs);
+    }, itemsDoneMs + collapseDelayMs + collapseDurationMs + reopenDurationMs);
   }
 
   function downloadImage(dataUrl: string, index: number) {
@@ -747,7 +760,7 @@ export default function Home() {
                 <div
                   className={`history-box${collapsingHistory ? ' history-box--collapsing' : ''}`}
                   ref={historyBoxRef}
-                  style={historyBoxHeight !== null ? { height: collapsingHistory ? EMPTY_HISTORY_HEIGHT : historyBoxHeight } : undefined}
+                  style={historyBoxHeight !== null ? { height: historyBoxHeight } : undefined}
                 >
                   {history.length > 0 ? (
                     <div className={`history-scroll${historyScrollable ? ' history-scroll--scrollable' : ''}`} ref={historyScrollRef}>
