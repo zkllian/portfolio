@@ -542,6 +542,18 @@ export default function Home() {
 
   const nudgeProps = { pos, onSetPos: setPos, onStartNudge: startNudge, onStopNudge: stopNudge };
 
+  function addRipple(e: React.MouseEvent<HTMLButtonElement>) {
+    const btn = e.currentTarget;
+    const circle = document.createElement('span');
+    const d = Math.max(btn.clientWidth, btn.clientHeight);
+    const r = btn.getBoundingClientRect();
+    circle.style.cssText = `width:${d}px;height:${d}px;left:${e.clientX - r.left - d / 2}px;top:${e.clientY - r.top - d / 2}px`;
+    circle.className = 'ripple';
+    btn.querySelector('.ripple')?.remove();
+    btn.appendChild(circle);
+    setTimeout(() => circle.remove(), 700);
+  }
+
   return (
     <>
       <div className="container">
@@ -576,7 +588,7 @@ export default function Home() {
               </div>
 
               <div className="btn-row">
-                <button className="tool-btn tool-btn--dark" onClick={() => generateBulk()} disabled={isLoading}>
+                <button className="tool-btn tool-btn--dark" onClick={(e) => { addRipple(e); generateBulk(); }} disabled={isLoading}>
                   <FiZap size={13} style={{ flexShrink: 0 }} />
                   {h.executeBtn}
                 </button>
