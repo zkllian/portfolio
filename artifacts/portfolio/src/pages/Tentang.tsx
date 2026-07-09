@@ -55,6 +55,27 @@ function useVisitorCount() {
       .then(r => r.json())
       .then(d => setCount(d.visitorsTotal ?? null))
       .catch(() => {});
+
+    const HEARTBEAT_MS = 20 * 1000;
+    const heartbeat = setInterval(() => {
+      if (document.visibilityState !== 'visible') return;
+      fetch('/api/stats/visit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId }),
+      }).catch(() => {});
+    }, HEARTBEAT_MS);
+
+    function sendLeave() {
+      const payload = new Blob([JSON.stringify({ userId })], { type: 'application/json' });
+      navigator.sendBeacon?.('/api/stats/leave', payload);
+    }
+    document.addEventListener('pagehide', sendLeave);
+
+    return () => {
+      clearInterval(heartbeat);
+      document.removeEventListener('pagehide', sendLeave);
+    };
   }, []);
   return count;
 }

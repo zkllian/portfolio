@@ -56,8 +56,8 @@ router.get("/stats/today", async (req, res) => {
 
       const [visitorsRow] = await db.select().from(allTimeStatsTable).where(eq(allTimeStatsTable.key, "visitors"));
 
-      const FIVE_MIN = 5 * 60 * 1000;
-      const [onlineRow] = await db.select({ count: sql<number>`count(*)::int` }).from(userPresenceTable).where(gt(userPresenceTable.lastSeen, Date.now() - FIVE_MIN));
+      const ONLINE_WINDOW = 45 * 1000; // must stay in sync with the frontend heartbeat interval
+      const [onlineRow] = await db.select({ count: sql<number>`count(*)::int` }).from(userPresenceTable).where(gt(userPresenceTable.lastSeen, Date.now() - ONLINE_WINDOW));
       const todayCount = dayRow?.count ?? 0;
       return res.json({
         date: today,
@@ -132,6 +132,18 @@ router.post("/stats/visit", async (req, res) => {
     writeFile(f);
   }
   return res.json({ ok: true, visitorsTotal: f.visitors ?? 0 });
+});
+
+router.post("/stats/leave", async (req, res) => {
+  const body = req.body as { userId?: string };
+  const userId = String(body?.userId ?? "").trim().slice(0, 64);
+
+  if (db && userId) {
+    try {
+      await db.delete(userPresenceTable).where(eq(userPresenceTable.userId, userId));
+    } catch {}
+  }
+  return res.json({ ok: true });
 });
 
 router.post("/stats/ping", async (req, res) => {

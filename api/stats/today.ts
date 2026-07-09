@@ -36,10 +36,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         mine = r.rows[0]?.count ?? 0;
       }
 
-      const FIVE_MIN = 5 * 60 * 1000;
+      const ONLINE_WINDOW = 45 * 1000; // must stay in sync with the frontend heartbeat interval
       const onlineRow = await pool.query(
         "SELECT count(*)::int AS count FROM user_presence WHERE last_seen > $1",
-        [Date.now() - FIVE_MIN]
+        [Date.now() - ONLINE_WINDOW]
       );
       const visitorsRow = await pool.query("SELECT value FROM all_time_stats WHERE key = 'visitors'");
 
