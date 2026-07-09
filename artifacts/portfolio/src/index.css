@@ -585,9 +585,9 @@ textarea::placeholder { color: var(--text-dim); }
 textarea:focus { border-color: #555; }
 
 .btn-row { display: flex; gap: 8px; margin-top: 12px; }
-.btn { flex: 1; display: flex; align-items: center; justify-content: center; gap: 6px; padding: 9px 16px; font-size: 13px; font-weight: 500; font-family: var(--font-sans); border-radius: 10px; border: 1px solid transparent; cursor: pointer; transition: background .15s, opacity .15s; user-select: none; }
-.btn-primary { background: var(--surface); color: var(--text); border: 1px solid var(--border); }
-.btn-primary:hover { background: var(--surface2); border-color: var(--border2); }
+.btn { flex: 1; display: flex; align-items: center; justify-content: center; gap: 6px; padding: 9px 12px; font-size: 12px; font-weight: 500; font-family: var(--font-sans); border-radius: 10px; border: 1px solid transparent; cursor: pointer; transition: background .15s, opacity .15s; user-select: none; }
+.btn-primary { background: var(--surface); color: var(--text-muted); border: 1px solid var(--border); }
+.btn-primary:hover { background: var(--surface2); border-color: var(--border2); color: var(--text); }
 .btn-primary:disabled { opacity: .4; cursor: not-allowed; }
 
 .status-bar { display: none; align-items: center; gap: 8px; padding: 10px 12px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; margin-top: 12px; font-size: 12px; font-family: var(--font-sans); color: var(--text-muted); }
