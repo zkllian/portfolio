@@ -344,7 +344,7 @@ export default function Tentang() {
         <p>{f.creditPrefix} <strong>{f.creditName}</strong></p>
         <p>{f.copyright}</p>
         <p className="p-footer-stats">
-          {f.visitorsLabel} <strong>#{visitors !== null ? visitors.toLocaleString() : '—'}</strong>
+          {f.visitorsLabel} <strong>#{visitors !== null ? (1000 + visitors).toLocaleString() : '—'}</strong>
         </p>
         <p className="p-footer-loc">{f.location} {time}</p>
       </footer>
