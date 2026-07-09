@@ -631,22 +631,24 @@ export default function Home() {
             <div className="results-topbar">
               <span className="results-count-badge">{resultLabel}</span>
             </div>
-            <div className="results-list">
-              {results.map(r => (
-                <div key={r.index} className="result-card" style={{ animationDelay: `${(r.index - 1) * 60}ms` }}>
-                  <div className="result-header">
-                    <span className="result-name">barcode-{String(r.index).padStart(2, '0')}.png</span>
-                    <span className="result-status"><div className="dot-ready"></div>{h.statusReady}</span>
+            <div className="results-scroll">
+              <div className="results-list">
+                {results.map(r => (
+                  <div key={r.index} className="result-card" style={{ animationDelay: `${(r.index - 1) * 60}ms` }}>
+                    <div className="result-header">
+                      <span className="result-name">barcode-{String(r.index).padStart(2, '0')}.png</span>
+                      <span className="result-status"><div className="dot-ready"></div>{h.statusReady}</span>
+                    </div>
+                    <div className="result-img-wrap">
+                      <img src={r.url} alt={`barcode ${r.index}`} />
+                    </div>
+                    <div className="result-actions">
+                      <button className="result-btn" onClick={() => downloadImage(r.url, r.index)}><FiDownload size={12} />{h.downloadLabel}</button>
+                      <button className="result-btn primary-action" onClick={() => shareImage(r.url)}><FiShare2 size={12} />{h.shareLabel}</button>
+                    </div>
                   </div>
-                  <div className="result-img-wrap">
-                    <img src={r.url} alt={`barcode ${r.index}`} />
-                  </div>
-                  <div className="result-actions">
-                    <button className="result-btn" onClick={() => downloadImage(r.url, r.index)}><FiDownload size={12} />{h.downloadLabel}</button>
-                    <button className="result-btn primary-action" onClick={() => shareImage(r.url)}><FiShare2 size={12} />{h.shareLabel}</button>
-                  </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
         )}
