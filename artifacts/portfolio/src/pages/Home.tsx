@@ -334,7 +334,7 @@ export default function Home() {
         return next;
       });
       try {
-        fetch(`${BASE}api/stats/ping`, {
+        fetch(`/api/stats/ping`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ count: totalSets, userId: userIdRef.current }),
@@ -477,7 +477,7 @@ export default function Home() {
     document.body.classList.add('nav-hidden');
     requestAnimationFrame(() => requestAnimationFrame(() => setStatsVisible(true)));
     try {
-      const res = await fetch(`${BASE}api/stats/today?userId=${encodeURIComponent(userIdRef.current)}`);
+      const res = await fetch(`/api/stats/today?userId=${encodeURIComponent(userIdRef.current)}`);
       if (res.ok) {
         const data = await res.json() as { today: number; total: number; mine: number; others: number };
         setStats(data);
@@ -529,7 +529,7 @@ export default function Home() {
   async function handleGlobalReset() {
     setStatsResetting(true);
     try {
-      await fetch(`${BASE}api/stats/reset`, { method: 'POST' });
+      await fetch(`/api/stats/reset`, { method: 'POST' });
       setStats({ today: 0, total: 0, mine: 0, others: 0 });
       setConfirmResetGlobal(false);
       showToast(s.toastResetSuccess);
