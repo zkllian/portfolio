@@ -53,8 +53,8 @@ body::before {
     linear-gradient(var(--grid-line) 1px, transparent 1px),
     linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
   background-size: 32px 32px;
-  -webkit-mask-image: radial-gradient(ellipse 100% 55% at 50% 0%, black 0%, transparent 100%);
-  mask-image: radial-gradient(ellipse 100% 55% at 50% 0%, black 0%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 100% 70% at 50% 0%, black 0%, transparent 100%);
+  mask-image: radial-gradient(ellipse 100% 70% at 50% 0%, black 0%, transparent 100%);
   pointer-events: none;
   z-index: 0;
 }
