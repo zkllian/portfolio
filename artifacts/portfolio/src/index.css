@@ -728,7 +728,7 @@ textarea:focus { border-color: var(--border2); }
 
 .history-list { margin-top: 10px; display: flex; flex-direction: column; }
 .history-label { margin-bottom: 10px; flex-shrink: 0; }
-.history-empty { display: flex; align-items: center; justify-content: center; min-height: 60px; padding: 20px 12px; text-align: center; font-size: 12px; font-family: var(--font-sans); color: var(--text-dim); background: var(--surface); border: 1px solid var(--border); border-radius: 10px; }
+.history-empty { display: flex; align-items: center; justify-content: center; height: min(340px, 32vh, 32dvh); padding: 20px 12px; text-align: center; font-size: 12px; font-family: var(--font-sans); color: var(--text-dim); background: var(--surface); border: 1px solid var(--border); border-radius: 10px; }
 .history-box { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
 .history-box--collapsing { transition: height .32s cubic-bezier(.4,0,.2,1); }
 .history-item--exit { animation: historyItemExit .26s ease forwards; }
