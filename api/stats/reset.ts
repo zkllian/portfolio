@@ -1,7 +1,14 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { createDb, dailyStatsTable, allTimeStatsTable, userDailyStatsTable, sql } from "@workspace/db";
+import { Pool } from "pg";
 
-const db = createDb();
+function makePool() {
+  const url = process.env.RAILWAY_DATABASE_URL;
+  if (!url) return null;
+  const ssl = /railway|neon\.tech/.test(url) && !/sslmode=/.test(url);
+  return new Pool({ connectionString: url, ssl: ssl ? { rejectUnauthorized: false } : undefined });
+}
+
+const pool = makePool();
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== "POST") return res.status(405).json({ error: "method not allowed" });
@@ -10,17 +17,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const provided = (req.headers["x-reset-secret"] as string | undefined) ?? "";
   if (!secret || provided !== secret) return res.status(403).json({ error: "forbidden" });
 
-  if (db) {
+  if (pool) {
     try {
-      await db.delete(dailyStatsTable);
-      await db.delete(userDailyStatsTable);
-      await db
-        .insert(allTimeStatsTable)
-        .values({ key: "total", value: 0 })
-        .onConflictDoUpdate({
-          target: allTimeStatsTable.key,
-          set: { value: sql`${0}` },
-        });
+      await pool.query("DELETE FROM daily_stats");
+      await pool.query("DELETE FROM user_daily_stats");
+      await pool.query(
+        `INSERT INTO all_time_stats (key, value) VALUES ('total', 0)
+         ON CONFLICT (key) DO UPDATE SET value = 0`
+      );
       return res.json({ ok: true });
     } catch (e) {
       console.error("db error", e);

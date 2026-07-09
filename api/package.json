@@ -3,12 +3,11 @@
   "version": "0.0.0",
   "private": true,
   "dependencies": {
-    "@workspace/db": "workspace:*",
-    "drizzle-orm": "catalog:",
     "pg": "^8.22.0"
   },
   "devDependencies": {
     "@types/node": "catalog:",
+    "@types/pg": "^8.11.0",
     "@vercel/node": "^5.8.22"
   }
 }

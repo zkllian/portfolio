@@ -1,11 +1,18 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { createDb, dailyStatsTable, allTimeStatsTable, userDailyStatsTable, userPresenceTable, eq, sql, gt } from "@workspace/db";
+import { Pool } from "pg";
 
 function getWIBDateStr() {
   return new Date().toLocaleDateString("sv-SE", { timeZone: "Asia/Jakarta" });
 }
 
-const db = createDb();
+function makePool() {
+  const url = process.env.RAILWAY_DATABASE_URL;
+  if (!url) return null;
+  const ssl = /railway|neon\.tech/.test(url) && !/sslmode=/.test(url);
+  return new Pool({ connectionString: url, ssl: ssl ? { rejectUnauthorized: false } : undefined });
+}
+
+const pool = makePool();
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== "GET") return res.status(405).json({ error: "method not allowed" });
@@ -13,38 +20,41 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const today = getWIBDateStr();
   const userId = String((req.query as Record<string, string>).userId ?? "");
 
-  if (db) {
+  if (pool) {
     try {
-      const [dayRow] = await db.select().from(dailyStatsTable).where(eq(dailyStatsTable.date, today));
-      const [totalRow] = await db.select().from(allTimeStatsTable).where(eq(allTimeStatsTable.key, "total"));
+      const [dayRow, totalRow] = await Promise.all([
+        pool.query("SELECT count FROM daily_stats WHERE date = $1", [today]),
+        pool.query("SELECT value FROM all_time_stats WHERE key = 'total'"),
+      ]);
 
       let mine = 0;
       if (userId) {
-        const [userRow] = await db
-          .select()
-          .from(userDailyStatsTable)
-          .where(
-            sql`${userDailyStatsTable.userId} = ${userId} AND ${userDailyStatsTable.date} = ${today}`
-          );
-        mine = userRow?.count ?? 0;
+        const r = await pool.query(
+          "SELECT count FROM user_daily_stats WHERE user_id = $1 AND date = $2",
+          [userId, today]
+        );
+        mine = r.rows[0]?.count ?? 0;
       }
 
       const FIVE_MIN = 5 * 60 * 1000;
-      const [onlineRow] = await db.select({ count: sql<number>`count(*)::int` }).from(userPresenceTable).where(gt(userPresenceTable.lastSeen, Date.now() - FIVE_MIN));
-      const todayCount = dayRow?.count ?? 0;
+      const onlineRow = await pool.query(
+        "SELECT count(*)::int AS count FROM user_presence WHERE last_seen > $1",
+        [Date.now() - FIVE_MIN]
+      );
+
+      const todayCount = dayRow.rows[0]?.count ?? 0;
       return res.json({
         date: today,
         today: todayCount,
-        total: totalRow?.value ?? 0,
+        total: totalRow.rows[0]?.value ?? 0,
         mine,
         others: Math.max(0, todayCount - mine),
-        online: onlineRow?.count ?? 0,
+        online: onlineRow.rows[0]?.count ?? 0,
       });
     } catch (e) {
       console.error("db error", e);
     }
   }
 
-  // No DB — return zeros gracefully
   return res.json({ date: today, today: 0, total: 0, mine: 0, others: 0, online: 0 });
 }
