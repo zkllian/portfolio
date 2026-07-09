@@ -603,7 +603,7 @@ textarea:focus { border-color: var(--border2); }
 .results-reset-btn:hover { background: #fff0f0; color: #d1242f; border-color: #ffc9c9; }
 
 .results-scroll {
-  max-height: 480px; overflow-y: auto;
+  max-height: 640px; overflow-y: auto;
   scrollbar-width: none;
   -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 4%, black 96%, transparent 100%);
   mask-image: linear-gradient(to bottom, transparent 0%, black 4%, black 96%, transparent 100%);
