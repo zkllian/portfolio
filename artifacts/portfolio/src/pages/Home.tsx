@@ -122,6 +122,7 @@ export default function Home() {
       return raw.map((entry, i) => (typeof entry.seq === 'number' ? entry : { ...entry, seq: n - i }));
     } catch { return []; }
   });
+  const [showHistorySection, setShowHistorySection] = useState(() => (isNewDay ? false : Number(localStorage.getItem(COUNTER_KEY) || '0') > 0));
   const [totalImei, setTotalImei] = useState<number>(() => {
     const today = getWIBDateStr();
     if (isNewDay) {
@@ -183,6 +184,7 @@ export default function Home() {
       return setTimeout(() => {
         setTotalImei(0);
         setHistory([]);
+        setShowHistorySection(false);
         localStorage.setItem(COUNTER_KEY, '0');
         localStorage.setItem(HISTORY_KEY, '[]');
         localStorage.setItem(DATE_KEY, getWIBDateStr());
@@ -346,6 +348,7 @@ export default function Home() {
         try { localStorage.setItem(HISTORY_KEY, JSON.stringify(next)); } catch {}
         return next;
       });
+      setShowHistorySection(true);
       setTotalImei(prev => {
         const next = prev + totalSets;
         localStorage.setItem(COUNTER_KEY, String(next));
@@ -608,7 +611,7 @@ export default function Home() {
                 </button>
               </div>
             </div>
-            {history.length > 0 && (
+            {showHistorySection && (
               <div className="history-list">
                 <div className="card-header history-label">
                   <div className="card-title-group">
@@ -623,15 +626,19 @@ export default function Home() {
                     </button>
                   </div>
                 </div>
-                <div className="history-scroll">
-                  {history.map((h2, i) => (
-                    <div key={i} className="history-item">
-                      <span className="history-sets">#{h2.seq}</span>
-                      <span className="history-preview">{h2.imei1} · {h2.imei2}</span>
-                      <span className="history-time">{new Date(h2.ts).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })}</span>
-                    </div>
-                  ))}
-                </div>
+                {history.length > 0 ? (
+                  <div className="history-scroll">
+                    {history.map((h2, i) => (
+                      <div key={i} className="history-item">
+                        <span className="history-sets">#{h2.seq}</span>
+                        <span className="history-preview">{h2.imei1} · {h2.imei2}</span>
+                        <span className="history-time">{new Date(h2.ts).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })}</span>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="history-empty">belum ada riwayat</div>
+                )}
               </div>
             )}
           </div>
