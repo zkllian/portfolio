@@ -736,7 +736,7 @@ textarea:focus { border-color: var(--border2); }
   to { opacity: 0; transform: translateX(36px); }
 }
 .history-scroll {
-  display: flex; flex-direction: column; max-height: 50px; overflow-y: auto; padding-top: 10px; margin-top: -10px; padding-bottom: 10px; margin-bottom: -10px;
+  display: flex; flex-direction: column; max-height: 220px; overflow-y: auto; padding-top: 10px; margin-top: -10px; padding-bottom: 10px; margin-bottom: -10px;
   scrollbar-width: none;
 }
 .history-scroll--scrollable {
