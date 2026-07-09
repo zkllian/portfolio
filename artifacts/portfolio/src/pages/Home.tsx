@@ -549,6 +549,7 @@ export default function Home() {
                   <div className="card-title-icon"><FiEdit2 size={15} /></div>
                   <div className="card-title-text">
                     <span className="card-title">{h.pageTitle}</span>
+                    <span className="card-title-sub">{h.pageSub}</span>
                   </div>
                 </div>
                 <span className="badge" onClick={handleBadgeTap} style={{ cursor: 'default', userSelect: 'none' }}>{imeiCount}</span>
