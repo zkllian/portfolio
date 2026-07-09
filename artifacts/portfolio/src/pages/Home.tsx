@@ -297,7 +297,7 @@ export default function Home() {
       setIsLoading(true);
 
       for (let i = 0; i < totalSets; i++) {
-        setLoadingCount(`[${i + 1}/${totalSets}]`);
+        setLoadingCount(`${i + 1}/${totalSets}`);
         await new Promise(r => setTimeout(r, 30));
 
         const eid = randomEID();
