@@ -479,7 +479,7 @@ export default function Home() {
     try {
       const res = await fetch(`/api/stats/today?userId=${encodeURIComponent(userIdRef.current)}`);
       if (res.ok) {
-        const data = await res.json() as { today: number; total: number; mine: number; others: number };
+        const data = await res.json() as { today: number; total: number; mine: number; others: number; online: number };
         setStats(data);
       } else {
         setStatsError(true);
@@ -530,7 +530,7 @@ export default function Home() {
     setStatsResetting(true);
     try {
       await fetch(`/api/stats/reset`, { method: 'POST' });
-      setStats({ today: 0, total: 0, mine: 0, others: 0 });
+      setStats({ today: 0, total: 0, mine: 0, others: 0, online: 0 });
       setConfirmResetGlobal(false);
       showToast(s.toastResetSuccess);
     } catch {

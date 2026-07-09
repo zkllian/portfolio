@@ -11,8 +11,6 @@ export const content = {
     brand: 'llian',
     pages: [
       { label: 'Tentang', path: '/tentang' },
-      { label: 'Kontak',  path: '/kontak'  },
-      { label: 'Proyek',  path: '/proyek'  },
     ],
   },
 
@@ -292,45 +290,6 @@ export const content = {
       toastResetFailed:   'Gagal reset',
       footerNote:         'barcode-gen · semua pengguna · WIB',
     },
-  },
-
-  /* ── Halaman Kontak ───────────────────────────────────────────── */
-  kontak: {
-    contactTitle:         'Kontak',
-    email:                'llianified@gmail.com',
-    phone:                '085199273883',
-    twitterHandle:        '@llianified',
-    githubHandle:         'github.com/zkllian',
-    availabilityTitle:    'Ketersediaan',
-    availabilityStatus:   'Terbuka untuk kerja remote & freelance',
-    availabilityNote:     'Biasanya balas pesan dalam 1x24 jam. Untuk respon paling cepat, hubungi lewat email atau WhatsApp.',
-    workPrefTitle:        'Preferensi Kerja',
-    workPrefTypeKey:      'Tipe',
-    workPrefTypes:        ['Full-time', 'Freelance', 'Kontrak'],
-    workPrefLocationKey:  'Lokasi',
-    workPrefLocations:    ['Remote', 'Cianjur & sekitarnya'],
-  },
-
-  /* ── Halaman Proyek ───────────────────────────────────────────── */
-  proyek: {
-    sectionTitle: 'Proyek',
-    items: [
-      {
-        title:  'Llian Portfolio',
-        period: '2025 – Skrg',
-        desc:   'Situs portfolio pribadi ini — yang sekarang lagi kamu baca. Dibangun sendiri pakai React, Vite, dan TypeScript, karena saya mau buktiin bahwa saya bisa bikin sesuatu dari nol sampai online.',
-      },
-      {
-        title:  'Jobstreet Scraper',
-        period: '2024',
-        desc:   'Tool open source buat scraping data lowongan dari Jobstreet — dibuat karena capek cari loker satu-satu, jadi langsung otomatis sekaligus.',
-      },
-      {
-        title:  'AdMob Auto Impression',
-        period: '2024',
-        desc:   'Tool open source berbasis otomasi untuk naikin volume tayangan AdMob tanpa harus intervensi manual — biar kerja di background sendiri.',
-      },
-    ],
   },
 
 };
