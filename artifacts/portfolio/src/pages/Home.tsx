@@ -621,7 +621,7 @@ export default function Home() {
                 <div className="card-title-group history-label">
                   <div className="card-title-icon"><FiClock size={14} /></div>
                   <div className="card-title-text">
-                    <span className="card-title">riwayat ({history.length}/{HISTORY_LIMIT})</span>
+                    <span className="card-title">riwayat</span>
                   </div>
                 </div>
                 <div className="history-scroll">
