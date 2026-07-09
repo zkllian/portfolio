@@ -124,6 +124,9 @@ export default function Home() {
   });
   const [showHistorySection, setShowHistorySection] = useState(() => (isNewDay ? false : Number(localStorage.getItem(COUNTER_KEY) || '0') > 0));
   const [clearingHistory, setClearingHistory] = useState(false);
+  const [collapsingHistory, setCollapsingHistory] = useState(false);
+  const [historyBoxHeight, setHistoryBoxHeight] = useState<number | null>(null);
+  const historyBoxRef = useRef<HTMLDivElement>(null);
   const [totalImei, setTotalImei] = useState<number>(() => {
     const today = getWIBDateStr();
     if (isNewDay) {
@@ -379,17 +382,27 @@ export default function Home() {
   }
 
   function clearHistory() {
-    if (clearingHistory || history.length === 0) return;
+    if (clearingHistory || collapsingHistory || history.length === 0) return;
     setClearingHistory(true);
     const n = history.length;
     const staggerMs = 35;
     const itemDurationMs = 260;
-    const totalMs = Math.min(n - 1, 12) * staggerMs + itemDurationMs;
+    const itemsDoneMs = Math.min(n - 1, 12) * staggerMs + itemDurationMs;
+    const collapseDelayMs = 150;
+    const collapseDurationMs = 320;
+    setTimeout(() => {
+      if (historyBoxRef.current) {
+        setHistoryBoxHeight(historyBoxRef.current.getBoundingClientRect().height);
+      }
+      setClearingHistory(false);
+      requestAnimationFrame(() => setCollapsingHistory(true));
+    }, itemsDoneMs + collapseDelayMs);
     setTimeout(() => {
       setHistory([]);
       try { localStorage.setItem(HISTORY_KEY, '[]'); } catch {}
-      setClearingHistory(false);
-    }, totalMs);
+      setCollapsingHistory(false);
+      setHistoryBoxHeight(null);
+    }, itemsDoneMs + collapseDelayMs + collapseDurationMs);
   }
 
   function downloadImage(dataUrl: string, index: number) {
@@ -637,7 +650,11 @@ export default function Home() {
                   </div>
                 </div>
                 {history.length > 0 ? (
-                  <div className="history-box">
+                  <div
+                    className={`history-box${collapsingHistory ? ' history-box--collapsing' : ''}`}
+                    ref={historyBoxRef}
+                    style={historyBoxHeight !== null ? { height: collapsingHistory ? 60 : historyBoxHeight } : undefined}
+                  >
                     <div className="history-scroll">
                       {history.map((h2, i) => (
                         <div
