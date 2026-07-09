@@ -643,12 +643,6 @@ export default function Home() {
                   {statsLoading ? <span className="stats-shimmer">···</span> : statsError ? '—' : (1000 + (stats?.total ?? 0)).toLocaleString()}
                 </span>
               </div>
-              <div className="stats-cell stats-cell--accent">
-                <span className="stats-cell-label">{s.mineLabel}</span>
-                <span className="stats-cell-value">
-                  {statsLoading ? <span className="stats-shimmer">···</span> : statsError ? '—' : (stats?.mine ?? 0).toLocaleString()}
-                </span>
-              </div>
               <div className="stats-cell">
                 <span className="stats-cell-label">{s.othersLabel}</span>
                 <span className="stats-cell-value">
