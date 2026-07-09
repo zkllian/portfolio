@@ -1,0 +1,1 @@
+- [Portfolio stats DB fallback](portfolio-db-fallback.md) — online counter needs both a DB url AND pushed schema; missing tables fail silently to file fallback.
