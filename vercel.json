@@ -2,8 +2,7 @@
   "buildCommand": "pnpm --filter @workspace/portfolio run build",
   "installCommand": "pnpm install",
   "outputDirectory": "dist",
-  "routes": [
-    { "src": "/api/(.*)", "dest": "/api/$1" },
-    { "src": "/(.*)", "dest": "/index.html" }
+  "rewrites": [
+    { "source": "/:path((?!api/).*)", "destination": "/index.html" }
   ]
 }
