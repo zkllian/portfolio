@@ -556,7 +556,6 @@ export default function Home() {
                   <span className="card-title">{h.pageTitle}</span>
                 </div>
               </div>
-              <span className="badge" onClick={handleBadgeTap} style={{ cursor: 'default', userSelect: 'none' }}>{imeiCount}</span>
             </div>
             <div className="card">
               <div className="input-wrap">
@@ -565,6 +564,7 @@ export default function Home() {
                   onChange={handleInput}
                   placeholder={`00000xxxxx00000\n00000xxxxx00000\n00000xxxxx00000\n00000xxxxx00000\n00000xxxxx00000\n00000xxxxx00000`}
                 />
+                <span className="badge input-badge" onClick={handleBadgeTap} style={{ cursor: 'default', userSelect: 'none' }}>{imeiCount}</span>
               </div>
 
               <div className="btn-row">
