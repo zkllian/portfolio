@@ -269,12 +269,16 @@ export default function Tentang() {
 
       {/* ── Footer ── */}
       <footer className="p-footer">
-        <p>{f.creditPrefix} <strong>{f.creditName}</strong></p>
-        <p>{f.copyright}</p>
-        <p className="p-footer-stats">
-          {f.visitorsLabel} <strong>#{visitors !== null ? (1000 + visitors).toLocaleString() : '—'}</strong>
-        </p>
-        <p className="p-footer-loc">{f.location} {time}</p>
+        <div className="p-footer-left">
+          <p>{f.creditPrefix} <strong>{f.creditName}</strong></p>
+          <p>{f.copyright}</p>
+        </div>
+        <div className="p-footer-right">
+          <p className="p-footer-stats">
+            {f.visitorsLabel} <strong>#{visitors !== null ? (1000 + visitors).toLocaleString() : '—'}</strong>
+          </p>
+          <p className="p-footer-loc">{f.location} {time}</p>
+        </div>
       </footer>
 
       </div>{/* end lang-content */}
