@@ -37,6 +37,8 @@ export const content = {
     line2GitLabel:  'GitHub',
     line3Prefix:    'Saya juga aktif di',
     line3TwitterLabel: 'Twitter / X',
+    line4Prefix:    'Temukan saya di',
+    line4IgHandle:  '@llianified',
   },
 
   /* ── URL & kontak ─────────────────────────────────────────────── */
@@ -45,6 +47,7 @@ export const content = {
     email:       'llianified@gmail.com',
     github:      'https://github.com/zkllian',
     twitter:     'https://x.com/llianified',
+    instagram:   'https://instagram.com/llianified',
     portfolio:   'https://llian.vercel.app',
     barcodeApp:  '/projects/imei/barcode-gen',
   },
