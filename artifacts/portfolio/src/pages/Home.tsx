@@ -553,17 +553,17 @@ export default function Home() {
         {view === 'input' && (
           <div className="view-input">
             <Link href="/" className="home-link">← home</Link>
-            <div className="card">
-              <div className="card-header">
-                <div className="card-title-group">
-                  <div className="card-title-icon"><FiEdit2 size={18} /></div>
-                  <div className="card-title-text">
-                    <span className="card-title">{h.pageTitle}</span>
-                    <span className="card-title-sub">{h.pageSub}</span>
-                  </div>
+            <div className="card-header">
+              <div className="card-title-group">
+                <div className="card-title-icon"><FiEdit2 size={18} /></div>
+                <div className="card-title-text">
+                  <span className="card-title">{h.pageTitle}</span>
+                  <span className="card-title-sub">{h.pageSub}</span>
                 </div>
-                <span className="badge" onClick={handleBadgeTap} style={{ cursor: 'default', userSelect: 'none' }}>{imeiCount}</span>
               </div>
+              <span className="badge" onClick={handleBadgeTap} style={{ cursor: 'default', userSelect: 'none' }}>{imeiCount}</span>
+            </div>
+            <div className="card">
               <div className="input-wrap">
                 <textarea
                   value={inputVal}
