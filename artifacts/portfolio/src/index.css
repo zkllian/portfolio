@@ -631,8 +631,6 @@ textarea:focus { border-color: var(--border2); }
 .results-scroll {
   max-height: min(720px, 74vh, 74dvh); overflow-y: auto; padding-top: 10px; margin-top: -10px; padding-bottom: 10px; margin-bottom: -10px;
   scrollbar-width: none;
-  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 10px, black calc(100% - 10px), transparent 100%);
-  mask-image: linear-gradient(to bottom, transparent 0%, black 10px, black calc(100% - 10px), transparent 100%);
 }
 .results-scroll::-webkit-scrollbar { display: none; }
 .results-list { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; align-items: start; }
