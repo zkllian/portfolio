@@ -603,7 +603,12 @@ export default function Home() {
             </div>
             {history.length > 0 && (
               <div className="history-list">
-                <span className="card-title history-label"><FiClock size={16} style={{ flexShrink: 0 }} />riwayat ({history.length}/{HISTORY_LIMIT})</span>
+                <div className="card-title-group history-label">
+                  <div className="card-title-icon"><FiClock size={14} /></div>
+                  <div className="card-title-text">
+                    <span className="card-title">riwayat ({history.length}/{HISTORY_LIMIT})</span>
+                  </div>
+                </div>
                 <div className="history-scroll">
                   {history.map((h2, i) => (
                     <div key={i} className="history-item">
