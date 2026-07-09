@@ -184,9 +184,10 @@ export default function Tentang() {
         </a>.
       </p>
       <p className="p-bio p-bio--last">
+        {profile.cvPrefix}{' '}
         <a href={profile.cvHref} target="_blank" rel="noreferrer">
           <IcoPdf />{profile.cvLabel}
-        </a>
+        </a>.
       </p>
 
       {/* ── Tech Marquee ── */}
