@@ -522,16 +522,29 @@ body::before {
 
 /* ── Footer ── */
 .p-footer {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
   margin-top: 48px;
   font-family: var(--font-sans);
   font-size: 14px;
   color: #000;
 }
-.p-footer-left { text-align: left; }
-.p-footer-right { text-align: right; }
+.p-footer-left { text-align: left; min-width: 0; }
+.p-footer-right { text-align: right; min-width: 0; flex-shrink: 0; }
 .p-footer p + p { margin-top: 4px; }
-.p-footer-stats { margin-top: 28px !important; }
+.p-footer-stats { margin-top: 0 !important; }
 .p-footer-loc { font-size: 14px; margin-top: 4px !important; }
+
+@media (max-width: 480px) {
+  .p-footer {
+    font-size: 11px;
+  }
+  .p-footer-loc {
+    font-size: 11px;
+  }
+}
 
 
 /* ── Page Transition ── */
