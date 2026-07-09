@@ -477,16 +477,31 @@ export default function Home() {
     a.click();
   }
 
-  async function shareImage(dataUrl: string) {
+  // iOS Safari only honors navigator.share() while the user-gesture "activation"
+  // window is still open — any await before calling it (e.g. fetch(dataUrl)) can
+  // burn that window and make share silently fail. Decode the dataURL synchronously
+  // (atob, no network/microtask hop) so share() fires as close to the tap as possible.
+  function dataURLtoBlob(dataUrl: string): Blob {
+    const [header, base64] = dataUrl.split(',');
+    const mime = header.match(/:(.*?);/)?.[1] || 'image/png';
+    const binary = atob(base64);
+    const bytes = new Uint8Array(binary.length);
+    for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+    return new Blob([bytes], { type: mime });
+  }
+
+  async function shareImage(dataUrl: string, index?: number) {
     if (!navigator.share) { showToast(h.toastShareUnsupported); return; }
     try {
-      const res = await fetch(dataUrl);
-      const blob = await res.blob();
-      const file = new File([blob], 'barcode.png', { type: 'image/png' });
+      const blob = dataURLtoBlob(dataUrl);
+      const filename = `barcode-${String(index ?? 1).padStart(2, '0')}.png`;
+      const file = new File([blob], filename, { type: 'image/png' });
       // @ts-ignore
-      if (navigator.canShare && navigator.canShare({ files: [file] })) {
-        await navigator.share({ files: [file] });
+      if (navigator.canShare && !navigator.canShare({ files: [file] })) {
+        showToast(h.toastShareUnsupported);
+        return;
       }
+      await navigator.share({ files: [file] });
     } catch (e: unknown) {
       if (e instanceof Error && e.name !== 'AbortError') {
         showToast(h.toastShareFailed);
@@ -772,7 +787,7 @@ export default function Home() {
                     </div>
                     <div className="result-actions">
                       <button className="result-btn" onClick={() => downloadImage(r.url, r.index)}><FiDownload size={12} />{h.downloadLabel}</button>
-                      <button className="result-btn primary-action" onClick={() => shareImage(r.url)}><FiShare2 size={12} />{h.shareLabel}</button>
+                      <button className="result-btn primary-action" onClick={() => shareImage(r.url, r.index)}><FiShare2 size={12} />{h.shareLabel}</button>
                     </div>
                   </div>
                 ))}
