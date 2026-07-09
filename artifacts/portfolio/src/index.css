@@ -696,7 +696,7 @@ textarea:focus { border-color: var(--border2); }
 .history-list { margin-top: 10px; display: flex; flex-direction: column; }
 .history-label { margin-bottom: 10px; flex-shrink: 0; }
 .history-scroll {
-  display: flex; flex-direction: column; gap: 8px; max-height: 280px; overflow-y: auto;
+  display: flex; flex-direction: column; gap: 8px; max-height: 340px; overflow-y: auto;
   scrollbar-width: none;
   -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 4%, black 96%, transparent 100%);
   mask-image: linear-gradient(to bottom, transparent 0%, black 4%, black 96%, transparent 100%);
