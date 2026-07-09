@@ -20,3 +20,13 @@ export const userPresenceTable = pgTable("user_presence", {
   userId: text("user_id").primaryKey(),
   lastSeen: bigint("last_seen", { mode: "number" }).notNull(),
 });
+
+export const dailyVisitsTable = pgTable("daily_visits", {
+  date: text("date").primaryKey(),
+  count: integer("count").notNull().default(0),
+});
+
+export const userVisitDailyTable = pgTable("user_visit_daily", {
+  userId: text("user_id").notNull(),
+  date: text("date").notNull(),
+}, (t) => [primaryKey({ columns: [t.userId, t.date] })]);

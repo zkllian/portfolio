@@ -1,7 +1,7 @@
 import { Router, type IRouter } from "express";
 import fs from "fs";
 import path from "path";
-import { createDb, dailyStatsTable, allTimeStatsTable, userDailyStatsTable, userPresenceTable } from "@workspace/db";
+import { createDb, dailyStatsTable, allTimeStatsTable, userDailyStatsTable, userPresenceTable, dailyVisitsTable, userVisitDailyTable } from "@workspace/db";
 import { eq, sql, gt } from "drizzle-orm";
 
 const STATS_FILE = path.resolve(process.cwd(), "stats.json");
@@ -11,17 +11,24 @@ function getWIBDateStr() {
   return new Date().toLocaleDateString("sv-SE", { timeZone: "Asia/Jakarta" });
 }
 
-function readFile(): { date: string; count: number; total: number } {
+function readFile(): { date: string; count: number; total: number; visitors?: number; visitDate?: string; visitedIds?: string[] } {
   try {
     if (!fs.existsSync(STATS_FILE)) return { date: getWIBDateStr(), count: 0, total: 0 };
     const data = JSON.parse(fs.readFileSync(STATS_FILE, "utf-8"));
-    return { date: data.date ?? getWIBDateStr(), count: data.count ?? 0, total: data.total ?? 0 };
+    return {
+      date: data.date ?? getWIBDateStr(),
+      count: data.count ?? 0,
+      total: data.total ?? 0,
+      visitors: data.visitors ?? 0,
+      visitDate: data.visitDate ?? getWIBDateStr(),
+      visitedIds: Array.isArray(data.visitedIds) ? data.visitedIds : [],
+    };
   } catch {
     return { date: getWIBDateStr(), count: 0, total: 0 };
   }
 }
 
-function writeFile(data: { date: string; count: number; total: number }) {
+function writeFile(data: { date: string; count: number; total: number; visitors?: number; visitDate?: string; visitedIds?: string[] }) {
   try { fs.writeFileSync(STATS_FILE, JSON.stringify(data), "utf-8"); } catch {}
 }
 
@@ -47,6 +54,8 @@ router.get("/stats/today", async (req, res) => {
         mine = userRow?.count ?? 0;
       }
 
+      const [visitorsRow] = await db.select().from(allTimeStatsTable).where(eq(allTimeStatsTable.key, "visitors"));
+
       const FIVE_MIN = 5 * 60 * 1000;
       const [onlineRow] = await db.select({ count: sql<number>`count(*)::int` }).from(userPresenceTable).where(gt(userPresenceTable.lastSeen, Date.now() - FIVE_MIN));
       const todayCount = dayRow?.count ?? 0;
@@ -57,13 +66,72 @@ router.get("/stats/today", async (req, res) => {
         mine,
         others: Math.max(0, todayCount - mine),
         online: onlineRow?.count ?? 0,
+        visitorsTotal: visitorsRow?.value ?? 0,
       });
     } catch {}
   }
 
   const f = readFile();
   const todayCount = f.date === today ? f.count : 0;
-  return res.json({ date: today, today: todayCount, total: f.total, mine: 0, others: todayCount, online: 0 });
+  return res.json({ date: today, today: todayCount, total: f.total, mine: 0, others: todayCount, online: 0, visitorsTotal: f.visitors ?? 0 });
+});
+
+router.post("/stats/visit", async (req, res) => {
+  const today = getWIBDateStr();
+  const body = req.body as { userId?: string };
+  const userId = String(body?.userId ?? "").trim().slice(0, 64);
+
+  if (db) {
+    try {
+      if (userId) {
+        await db
+          .insert(userPresenceTable)
+          .values({ userId, lastSeen: Date.now() })
+          .onConflictDoUpdate({
+            target: userPresenceTable.userId,
+            set: { lastSeen: Date.now() },
+          });
+
+        const inserted = await db
+          .insert(userVisitDailyTable)
+          .values({ userId, date: today })
+          .onConflictDoNothing({ target: [userVisitDailyTable.userId, userVisitDailyTable.date] })
+          .returning();
+
+        if (inserted.length > 0) {
+          await db
+            .insert(dailyVisitsTable)
+            .values({ date: today, count: 1 })
+            .onConflictDoUpdate({
+              target: dailyVisitsTable.date,
+              set: { count: sql`${dailyVisitsTable.count} + 1` },
+            });
+
+          await db
+            .insert(allTimeStatsTable)
+            .values({ key: "visitors", value: 1 })
+            .onConflictDoUpdate({
+              target: allTimeStatsTable.key,
+              set: { value: sql`${allTimeStatsTable.value} + 1` },
+            });
+        }
+      }
+
+      const [visitorsRow] = await db.select().from(allTimeStatsTable).where(eq(allTimeStatsTable.key, "visitors"));
+      return res.json({ ok: true, visitorsTotal: visitorsRow?.value ?? 0 });
+    } catch {}
+  }
+
+  const f = readFile();
+  if (f.visitDate !== today) { f.visitDate = today; f.visitedIds = []; }
+  const visited = new Set(f.visitedIds ?? []);
+  if (userId && !visited.has(userId)) {
+    visited.add(userId);
+    f.visitedIds = Array.from(visited);
+    f.visitors = (f.visitors ?? 0) + 1;
+    writeFile(f);
+  }
+  return res.json({ ok: true, visitorsTotal: f.visitors ?? 0 });
 });
 
 router.post("/stats/ping", async (req, res) => {

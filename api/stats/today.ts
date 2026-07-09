@@ -6,7 +6,7 @@ function getWIBDateStr() {
 }
 
 function makePool() {
-  const url = process.env.RAILWAY_DATABASE_URL;
+  const url = process.env.RAILWAY_DATABASE_URL ?? process.env.DATABASE_URL;
   if (!url) return null;
   const ssl = /railway|neon\.tech/.test(url) && !/sslmode=/.test(url);
   return new Pool({ connectionString: url, ssl: ssl ? { rejectUnauthorized: false } : undefined });
@@ -41,6 +41,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         "SELECT count(*)::int AS count FROM user_presence WHERE last_seen > $1",
         [Date.now() - FIVE_MIN]
       );
+      const visitorsRow = await pool.query("SELECT value FROM all_time_stats WHERE key = 'visitors'");
 
       const todayCount = dayRow.rows[0]?.count ?? 0;
       return res.json({
@@ -50,11 +51,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         mine,
         others: Math.max(0, todayCount - mine),
         online: onlineRow.rows[0]?.count ?? 0,
+        visitorsTotal: visitorsRow.rows[0]?.value ?? 0,
       });
     } catch (e) {
       console.error("db error", e);
     }
   }
 
-  return res.json({ date: today, today: 0, total: 0, mine: 0, others: 0, online: 0 });
+  return res.json({ date: today, today: 0, total: 0, mine: 0, others: 0, online: 0, visitorsTotal: 0 });
 }

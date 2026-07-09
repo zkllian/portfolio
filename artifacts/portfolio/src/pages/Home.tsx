@@ -179,6 +179,14 @@ export default function Home() {
   useEffect(() => { posRef.current = pos; }, [pos]);
 
   useEffect(() => {
+    fetch('/api/stats/visit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userId: userIdRef.current }),
+    }).catch(() => {});
+  }, []);
+
+  useEffect(() => {
     function scheduleReset() {
       const now = new Date();
       const wibNow = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Jakarta' }));

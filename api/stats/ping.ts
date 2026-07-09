@@ -6,7 +6,7 @@ function getWIBDateStr() {
 }
 
 function makePool() {
-  const url = process.env.RAILWAY_DATABASE_URL;
+  const url = process.env.RAILWAY_DATABASE_URL ?? process.env.DATABASE_URL;
   if (!url) return null;
   const ssl = /railway|neon\.tech/.test(url) && !/sslmode=/.test(url);
   return new Pool({ connectionString: url, ssl: ssl ? { rejectUnauthorized: false } : undefined });

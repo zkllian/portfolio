@@ -29,12 +29,31 @@ function useCianjurClock() {
   return t;
 }
 
+function genVisitorId() {
+  try {
+    const k = 'bc-user-id';
+    let id = localStorage.getItem(k);
+    if (!id) {
+      id = crypto.randomUUID();
+      localStorage.setItem(k, id);
+    }
+    return id;
+  } catch {
+    return crypto.randomUUID();
+  }
+}
+
 function useVisitorCount() {
   const [count, setCount] = useState<number | null>(null);
   useEffect(() => {
-    fetch('/api/stats/today')
+    const userId = genVisitorId();
+    fetch('/api/stats/visit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userId }),
+    })
       .then(r => r.json())
-      .then(d => setCount(d.count ?? d.today ?? d.barcodes ?? null))
+      .then(d => setCount(d.visitorsTotal ?? null))
       .catch(() => {});
   }, []);
   return count;
