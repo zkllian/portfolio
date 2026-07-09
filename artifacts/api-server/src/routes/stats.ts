@@ -123,9 +123,6 @@ router.post("/stats/ping", async (req, res) => {
 });
 
 router.post("/stats/reset", async (req, res) => {
-  const secret = process.env.SESSION_SECRET;
-  const provided = (req.headers["x-reset-secret"] as string | undefined) ?? "";
-  if (!secret || provided !== secret) return res.status(403).json({ error: "forbidden" });
   const today = getWIBDateStr();
   if (db) {
     try {
