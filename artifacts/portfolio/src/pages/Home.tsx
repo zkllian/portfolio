@@ -126,7 +126,7 @@ export default function Home() {
   const [statsLoading, setStatsLoading] = useState(false);
   const [statsError, setStatsError] = useState(false);
   const [confirmResetGlobal, setConfirmResetGlobal] = useState(false);
-  const [resetting, setResetting] = useState(false);
+  const [statsResetting, setStatsResetting] = useState(false);
   const badgeTapRef = useRef(0);
   const badgeTapResetRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -526,7 +526,7 @@ export default function Home() {
   }
 
   async function handleGlobalReset() {
-    setResetting(true);
+    setStatsResetting(true);
     try {
       await fetch(`${BASE}api/stats/reset`, { method: 'POST' });
       setStats({ today: 0, total: 0, mine: 0, others: 0 });
@@ -535,7 +535,7 @@ export default function Home() {
     } catch {
       showToast(s.toastResetFailed);
     } finally {
-      setResetting(false);
+      setStatsResetting(false);
     }
   }
 
@@ -667,8 +667,8 @@ export default function Home() {
               ) : (
                 <div className="stats-reset-confirm">
                   <span className="stats-reset-confirm-text">{s.resetConfirmPrompt}</span>
-                  <button className="stats-reset-yes" onClick={handleGlobalReset} disabled={resetting}>
-                    {resetting ? '···' : s.resetYes}
+                  <button className="stats-reset-yes" onClick={handleGlobalReset} disabled={statsResetting}>
+                    {statsResetting ? '···' : s.resetYes}
                   </button>
                   <button className="stats-reset-no" onClick={() => setConfirmResetGlobal(false)}>{s.resetNo}</button>
                 </div>
