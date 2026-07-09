@@ -66,6 +66,7 @@ export default function Home() {
   const [results, setResults] = useState<{ url: string; index: number }[]>([]);
   const [resultLabel, setResultLabel] = useState('0 output');
   const [leaving, setLeaving] = useState(false);
+  const [resetAnimating, setResetAnimating] = useState(false);
 
   const DEFAULT_POS: Record<string, number> = {
     eid_x: 19,     eid_y: 454,
@@ -230,12 +231,16 @@ export default function Home() {
   }
 
   function resetAll() {
-    inputValRef.current = '';
-    setInputVal('');
-    setResults([]);
-    setView('input');
-    setImeiCount('0 sets');
-    window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
+    setResetAnimating(true);
+    setTimeout(() => {
+      inputValRef.current = '';
+      setInputVal('');
+      setResults([]);
+      setView('input');
+      setImeiCount('0 sets');
+      setResetAnimating(false);
+      window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
+    }, 260);
   }
 
   function goBack() {
@@ -590,7 +595,7 @@ export default function Home() {
         )}
 
         {view === 'results' && (
-          <div className={`view-results${leaving ? ' view-leaving' : ''}`}>
+          <div className={`view-results${leaving || resetAnimating ? ' view-leaving' : ''}`}>
             <button className="home-link" onClick={goBack}>← kembali</button>
             <div className="results-topbar">
               <span className="results-count-badge">{resultLabel}</span>
