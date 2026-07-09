@@ -353,7 +353,7 @@ export default function Tentang() {
         <div className="p-footer-right">
           <p className="p-footer-stats">
             {f.visitorsLabel} <strong className={visitorsFlash ? 'stat-flash' : undefined}>#{visitors !== null ? (1000 + visitors).toLocaleString() : '—'}</strong>
-            {' | '}{f.onlineLabel} <strong className={onlineFlash ? 'stat-flash' : undefined}>#{online !== null ? online.toLocaleString() : '—'}</strong>
+            {' | '}<span className="stats-online-dot" />{f.onlineLabel} <strong className={onlineFlash ? 'stat-flash' : undefined}>#{online !== null ? online.toLocaleString() : '—'}</strong>
           </p>
           <p className="p-footer-loc">{f.location} {time}</p>
         </div>
