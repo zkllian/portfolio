@@ -26,13 +26,13 @@ export const content = {
   /* ── Bio ─────────────────────────────────────────────────────── */
   bio: {
     line1LinkLabel: 'Front-End Developer',
-    line1Suffix:    'berusia 26 tahun berasal di Cianjur, Indonesia.',
-    line2Prefix:    'Hubungi saya via',
+    line1Suffix:    'berusia 26 tahun berasal dari Bandung, Indonesia.',
+    line2Prefix:    'Hubungi aku lewat',
     line2Or:        'atau',
     line2EmailLabel:'email',
-    line2GitPrefix: '| lihat kode saya di',
+    line2GitPrefix: '| lihat semua proyek aku di',
     line2GitLabel:  'GitHub',
-    line3Prefix:    'Temukan saya di',
+    line3Prefix:    'Aku juga aktif di',
     line3TwitterLabel: 'Twitter / X',
   },
 
