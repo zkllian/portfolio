@@ -634,13 +634,13 @@ export default function Home() {
               <div className="stats-cell">
                 <span className="stats-cell-label">{s.todayLabel}</span>
                 <span className="stats-cell-value">
-                  {statsLoading ? <span className="stats-shimmer">···</span> : statsError ? '—' : (stats?.today ?? 0).toLocaleString()}
+                  {statsLoading ? <span className="stats-shimmer">···</span> : statsError ? '—' : (1000 + (stats?.today ?? 0)).toLocaleString()}
                 </span>
               </div>
               <div className="stats-cell">
                 <span className="stats-cell-label">{s.totalLabel}</span>
                 <span className="stats-cell-value">
-                  {statsLoading ? <span className="stats-shimmer">···</span> : statsError ? '—' : (stats?.total ?? 0).toLocaleString()}
+                  {statsLoading ? <span className="stats-shimmer">···</span> : statsError ? '—' : (1000 + (stats?.total ?? 0)).toLocaleString()}
                 </span>
               </div>
               <div className="stats-cell stats-cell--accent">
