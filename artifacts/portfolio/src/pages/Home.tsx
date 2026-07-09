@@ -574,7 +574,7 @@ export default function Home() {
                 </button>
               </div>
               <div className="tool-row">
-                <button className="tool-btn" onClick={openCounter}>
+                <button className="tool-btn tool-btn--accent" onClick={openCounter}>
                   <FiBarChart2 size={12} style={{ flexShrink: 0 }} />
                   {h.barcodeCardTitle}
                 </button>
@@ -631,7 +631,7 @@ export default function Home() {
             </div>
 
             <div className="stats-grid">
-              <div className="stats-cell stats-cell--accent">
+              <div className="stats-cell">
                 <span className="stats-cell-label">{s.todayLabel}</span>
                 <span className="stats-cell-value">
                   {statsLoading ? <span className="stats-shimmer">···</span> : statsError ? '—' : (stats?.today ?? 0).toLocaleString()}
