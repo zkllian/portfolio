@@ -690,6 +690,7 @@ textarea:focus { border-color: var(--border2); }
 .tool-row { display: flex; gap: 8px; margin-top: 10px; }
 .tool-btn { flex: 1; display: flex; align-items: center; justify-content: center; gap: 6px; padding: 9px 12px; font-size: 12px; font-weight: 500; font-family: var(--font-sans); color: var(--text-muted); background: var(--bg); border: 1px solid var(--border); border-radius: 10px; cursor: pointer; transition: background .15s, border-color .15s, color .15s; }
 .tool-btn:hover { background: var(--surface); border-color: var(--border2); color: var(--text); }
+.tool-btn:disabled { opacity: .4; cursor: not-allowed; }
 .tool-btn--accent { background: #f6f3ff; border-color: #e0d9ff; color: #7850ff; }
 .tool-btn--accent:hover { background: #ede8ff; border-color: #c9baff; color: #6c3ce0; }
 .tool-btn--orange { background: #fff7ed; border-color: #fed7aa; color: #ea580c; }

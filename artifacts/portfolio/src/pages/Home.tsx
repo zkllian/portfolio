@@ -568,7 +568,7 @@ export default function Home() {
               </div>
 
               <div className="btn-row">
-                <button className="btn btn-primary btn--black" onClick={() => generateBulk()} disabled={isLoading}>
+                <button className="tool-btn" onClick={() => generateBulk()} disabled={isLoading}>
                   <FiZap size={13} style={{ flexShrink: 0 }} />
                   {h.executeBtn}
                 </button>
