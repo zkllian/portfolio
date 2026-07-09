@@ -122,7 +122,6 @@ export default function Home() {
       return raw.map((entry, i) => (typeof entry.seq === 'number' ? entry : { ...entry, seq: n - i }));
     } catch { return []; }
   });
-  const [showHistorySection, setShowHistorySection] = useState(() => history.length > 0);
   const [clearingHistory, setClearingHistory] = useState(false);
   const [itemsExiting, setItemsExiting] = useState(false);
   const [collapsingHistory, setCollapsingHistory] = useState(false);
@@ -221,7 +220,6 @@ export default function Home() {
       return setTimeout(() => {
         setTotalImei(0);
         setHistory([]);
-        setShowHistorySection(false);
         localStorage.setItem(COUNTER_KEY, '0');
         localStorage.setItem(HISTORY_KEY, '[]');
         localStorage.setItem(DATE_KEY, getWIBDateStr());
@@ -257,7 +255,7 @@ export default function Home() {
     const el = historyScrollRef.current;
     if (!el) { setHistoryScrollable(false); return; }
     setHistoryScrollable(el.scrollHeight > el.clientHeight + 1);
-  }, [history, showHistorySection]);
+  }, [history]);
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
@@ -391,7 +389,6 @@ export default function Home() {
         try { localStorage.setItem(HISTORY_KEY, JSON.stringify(next)); } catch {}
         return next;
       });
-      setShowHistorySection(true);
       setTotalImei(prev => {
         const next = prev + totalSets;
         localStorage.setItem(COUNTER_KEY, String(next));
@@ -675,8 +672,7 @@ export default function Home() {
                 </button>
               </div>
             </div>
-            {showHistorySection && (
-              <div className="history-list">
+            <div className="history-list">
                 <div className="card-header history-label">
                   <div className="card-title-group">
                     <div className="card-title-icon"><FiClock size={14} /></div>
@@ -714,7 +710,6 @@ export default function Home() {
                   <div className="history-empty">belum ada riwayat</div>
                 )}
               </div>
-            )}
           </div>
         )}
 
