@@ -69,6 +69,7 @@ body::before {
   max-width: 540px;
   margin: 0 auto;
   padding: 36px 24px;
+  position: relative;
 }
 
 /* ── Profile header ── */
@@ -80,8 +81,9 @@ body::before {
 }
 
 .lang-toggle {
-  margin-left: auto;
-  align-self: flex-start;
+  position: absolute;
+  top: 36px;
+  right: 24px;
   display: flex;
   align-items: center;
   gap: 5px;
