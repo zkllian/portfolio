@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { Link } from 'wouter';
 import JsBarcode from 'jsbarcode';
@@ -58,10 +58,6 @@ function genUserId() {
 }
 
 export default function Home() {
-  useLayoutEffect(() => {
-    document.body.classList.add('bg-warm');
-    return () => document.body.classList.remove('bg-warm');
-  }, []);
 
   const [inputVal, setInputVal] = useState('');
   const [imeiCount, setImeiCount] = useState('0 sets');
