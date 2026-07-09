@@ -142,6 +142,10 @@ export default function Home() {
   const [clearingHistory, setClearingHistory] = useState(false);
   const [itemsExiting, setItemsExiting] = useState(false);
   const [collapsingHistory, setCollapsingHistory] = useState(false);
+  // Must match .history-empty-inner's rendered height (50 + 20*2 padding) plus
+  // .history-box's 1px*2 border, so the collapse lands exactly where the empty
+  // placeholder sits with no extra jump.
+  const EMPTY_HISTORY_HEIGHT = 92;
   const [historyBoxHeight, setHistoryBoxHeight] = useState<number | null>(null);
   const historyBoxRef = useRef<HTMLDivElement>(null);
   const historyScrollRef = useRef<HTMLDivElement>(null);
@@ -740,12 +744,12 @@ export default function Home() {
                     </button>
                   </div>
                 </div>
-                {history.length > 0 ? (
-                  <div
-                    className={`history-box${collapsingHistory ? ' history-box--collapsing' : ''}`}
-                    ref={historyBoxRef}
-                    style={historyBoxHeight !== null ? { height: collapsingHistory ? 0 : historyBoxHeight } : undefined}
-                  >
+                <div
+                  className={`history-box${collapsingHistory ? ' history-box--collapsing' : ''}`}
+                  ref={historyBoxRef}
+                  style={historyBoxHeight !== null ? { height: collapsingHistory ? EMPTY_HISTORY_HEIGHT : historyBoxHeight } : undefined}
+                >
+                  {history.length > 0 ? (
                     <div className={`history-scroll${historyScrollable ? ' history-scroll--scrollable' : ''}`} ref={historyScrollRef}>
                       {history.map((h2, i) => (
                         <div
@@ -759,10 +763,10 @@ export default function Home() {
                         </div>
                       ))}
                     </div>
-                  </div>
-                ) : (
-                  <div className="history-empty">belum ada riwayat</div>
-                )}
+                  ) : (
+                    <div className="history-empty-inner">belum ada riwayat</div>
+                  )}
+                </div>
               </div>
           </div>
         )}
