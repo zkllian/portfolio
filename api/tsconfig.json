@@ -4,7 +4,6 @@
     "module": "ESNext",
     "moduleResolution": "bundler",
     "noEmit": true,
-    "rootDir": ".",
     "types": ["node"]
   },
   "include": ["."]
