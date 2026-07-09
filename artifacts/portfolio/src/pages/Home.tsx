@@ -664,7 +664,7 @@ export default function Home() {
               <div className="stats-error-note">{s.serverUnavailable}</div>
             )}
 
-            <div className="stats-modal-footer">
+            <div className="stats-esc-row">
               {!confirmResetGlobal ? (
                 <button className="stats-reset-btn" onClick={() => setConfirmResetGlobal(true)}>{s.resetGlobalBtn}</button>
               ) : (
@@ -677,8 +677,8 @@ export default function Home() {
                 </div>
               )}
               <span className="stats-note">{s.footerNote}</span>
+              <span className="stats-esc-text">esc to close</span>
             </div>
-            <div className="stats-esc-row">esc to close</div>
           </div>
         </div>
       , document.body)}
@@ -693,7 +693,7 @@ export default function Home() {
               <span className="stats-cell-label">{h.barcodeTodayLabel}</span>
               <span className="counter-number" onClick={handleCounterTap} style={{ cursor: 'default', userSelect: 'none' }}>{totalImei.toLocaleString()}</span>
             </div>
-            <div className="stats-modal-footer">
+            <div className="stats-esc-row">
               {!confirmReset ? (
                 <button className="stats-reset-btn" onClick={() => setConfirmReset(true)}>{h.resetBtn}</button>
               ) : (
@@ -703,8 +703,8 @@ export default function Home() {
                   <button className="stats-reset-no" onClick={() => setConfirmReset(false)}>{h.confirmNo}</button>
                 </div>
               )}
+              <span className="stats-esc-text">esc to close</span>
             </div>
-            <div className="stats-esc-row">esc to close</div>
           </div>
         </div>
       , document.body)}
@@ -730,12 +730,12 @@ export default function Home() {
                 </div>
               </div>
             </div>
-            <div className="stats-modal-footer">
+            <div className="stats-esc-row">
               <button className="save-default-btn" onClick={() => {
                 try { localStorage.setItem('bc-pos', JSON.stringify(posRef.current)); } catch {}
                 showToast(h.toastSaved);
               }}>{h.saveBtn}</button>
-              <span className="stats-note">esc to close</span>
+              <span className="stats-esc-text">esc to close</span>
             </div>
           </div>
         </div>
