@@ -215,7 +215,10 @@ export default function Tentang() {
         {b.line2Prefix}{' '}
         <a href={links.instagram} target="_blank" rel="noreferrer">
           <IcoInstagram />{b.line2IgLabel}
-        </a>{b.line2Comma}{' '}
+        </a>{', '}
+        <a href={links.twitter} target="_blank" rel="noreferrer">
+          <IcoX />{b.line2TwitterLabel}
+        </a>{', '}
         <a href={links.whatsapp} target="_blank" rel="noreferrer">
           <IcoWhatsApp />WhatsApp
         </a>
@@ -226,12 +229,6 @@ export default function Tentang() {
         {' '}{b.line2GitPrefix}{' '}
         <a href={links.github} target="_blank" rel="noreferrer">
           <IcoGitHub />{b.line2GitLabel}
-        </a>.
-      </p>
-      <p className="p-bio">
-        {b.line3Prefix}{' '}
-        <a href={links.twitter} target="_blank" rel="noreferrer">
-          <IcoX />{b.line3TwitterLabel}
         </a>.
       </p>
       <p className="p-bio p-bio--last">
