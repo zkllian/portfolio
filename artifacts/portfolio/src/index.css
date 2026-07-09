@@ -570,7 +570,7 @@ body.bg-warm::before { opacity: 0.3; }
 .card { padding: 20px; margin-bottom: 12px; background: var(--surface); border-radius: 12px; }
 .card-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 12px; }
 .card-title-group { display: flex; align-items: center; gap: 12px; }
-.card-title-icon { display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; border-radius: 10px; background: var(--surface2); border: 1px solid var(--border); color: var(--text-dim); flex-shrink: 0; align-self: stretch; margin: auto 0; }
+.card-title-icon { display: flex; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: 8px; background: var(--surface2); border: 1px solid var(--border); color: var(--text-dim); flex-shrink: 0; align-self: center; }
 .card-title-text { display: flex; flex-direction: column; gap: 2px; justify-content: center; }
 .card-title-sub { font-size: 13px; font-family: var(--font-sans); color: var(--text-dim); line-height: 1.4; }
 .save-default-btn { padding: 3px 12px; font-size: 11px; font-family: var(--font-sans); background: transparent; border: 1px solid var(--border2); border-radius: 10px; color: var(--text-dim); cursor: pointer; transition: background .12s, color .12s; }
