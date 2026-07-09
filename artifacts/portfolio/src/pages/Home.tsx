@@ -758,6 +758,7 @@ export default function Home() {
             <div className="results-topbar">
               <span className="results-count-badge">{resultLabel}</span>
             </div>
+            <div className="results-box">
             <div className="results-scroll">
               <div className="results-list">
                 {results.map(r => (
@@ -776,6 +777,7 @@ export default function Home() {
                   </div>
                 ))}
               </div>
+            </div>
             </div>
           </div>
         )}
