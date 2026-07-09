@@ -604,13 +604,15 @@ export default function Home() {
             {history.length > 0 && (
               <div className="history-list">
                 <span className="history-label">riwayat ({history.length}/{HISTORY_LIMIT})</span>
-                {history.map((h2, i) => (
-                  <div key={i} className="history-item">
-                    <span className="history-sets">#{history.length - i}</span>
-                    <span className="history-preview">{h2.imei1} · {h2.imei2}</span>
-                    <span className="history-time">{new Date(h2.ts).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })}</span>
-                  </div>
-                ))}
+                <div className="history-scroll">
+                  {history.map((h2, i) => (
+                    <div key={i} className="history-item">
+                      <span className="history-sets">#{history.length - i}</span>
+                      <span className="history-preview">{h2.imei1} · {h2.imei2}</span>
+                      <span className="history-time">{new Date(h2.ts).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
             )}
           </div>
