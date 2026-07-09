@@ -123,6 +123,7 @@ export default function Home() {
     } catch { return []; }
   });
   const [showHistorySection, setShowHistorySection] = useState(() => (isNewDay ? false : Number(localStorage.getItem(COUNTER_KEY) || '0') > 0));
+  const [clearingHistory, setClearingHistory] = useState(false);
   const [totalImei, setTotalImei] = useState<number>(() => {
     const today = getWIBDateStr();
     if (isNewDay) {
@@ -378,8 +379,17 @@ export default function Home() {
   }
 
   function clearHistory() {
-    setHistory([]);
-    try { localStorage.setItem(HISTORY_KEY, '[]'); } catch {}
+    if (clearingHistory || history.length === 0) return;
+    setClearingHistory(true);
+    const n = history.length;
+    const staggerMs = 35;
+    const itemDurationMs = 260;
+    const totalMs = Math.min(n - 1, 12) * staggerMs + itemDurationMs;
+    setTimeout(() => {
+      setHistory([]);
+      try { localStorage.setItem(HISTORY_KEY, '[]'); } catch {}
+      setClearingHistory(false);
+    }, totalMs);
   }
 
   function downloadImage(dataUrl: string, index: number) {
@@ -621,7 +631,7 @@ export default function Home() {
                     </div>
                   </div>
                   <div className="card-header-actions">
-                    <button className="icon-btn" onClick={clearHistory} title="hapus riwayat">
+                    <button className="icon-btn" onClick={clearHistory} disabled={clearingHistory} title="hapus riwayat">
                       <FiTrash2 size={14} />
                     </button>
                   </div>
@@ -630,7 +640,11 @@ export default function Home() {
                   <div className="history-box">
                     <div className="history-scroll">
                       {history.map((h2, i) => (
-                        <div key={i} className="history-item">
+                        <div
+                          key={i}
+                          className={`history-item${clearingHistory ? ' history-item--exit' : ''}`}
+                          style={clearingHistory ? { animationDelay: `${Math.min(i, 12) * 35}ms` } : undefined}
+                        >
                           <span className="history-sets">#{h2.seq}</span>
                           <span className="history-preview">{h2.imei1} · {h2.imei2}</span>
                           <span className="history-time">{new Date(h2.ts).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })}</span>
