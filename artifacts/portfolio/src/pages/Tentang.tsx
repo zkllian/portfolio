@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link } from 'wouter';
 import {
   SiReact, SiTypescript, SiNextdotjs, SiVite, SiTailwindcss,
@@ -66,6 +66,15 @@ function useVisitorCount() {
       }).catch(() => {});
     }, HEARTBEAT_MS);
 
+    const REALTIME_MS = 1000;
+    const realtime = setInterval(() => {
+      if (document.visibilityState !== 'visible') return;
+      fetch('/api/stats/today')
+        .then(r => r.json())
+        .then(d => setCount(d.visitorsTotal ?? null))
+        .catch(() => {});
+    }, REALTIME_MS);
+
     function sendLeave() {
       const payload = new Blob([JSON.stringify({ userId })], { type: 'application/json' });
       navigator.sendBeacon?.('/api/stats/leave', payload);
@@ -74,10 +83,28 @@ function useVisitorCount() {
 
     return () => {
       clearInterval(heartbeat);
+      clearInterval(realtime);
       document.removeEventListener('pagehide', sendLeave);
     };
   }, []);
   return count;
+}
+
+function useIncreaseFlash(value: number | null) {
+  const prevRef = useRef(value);
+  const [flashing, setFlashing] = useState(false);
+  useEffect(() => {
+    const prev = prevRef.current;
+    if (value !== null && prev !== null && value > prev) {
+      setFlashing(true);
+      const t = setTimeout(() => setFlashing(false), 700);
+      prevRef.current = value;
+      return () => clearTimeout(t);
+    }
+    prevRef.current = value;
+    return undefined;
+  }, [value]);
+  return flashing;
 }
 
 /* ─────────── Tech icon map ─────────── */
@@ -124,6 +151,7 @@ function useRoleCycle(roles: { label: string; duration: number }[]) {
 export default function Tentang() {
   const time = useCianjurClock();
   const visitors = useVisitorCount();
+  const visitorsFlash = useIncreaseFlash(visitors);
   const role = useRoleCycle(profile.roles);
   const [lang, setLang] = useState<'id' | 'en'>('id');
   const [switching, setSwitching] = useState(false);
@@ -315,7 +343,7 @@ export default function Tentang() {
         </div>
         <div className="p-footer-right">
           <p className="p-footer-stats">
-            {f.visitorsLabel} <strong>#{visitors !== null ? (1000 + visitors).toLocaleString() : '—'}</strong>
+            {f.visitorsLabel} <strong className={visitorsFlash ? 'stat-flash' : undefined}>#{visitors !== null ? (1000 + visitors).toLocaleString() : '—'}</strong>
           </p>
           <p className="p-footer-loc">{f.location} {time}</p>
         </div>

@@ -9,6 +9,23 @@ const h = content.home;
 const s = content.home.stats;
 
 
+function useIncreaseFlash(value: number | null | undefined) {
+  const prevRef = useRef(value);
+  const [flashing, setFlashing] = useState(false);
+  useEffect(() => {
+    const prev = prevRef.current;
+    if (value != null && prev != null && value > prev) {
+      setFlashing(true);
+      const t = setTimeout(() => setFlashing(false), 700);
+      prevRef.current = value;
+      return () => clearTimeout(t);
+    }
+    prevRef.current = value;
+    return undefined;
+  }, [value]);
+  return flashing;
+}
+
 function NudgeRow({ label, yField, pos, onStartNudge, onStopNudge, color }: {
   label: string;
   yField: string;
@@ -149,6 +166,11 @@ export default function Home() {
   const [statsOpen, setStatsOpen] = useState(false);
   const [statsVisible, setStatsVisible] = useState(false);
   const [stats, setStats] = useState<StatsData>(null);
+  const todayFlash = useIncreaseFlash(stats?.today);
+  const totalFlash = useIncreaseFlash(stats?.total);
+  const onlineFlash = useIncreaseFlash(stats?.online);
+  const othersFlash = useIncreaseFlash(stats?.others);
+  const counterFlash = useIncreaseFlash(totalImei);
   const [statsLoading, setStatsLoading] = useState(false);
   const [statsError, setStatsError] = useState(false);
   const [confirmResetGlobal, setConfirmResetGlobal] = useState(false);
@@ -579,6 +601,18 @@ export default function Home() {
     }
   }
 
+  useEffect(() => {
+    if (!statsOpen) return;
+    const id = setInterval(() => {
+      if (document.visibilityState !== 'visible') return;
+      fetch(`/api/stats/today?userId=${encodeURIComponent(userIdRef.current)}`)
+        .then(res => (res.ok ? res.json() : Promise.reject()))
+        .then(data => { setStats(data); setStatsError(false); })
+        .catch(() => {});
+    }, 1000);
+    return () => clearInterval(id);
+  }, [statsOpen]);
+
   function closeStats() {
     setStatsVisible(false);
     setConfirmResetGlobal(false);
@@ -753,13 +787,13 @@ export default function Home() {
             <div className="stats-grid">
               <div className="stats-cell">
                 <span className="stats-cell-label">{s.todayLabel}</span>
-                <span className="stats-cell-value">
+                <span className={`stats-cell-value${todayFlash ? ' stat-flash' : ''}`}>
                   {statsLoading ? <span className="stats-shimmer">···</span> : statsError ? '—' : (stats?.today ?? 0).toLocaleString()}
                 </span>
               </div>
               <div className="stats-cell">
                 <span className="stats-cell-label">{s.totalLabel}</span>
-                <span className="stats-cell-value">
+                <span className={`stats-cell-value${totalFlash ? ' stat-flash' : ''}`}>
                   {statsLoading ? <span className="stats-shimmer">···</span> : statsError ? '—' : (stats?.total ?? 0).toLocaleString()}
                 </span>
               </div>
@@ -768,13 +802,13 @@ export default function Home() {
                   <span className="stats-online-dot" />
                   {s.onlineLabel}
                 </span>
-                <span className="stats-cell-value" style={{ color: 'var(--green)' }}>
+                <span className={`stats-cell-value${onlineFlash ? ' stat-flash' : ''}`} style={{ color: 'var(--green)' }}>
                   {statsLoading ? <span className="stats-shimmer">···</span> : statsError ? '—' : (stats?.online ?? 0).toLocaleString()}
                 </span>
               </div>
               <div className="stats-cell">
                 <span className="stats-cell-label">{s.othersLabel}</span>
-                <span className="stats-cell-value">
+                <span className={`stats-cell-value${othersFlash ? ' stat-flash' : ''}`}>
                   {statsLoading ? <span className="stats-shimmer">···</span> : statsError ? '—' : (stats?.others ?? 0).toLocaleString()}
                 </span>
               </div>
@@ -811,7 +845,7 @@ export default function Home() {
             </div>
             <div className="counter-modal-body">
               <span className="stats-cell-label">{h.barcodeTodayLabel}</span>
-              <span className="counter-number" onClick={handleCounterTap} style={{ cursor: 'default', userSelect: 'none' }}>{totalImei.toLocaleString()}</span>
+              <span className={`counter-number${counterFlash ? ' stat-flash' : ''}`} onClick={handleCounterTap} style={{ cursor: 'default', userSelect: 'none' }}>{totalImei.toLocaleString()}</span>
             </div>
             <div className="stats-esc-row">
               {!confirmReset ? (
