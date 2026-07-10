@@ -274,10 +274,13 @@ export default function Tentang() {
       <motion.div className="p-section" initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.15 }} variants={container}>
         <motion.h2 variants={fadeUp} className="p-section-title"><span className="hash"># </span>{t.kontribusiDigital.title}</motion.h2>
         <motion.p variants={fadeUp} className="p-section-sub">{t.kontribusiDigital.sub}</motion.p>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+        <div className="p-kontribusi-grid">
           {t.kontribusiDigital.entries.map((e, i) => (
-            <motion.div variants={stagger(i * 0.05)} key={e.co}>
-              <span className="p-entry-co">{e.co}</span>
+            <motion.div variants={stagger(i * 0.05)} key={e.co} className="p-kontribusi-item">
+              <div className="p-kontribusi-top">
+                <span className="p-entry-co">{e.co}</span>
+                <span className="p-entry-date">{e.date}</span>
+              </div>
               <span className="p-entry-role" style={{ display: 'block' }}>{e.role}</span>
               <div className="p-project-links" style={{ marginTop: 6 }}>
                 <a href={e.href} className="p-link" target="_blank" rel="noreferrer">

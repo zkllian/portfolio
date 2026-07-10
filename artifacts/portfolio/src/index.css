@@ -417,6 +417,31 @@ body::before {
   text-decoration-color: var(--blue);
 }
 
+/* ── Kontribusi Digital — 2-column grid on desktop ── */
+.p-kontribusi-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px 40px;
+  align-items: start;
+}
+
+.p-kontribusi-item {}
+
+.p-kontribusi-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 2px;
+}
+
+@media (max-width: 480px) {
+  .p-kontribusi-grid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+}
+
 /* ── Projects — 2-column grid exactly like nikhilwho.in ── */
 .p-projects-grid {
   display: grid;
