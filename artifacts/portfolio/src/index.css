@@ -82,7 +82,7 @@ body::before {
 
 .lang-toggle {
   position: absolute;
-  top: 56px;
+  top: 42px;
   right: 24px;
   display: flex;
   align-items: center;
