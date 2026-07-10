@@ -10,14 +10,7 @@
   },
   "private": true,
   "dependencies": {
-    "@replit/connectors-sdk": "^0.4.1",
-    "@types/cors": "^2.8.19",
-    "@types/express": "^5.0.6",
-    "@types/node": "catalog:",
-    "cors": "^2.8.6",
-    "drizzle-orm": "catalog:",
-    "express": "^5.2.1",
-    "pg": "^8.22.0"
+    "@replit/connectors-sdk": "^0.4.1"
   },
   "devDependencies": {
     "prettier": "^3.9.4",
