@@ -327,7 +327,7 @@ body::before {
 }
 
 /* ── Section ── */
-.p-section { margin-bottom: 48px; }
+.p-section { margin-bottom: 32px; }
 
 .p-section-title {
   font-family: var(--font-sans);
