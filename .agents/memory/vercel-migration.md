@@ -29,3 +29,13 @@ Tentang.tsx accesses `t.footer` where `t` is `content.tentang` or `content.tenta
 
 ### geist peer dep warning for next is harmless
 `geist@1.7.2` declares `next@>=13.2.0` as a peer dep, but works fine in Vite without Next.js. The pnpm warning is safe to ignore.
+
+### .migration-backup gets auto-registered as duplicate artifacts
+If `.migration-backup/` still contains `.replit-artifact/artifact.toml` files, the platform's auto-detection can register its contents as separate (duplicate) artifacts/workflows alongside the real ones, even with bogus titles derived from package.json.
+
+**Why:** Auto-registration scans for artifact.toml files anywhere in the tree, not just under the canonical `artifacts/` dir.
+
+**How to apply:** Once real content has been copied out of `.migration-backup` into the live `artifacts/*` dirs, delete `.migration-backup` entirely (or at least its `.replit-artifact` dirs) before finishing the port — don't leave it sitting around "for reference".
+
+### Root-level vercel.json and api/ dir are pure deployment residue
+An imported Vercel app's root `vercel.json` and root `api/*.js` (serverless functions) are Vercel-specific deployment config, superseded by the Express artifact server. Delete them — they're not referenced by the Replit app and just create migration-residue confusion.

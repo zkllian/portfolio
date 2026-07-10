@@ -21,7 +21,6 @@ export const content = {
 
   /* ── Bio ─────────────────────────────────────────────────────── */
   bio: {
-    line1Prefix:    'Saya seorang',
     line1LinkLabel: 'Front-End Developer',
     line1Suffix:    'berusia 26 tahun berasal dari Bandung, Indonesia.',
     line2Prefix:      'Hubungi saya via',
@@ -103,27 +102,60 @@ export const content = {
         {
           name:       'barcode-gen',
           badge:      'live' as string | null,
-          desc:       'Generator barcode untuk IMEI & EID iPhone — dibuat karena butuh sendiri.',
+          desc:       'Generator barcode massal layout adjustable, batch export.',
           linkLabel:  'buka',
           linkHref:   '/projects/imei/barcode-gen',
           linkIcon:   'arrow' as 'arrow' | 'github',
           external:   false,
         },
+        {
+          name:       'jobstreet-scraper',
+          badge:      null,
+          desc:       'Tool open source buat scraping data lowongan dari Jobstreet.',
+          linkLabel:  'github',
+          linkHref:   'https://github.com/zkllian',
+          linkIcon:   'github' as 'arrow' | 'github',
+          external:   true,
+        },
+        {
+          name:       'admob-auto-impression',
+          badge:      null,
+          desc:       'Tool open source berbasis otomasi untuk menaikan volume tayangan AdMob tanpa intervensi manual.',
+          linkLabel:  'github',
+          linkHref:   'https://github.com/zkllian',
+          linkIcon:   'github' as 'arrow' | 'github',
+          external:   true,
+        },
       ],
     },
 
     footer: {
-      creditPrefix:  'Dibuat oleh',
-      creditName:    'Yoga Aprilliansyah N',
-      copyright:     '© 2026 All rights reserved.',
-      visitorsLabel: 'Visitors',
-      onlineLabel:   'Online',
+      creditPrefix: 'Designed & Developed by',
+      creditName:   'Yoga',
+      copyright:    '© 2026 All rights reserved.',
+      visitorsLabel: 'Visitor',
+      onlineLabel:  'Online',
       location:      'Cianjur, Indonesia',
     },
-
   },
 
-  /* ── Halaman Tentang (English) ────────────────────────────────── */
+  /* ── Bio (EN) ────────────────────────────────────────────────── */
+  bioEN: {
+    line1Prefix:      "I'm a",
+    line1LinkLabel:   'Front-End Developer',
+    line1Suffix:      '26 years old, based in Bandung, Indonesia.',
+    line2Prefix:      'Reach me via',
+    line2IgLabel:     'Instagram',
+    line2TwitterLabel:'Twitter / X',
+    line2Or:          'or',
+    line2EmailLabel:  'Email',
+    line2GitPrefix:   '| see all my projects on',
+    line2GitLabel:    'GitHub',
+    cvPrefix:         'View my CV',
+    cvLabel:          'here',
+  },
+
+  /* ── Halaman Tentang (EN) ─────────────────────────────────────── */
   tentangEN: {
 
     pengalaman: {
@@ -137,15 +169,15 @@ export const content = {
 
     kontribusiDigital: {
       title: 'digital contributions',
-      sub:   'Things I built in the Blockchain/Web3 community.',
+      sub:   'Things I built in communities and media.',
       entries: [
-        { co: 'Verso',           date: 'mar 2018 – dec 2019', role: 'Community Manager'        },
-        { co: 'Injective',       date: 'jan 2024 – mar 2025', role: 'Brand Ambassador'         },
-        { co: 'Nesa',            date: 'mar 2024 – may 2025', role: 'Brand Ambassador'         },
-        { co: 'Story Protocol',  date: 'jul 2024 – apr 2025', role: 'Content Writer'           },
-        { co: 'Union',           date: 'jul 2024 – apr 2025', role: 'Content Writer'           },
-        { co: 'Mitosis',         date: 'jul 2024 – apr 2025', role: 'Content Writer'           },
-        { co: 'Swisstronik',     date: 'sep 2024 – jan 2025', role: 'Brand Ambassador'         },
+        { co: 'Verso',            date: 'mar 2018 – dec 2019', role: 'Community Manager'        },
+        { co: 'Injective',        date: 'jan 2024 – mar 2025', role: 'Brand Ambassador'         },
+        { co: 'Nesa',             date: 'mar 2024 – may 2025', role: 'Brand Ambassador'         },
+        { co: 'Story Protocol',   date: 'jul 2024 – apr 2025', role: 'Content Writer'           },
+        { co: 'Union',            date: 'jul 2024 – apr 2025', role: 'Content Writer'           },
+        { co: 'Mitosis',          date: 'jul 2024 – apr 2025', role: 'Content Writer'           },
+        { co: 'Swisstronik',      date: 'sep 2024 – jan 2025', role: 'Brand Ambassador'         },
       ],
     },
 
@@ -153,19 +185,19 @@ export const content = {
       title: 'education',
       sub:   'Where I started.',
       entries: [
-        { co: 'SMK Pasundan 1 Cianjur', date: 'jul 2015 – may 2018', role: 'Computer & Network Engineering' },
+        { co: 'SMK Pasundan 1 Cianjur', date: 'july 2015 – may 2018', role: 'Computer & Network Engineering' },
       ],
     },
 
     proyek: {
       title: 'projects',
-      sub:   'Things I built and am building.',
+      sub:   "What I've built and am building right now.",
       items: [
         {
           name:       'portfolio',
           badge:      'live' as string | null,
-          desc:       'This personal portfolio site, built by myself using React, Vite, and TypeScript.',
-          linkLabel:  'open',
+          desc:       'This personal portfolio site built from scratch using React, Vite, and TypeScript, all the way to production.',
+          linkLabel:  'visit',
           linkHref:   'https://llian.vercel.app',
           linkIcon:   'arrow' as 'arrow' | 'github',
           external:   true,
@@ -173,50 +205,41 @@ export const content = {
         {
           name:       'barcode-gen',
           badge:      'live' as string | null,
-          desc:       'Barcode generator for iPhone IMEI & EID — made because I needed it myself.',
+          desc:       'Bulk barcode generator with adjustable layout, direct export.',
           linkLabel:  'open',
           linkHref:   '/projects/imei/barcode-gen',
           linkIcon:   'arrow' as 'arrow' | 'github',
           external:   false,
         },
+        {
+          name:       'jobstreet-scraper',
+          badge:      null,
+          desc:       'Open source tool for scraping job listings from Jobstreet — fully automated.',
+          linkLabel:  'github',
+          linkHref:   'https://github.com/zkllian',
+          linkIcon:   'github' as 'arrow' | 'github',
+          external:   true,
+        },
+        {
+          name:       'admob-auto-impression',
+          badge:      null,
+          desc:       'Automation-based open source tool to increase AdMob impression volume without manual intervention.',
+          linkLabel:  'github',
+          linkHref:   'https://github.com/zkllian',
+          linkIcon:   'github' as 'arrow' | 'github',
+          external:   true,
+        },
       ],
     },
 
     footer: {
-      creditPrefix:  'Made by',
-      creditName:    'Yoga Aprilliansyah N',
+      creditPrefix:  'Designed & Developed by',
+      creditName:    'Yoga',
       copyright:     '© 2026 All rights reserved.',
       visitorsLabel: 'Visitors',
       onlineLabel:   'Online',
       location:      'Cianjur, Indonesia',
     },
-
-  },
-
-  /* ── Bio (English) ───────────────────────────────────────────── */
-  bioEN: {
-    line1Prefix:    "I'm a",
-    line1LinkLabel: 'Front-End Developer',
-    line1Suffix:    '26 years old from Bandung, Indonesia.',
-    line2Prefix:      'Reach me via',
-    line2IgLabel:     'Instagram',
-    line2TwitterLabel:'Twitter / X',
-    line2Or:          'or',
-    line2EmailLabel:  'Email',
-    line2GitPrefix:   '| see all my projects on',
-    line2GitLabel:    'GitHub',
-    cvPrefix:         'View my CV',
-    cvLabel:          'here',
-  },
-
-  /* ── Footer ─────────────────────────────────────────────────── */
-  footer: {
-    creditPrefix:  'Dibuat oleh',
-    creditName:    'Yoga Aprilliansyah N',
-    copyright:     '© 2026 All rights reserved.',
-    visitorsLabel: 'Visitors',
-    onlineLabel:   'Online',
-    location:      'Cianjur, Indonesia',
   },
 
   /* ── Halaman Home (barcode generator) ────────────────────────── */
