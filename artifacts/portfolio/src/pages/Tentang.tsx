@@ -196,17 +196,6 @@ export default function Tentang() {
   return (
     <div className="p-wrap page-wrap--enter">
 
-      {/* ── Lang toggle — top-right of page ── */}
-      <button
-        className="lang-toggle"
-        onClick={toggleLang}
-        aria-label="Toggle language"
-      >
-        <span className={`lang-pill${isEN ? ' lang-pill--en' : ''}`} />
-        <span className={lang === 'id' ? 'lang-active' : ''}>ID</span>
-        <span className={lang === 'en' ? 'lang-active' : ''}>EN</span>
-      </button>
-
       {/* ── Profile ── */}
       <motion.div className="p-profile" initial="hidden" animate="show" variants={container}>
         <motion.div variants={fadeUp} className="p-avatar" role="img" aria-label={profile.ariaLabel} />
@@ -216,6 +205,15 @@ export default function Tentang() {
             <div key={role.key} className={`p-role${role.exiting ? ' p-role--exit' : ''}`}>{role.label}</div>
           </div>
         </motion.div>
+        <button
+          className="lang-toggle"
+          onClick={toggleLang}
+          aria-label="Toggle language"
+        >
+          <span className={`lang-pill${isEN ? ' lang-pill--en' : ''}`} />
+          <span className={lang === 'id' ? 'lang-active' : ''}>ID</span>
+          <span className={lang === 'en' ? 'lang-active' : ''}>EN</span>
+        </button>
       </motion.div>
 
       {/* ── Translatable content ── */}
