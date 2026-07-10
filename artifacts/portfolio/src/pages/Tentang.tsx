@@ -1,5 +1,16 @@
 import { useEffect, useRef, useState } from 'react';
+import { motion } from 'framer-motion';
 import { Link } from 'wouter';
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 16 },
+  show:   { opacity: 1, y: 0, transition: { duration: 0.42, ease: [0.25, 0.1, 0.25, 1] } },
+};
+const stagger = (delay = 0) => ({
+  hidden: { opacity: 0, y: 12 },
+  show:   { opacity: 1, y: 0, transition: { duration: 0.38, ease: [0.25, 0.1, 0.25, 1], delay } },
+});
+const container = { hidden: {}, show: { transition: { staggerChildren: 0.07 } } };
 import {
   SiReact, SiTypescript, SiNextdotjs, SiVite, SiTailwindcss,
   SiNodedotjs, SiExpress, SiPostgresql, SiFigma, SiVercel,
@@ -195,160 +206,137 @@ export default function Tentang() {
       </button>
 
       {/* ── Profile ── */}
-      <div className="p-profile">
-        <div className="p-avatar" role="img" aria-label={profile.ariaLabel} />
-        <div>
-          <div className="p-name">
-            {profile.name}
-            <IcoVerified />
-          </div>
+      <motion.div className="p-profile" initial="hidden" animate="show" variants={container}>
+        <motion.div variants={fadeUp} className="p-avatar" role="img" aria-label={profile.ariaLabel} />
+        <motion.div variants={fadeUp}>
+          <div className="p-name">{profile.name}<IcoVerified /></div>
           <div className="p-role-wrap">
-            <div key={role.key} className={`p-role${role.exiting ? ' p-role--exit' : ''}`}>
-              {role.label}
-            </div>
+            <div key={role.key} className={`p-role${role.exiting ? ' p-role--exit' : ''}`}>{role.label}</div>
           </div>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
 
       {/* ── Translatable content ── */}
       <div className={`lang-content${switching ? ' lang-content--blur' : ''}`}>
 
       {/* ── Bio ── */}
-      <p className="p-bio">
-        {b.line1Prefix}{' '}
-        <a href={links.github} target="_blank" rel="noreferrer" className="p-sketch-link">{b.line1LinkLabel}</a>
-        {' '}{b.line1Suffix}
-      </p>
-      <p className="p-bio">
-        {b.line2Prefix}{' '}
-        <a href={links.instagram} target="_blank" rel="noreferrer">
-          <IcoInstagram />{b.line2IgLabel}
-        </a>{', '}
-        <a href={links.twitter} target="_blank" rel="noreferrer">
-          <IcoX />{b.line2TwitterLabel}
-        </a>{', '}
-        <a href={links.whatsapp} target="_blank" rel="noreferrer">
-          <IcoWhatsApp />WhatsApp
-        </a>
-        {' '}{b.line2Or}{' '}
-        <a href={`mailto:${links.email}`}>
-          <IcoEmail />{b.line2EmailLabel}
-        </a>
-        {' '}{b.line2GitPrefix}{' '}
-        <a href={links.github} target="_blank" rel="noreferrer">
-          <IcoGitHub />{b.line2GitLabel}
-        </a>.
-      </p>
-      <p className="p-bio p-bio--last">
-        {b.cvPrefix}{' '}
-        <a href={profile.cvHref} target="_blank" rel="noreferrer">
-          <IcoPdf />{b.cvLabel}
-        </a>.
-      </p>
+      <motion.div initial="hidden" animate="show" variants={container}>
+        <motion.p variants={stagger(0.05)} className="p-bio">
+          {b.line1Prefix}{' '}
+          <a href={links.github} target="_blank" rel="noreferrer" className="p-sketch-link">{b.line1LinkLabel}</a>
+          {' '}{b.line1Suffix}
+        </motion.p>
+        <motion.p variants={stagger(0.1)} className="p-bio">
+          {b.line2Prefix}{' '}
+          <a href={links.instagram} target="_blank" rel="noreferrer"><IcoInstagram />{b.line2IgLabel}</a>{', '}
+          <a href={links.twitter} target="_blank" rel="noreferrer"><IcoX />{b.line2TwitterLabel}</a>{', '}
+          <a href={links.whatsapp} target="_blank" rel="noreferrer"><IcoWhatsApp />WhatsApp</a>
+          {' '}{b.line2Or}{' '}
+          <a href={`mailto:${links.email}`}><IcoEmail />{b.line2EmailLabel}</a>
+          {' '}{b.line2GitPrefix}{' '}
+          <a href={links.github} target="_blank" rel="noreferrer"><IcoGitHub />{b.line2GitLabel}</a>.
+        </motion.p>
+        <motion.p variants={stagger(0.15)} className="p-bio p-bio--last">
+          {b.cvPrefix}{' '}<a href={profile.cvHref} target="_blank" rel="noreferrer"><IcoPdf />{b.cvLabel}</a>.
+        </motion.p>
+      </motion.div>
 
       {/* ── Tech Marquee ── */}
-      {(() => {
-        const row = tech.map((label, i) => (
-          <span className="mq-pill" key={i}>
-            <span className="mq-ico">{TECH_ICONS[label]}</span>
-            {label}
-          </span>
-        ));
-        return (
-          <div className="mq-wrap">
-            <div className="mq-track">
-              {row}{row}
-            </div>
-          </div>
-        );
-      })()}
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3, duration: 0.5 }}>
+        {(() => {
+          const row = tech.map((label, i) => (
+            <span className="mq-pill" key={i}><span className="mq-ico">{TECH_ICONS[label]}</span>{label}</span>
+          ));
+          return <div className="mq-wrap"><div className="mq-track">{row}{row}</div></div>;
+        })()}
+      </motion.div>
 
       {/* ── Pengalaman / Experience ── */}
-      <div className="p-section">
-        <h2 className="p-section-title"><span className="hash"># </span>{t.pengalaman.title}</h2>
-        <p className="p-section-sub">{t.pengalaman.sub}</p>
+      <motion.div className="p-section" initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.15 }} variants={container}>
+        <motion.h2 variants={fadeUp} className="p-section-title"><span className="hash"># </span>{t.pengalaman.title}</motion.h2>
+        <motion.p variants={fadeUp} className="p-section-sub">{t.pengalaman.sub}</motion.p>
         <div className="p-entries-grid">
-          {t.pengalaman.entries.map(e => (
-            <div className="p-entry-row" key={e.co}>
+          {t.pengalaman.entries.map((e, i) => (
+            <motion.div variants={stagger(i * 0.05)} className="p-entry-row" key={e.co}>
               <div className="p-entry-left">
                 <span className="p-entry-co">{e.co}</span>
                 <span className="p-entry-role">{e.role}</span>
               </div>
               <span className="p-entry-date">{e.date}</span>
-            </div>
+            </motion.div>
           ))}
         </div>
-      </div>
+      </motion.div>
 
       {/* ── Kontribusi Digital ── */}
-      <div className="p-section">
-        <h2 className="p-section-title"><span className="hash"># </span>{t.kontribusiDigital.title}</h2>
-        <p className="p-section-sub">{t.kontribusiDigital.sub}</p>
+      <motion.div className="p-section" initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.15 }} variants={container}>
+        <motion.h2 variants={fadeUp} className="p-section-title"><span className="hash"># </span>{t.kontribusiDigital.title}</motion.h2>
+        <motion.p variants={fadeUp} className="p-section-sub">{t.kontribusiDigital.sub}</motion.p>
         <div className="p-entries-grid">
-          {t.kontribusiDigital.entries.map(e => (
-            <div className="p-entry-row" key={e.co}>
+          {t.kontribusiDigital.entries.map((e, i) => (
+            <motion.div variants={stagger(i * 0.05)} className="p-entry-row" key={e.co}>
               <div className="p-entry-left">
                 <span className="p-entry-co">{e.co}</span>
                 <span className="p-entry-role">{e.role}</span>
               </div>
               <span className="p-entry-date">{e.date}</span>
-            </div>
+            </motion.div>
           ))}
         </div>
-      </div>
+      </motion.div>
 
       {/* ── Pendidikan / Education ── */}
-      <div className="p-section">
-        <h2 className="p-section-title"><span className="hash"># </span>{t.pendidikan.title}</h2>
-        <p className="p-section-sub">{t.pendidikan.sub}</p>
+      <motion.div className="p-section" initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.15 }} variants={container}>
+        <motion.h2 variants={fadeUp} className="p-section-title"><span className="hash"># </span>{t.pendidikan.title}</motion.h2>
+        <motion.p variants={fadeUp} className="p-section-sub">{t.pendidikan.sub}</motion.p>
         <div className="p-entries-grid">
-          {t.pendidikan.entries.map(e => (
-            <div className="p-entry-row" key={e.co}>
+          {t.pendidikan.entries.map((e, i) => (
+            <motion.div variants={stagger(i * 0.05)} className="p-entry-row" key={e.co}>
               <div className="p-entry-left">
                 <span className="p-entry-co">{e.co}</span>
                 <span className="p-entry-role">{e.role}</span>
               </div>
               <span className="p-entry-date">{e.date}</span>
-            </div>
+            </motion.div>
           ))}
         </div>
-      </div>
+      </motion.div>
 
       {/* ── Proyek / Projects ── */}
-      <div className="p-section">
-        <h2 className="p-section-title"><span className="hash"># </span>{t.proyek.title}</h2>
-        <p className="p-section-sub">{t.proyek.sub}</p>
-
+      <motion.div className="p-section" initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.1 }} variants={container}>
+        <motion.h2 variants={fadeUp} className="p-section-title"><span className="hash"># </span>{t.proyek.title}</motion.h2>
+        <motion.p variants={fadeUp} className="p-section-sub">{t.proyek.sub}</motion.p>
         <div className="p-projects-grid">
-          {t.proyek.items.map(item => (
-            <div className="p-project" key={item.name}>
+          {t.proyek.items.map((item, i) => (
+            <motion.div
+              className="p-project"
+              key={item.name}
+              variants={stagger(i * 0.06)}
+              whileHover={{ y: -3, transition: { duration: 0.2 } }}
+            >
               <div className="p-project-name">
                 {item.name}
-                {item.badge && (
-                  <span className="p-badge"><span className="p-badge-dot" />{item.badge}</span>
-                )}
+                {item.badge && <span className="p-badge"><span className="p-badge-dot" />{item.badge}</span>}
               </div>
               <p className="p-project-desc">{item.desc}</p>
               <div className="p-project-links">
                 {item.external ? (
                   <a href={item.linkHref} className="p-link" target="_blank" rel="noreferrer">
-                    {item.linkIcon === 'github' ? <IcoGitHub size={12} /> : <IcoArrow />}
-                    {item.linkLabel}
+                    {item.linkIcon === 'github' ? <IcoGitHub size={12} /> : <IcoArrow />}{item.linkLabel}
                   </a>
                 ) : (
                   <Link href={item.linkHref} className="p-link">
-                    {item.linkIcon === 'github' ? <IcoGitHub size={12} /> : <IcoArrow />}
-                    {item.linkLabel}
+                    {item.linkIcon === 'github' ? <IcoGitHub size={12} /> : <IcoArrow />}{item.linkLabel}
                   </Link>
                 )}
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
-      </div>
+      </motion.div>
 
       {/* ── Footer ── */}
-      <footer className="p-footer">
+      <motion.footer className="p-footer" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ duration: 0.5 }}>
         <div className="p-footer-left">
           <p>{f.creditPrefix} <strong>{f.creditName}</strong></p>
           <p>{f.copyright}</p>
@@ -360,7 +348,7 @@ export default function Tentang() {
           </p>
           <p className="p-footer-loc">{f.location} {time}</p>
         </div>
-      </footer>
+      </motion.footer>
 
       </div>{/* end lang-content */}
     </div>
