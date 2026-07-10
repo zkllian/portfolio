@@ -251,6 +251,7 @@ body::before {
   background-position: top center;
   background-repeat: no-repeat;
   background-color: var(--surface2);
+  box-shadow: 0 6px 10px -2px rgba(0,0,0,.12);
 }
 
 .p-name {
