@@ -1,3 +1,22 @@
+/* ── Fonts ──
+   Locks the exact glyph metrics used to position barcode text on canvas so
+   Android and iOS render identically instead of each falling back to a
+   different system font (Roboto vs San Francisco) with different widths. */
+@font-face {
+  font-family: 'SF Pro Custom';
+  src: url('/SF-Pro-Display-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: block;
+}
+@font-face {
+  font-family: 'SF Pro Custom';
+  src: url('/SF-Pro-Display-Medium.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: block;
+}
+
 /* ── Reset ── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 textarea, input, [contenteditable] { user-select: text; -webkit-user-select: text; }
