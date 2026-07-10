@@ -2,8 +2,7 @@ import express from "express";
 import cors from "cors";
 import fs from "fs";
 import path from "path";
-import { createDb, dailyStatsTable, allTimeStatsTable, userDailyStatsTable, userPresenceTable, dailyVisitsTable, userVisitDailyTable } from "@workspace/db";
-import { eq, sql, gt } from "drizzle-orm";
+import { createDb, dailyStatsTable, allTimeStatsTable, userDailyStatsTable, userPresenceTable, dailyVisitsTable, userVisitDailyTable, eq, sql, gt } from "@workspace/db";
 
 const app = express();
 app.set("etag", false);
@@ -11,12 +10,12 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use((_req: express.Request, res: express.Response, next: express.NextFunction) => {
+app.use((_req, res, next) => {
   res.setHeader("X-Robots-Tag", "noindex, nofollow, noarchive, nosnippet, noimageindex");
   next();
 });
 
-app.use("/api", (_req: express.Request, res: express.Response, next: express.NextFunction) => {
+app.use("/api", (_req, res, next) => {
   res.setHeader("Cache-Control", "no-store, must-revalidate");
   next();
 });
@@ -30,7 +29,7 @@ function getWIBDateStr() {
 
 function readFile() {
   try {
-    if (!fs.existsSync(STATS_FILE)) return { date: getWIBDateStr(), count: 0, total: 0, visitors: 0, visitDate: getWIBDateStr(), visitedIds: [] as string[] };
+    if (!fs.existsSync(STATS_FILE)) return { date: getWIBDateStr(), count: 0, total: 0, visitors: 0, visitDate: getWIBDateStr(), visitedIds: [] };
     const data = JSON.parse(fs.readFileSync(STATS_FILE, "utf-8"));
     return {
       date: data.date ?? getWIBDateStr(),
@@ -38,14 +37,14 @@ function readFile() {
       total: data.total ?? 0,
       visitors: data.visitors ?? 0,
       visitDate: data.visitDate ?? getWIBDateStr(),
-      visitedIds: Array.isArray(data.visitedIds) ? data.visitedIds as string[] : [] as string[],
+      visitedIds: Array.isArray(data.visitedIds) ? data.visitedIds : [],
     };
   } catch {
-    return { date: getWIBDateStr(), count: 0, total: 0, visitors: 0, visitDate: getWIBDateStr(), visitedIds: [] as string[] };
+    return { date: getWIBDateStr(), count: 0, total: 0, visitors: 0, visitDate: getWIBDateStr(), visitedIds: [] };
   }
 }
 
-function writeFile(data: { date: string; count: number; total: number; visitors?: number; visitDate?: string; visitedIds?: string[] }) {
+function writeFile(data) {
   try { fs.writeFileSync(STATS_FILE, JSON.stringify(data), "utf-8"); } catch {}
 }
 
@@ -55,7 +54,7 @@ app.get("/api/healthz", (_req, res) => {
 
 app.get("/api/stats/today", async (req, res) => {
   const today = getWIBDateStr();
-  const userId = String((req.query as Record<string, string>).userId ?? "");
+  const userId = String(req.query.userId ?? "");
 
   if (db) {
     try {
@@ -73,7 +72,7 @@ app.get("/api/stats/today", async (req, res) => {
 
       const [visitorsRow] = await db.select().from(allTimeStatsTable).where(eq(allTimeStatsTable.key, "visitors"));
       const ONLINE_WINDOW = 45 * 1000;
-      const [onlineRow] = await db.select({ count: sql<number>`count(*)::int` }).from(userPresenceTable).where(gt(userPresenceTable.lastSeen, Date.now() - ONLINE_WINDOW));
+      const [onlineRow] = await db.select({ count: sql`count(*)::int` }).from(userPresenceTable).where(gt(userPresenceTable.lastSeen, Date.now() - ONLINE_WINDOW));
       const todayCount = dayRow?.count ?? 0;
       return res.json({ date: today, today: todayCount, total: totalRow?.value ?? 0, mine, others: Math.max(0, todayCount - mine), online: onlineRow?.count ?? 0, visitorsTotal: visitorsRow?.value ?? 0 });
     } catch {}
@@ -86,16 +85,13 @@ app.get("/api/stats/today", async (req, res) => {
 
 app.post("/api/stats/visit", async (req, res) => {
   const today = getWIBDateStr();
-  const body = req.body as { userId?: string };
-  const userId = String(body?.userId ?? "").trim().slice(0, 64);
+  const userId = String(req.body?.userId ?? "").trim().slice(0, 64);
 
   if (db) {
     try {
       if (userId) {
         await db.insert(userPresenceTable).values({ userId, lastSeen: Date.now() }).onConflictDoUpdate({ target: userPresenceTable.userId, set: { lastSeen: Date.now() } });
-
         const inserted = await db.insert(userVisitDailyTable).values({ userId, date: today }).onConflictDoNothing({ target: [userVisitDailyTable.userId, userVisitDailyTable.date] }).returning();
-
         if (inserted.length > 0) {
           await db.insert(dailyVisitsTable).values({ date: today, count: 1 }).onConflictDoUpdate({ target: dailyVisitsTable.date, set: { count: sql`${dailyVisitsTable.count} + 1` } });
           await db.insert(allTimeStatsTable).values({ key: "visitors", value: 1 }).onConflictDoUpdate({ target: allTimeStatsTable.key, set: { value: sql`${allTimeStatsTable.value} + 1` } });
@@ -119,8 +115,7 @@ app.post("/api/stats/visit", async (req, res) => {
 });
 
 app.post("/api/stats/leave", async (req, res) => {
-  const body = req.body as { userId?: string };
-  const userId = String(body?.userId ?? "").trim().slice(0, 64);
+  const userId = String(req.body?.userId ?? "").trim().slice(0, 64);
   if (db && userId) {
     try { await db.delete(userPresenceTable).where(eq(userPresenceTable.userId, userId)); } catch {}
   }
@@ -129,21 +124,18 @@ app.post("/api/stats/leave", async (req, res) => {
 
 app.post("/api/stats/ping", async (req, res) => {
   const today = getWIBDateStr();
-  const body = req.body as { count?: number; userId?: string };
-  const raw = Number(body?.count);
+  const raw = Number(req.body?.count);
   const amount = Number.isFinite(raw) && raw >= 1 ? Math.min(Math.floor(raw), 1000) : 1;
-  const userId = String(body?.userId ?? "").trim().slice(0, 64);
+  const userId = String(req.body?.userId ?? "").trim().slice(0, 64);
 
   if (db) {
     try {
       await db.insert(dailyStatsTable).values({ date: today, count: amount }).onConflictDoUpdate({ target: dailyStatsTable.date, set: { count: sql`${dailyStatsTable.count} + ${amount}` } });
       await db.insert(allTimeStatsTable).values({ key: "total", value: amount }).onConflictDoUpdate({ target: allTimeStatsTable.key, set: { value: sql`${allTimeStatsTable.value} + ${amount}` } });
-
       if (userId) {
         await db.insert(userDailyStatsTable).values({ userId, date: today, count: amount }).onConflictDoUpdate({ target: [userDailyStatsTable.userId, userDailyStatsTable.date], set: { count: sql`${userDailyStatsTable.count} + ${amount}` } });
         await db.insert(userPresenceTable).values({ userId, lastSeen: Date.now() }).onConflictDoUpdate({ target: userPresenceTable.userId, set: { lastSeen: Date.now() } });
       }
-
       const [dayRow] = await db.select().from(dailyStatsTable).where(eq(dailyStatsTable.date, today));
       const [totalRow] = await db.select().from(allTimeStatsTable).where(eq(allTimeStatsTable.key, "total"));
       return res.json({ ok: true, date: today, today: dayRow?.count ?? amount, total: totalRow?.value ?? amount });
