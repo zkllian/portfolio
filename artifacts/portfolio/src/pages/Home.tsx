@@ -79,13 +79,11 @@ export default function Home() {
   const [inputVal, setInputVal] = useState('');
   const [imeiCount, setImeiCount] = useState('0 sets');
   const [isLoading, setIsLoading] = useState(false);
-  const [pendingCount, setPendingCount] = useState(0);
   const [loadingCount, setLoadingCount] = useState('');
   const [view, setView] = useState('input');
   const [results, setResults] = useState<{ url: string; index: number }[]>([]);
   const [resultLabel, setResultLabel] = useState('0 output');
   const [leaving, setLeaving] = useState(false);
-  const [resetAnimating, setResetAnimating] = useState(false);
 
   const DEFAULT_POS: Record<string, number> = {
     eid_x: 19,     eid_y: 454,
@@ -375,7 +373,6 @@ export default function Home() {
       if (!ctx) { showToast('ctx2d unavailable'); return; }
 
       const newResults: { url: string; index: number }[] = [];
-      setPendingCount(totalSets);
       setIsLoading(true);
 
       for (let i = 0; i < totalSets; i++) {
@@ -786,7 +783,7 @@ export default function Home() {
         )}
 
         {view === 'results' && (
-          <div className={`view-results${leaving || resetAnimating ? ' view-leaving' : ''}`}>
+          <div className={`view-results${leaving ? ' view-leaving' : ''}`}>
             <button className="home-link" onClick={goBack}>← kembali</button>
             <div className="results-topbar">
               <span className="results-count-badge">{resultLabel}</span>

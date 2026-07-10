@@ -140,15 +140,18 @@ function useRoleCycle(roles: { label: string; duration: number }[]) {
   const [exiting, setExiting] = useState(false);
 
   useEffect(() => {
+    let exit: ReturnType<typeof setTimeout> | undefined;
     const stay = setTimeout(() => {
       setExiting(true);
-      const exit = setTimeout(() => {
+      exit = setTimeout(() => {
         setIdx(i => (i + 1) % roles.length);
         setExiting(false);
       }, 280);
-      return () => clearTimeout(exit);
     }, roles[idx].duration);
-    return () => clearTimeout(stay);
+    return () => {
+      clearTimeout(stay);
+      if (exit) clearTimeout(exit);
+    };
   }, [idx]);
 
   return { label: roles[idx].label, key: idx, exiting };
