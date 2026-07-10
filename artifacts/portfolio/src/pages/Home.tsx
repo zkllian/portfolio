@@ -707,15 +707,15 @@ export default function Home() {
 
         {view === 'input' && (
           <div className="view-input">
-            <Link href="/" className="home-link">← home</Link>
+            <Link href="/" className="home-link home-intro-item" style={{ '--intro-delay': '0ms' } as React.CSSProperties}>← home</Link>
             <div className="card-header">
-              <div className="card-title-group">
+              <div className="card-title-group home-intro-item" style={{ '--intro-delay': '70ms' } as React.CSSProperties}>
                 <div className="card-title-icon" onClick={handleBadgeTap} style={{ cursor: 'pointer' }}><FiAlignJustify size={14} /></div>
                 <div className="card-title-text">
                   <span className="card-title">{h.pageTitle}</span>
                 </div>
               </div>
-              <div className="card-header-actions">
+              <div className="card-header-actions home-intro-item" style={{ '--intro-delay': '130ms' } as React.CSSProperties}>
                 <button className="icon-btn" onClick={openCounter} title={h.barcodeCardTitle}>
                   <FiBarChart2 size={14} />
                 </button>
@@ -742,7 +742,7 @@ export default function Home() {
               </div>
             </div>
             <div className="history-list">
-                <div className="card-header history-label">
+                <div className="card-header history-label home-intro-item" style={{ '--intro-delay': '190ms' } as React.CSSProperties}>
                   <div className="card-title-group">
                     <div className="card-title-icon"><FiClock size={14} /></div>
                     <div className="card-title-text">
