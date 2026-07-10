@@ -190,7 +190,7 @@ export default function Tentang() {
     setTimeout(() => {
       setLang(l => l === 'id' ? 'en' : 'id');
       setSwitching(false);
-    }, 150);
+    }, 220);
   }
 
   return (
