@@ -268,6 +268,23 @@ export default function Tentang() {
         </div>
       </motion.div>
 
+      {/* ── Pendidikan / Education ── */}
+      <motion.div className="p-section" initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.15 }} variants={container}>
+        <motion.h2 variants={fadeUp} className="p-section-title">{t.pendidikan.title}</motion.h2>
+        <motion.p variants={fadeUp} className="p-section-sub">{t.pendidikan.sub}</motion.p>
+        <div className="p-entries-grid">
+          {t.pendidikan.entries.map((e, i) => (
+            <motion.div variants={stagger(i * 0.05)} className="p-entry-row" key={e.co}>
+              <div className="p-entry-left">
+                <span className="p-entry-co">{e.co}</span>
+                <span className="p-entry-role">{e.role}</span>
+              </div>
+              <span className="p-entry-date">{e.date}</span>
+            </motion.div>
+          ))}
+        </div>
+      </motion.div>
+
       {/* ── Kontribusi Digital ── */}
       <motion.div className="p-section" initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.15 }} variants={container}>
         <motion.h2 variants={fadeUp} className="p-section-title">{t.kontribusiDigital.title}</motion.h2>
@@ -285,23 +302,6 @@ export default function Tentang() {
                   <IcoArrow />Buka
                 </a>
               </div>
-            </motion.div>
-          ))}
-        </div>
-      </motion.div>
-
-      {/* ── Pendidikan / Education ── */}
-      <motion.div className="p-section" initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.15 }} variants={container}>
-        <motion.h2 variants={fadeUp} className="p-section-title">{t.pendidikan.title}</motion.h2>
-        <motion.p variants={fadeUp} className="p-section-sub">{t.pendidikan.sub}</motion.p>
-        <div className="p-entries-grid">
-          {t.pendidikan.entries.map((e, i) => (
-            <motion.div variants={stagger(i * 0.05)} className="p-entry-row" key={e.co}>
-              <div className="p-entry-left">
-                <span className="p-entry-co">{e.co}</span>
-                <span className="p-entry-role">{e.role}</span>
-              </div>
-              <span className="p-entry-date">{e.date}</span>
             </motion.div>
           ))}
         </div>
