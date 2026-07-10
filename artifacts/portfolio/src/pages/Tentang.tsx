@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'wouter';
+import { motion, useInView } from 'framer-motion';
 import {
   SiReact, SiTypescript, SiNextdotjs, SiVite, SiTailwindcss,
   SiNodedotjs, SiExpress, SiPostgresql, SiFigma, SiVercel,
@@ -13,7 +14,7 @@ import {
 
 const { profile, bio, bioEN, links, tech, tentang, tentangEN } = content;
 
-/* ─────────── Hooks ─────────── */
+/* ─── Hooks ─── */
 
 function useCianjurClock() {
   const [t, setT] = useState('');
@@ -33,14 +34,9 @@ function genVisitorId() {
   try {
     const k = 'bc-user-id';
     let id = localStorage.getItem(k);
-    if (!id) {
-      id = crypto.randomUUID();
-      localStorage.setItem(k, id);
-    }
+    if (!id) { id = crypto.randomUUID(); localStorage.setItem(k, id); }
     return id;
-  } catch {
-    return crypto.randomUUID();
-  }
+  } catch { return crypto.randomUUID(); }
 }
 
 function useVisitorCount() {
@@ -49,47 +45,36 @@ function useVisitorCount() {
   useEffect(() => {
     const userId = genVisitorId();
     fetch('/api/stats/visit', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ userId }),
-    })
-      .then(r => r.json())
-      .then(d => setCount(d.visitorsTotal ?? null))
-      .catch(() => {});
+    }).then(r => r.json()).then(d => setCount(d.visitorsTotal ?? null)).catch(() => {});
 
-    const HEARTBEAT_MS = 20 * 1000;
     const heartbeat = setInterval(() => {
       if (document.visibilityState !== 'visible') return;
       fetch('/api/stats/visit', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userId }),
       }).catch(() => {});
-    }, HEARTBEAT_MS);
+    }, 20000);
 
-    const REALTIME_MS = 1000;
     const realtime = setInterval(() => {
       if (document.visibilityState !== 'visible') return;
       fetch(`/api/stats/today?userId=${encodeURIComponent(userId)}`, { cache: 'no-store' })
         .then(r => r.json())
         .then(d => { setCount(d.visitorsTotal ?? null); setOnline(d.online ?? null); })
         .catch(() => {});
-    }, REALTIME_MS);
+    }, 1000);
 
     function sendLeave() {
       const payload = new Blob([JSON.stringify({ userId })], { type: 'application/json' });
       navigator.sendBeacon?.('/api/stats/leave', payload);
     }
-    function handleVisibility() {
-      if (document.visibilityState === 'hidden') sendLeave();
-    }
+    function handleVisibility() { if (document.visibilityState === 'hidden') sendLeave(); }
     document.addEventListener('pagehide', sendLeave);
     document.addEventListener('visibilitychange', handleVisibility);
     window.addEventListener('beforeunload', sendLeave);
-
     return () => {
-      clearInterval(heartbeat);
-      clearInterval(realtime);
+      clearInterval(heartbeat); clearInterval(realtime);
       document.removeEventListener('pagehide', sendLeave);
       document.removeEventListener('visibilitychange', handleVisibility);
       window.removeEventListener('beforeunload', sendLeave);
@@ -115,7 +100,24 @@ function useIncreaseFlash(value: number | null) {
   return flashing;
 }
 
-/* ─────────── Tech icon map ─────────── */
+function useRoleCycle(roles: { label: string; duration: number }[]) {
+  const [idx, setIdx] = useState(0);
+  const [exiting, setExiting] = useState(false);
+  useEffect(() => {
+    const stay = setTimeout(() => {
+      setExiting(true);
+      const exit = setTimeout(() => {
+        setIdx(i => (i + 1) % roles.length);
+        setExiting(false);
+      }, 280);
+      return () => clearTimeout(exit);
+    }, roles[idx].duration);
+    return () => clearTimeout(stay);
+  }, [idx]);
+  return { label: roles[idx].label, key: idx, exiting };
+}
+
+/* ─── Tech icon map ─── */
 
 const TECH_ICONS: Record<string, React.ReactNode> = {
   'React':        <SiReact />,
@@ -133,28 +135,42 @@ const TECH_ICONS: Record<string, React.ReactNode> = {
   'Canva':        <SiCanvas />,
 };
 
-/* ─────────── Role cycler ─────────── */
+/* ─── Animation variants ─── */
 
-function useRoleCycle(roles: { label: string; duration: number }[]) {
-  const [idx, setIdx] = useState(0);
-  const [exiting, setExiting] = useState(false);
+const fadeUp = {
+  hidden: { opacity: 0, y: 18, filter: 'blur(4px)' },
+  visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.55, ease: [0.16, 1, 0.3, 1] } },
+};
 
-  useEffect(() => {
-    const stay = setTimeout(() => {
-      setExiting(true);
-      const exit = setTimeout(() => {
-        setIdx(i => (i + 1) % roles.length);
-        setExiting(false);
-      }, 280);
-      return () => clearTimeout(exit);
-    }, roles[idx].duration);
-    return () => clearTimeout(stay);
-  }, [idx]);
+const stagger = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.07 } },
+};
 
-  return { label: roles[idx].label, key: idx, exiting };
+const staggerFast = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.05 } },
+};
+
+/* ─── Animated section wrapper ─── */
+
+function AnimSection({ children, className }: { children: React.ReactNode; className?: string }) {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: '-60px 0px' });
+  return (
+    <motion.div
+      ref={ref}
+      className={className}
+      variants={stagger}
+      initial="hidden"
+      animate={inView ? 'visible' : 'hidden'}
+    >
+      {children}
+    </motion.div>
+  );
 }
 
-/* ─────────── Component ─────────── */
+/* ─── Component ─── */
 
 export default function Tentang() {
   const time = useCianjurClock();
@@ -171,195 +187,231 @@ export default function Tentang() {
 
   function toggleLang() {
     setSwitching(true);
-    setTimeout(() => {
-      setLang(l => l === 'id' ? 'en' : 'id');
-      setSwitching(false);
-    }, 150);
+    setTimeout(() => { setLang(l => l === 'id' ? 'en' : 'id'); setSwitching(false); }, 150);
   }
 
   return (
     <div className="p-wrap page-wrap--enter">
 
-      {/* ── Lang toggle — top-right of page ── */}
-      <button
+      {/* ── Lang toggle ── */}
+      <motion.button
         className="lang-toggle"
         onClick={toggleLang}
         aria-label="Toggle language"
+        whileHover={{ scale: 1.03 }}
+        whileTap={{ scale: 0.97 }}
       >
         <span className={`lang-pill${isEN ? ' lang-pill--en' : ''}`} />
         <span className={lang === 'id' ? 'lang-active' : ''}>ID</span>
         <span className={lang === 'en' ? 'lang-active' : ''}>EN</span>
-      </button>
+      </motion.button>
 
       {/* ── Profile ── */}
-      <div className="p-profile">
-        <div className="p-avatar" role="img" aria-label={profile.ariaLabel} />
-        <div>
-          <div className="p-name">
+      <motion.div
+        className="p-profile"
+        variants={stagger}
+        initial="hidden"
+        animate="visible"
+      >
+        <motion.div
+          className="p-avatar"
+          role="img"
+          aria-label={profile.ariaLabel}
+          variants={fadeUp}
+          whileHover={{ scale: 1.04, rotate: 1 }}
+          transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+        />
+        <motion.div variants={stagger}>
+          <motion.div className="p-name" variants={fadeUp}>
             {profile.name}
-            <IcoVerified />
-          </div>
-          <div className="p-role-wrap">
+            <motion.span
+              initial={{ scale: 0, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ delay: 0.3, type: 'spring', stiffness: 400, damping: 15 }}
+            >
+              <IcoVerified />
+            </motion.span>
+          </motion.div>
+          <motion.div className="p-role-wrap" variants={fadeUp}>
             <div key={role.key} className={`p-role${role.exiting ? ' p-role--exit' : ''}`}>
               {role.label}
             </div>
-          </div>
-        </div>
-      </div>
+          </motion.div>
+        </motion.div>
+      </motion.div>
 
       {/* ── Translatable content ── */}
       <div className={`lang-content${switching ? ' lang-content--blur' : ''}`}>
 
-      {/* ── Bio ── */}
-      <p className="p-bio">
-        {b.line1Prefix}{' '}
-        <a href={links.github} target="_blank" rel="noreferrer" className="p-sketch-link">{b.line1LinkLabel}</a>
-        {' '}{b.line1Suffix}
-      </p>
-      <p className="p-bio">
-        {b.line2Prefix}{' '}
-        <a href={links.instagram} target="_blank" rel="noreferrer">
-          <IcoInstagram />{b.line2IgLabel}
-        </a>{', '}
-        <a href={links.twitter} target="_blank" rel="noreferrer">
-          <IcoX />{b.line2TwitterLabel}
-        </a>{', '}
-        <a href={links.whatsapp} target="_blank" rel="noreferrer">
-          <IcoWhatsApp />WhatsApp
-        </a>
-        {' '}{b.line2Or}{' '}
-        <a href={`mailto:${links.email}`}>
-          <IcoEmail />{b.line2EmailLabel}
-        </a>
-        {' '}{b.line2GitPrefix}{' '}
-        <a href={links.github} target="_blank" rel="noreferrer">
-          <IcoGitHub />{b.line2GitLabel}
-        </a>.
-      </p>
-      <p className="p-bio p-bio--last">
-        {b.cvPrefix}{' '}
-        <a href={profile.cvHref} target="_blank" rel="noreferrer">
-          <IcoPdf />{b.cvLabel}
-        </a>.
-      </p>
+        {/* ── Bio ── */}
+        <AnimSection>
+          <motion.p className="p-bio" variants={fadeUp}>
+            {b.line1Prefix}{' '}
+            <a href={links.github} target="_blank" rel="noreferrer" className="p-sketch-link">{b.line1LinkLabel}</a>
+            {' '}{b.line1Suffix}
+          </motion.p>
+          <motion.p className="p-bio" variants={fadeUp}>
+            {b.line2Prefix}{' '}
+            <a href={links.instagram} target="_blank" rel="noreferrer"><IcoInstagram />{b.line2IgLabel}</a>{', '}
+            <a href={links.twitter} target="_blank" rel="noreferrer"><IcoX />{b.line2TwitterLabel}</a>{', '}
+            <a href={links.whatsapp} target="_blank" rel="noreferrer"><IcoWhatsApp />WhatsApp</a>
+            {' '}{b.line2Or}{' '}
+            <a href={`mailto:${links.email}`}><IcoEmail />{b.line2EmailLabel}</a>
+            {' '}{b.line2GitPrefix}{' '}
+            <a href={links.github} target="_blank" rel="noreferrer"><IcoGitHub />{b.line2GitLabel}</a>.
+          </motion.p>
+          <motion.p className="p-bio p-bio--last" variants={fadeUp}>
+            {b.cvPrefix}{' '}
+            <a href={profile.cvHref} target="_blank" rel="noreferrer"><IcoPdf />{b.cvLabel}</a>.
+          </motion.p>
+        </AnimSection>
 
-      {/* ── Tech Marquee ── */}
-      {(() => {
-        const row = tech.map((label, i) => (
-          <span className="mq-pill" key={i}>
-            <span className="mq-ico">{TECH_ICONS[label]}</span>
-            {label}
-          </span>
-        ));
-        return (
-          <div className="mq-wrap">
-            <div className="mq-track">
-              {row}{row}
-            </div>
+        {/* ── Tech Marquee ── */}
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.25, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+        >
+          {(() => {
+            const row = tech.map((label, i) => (
+              <span className="mq-pill" key={i}>
+                <span className="mq-ico">{TECH_ICONS[label]}</span>
+                {label}
+              </span>
+            ));
+            return (
+              <div className="mq-wrap">
+                <div className="mq-track">{row}{row}</div>
+              </div>
+            );
+          })()}
+        </motion.div>
+
+        {/* ── Pengalaman / Experience ── */}
+        <AnimSection className="p-section">
+          <motion.h2 className="p-section-title" variants={fadeUp}>
+            <span className="hash"># </span>{t.pengalaman.title}
+          </motion.h2>
+          <motion.p className="p-section-sub" variants={fadeUp}>{t.pengalaman.sub}</motion.p>
+          <motion.div className="p-entries-grid" variants={staggerFast}>
+            {t.pengalaman.entries.map(e => (
+              <motion.div className="p-entry-row" key={e.co} variants={fadeUp}>
+                <div className="p-entry-left">
+                  <span className="p-entry-co">{e.co}</span>
+                  <span className="p-entry-role">{e.role}</span>
+                </div>
+                <span className="p-entry-date">{e.date}</span>
+              </motion.div>
+            ))}
+          </motion.div>
+        </AnimSection>
+
+        {/* ── Kontribusi Digital ── */}
+        <AnimSection className="p-section">
+          <motion.h2 className="p-section-title" variants={fadeUp}>
+            <span className="hash"># </span>{t.kontribusiDigital.title}
+          </motion.h2>
+          <motion.p className="p-section-sub" variants={fadeUp}>{t.kontribusiDigital.sub}</motion.p>
+          <motion.div className="p-entries-grid" variants={staggerFast}>
+            {t.kontribusiDigital.entries.map(e => (
+              <motion.div className="p-entry-row" key={e.co} variants={fadeUp}>
+                <div className="p-entry-left">
+                  <span className="p-entry-co">{e.co}</span>
+                  <span className="p-entry-role">{e.role}</span>
+                </div>
+                <span className="p-entry-date">{e.date}</span>
+              </motion.div>
+            ))}
+          </motion.div>
+        </AnimSection>
+
+        {/* ── Pendidikan / Education ── */}
+        <AnimSection className="p-section">
+          <motion.h2 className="p-section-title" variants={fadeUp}>
+            <span className="hash"># </span>{t.pendidikan.title}
+          </motion.h2>
+          <motion.p className="p-section-sub" variants={fadeUp}>{t.pendidikan.sub}</motion.p>
+          <motion.div className="p-entries-grid" variants={staggerFast}>
+            {t.pendidikan.entries.map(e => (
+              <motion.div className="p-entry-row" key={e.co} variants={fadeUp}>
+                <div className="p-entry-left">
+                  <span className="p-entry-co">{e.co}</span>
+                  <span className="p-entry-role">{e.role}</span>
+                </div>
+                <span className="p-entry-date">{e.date}</span>
+              </motion.div>
+            ))}
+          </motion.div>
+        </AnimSection>
+
+        {/* ── Proyek / Projects ── */}
+        <AnimSection className="p-section">
+          <motion.h2 className="p-section-title" variants={fadeUp}>
+            <span className="hash"># </span>{t.proyek.title}
+          </motion.h2>
+          <motion.p className="p-section-sub" variants={fadeUp}>{t.proyek.sub}</motion.p>
+          <motion.div className="p-projects-grid" variants={staggerFast}>
+            {t.proyek.items.map(item => (
+              <motion.div
+                key={item.name}
+                className="p-project"
+                variants={fadeUp}
+                whileHover={{ y: -3 }}
+                transition={{ type: 'spring', stiffness: 300, damping: 22 }}
+              >
+                <div className="p-project-name">
+                  {item.name}
+                  {item.badge && (
+                    <span className="p-badge"><span className="p-badge-dot" />{item.badge}</span>
+                  )}
+                </div>
+                <p className="p-project-desc">{item.desc}</p>
+                <div className="p-project-links">
+                  {item.external ? (
+                    <a href={item.linkHref} className="p-link" target="_blank" rel="noreferrer">
+                      {item.linkIcon === 'github' ? <IcoGitHub size={12} /> : <IcoArrow />}
+                      {item.linkLabel}
+                    </a>
+                  ) : (
+                    <Link href={item.linkHref} className="p-link">
+                      {item.linkIcon === 'github' ? <IcoGitHub size={12} /> : <IcoArrow />}
+                      {item.linkLabel}
+                    </Link>
+                  )}
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+        </AnimSection>
+
+        {/* ── Footer ── */}
+        <motion.footer
+          className="p-footer"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+        >
+          <div className="p-footer-left">
+            <p>{f.creditPrefix} <strong>{f.creditName}</strong></p>
+            <p>{f.copyright}</p>
           </div>
-        );
-      })()}
+          <div className="p-footer-right">
+            <p className="p-footer-stats">
+              {f.visitorsLabel}{' '}
+              <strong className={visitorsFlash ? 'stat-flash' : undefined}>
+                #{visitors !== null ? (1000 + visitors).toLocaleString() : '—'}
+              </strong>
+              {' | '}{f.onlineLabel}{' '}
+              <strong className={onlineFlash ? 'stat-flash' : undefined}>
+                {online !== null ? online.toLocaleString() : '—'}
+              </strong>
+            </p>
+            <p className="p-footer-loc">{f.location} {time}</p>
+          </div>
+        </motion.footer>
 
-      {/* ── Pengalaman / Experience ── */}
-      <div className="p-section">
-        <h2 className="p-section-title"><span className="hash"># </span>{t.pengalaman.title}</h2>
-        <p className="p-section-sub">{t.pengalaman.sub}</p>
-        <div className="p-entries-grid">
-          {t.pengalaman.entries.map(e => (
-            <div className="p-entry-row" key={e.co}>
-              <div className="p-entry-left">
-                <span className="p-entry-co">{e.co}</span>
-                <span className="p-entry-role">{e.role}</span>
-              </div>
-              <span className="p-entry-date">{e.date}</span>
-            </div>
-          ))}
-        </div>
       </div>
-
-      {/* ── Kontribusi Digital ── */}
-      <div className="p-section">
-        <h2 className="p-section-title"><span className="hash"># </span>{t.kontribusiDigital.title}</h2>
-        <p className="p-section-sub">{t.kontribusiDigital.sub}</p>
-        <div className="p-entries-grid">
-          {t.kontribusiDigital.entries.map(e => (
-            <div className="p-entry-row" key={e.co}>
-              <div className="p-entry-left">
-                <span className="p-entry-co">{e.co}</span>
-                <span className="p-entry-role">{e.role}</span>
-              </div>
-              <span className="p-entry-date">{e.date}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* ── Pendidikan / Education ── */}
-      <div className="p-section">
-        <h2 className="p-section-title"><span className="hash"># </span>{t.pendidikan.title}</h2>
-        <p className="p-section-sub">{t.pendidikan.sub}</p>
-        <div className="p-entries-grid">
-          {t.pendidikan.entries.map(e => (
-            <div className="p-entry-row" key={e.co}>
-              <div className="p-entry-left">
-                <span className="p-entry-co">{e.co}</span>
-                <span className="p-entry-role">{e.role}</span>
-              </div>
-              <span className="p-entry-date">{e.date}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* ── Proyek / Projects ── */}
-      <div className="p-section">
-        <h2 className="p-section-title"><span className="hash"># </span>{t.proyek.title}</h2>
-        <p className="p-section-sub">{t.proyek.sub}</p>
-
-        <div className="p-projects-grid">
-          {t.proyek.items.map(item => (
-            <div className="p-project" key={item.name}>
-              <div className="p-project-name">
-                {item.name}
-                {item.badge && (
-                  <span className="p-badge"><span className="p-badge-dot" />{item.badge}</span>
-                )}
-              </div>
-              <p className="p-project-desc">{item.desc}</p>
-              <div className="p-project-links">
-                {item.external ? (
-                  <a href={item.linkHref} className="p-link" target="_blank" rel="noreferrer">
-                    {item.linkIcon === 'github' ? <IcoGitHub size={12} /> : <IcoArrow />}
-                    {item.linkLabel}
-                  </a>
-                ) : (
-                  <Link href={item.linkHref} className="p-link">
-                    {item.linkIcon === 'github' ? <IcoGitHub size={12} /> : <IcoArrow />}
-                    {item.linkLabel}
-                  </Link>
-                )}
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* ── Footer ── */}
-      <footer className="p-footer">
-        <div className="p-footer-left">
-          <p>{f.creditPrefix} <strong>{f.creditName}</strong></p>
-          <p>{f.copyright}</p>
-        </div>
-        <div className="p-footer-right">
-          <p className="p-footer-stats">
-            {f.visitorsLabel} <strong className={visitorsFlash ? 'stat-flash' : undefined}>#{visitors !== null ? (1000 + visitors).toLocaleString() : '—'}</strong>
-            {' | '}{f.onlineLabel} <strong className={onlineFlash ? 'stat-flash' : undefined}>{online !== null ? online.toLocaleString() : '—'}</strong>
-          </p>
-          <p className="p-footer-loc">{f.location} {time}</p>
-        </div>
-      </footer>
-
-      </div>{/* end lang-content */}
     </div>
   );
 }
