@@ -30,8 +30,9 @@ export const content = {
     line2EmailLabel:  'email',
     line2GitPrefix:   '. Lihat semua proyek saya di',
     line2GitLabel:    'GitHub',
-    cvPrefix:         'Lihat CV saya',
-    cvLabel:          'disini',
+    cvPrefix:         'Lihat ',
+    cvLabel:          'CV',
+    cvSuffix:         ' saya disini',
   },
 
   /* ── URL & kontak ─────────────────────────────────────────────── */
@@ -151,8 +152,9 @@ export const content = {
     line2EmailLabel:  'email',
     line2GitPrefix:   '. See all my projects on',
     line2GitLabel:    'GitHub',
-    cvPrefix:         'View my CV',
-    cvLabel:          'here',
+    cvPrefix:         'View my ',
+    cvLabel:          'CV',
+    cvSuffix:         ' here',
   },
 
   /* ── Halaman Tentang (EN) ─────────────────────────────────────── */

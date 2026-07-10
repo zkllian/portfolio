@@ -239,7 +239,7 @@ export default function Tentang() {
           <a href={links.github} target="_blank" rel="noreferrer"><IcoGitHub />{b.line2GitLabel}</a>.
         </motion.p>
         <motion.p variants={stagger(0.15)} className="p-bio p-bio--last">
-          {b.cvPrefix}{' '}<a href={profile.cvHref} target="_blank" rel="noreferrer"><IcoPdf />{b.cvLabel}</a>.
+          {b.cvPrefix}<a href={profile.cvHref} target="_blank" rel="noreferrer"><IcoPdf />{b.cvLabel}</a>{b.cvSuffix}.
         </motion.p>
       </motion.div>
 
