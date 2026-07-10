@@ -279,7 +279,7 @@ body::before {
   margin-bottom: 8px;
 }
 
-.p-bio--last { margin-bottom: 40px; }
+.p-bio--last { margin-bottom: 32px; }
 
 .p-sketch-link {
   text-decoration: none !important;
@@ -518,7 +518,7 @@ body::before {
 }
 .mq-wrap {
   overflow: hidden;
-  margin-bottom: 40px;
+  margin-bottom: 32px;
   /* fade edges */
   -webkit-mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
   mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
