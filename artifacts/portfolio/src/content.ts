@@ -56,7 +56,7 @@ export const content = {
   tentang: {
 
     pengalaman: {
-      title: 'pengalaman',
+      title: 'Pengalaman',
       sub:   'Tempat saya kirim hal nyata.',
       entries: [
         { co: 'Universitas Suryakancana', date: 'agu – nov 2017', role: 'Admin Magang'      },
@@ -65,7 +65,7 @@ export const content = {
     },
 
     kontribusiDigital: {
-      title: 'kontribusi digital',
+      title: 'Kontribusi Digital',
       sub:   'Hal yang saya bangun di komunitas Blockchain/Web3.',
       entries: [
         { co: 'Verso',           date: 'mar 2018 – des 2019', role: 'Community Manager', href: 'https://verso.network'          },
@@ -79,7 +79,7 @@ export const content = {
     },
 
     pendidikan: {
-      title: 'pendidikan',
+      title: 'Pendidikan',
       sub:   'Dari mana saya mulai.',
       entries: [
         { co: 'SMK Pasundan 1 Cianjur', date: 'juli 2015 – mei 2018', role: 'Teknik Komputer & Jaringan' },
@@ -87,7 +87,7 @@ export const content = {
     },
 
     proyek: {
-      title: 'proyek',
+      title: 'Proyek',
       sub:   'Yang sudah saya bangun dan sedang saya kerjakan.',
       items: [
         {
@@ -159,7 +159,7 @@ export const content = {
   tentangEN: {
 
     pengalaman: {
-      title: 'experience',
+      title: 'Experience',
       sub:   'Where I shipped real things.',
       entries: [
         { co: 'Universitas Suryakancana', date: 'aug – nov 2017', role: 'Admin Intern'      },
@@ -168,7 +168,7 @@ export const content = {
     },
 
     kontribusiDigital: {
-      title: 'digital contributions',
+      title: 'Digital Contributions',
       sub:   'Things I built in communities and media.',
       entries: [
         { co: 'Verso',            date: 'mar 2018 – dec 2019', role: 'Community Manager', href: 'https://verso.network'     },
@@ -182,7 +182,7 @@ export const content = {
     },
 
     pendidikan: {
-      title: 'education',
+      title: 'Education',
       sub:   'Where I started.',
       entries: [
         { co: 'SMK Pasundan 1 Cianjur', date: 'july 2015 – may 2018', role: 'Computer & Network Engineering' },
@@ -190,7 +190,7 @@ export const content = {
     },
 
     proyek: {
-      title: 'projects',
+      title: 'Projects',
       sub:   "What I've built and am building right now.",
       items: [
         {

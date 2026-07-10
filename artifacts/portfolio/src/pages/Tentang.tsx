@@ -255,7 +255,7 @@ export default function Tentang() {
 
       {/* ── Pengalaman / Experience ── */}
       <motion.div className="p-section" initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.15 }} variants={container}>
-        <motion.h2 variants={fadeUp} className="p-section-title"><span className="hash"># </span>{t.pengalaman.title}</motion.h2>
+        <motion.h2 variants={fadeUp} className="p-section-title">{t.pengalaman.title}</motion.h2>
         <motion.p variants={fadeUp} className="p-section-sub">{t.pengalaman.sub}</motion.p>
         <div className="p-entries-grid">
           {t.pengalaman.entries.map((e, i) => (
@@ -272,7 +272,7 @@ export default function Tentang() {
 
       {/* ── Kontribusi Digital ── */}
       <motion.div className="p-section" initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.15 }} variants={container}>
-        <motion.h2 variants={fadeUp} className="p-section-title"><span className="hash"># </span>{t.kontribusiDigital.title}</motion.h2>
+        <motion.h2 variants={fadeUp} className="p-section-title">{t.kontribusiDigital.title}</motion.h2>
         <motion.p variants={fadeUp} className="p-section-sub">{t.kontribusiDigital.sub}</motion.p>
         <div className="p-kontribusi-grid">
           {t.kontribusiDigital.entries.map((e, i) => (
@@ -294,7 +294,7 @@ export default function Tentang() {
 
       {/* ── Pendidikan / Education ── */}
       <motion.div className="p-section" initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.15 }} variants={container}>
-        <motion.h2 variants={fadeUp} className="p-section-title"><span className="hash"># </span>{t.pendidikan.title}</motion.h2>
+        <motion.h2 variants={fadeUp} className="p-section-title">{t.pendidikan.title}</motion.h2>
         <motion.p variants={fadeUp} className="p-section-sub">{t.pendidikan.sub}</motion.p>
         <div className="p-entries-grid">
           {t.pendidikan.entries.map((e, i) => (
@@ -311,7 +311,7 @@ export default function Tentang() {
 
       {/* ── Proyek / Projects ── */}
       <motion.div className="p-section" initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.1 }} variants={container}>
-        <motion.h2 variants={fadeUp} className="p-section-title"><span className="hash"># </span>{t.proyek.title}</motion.h2>
+        <motion.h2 variants={fadeUp} className="p-section-title">{t.proyek.title}</motion.h2>
         <motion.p variants={fadeUp} className="p-section-sub">{t.proyek.sub}</motion.p>
         <div className="p-projects-grid">
           {t.proyek.items.map((item, i) => (
