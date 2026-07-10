@@ -46,7 +46,7 @@ function createDb() {
   const url = process.env.DATABASE_URL;
   if (!url) return null;
   // Enable SSL for common hosted providers that require it
-  const needsSsl = /neon\.tech|supabase\.com|railway\.app|render\.com/.test(url) && !/sslmode=/.test(url);
+  const needsSsl = /neon\.tech|supabase\.com|railway\.app|rlwy\.net|render\.com/.test(url) && !/sslmode=/.test(url);
   const pool = new Pool({
     connectionString: url,
     ssl: needsSsl ? { rejectUnauthorized: false } : undefined,
