@@ -279,7 +279,7 @@ export default function Tentang() {
               <span className="p-entry-role" style={{ display: 'block', marginTop: 2 }}>{e.role}</span>
               <div className="p-project-links" style={{ marginTop: 6 }}>
                 <a href={e.href} className="p-link" target="_blank" rel="noreferrer">
-                  <IcoArrow />{e.href.replace('https://', '')}
+                  <IcoArrow />buka
                 </a>
               </div>
             </motion.div>
