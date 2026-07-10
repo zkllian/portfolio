@@ -4,6 +4,7 @@ import { Link } from 'wouter';
 import JsBarcode from 'jsbarcode';
 import { FiZap, FiEye, FiDownload, FiShare2, FiAlignJustify, FiBarChart2, FiMove, FiClock, FiTrash2 } from 'react-icons/fi';
 import { content } from '@/content';
+import { Button } from '@/components/ui/button';
 
 const h = content.home;
 const s = content.home.stats;
@@ -736,11 +737,11 @@ export default function Home() {
                 <span className="badge input-badge" style={{ userSelect: 'none' }}>{imeiCount}</span>
               </div>
               <div className="btn-row">
-                <button className="tool-btn tool-btn--dark" onClick={() => generateBulk()} disabled={isLoading}>
+                <Button className="w-full" onClick={() => generateBulk()} disabled={isLoading}>
                   {isLoading
                     ? <><span className="btn-spinner" />{loadingCount}</>
                     : <><FiZap size={13} style={{ flexShrink: 0 }} />{h.executeBtn}</>}
-                </button>
+                </Button>
               </div>
             </div>
             <div className="history-list">
