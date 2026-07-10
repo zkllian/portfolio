@@ -137,9 +137,11 @@ const TECH_ICONS: Record<string, React.ReactNode> = {
 
 /* ─── Animation variants ─── */
 
+const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
+
 const fadeUp = {
   hidden: { opacity: 0, y: 18, filter: 'blur(4px)' },
-  visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.55, ease: [0.16, 1, 0.3, 1] } },
+  visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.55, ease: EASE } },
 };
 
 const stagger = {
