@@ -173,8 +173,8 @@ body::before {
   border-radius: var(--radius-pill);
   cursor: pointer;
   font-family: var(--font-sans);
-  font-size: var(--text-xxs);
-  color: var(--text-dim);
+  font-size: var(--text-xs);
+  color: var(--text-muted);
   padding: 3px;
   line-height: 1;
   transition: border-color .2s ease, box-shadow .2s ease, transform .1s ease;
@@ -195,11 +195,11 @@ body::before {
   height: 20px;
   border-radius: var(--radius-pill);
   transition: color .3s ease, opacity .3s ease, transform .3s cubic-bezier(.34,1.56,.64,1);
-  opacity: .45;
+  opacity: 1;
 }
 .lang-active {
   color: #fff;
-  font-weight: 500;
+  font-weight: 600;
   opacity: 1;
   transform: scale(1.08);
 }
