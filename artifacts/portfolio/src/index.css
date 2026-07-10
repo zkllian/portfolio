@@ -93,6 +93,8 @@ textarea, input, [contenteditable] { user-select: text; -webkit-user-select: tex
   --grid-line: rgba(0,0,0,0.05);
   --font-sans: 'Geist', ui-sans-serif, system-ui, sans-serif;
   --font-mono: 'Geist Mono', 'Geist', ui-monospace, monospace;
+  --page-px: 32px;
+  --page-pt: 62px;
   --font-serif: 'Instrument Serif', 'Georgia', ui-serif, serif;
 }
 
@@ -137,7 +139,7 @@ body::before {
 .p-wrap {
   max-width: 768px;
   margin: 0 auto;
-  padding: 42px 24px;
+  padding: var(--page-pt) var(--page-px);
   position: relative;
 }
 
@@ -705,7 +707,7 @@ body.bg-warm {
 }
 body.bg-warm::before { opacity: 0.3; }
 
-.container { max-width: 768px; margin: 0 auto; padding: 42px 24px; min-height: 100dvh; }
+.container { max-width: 768px; margin: 0 auto; padding: var(--page-pt) var(--page-px); min-height: 100dvh; }
 
 .home-link { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-family: var(--font-sans); color: var(--text-dim); text-decoration: none; margin-bottom: 20px; transition: color .15s; background: none; border: none; padding: 0; cursor: pointer; }
 .home-link:hover { color: var(--text); }
