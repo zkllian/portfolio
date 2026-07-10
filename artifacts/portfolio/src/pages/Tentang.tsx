@@ -276,7 +276,7 @@ export default function Tentang() {
           {t.kontribusiDigital.entries.map((e, i) => (
             <motion.div variants={stagger(i * 0.05)} key={e.co}>
               <span className="p-entry-co">{e.co}</span>
-              <span className="p-entry-role" style={{ display: 'block', marginTop: 2 }}>{e.role}</span>
+              <span className="p-entry-role" style={{ display: 'block' }}>{e.role}</span>
               <div className="p-project-links" style={{ marginTop: 6 }}>
                 <a href={e.href} className="p-link" target="_blank" rel="noreferrer">
                   <IcoArrow />buka
