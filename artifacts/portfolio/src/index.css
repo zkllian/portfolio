@@ -371,7 +371,7 @@ body::before {
   flex-wrap: wrap;
 }
 
-.p-entries-grid { display: flex; flex-direction: column; gap: 12px; }
+.p-entries-grid { display: flex; flex-direction: column; gap: 8px; }
 .p-entry-row { display: grid; grid-template-columns: 1fr auto; align-items: start; gap: 12px; }
 .p-entry-left { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
 .p-entry-row .p-entry-date { text-align: right; padding-top: 2px; }
