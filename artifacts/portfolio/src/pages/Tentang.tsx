@@ -2,13 +2,15 @@ import { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'wouter';
 
+const EASE: [number, number, number, number] = [0.25, 0.1, 0.25, 1];
+
 const fadeUp = {
   hidden: { opacity: 0, y: 16 },
-  show:   { opacity: 1, y: 0, transition: { duration: 0.42, ease: [0.25, 0.1, 0.25, 1] } },
+  show:   { opacity: 1, y: 0, transition: { duration: 0.42, ease: EASE } },
 };
 const stagger = (delay = 0) => ({
   hidden: { opacity: 0, y: 12 },
-  show:   { opacity: 1, y: 0, transition: { duration: 0.38, ease: [0.25, 0.1, 0.25, 1], delay } },
+  show:   { opacity: 1, y: 0, transition: { duration: 0.38, ease: EASE, delay } },
 });
 const container = { hidden: {}, show: { transition: { staggerChildren: 0.07 } } };
 import {
