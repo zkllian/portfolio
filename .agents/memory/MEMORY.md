@@ -1,1 +1,1 @@
-- [Vercel pnpm workspace migration](vercel-migration.md) — imported app was already React/Vite workspace; key friction points documented.
+- [Vercel pnpm workspace migration](vercel-migration.md) — imported app was already React/Vite workspace; do NOT auto-port/delete Vercel deploy config on import — ask first.

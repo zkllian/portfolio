@@ -37,6 +37,13 @@ If `.migration-backup/` still contains `.replit-artifact/artifact.toml` files, t
 
 **How to apply:** Once real content has been copied out of `.migration-backup` into the live `artifacts/*` dirs, delete `.migration-backup` entirely (or at least its `.replit-artifact` dirs) before finishing the port — don't leave it sitting around "for reference".
 
+### On importing a Vercel-originated repo, don't assume it needs "porting" to Replit
+When an app is imported into Replit and it already runs fine as a pnpm/Vite workspace with its own `vercel.json`/`api/` serverless config, treat that as a possible **dual-deploy setup** (Vercel = production, Replit = editing/preview) rather than a stale artifact of a one-way migration that needs cleanup.
+
+**Why:** Assuming "imported into Replit" implies "must fully migrate off Vercel" led to deleting the owner's live Vercel deploy config, breaking production. The owner's actual intent was: keep deploying to Vercel, use Replit only as an editor for the frontend.
+
+**How to apply:** Before doing repo-wide migration cleanup (deleting `vercel.json`, `api/`, other platform-specific config, `.migration-backup`, etc.), ask the user whether they still deploy this repo elsewhere (Vercel, etc.) and whether the import is meant to fully replace that or just add a Replit-based editing/preview workflow alongside it. Default to the less destructive assumption (keep + document, per replit.md) until confirmed otherwise.
+
 ### Root-level vercel.json and api/ dir are NOT always deletable — check for dual-deploy first
 CORRECTION (this was wrong): an imported Vercel app's root `vercel.json` and root `api/*.js` can still be the live production deploy config if the owner keeps deploying the same repo to Vercel while using Replit only to edit the frontend. Deleting them broke a real production site.
 
