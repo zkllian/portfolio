@@ -235,7 +235,7 @@ export default function Tentang() {
           <a href={links.whatsapp} target="_blank" rel="noreferrer"><IcoWhatsApp />WhatsApp</a>
           {' '}{b.line2Or}{' '}
           <a href={`mailto:${links.email}`}><IcoEmail />{b.line2EmailLabel}</a>
-          {' '}{b.line2GitPrefix}{' '}
+          {b.line2GitPrefix}{' '}
           <a href={links.github} target="_blank" rel="noreferrer"><IcoGitHub />{b.line2GitLabel}</a>.
         </motion.p>
         <motion.p variants={stagger(0.15)} className="p-bio p-bio--last">
