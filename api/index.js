@@ -45,7 +45,8 @@ const userVisitDailyTable = pgTable("user_visit_daily", {
 function createDb() {
   const url = process.env.DATABASE_URL;
   if (!url) return null;
-  const needsSsl = url.includes("neon.tech") && !/sslmode=/.test(url);
+  // Enable SSL for common hosted providers that require it
+  const needsSsl = /neon\.tech|supabase\.com|railway\.app|render\.com/.test(url) && !/sslmode=/.test(url);
   const pool = new Pool({
     connectionString: url,
     ssl: needsSsl ? { rejectUnauthorized: false } : undefined,
@@ -55,6 +56,49 @@ function createDb() {
 }
 
 const db = createDb();
+
+// Auto-create tables on first use so no manual SQL step is needed
+async function ensureTables() {
+  if (!db) return;
+  try {
+    const pool = db.$client;
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS daily_stats (
+        date TEXT PRIMARY KEY,
+        count INTEGER NOT NULL DEFAULT 0
+      );
+      CREATE TABLE IF NOT EXISTS all_time_stats (
+        key TEXT PRIMARY KEY,
+        value INTEGER NOT NULL DEFAULT 0
+      );
+      CREATE TABLE IF NOT EXISTS user_daily_stats (
+        user_id TEXT NOT NULL,
+        date TEXT NOT NULL,
+        count INTEGER NOT NULL DEFAULT 0,
+        PRIMARY KEY (user_id, date)
+      );
+      CREATE TABLE IF NOT EXISTS user_presence (
+        user_id TEXT PRIMARY KEY,
+        last_seen BIGINT NOT NULL
+      );
+      CREATE TABLE IF NOT EXISTS daily_visits (
+        date TEXT PRIMARY KEY,
+        count INTEGER NOT NULL DEFAULT 0
+      );
+      CREATE TABLE IF NOT EXISTS user_visit_daily (
+        user_id TEXT NOT NULL,
+        date TEXT NOT NULL,
+        PRIMARY KEY (user_id, date)
+      );
+      INSERT INTO all_time_stats (key, value) VALUES ('visitors', 0) ON CONFLICT DO NOTHING;
+      INSERT INTO all_time_stats (key, value) VALUES ('total', 0) ON CONFLICT DO NOTHING;
+    `);
+  } catch (e) {
+    console.error("[db] ensureTables failed:", e.message);
+  }
+}
+
+ensureTables();
 
 // ── Fallback file ────────────────────────────────────────────────────────────
 const STATS_FILE = path.resolve(process.cwd(), "stats.json");
@@ -124,7 +168,7 @@ app.get("/api/stats/today", async (req, res) => {
         .where(gt(userPresenceTable.lastSeen, Date.now() - ONLINE_WINDOW));
       const todayCount = dayRow?.count ?? 0;
       return res.json({ date: today, today: todayCount, total: totalRow?.value ?? 0, mine, others: Math.max(0, todayCount - mine), online: onlineRow?.count ?? 0, visitorsTotal: visitorsRow?.value ?? 0 });
-    } catch {}
+    } catch (e) { console.error("[db] today error:", e.message); }
   }
   const f = readFile();
   const todayCount = f.date === today ? f.count : 0;
@@ -150,7 +194,7 @@ app.post("/api/stats/visit", async (req, res) => {
       }
       const [visitorsRow] = await db.select().from(allTimeStatsTable).where(eq(allTimeStatsTable.key, "visitors"));
       return res.json({ ok: true, visitorsTotal: visitorsRow?.value ?? 0 });
-    } catch {}
+    } catch (e) { console.error("[db] visit error:", e.message); }
   }
   const f = readFile();
   if (f.visitDate !== today) { f.visitDate = today; f.visitedIds = []; }
@@ -167,7 +211,7 @@ app.post("/api/stats/visit", async (req, res) => {
 app.post("/api/stats/leave", async (req, res) => {
   const userId = String(req.body?.userId ?? "").trim().slice(0, 64);
   if (db && userId) {
-    try { await db.delete(userPresenceTable).where(eq(userPresenceTable.userId, userId)); } catch {}
+    try { await db.delete(userPresenceTable).where(eq(userPresenceTable.userId, userId)); } catch (e) { console.error("[db] leave error:", e.message); }
   }
   return res.json({ ok: true });
 });
@@ -192,7 +236,7 @@ app.post("/api/stats/ping", async (req, res) => {
       const [dayRow] = await db.select().from(dailyStatsTable).where(eq(dailyStatsTable.date, today));
       const [totalRow] = await db.select().from(allTimeStatsTable).where(eq(allTimeStatsTable.key, "total"));
       return res.json({ ok: true, date: today, today: dayRow?.count ?? amount, total: totalRow?.value ?? amount });
-    } catch {}
+    } catch (e) { console.error("[db] ping error:", e.message); }
   }
   const f = readFile();
   if (f.date !== today) { f.date = today; f.count = 0; }
