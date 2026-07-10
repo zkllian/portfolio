@@ -91,7 +91,7 @@ textarea, input, [contenteditable] { user-select: text; -webkit-user-select: tex
   --green: #16a34a;
   --radius: 10px;
   --grid-line: rgba(0,0,0,0.05);
-  --font-sans: 'Google Sans Flex', 'Geist', ui-sans-serif, system-ui, sans-serif;
+  --font-sans: 'Geist', ui-sans-serif, system-ui, sans-serif;
   --font-mono: 'Geist Mono', 'Geist', ui-monospace, monospace;
   --font-serif: 'Instrument Serif', 'Georgia', ui-serif, serif;
 }
