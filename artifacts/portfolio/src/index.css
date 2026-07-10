@@ -396,7 +396,7 @@ body::before {
   font-family: var(--font-sans);
   font-size: 14px;
   color: var(--text-dim);
-  margin-top: 3px;
+  margin-top: -5px;
 }
 
 .p-entry-via {
