@@ -163,6 +163,7 @@ body::before {
 .lang-toggle {
   margin-left: auto;
   flex-shrink: 0;
+  position: relative;
   display: flex;
   align-items: center;
   gap: 2px;
