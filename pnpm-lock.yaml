@@ -22,7 +22,7 @@ catalogs:
       specifier: ^5.90.21
       version: 5.101.2
     '@types/node':
-      specifier: ^25.3.3
+      specifier: 25.9.4
       version: 25.9.4
     '@types/react':
       specifier: ^19.2.0
@@ -40,7 +40,7 @@ catalogs:
       specifier: ^2.1.1
       version: 2.1.1
     drizzle-orm:
-      specifier: ^0.45.2
+      specifier: 0.45.2
       version: 0.45.2
     framer-motion:
       specifier: ^12.23.24
@@ -163,6 +163,27 @@ importers:
       '@replit/connectors-sdk':
         specifier: ^0.4.1
         version: 0.4.1
+      '@types/cors':
+        specifier: ^2.8.19
+        version: 2.8.19
+      '@types/express':
+        specifier: ^5.0.6
+        version: 5.0.6
+      '@types/node':
+        specifier: 'catalog:'
+        version: 25.9.4
+      cors:
+        specifier: ^2.8.6
+        version: 2.8.6
+      drizzle-orm:
+        specifier: 'catalog:'
+        version: 0.45.2(@types/pg@8.20.0)(pg@8.22.0)
+      express:
+        specifier: ^5.2.1
+        version: 5.2.1
+      pg:
+        specifier: ^8.22.0
+        version: 8.22.0
     devDependencies:
       prettier:
         specifier: ^3.9.4
