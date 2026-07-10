@@ -1,4 +1,5 @@
 {
+  "_comment": "DO NOT DELETE. Live Vercel production deploy config for this repo — kept in sync with a separate Replit preview/editing setup (artifacts/portfolio + artifacts/api-server). See replit.md Architecture decisions / Gotchas before touching this file or the api/ directory.",
   "buildCommand": "pnpm run build",
   "outputDirectory": "artifacts/portfolio/dist",
   "functions": {

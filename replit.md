@@ -26,7 +26,10 @@ _Populate as you build — short repo map plus pointers to the source-of-truth f
 
 ## Architecture decisions
 
-_Populate as you build — non-obvious choices a reader couldn't infer from the code (3-5 bullets)._
+- **This repo is dual-deployed: Vercel (production, live) + Replit (editing/preview only).** The owner edits the frontend on Replit but the real production deploy is on Vercel, from the same GitHub repo.
+- **Root-level `vercel.json` and `api/` (`api/index.js`, `api/package.json`) are NOT migration leftovers — do not delete them.** They are Vercel's serverless function + build config for the live site. They look redundant next to `artifacts/api-server` (the Replit-side Express API) but both must stay in sync — see "Gotchas" below.
+- **`artifacts/portfolio/vite.config.ts` `build.outDir` is `dist` (not `dist/public`) on purpose** — it must match `vercel.json`'s `outputDirectory: "artifacts/portfolio/dist"`. `artifacts/portfolio/.replit-artifact/artifact.toml`'s `publicDir` is set to the same path for Replit's own static production serve. If these three ever disagree, one of the two deploy targets breaks.
+- `artifacts/api-server` (Express, used for the Replit preview/dev workflow) and `api/index.js` (Vercel serverless function, used in production) implement the same stats/DB endpoints independently. They currently have some drift (DB SSL detection, table auto-bootstrap) — see Gotchas. Historically an agent deleted `vercel.json`/`api/` thinking they were dead migration residue and broke the live Vercel deploy; if importing this repo into a fresh Replit account, do NOT repeat that cleanup.
 
 ## Product
 
@@ -38,7 +41,10 @@ _Populate as you build — explicit user instructions worth remembering across s
 
 ## Gotchas
 
-_Populate as you build — sharp edges, "always run X before Y" rules._
+- Never delete `vercel.json` or the root `api/` folder as "cleanup" — they are required for the live Vercel production deploy, which is separate from this Replit preview. If unsure whether something looks like deploy residue, ask before deleting.
+- `artifacts/api-server/src/routes/stats.ts` (Replit/Express) and `api/index.js` (Vercel serverless) both implement `/api/stats*` but are two separate codebases — a fix or schema change in one must be mirrored in the other, or behavior will silently diverge between the Replit preview and the live Vercel site.
+- `/api/stats/reset` has no auth guard in either backend — treat as a known, accepted risk unless asked to fix it.
+- When changing `artifacts/portfolio` build output path, update all three in lockstep: `vite.config.ts` (`build.outDir`), root `vercel.json` (`outputDirectory`), and `artifacts/portfolio/.replit-artifact/artifact.toml` (`publicDir`) via `verifyAndReplaceArtifactToml` — never edit `artifact.toml` directly.
 
 ## Pointers
 

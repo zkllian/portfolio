@@ -37,5 +37,9 @@ If `.migration-backup/` still contains `.replit-artifact/artifact.toml` files, t
 
 **How to apply:** Once real content has been copied out of `.migration-backup` into the live `artifacts/*` dirs, delete `.migration-backup` entirely (or at least its `.replit-artifact` dirs) before finishing the port — don't leave it sitting around "for reference".
 
-### Root-level vercel.json and api/ dir are pure deployment residue
-An imported Vercel app's root `vercel.json` and root `api/*.js` (serverless functions) are Vercel-specific deployment config, superseded by the Express artifact server. Delete them — they're not referenced by the Replit app and just create migration-residue confusion.
+### Root-level vercel.json and api/ dir are NOT always deletable — check for dual-deploy first
+CORRECTION (this was wrong): an imported Vercel app's root `vercel.json` and root `api/*.js` can still be the live production deploy config if the owner keeps deploying the same repo to Vercel while using Replit only to edit the frontend. Deleting them broke a real production site.
+
+**Why:** "Looks unused from inside Replit" isn't the same as "unused" — Vercel deploy config isn't invoked by anything in the Replit workspace, so its absence is invisible until the owner's next Vercel deploy.
+
+**How to apply:** Before deleting `vercel.json` or a root `api/` dir during a migration cleanup, ask the user whether they still deploy this repo to Vercel (or any other platform) directly. If yes, keep the files, and instead document the dual-deploy setup in `replit.md` (architecture decisions + gotchas) so neither this agent nor a future one re-deletes them — e.g. keep `vite.config.ts` build.outDir, `vercel.json` outputDirectory, and the Replit artifact.toml's publicDir all pointing at the same path.
