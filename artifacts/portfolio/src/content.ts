@@ -83,7 +83,7 @@ export const content = {
       title: 'Pendidikan',
       sub:   'Dari mana saya mulai.',
       entries: [
-        { co: 'SMK Pasundan 1 Cianjur', date: 'juli 2015 – mei 2018', role: 'Teknik Komputer & Jaringan' },
+        { co: 'SMK Pasundan 1 Cianjur', date: 'jul 2015 – mei 2018', role: 'Teknik Komputer & Jaringan' },
       ],
     },
 
